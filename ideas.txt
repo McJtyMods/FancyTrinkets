@@ -1,0 +1,62 @@
+Every trinket has a base effect that can't be modified
+Then there are secondary effects that can be rerolled
+There are also trinket qualities:
+  - volatile: trinket has a single usage (in case it's a trinket with usage) or else timeout
+  - normal: normal usage
+  - rare: better effects
+  - legendary: effects are amplified even more
+
+There are also unique trinkets that have two base effects and some good default secondary effects
+
+Effects:
+  - Regeneration
+  - Strength
+  - Haste
+  - Night vision
+  - Invisibility
+  - Negate all negative effects
+  - Poison resistance
+  - Fire resistance
+  - Decrease hunger
+  - Speed
+  - Water breathing
+  - Slow falling
+  - Flight
+  - Step assist
+  - Step height
+  - Increased Jump height
+  - Attack damage
+  - Armor
+  - Damage reduction
+  - Critical hits
+  - Undieing
+  - Sneak
+  - Luck
+  - Health
+  - Feather falling
+  - Warp (using a hotkey, the ability to warp to the spot you are looking at)
+  - Merge into the Shadows (using a hotkey, the ability to temporarily completely hide you, but you can't interact with anything either)
+  - Leap (using a hotkey, do a big jump)
+  - Repulsion (using a hotkey, push all nearby mobs away)
+
+Kinds of items:
+  - Ring
+  - Amulet
+  - Bracelet
+  - Belt
+  - Scarf
+  - Diadem
+  - Crown
+  - Jewels
+  - Glasses
+  - Tattoo
+
+Standard slot types:
+  - curio
+  - back
+  - belt
+  - body
+  - bracelet
+  - head
+  - hands (2x?)
+  - ring (2x?)

@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion="[43,)"
+license="MIT License https://github.com/McJty/YouTubeModding14/blob/1.16/LICENCE"
+
+[[mods]]
+modId="fancytrinkets"
+version="${file.jarVersion}"
+displayName="Fancy Trinkets"
+authors="McJty"
+description='''
+All kinds of useful baubles (curios)
+'''
+
+[[dependencies.fancytrinkets]]
+    modId="forge"
+    mandatory=true
+    versionRange="[43,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.fancytrinkets]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.19.2,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.fancytrinkets]]
+    modId="mcjtylib"
+    mandatory=true
+    versionRange="[1.19-7.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
