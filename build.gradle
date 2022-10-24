@@ -30,6 +30,9 @@ repositories {
     maven { // McJtyLib
         url "https://maven.k-4u.nl"
     }
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 group = 'com.mcjty.fancytrinkets' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -44,14 +47,14 @@ minecraft {
         client {
             workingDirectory project.file('run')
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'REGISTRIES'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
-            // Recommended logging level for the console
+            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                fancytrinkets {
                     source sourceSets.main
                 }
             }
@@ -60,14 +63,14 @@ minecraft {
         server {
             workingDirectory project.file('run')
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
-            // Recommended logging level for the console
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                fancytrinkets {
                     source sourceSets.main
                 }
             }
@@ -76,10 +79,7 @@ minecraft {
         data {
             workingDirectory project.file('run')
 
-            // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
             args '--mod', 'fancytrinkets', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources')
@@ -87,7 +87,7 @@ minecraft {
             environment 'target', 'fmluserdevdata'
 
             mods {
-                examplemod {
+                fancytrinkets {
                     source sourceSets.main
                 }
             }
@@ -107,6 +107,9 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-1.19-forge-api:${jei_version}")
     // at runtime, use the full JEI jar for Forge
     runtimeOnly fg.deobf("mezz.jei:jei-1.19-forge:${jei_version}")
+
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
 
     if (findProject(':TheOneProbe') != null) {
         implementation project(':TheOneProbe')
