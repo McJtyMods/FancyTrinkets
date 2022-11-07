@@ -1,7 +1,7 @@
 package com.mcjty.fancytrinkets;
 
 import com.mcjty.fancytrinkets.curios.CuriosSetup;
-import com.mcjty.fancytrinkets.modules.signs.SignsModule;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.setup.Config;
 import com.mcjty.fancytrinkets.setup.ModSetup;
 import com.mcjty.fancytrinkets.setup.Registration;
@@ -40,7 +40,7 @@ public class FancyTrinkets {
     }
 
     private void setupModules() {
-        modules.register(new SignsModule());
+        modules.register(new TrinketsModule());
     }
 
     private void onInterModEnqueueEvent(InterModEnqueueEvent event) {

@@ -1,6 +1,6 @@
 package com.mcjty.fancytrinkets.setup;
 
-import com.mcjty.fancytrinkets.modules.signs.SignsModule;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import mcjty.lib.setup.DefaultModSetup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -9,7 +9,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 public class ModSetup extends DefaultModSetup {
 
     public ModSetup() {
-        createTab("fancytrinkets", () -> new ItemStack(SignsModule.SIGN_CONFIGURATOR.get()));
+        createTab("fancytrinkets", () -> new ItemStack(TrinketsModule.REGENERATION_RING.get()));
     }
 
     @Override

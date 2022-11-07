@@ -1,7 +1,6 @@
 package com.mcjty.fancytrinkets.setup;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
-import com.mcjty.fancytrinkets.modules.signs.network.PacketUpdateSignData;
 import mcjty.lib.network.PacketHandler;
 import mcjty.lib.network.PacketSendClientCommand;
 import mcjty.lib.network.PacketSendServerCommand;
@@ -33,11 +32,11 @@ public class Messages {
 
         INSTANCE = net;
 
-        net.messageBuilder(PacketUpdateSignData.class, id())
-                .encoder(PacketUpdateSignData::toBytes)
-                .decoder(PacketUpdateSignData::new)
-                .consumer(PacketUpdateSignData::handle)
-                .add();
+//        net.messageBuilder(PacketUpdateSignData.class, id())
+//                .encoder(PacketUpdateSignData::toBytes)
+//                .decoder(PacketUpdateSignData::new)
+//                .consumer(PacketUpdateSignData::handle)
+//                .add();
 
         PacketHandler.registerStandardMessages(id(), net);
     }

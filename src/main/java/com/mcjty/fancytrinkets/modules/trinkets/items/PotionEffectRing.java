@@ -1,5 +1,6 @@
-package com.mcjty.fancytrinkets.modules.signs.items;
+package com.mcjty.fancytrinkets.modules.trinkets.items;
 
+import com.mcjty.fancytrinkets.FancyTrinkets;
 import mcjty.lib.builder.TooltipBuilder;
 import mcjty.lib.tooltips.ITooltipSettings;
 import net.minecraft.network.chat.Component;
@@ -14,16 +15,16 @@ import java.util.List;
 
 import static mcjty.lib.builder.TooltipBuilder.*;
 
-public class SignConfiguratorItem extends Item implements ITooltipSettings {
+public class PotionEffectRing extends Item implements ITooltipSettings {
 
     private final Lazy<TooltipBuilder> tooltipBuilder = () -> new TooltipBuilder()
             .info(key("message.fancytrinkets.shiftmessage"))
             .infoShift(header(), gold());
 
-    public SignConfiguratorItem() {
+    public PotionEffectRing() {
         super(new Properties()
                 .stacksTo(1)
-                .tab(com.mcjty.fancytrinkets.FancyTrinkets.setup.getTab()));
+                .tab(FancyTrinkets.setup.getTab()));
     }
 
     @Override

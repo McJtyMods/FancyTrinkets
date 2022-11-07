@@ -1,6 +1,6 @@
 package com.mcjty.fancytrinkets.datagen;
 
-import com.mcjty.fancytrinkets.modules.signs.SignsModule;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import mcjty.lib.datagen.BaseItemModelProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -15,7 +15,7 @@ public class Items extends BaseItemModelProvider {
 
     @Override
     protected void registerModels() {
-        itemGenerated(SignsModule.SIGN_CONFIGURATOR.get(), "item/sign_configurator");
+        itemGenerated(TrinketsModule.REGENERATION_RING.get(), "item/potion_ring");
     }
 
     @Override
