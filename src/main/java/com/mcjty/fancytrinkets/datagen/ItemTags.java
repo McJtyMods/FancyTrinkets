@@ -1,7 +1,9 @@
 package com.mcjty.fancytrinkets.datagen;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
-import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
+import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
+import com.mcjty.fancytrinkets.modules.rings.RingsModule;
+import com.mcjty.fancytrinkets.setup.Registration;
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
@@ -14,6 +16,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotTypePreset;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 public class ItemTags extends ItemTagsProvider {
 
@@ -26,7 +29,10 @@ public class ItemTags extends ItemTagsProvider {
 
     @Override
     protected void addTags() {
-        tag(RING_TAG).add(TrinketsModule.REGENERATION_RING.get());
+        TagAppender<Item> tag = tag(RING_TAG);
+        for (Map.Entry<ResourceLocation, Registration.Trinket> entry : Registration.TRINKETS.entrySet()) {
+            tag.add(entry.getValue().item().get());
+        }
     }
 
     @Nonnull

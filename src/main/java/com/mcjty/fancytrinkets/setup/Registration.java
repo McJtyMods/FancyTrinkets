@@ -2,6 +2,8 @@ package com.mcjty.fancytrinkets.setup;
 
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.modules.effects.items.TrinketItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -11,6 +13,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
 
@@ -32,5 +38,17 @@ public class Registration {
 
     public static Item.Properties createStandardProperties() {
         return new Item.Properties().tab(FancyTrinkets.setup.getTab());
+    }
+
+    public static final Map<ResourceLocation, Trinket> TRINKETS = new HashMap<>();
+
+    public static RegistryObject<TrinketItem> trinket(String id, String texture, String description, ResourceLocation... effects) {
+        RegistryObject<TrinketItem> object = ITEMS.register(id, () -> new TrinketItem(effects));
+        TRINKETS.put(object.getId(), new Trinket(new ResourceLocation(MODID, id), texture, description, object));
+        return object;
+    }
+
+    public static record Trinket(ResourceLocation id, String texture, String description, RegistryObject<TrinketItem> item) {
+
     }
 }

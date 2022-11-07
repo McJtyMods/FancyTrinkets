@@ -1,0 +1,8 @@
+{
+  "item.fancytrinkets.absorbtion_ring": "Potion Ring of Absorbtion",
+  "item.fancytrinkets.regeneration_ring": "Potion Ring of Regeneration",
+  "itemGroup.fancytrinkets": "Fancy Trinkets",
+  "message.fancytrinkets.absorbtion_ring.header": "Potion Ring of Absorbtion",
+  "message.fancytrinkets.regeneration_ring.header": "Potion Ring of Regeneration",
+  "message.fancytrinkets.shiftmessage": "<Press Shift>"
+}

@@ -1,9 +1,12 @@
 package com.mcjty.fancytrinkets.datagen;
 
-import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
+import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.datagen.BaseItemModelProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
+
+import java.util.Map;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
 
@@ -15,7 +18,10 @@ public class Items extends BaseItemModelProvider {
 
     @Override
     protected void registerModels() {
-        itemGenerated(TrinketsModule.REGENERATION_RING.get(), "item/potion_ring");
+        for (Map.Entry<ResourceLocation, Registration.Trinket> entry : Registration.TRINKETS.entrySet()) {
+            Registration.Trinket trinket = entry.getValue();
+            itemGenerated(trinket.item().get(), trinket.texture());
+        }
     }
 
     @Override

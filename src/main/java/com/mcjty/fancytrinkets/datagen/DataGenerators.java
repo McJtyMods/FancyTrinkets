@@ -16,5 +16,6 @@ public class DataGenerators {
         BlockTags blockTags = new BlockTags(generator, event.getExistingFileHelper());
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new ItemTags(generator, blockTags, event.getExistingFileHelper()));
+        generator.addProvider(event.includeClient(), new LanguageProvider(generator, "en_us"));
     }
 }
