@@ -2,22 +2,17 @@ package com.mcjty.fancytrinkets;
 
 import com.mcjty.fancytrinkets.curios.CuriosSetup;
 import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
-import com.mcjty.fancytrinkets.modules.effects.IEffect;
-import com.mcjty.fancytrinkets.modules.rings.RingsModule;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.setup.Config;
 import com.mcjty.fancytrinkets.setup.ModSetup;
 import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.modules.Modules;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
 
@@ -47,7 +42,7 @@ public class FancyTrinkets {
 
     private void setupModules() {
         modules.register(new EffectsModule());
-        modules.register(new RingsModule());
+        modules.register(new TrinketsModule());
     }
 
     private void onInterModEnqueueEvent(InterModEnqueueEvent event) {

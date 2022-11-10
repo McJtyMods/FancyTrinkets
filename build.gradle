@@ -142,6 +142,10 @@ jar {
     }
 }
 
+jar {
+  duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
 // Example configuration to allow publishing using the maven-publish task
 // we define a custom artifact that is sourced from the reobfJar output task
 // and then declare that to be published

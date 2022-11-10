@@ -1,11 +1,14 @@
-package com.mcjty.fancytrinkets.modules.effects.items;
+package com.mcjty.fancytrinkets.modules.trinkets.items;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import mcjty.lib.builder.TooltipBuilder;
 import mcjty.lib.tooltips.ITooltipSettings;
+import mcjty.lib.varia.ComponentFactory;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,10 +23,13 @@ import static mcjty.lib.builder.TooltipBuilder.*;
 
 public class TrinketItem extends Item implements ITooltipSettings {
 
+    public static final String MESSAGE_FANCYTRINKETS_SHIFTMESSAGE = "message.fancytrinkets.shiftmessage";
+    public static final String MESSAGE_EFFECT_HEADER = "effect.fancytrinkets.header";
+
     private final ResourceLocation[] effectIds;
 
     private final Lazy<TooltipBuilder> tooltipBuilder = () -> new TooltipBuilder()
-            .info(key("message.fancytrinkets.shiftmessage"))
+            .info(key(MESSAGE_FANCYTRINKETS_SHIFTMESSAGE))
             .infoShift(header(), gold());
 
     public TrinketItem(ResourceLocation... effectIds) {
@@ -38,8 +44,9 @@ public class TrinketItem extends Item implements ITooltipSettings {
         super.appendHoverText(itemStack, world, list, flags);
         tooltipBuilder.get().makeTooltip(ForgeRegistries.ITEMS.getKey(this), itemStack, list, flags);
         for (ResourceLocation id : effectIds) {
-            IEffect effect = EffectsModule.effectMap.get(id);
-            list.add(effect.getDescription());
+            IEffect effect = EffectsModule.EFFECTS.get(id).effect();
+            list.add(ComponentFactory.translatable(MESSAGE_EFFECT_HEADER).withStyle(ChatFormatting.AQUA)
+                    .append(((MutableComponent)effect.getDescription()).withStyle(ChatFormatting.WHITE)));
         }
     }
 

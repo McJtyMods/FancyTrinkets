@@ -27,8 +27,8 @@ public class MobEffectEffect implements IEffect {
 
     @Override
     public Component getDescription() {
-        return ComponentFactory.translatable("effect." + id.getNamespace() + "." + id.getPath())
-                .append(((MutableComponent)effect.getDisplayName()).withStyle(ChatFormatting.GREEN)).append(" (" + strength + ")");
+        return ComponentFactory.translatable("effect." + id.getNamespace() + "." + id.getPath());
+//                .append(((MutableComponent)effect.getDisplayName()).withStyle(ChatFormatting.GREEN)).append(" (" + strength + ")");
     }
 
     public static Builder builder(ResourceLocation id) {

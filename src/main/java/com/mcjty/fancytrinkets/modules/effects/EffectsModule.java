@@ -16,13 +16,19 @@ public class EffectsModule implements IModule {
     public static final ResourceLocation EFFECT_REGENERATION = new ResourceLocation(FancyTrinkets.MODID, "regeneration");
     public static final ResourceLocation EFFECT_DAMAGE_BOOST = new ResourceLocation(FancyTrinkets.MODID, "damage_boost");
     public static final ResourceLocation EFFECT_ABSORPTION = new ResourceLocation(FancyTrinkets.MODID, "absorption");
-
-    public static final Map<ResourceLocation, IEffect> effectMap = new HashMap<>();
+    public static final ResourceLocation EFFECT_DAMAGE_RESISTANCE = new ResourceLocation(FancyTrinkets.MODID, "damage_resistance");
+    public static final ResourceLocation EFFECT_HASTE = new ResourceLocation(FancyTrinkets.MODID, "haste");
+    public static final ResourceLocation EFFECT_HEALTH_BOOST = new ResourceLocation(FancyTrinkets.MODID, "health_boost");
+    public static final ResourceLocation EFFECT_INVISIBILITY = new ResourceLocation(FancyTrinkets.MODID, "invisibility");
 
     public EffectsModule() {
-        register(MobEffectEffect.builder(EFFECT_REGENERATION).effect(MobEffects.REGENERATION).build());
-        register(MobEffectEffect.builder(EFFECT_DAMAGE_BOOST).effect(MobEffects.DAMAGE_BOOST).build());
-        register(MobEffectEffect.builder(EFFECT_ABSORPTION).effect(MobEffects.ABSORPTION).build());
+        register(MobEffectEffect.builder(EFFECT_REGENERATION).effect(MobEffects.REGENERATION).build(), "Regeneration");
+        register(MobEffectEffect.builder(EFFECT_DAMAGE_BOOST).effect(MobEffects.DAMAGE_BOOST).build(), "Damage Boost");
+        register(MobEffectEffect.builder(EFFECT_ABSORPTION).effect(MobEffects.ABSORPTION).build(), "Absorption");
+        register(MobEffectEffect.builder(EFFECT_DAMAGE_RESISTANCE).effect(MobEffects.DAMAGE_RESISTANCE).build(), "Damage Resistance");
+        register(MobEffectEffect.builder(EFFECT_HASTE).effect(MobEffects.DIG_SPEED).build(), "Haste");
+        register(MobEffectEffect.builder(EFFECT_HEALTH_BOOST).effect(MobEffects.HEALTH_BOOST).build(), "Health Boost");
+        register(MobEffectEffect.builder(EFFECT_INVISIBILITY).effect(MobEffects.INVISIBILITY).build(), "Invisibility");
     }
 
     @Override
@@ -37,7 +43,12 @@ public class EffectsModule implements IModule {
     public void initConfig() {
     }
 
-    private static void register(IEffect effect) {
-        effectMap.put(effect.getId(), effect);
+    public static final Map<ResourceLocation, EffectInfo> EFFECTS = new HashMap<>();
+
+    private static void register(IEffect effect, String description) {
+        EFFECTS.put(effect.getId(), new EffectInfo(effect.getId(), description, effect));
+    }
+
+    public static record EffectInfo(ResourceLocation id, String description, IEffect effect) {
     }
 }

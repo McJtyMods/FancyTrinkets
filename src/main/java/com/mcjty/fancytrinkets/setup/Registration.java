@@ -2,7 +2,7 @@ package com.mcjty.fancytrinkets.setup;
 
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
-import com.mcjty.fancytrinkets.modules.effects.items.TrinketItem;
+import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
@@ -40,15 +40,22 @@ public class Registration {
         return new Item.Properties().tab(FancyTrinkets.setup.getTab());
     }
 
-    public static final Map<ResourceLocation, Trinket> TRINKETS = new HashMap<>();
+    public static final Map<ResourceLocation, TrinketInfo> TRINKETS = new HashMap<>();
 
-    public static RegistryObject<TrinketItem> trinket(String id, String texture, String description, ResourceLocation... effects) {
+    public static RegistryObject<TrinketItem> trinket(String id, String texture, String description, String header, String extraInformation,
+                                                      int slots, ResourceLocation... effects) {
         RegistryObject<TrinketItem> object = ITEMS.register(id, () -> new TrinketItem(effects));
-        TRINKETS.put(object.getId(), new Trinket(new ResourceLocation(MODID, id), texture, description, object));
+        TRINKETS.put(object.getId(), new TrinketInfo(new ResourceLocation(MODID, id), texture, description, header, extraInformation, slots, object));
         return object;
     }
 
-    public static record Trinket(ResourceLocation id, String texture, String description, RegistryObject<TrinketItem> item) {
+    public static record TrinketInfo(ResourceLocation id, String texture,
+                                     String description, String header, String extraInformation,
+                                     int slots,
+                                     RegistryObject<TrinketItem> item) {
 
+        public boolean hasSlot(int slot) {
+            return (slots & slot) != 0;
+        }
     }
 }
