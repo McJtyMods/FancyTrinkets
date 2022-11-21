@@ -1,10 +1,14 @@
 package com.mcjty.fancytrinkets.datapack;
 
+import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
+import com.mcjty.fancytrinkets.modules.effects.IEffect;
+import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record TrinketDescription(
@@ -29,23 +33,11 @@ public record TrinketDescription(
     }
 
     public TrinketInstance build() {
-        return new TrinketInstance(id, nameKey, descriptionKey);
+        List<EffectInstance> effectInstances = new ArrayList<>();
+        for (EffectDescription effectDesc : effects) {
+            IEffect effect  = EffectsModule.EFFECTS.get(effectDesc.id()).effect();
+            effectInstances.add(new EffectInstance(effectDesc.id(), effect));
+        }
+        return new TrinketInstance(id, nameKey, descriptionKey, effectInstances);
     }
 }
-
-/*
-{
-  "id": "fancytrinkets:regeneration_ring",
-  "name": "trinket.fancytrinkets.regeneration_ring.name",
-  "description": "trinket.fancytrinkets.regeneration_ring.description",
-  "effects": [
-    {
-      "id": "fancytrinkets:regeneration",
-      "level": 1
-    }
-  ],
-  "slots": ["ring"],
-  "lifetime": "permanent",
-  "sets": ["golden_rings"]
-}
- */

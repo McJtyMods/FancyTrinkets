@@ -7,8 +7,12 @@
   "effect.fancytrinkets.health_boost": "Health Boost",
   "effect.fancytrinkets.invisibility": "Invisibility",
   "effect.fancytrinkets.regeneration": "Regeneration",
-  "item.fancytrinkets.gold_ring": "Base golden ring item",
-  "item.fancytrinkets.star": "Base star item",
   "itemGroup.fancytrinkets": "Fancy Trinkets",
-  "message.fancytrinkets.shiftmessage": "<Press Shift>"
+  "message.fancytrinkets.gold_ring.name": "Gold Ring",
+  "message.fancytrinkets.shiftmessage": "<Press Shift>",
+  "message.fancytrinkets.star.name": "Star",
+  "trinket.fancytrinkets.regeneration_ring.description": "This ring gives you regeneration while wearing it",
+  "trinket.fancytrinkets.regeneration_ring.name": "Ring of Regeneration",
+  "trinket.fancytrinkets.strength_ring.description": "This ring gives you a strength boost while wearing it",
+  "trinket.fancytrinkets.strength_ring.name": "Ring of Strength"
 }

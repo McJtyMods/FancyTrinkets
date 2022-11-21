@@ -7,6 +7,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class MobEffectEffect implements IEffect {
 
@@ -29,6 +34,14 @@ public class MobEffectEffect implements IEffect {
     public Component getDescription() {
         return ComponentFactory.translatable("effect." + id.getNamespace() + "." + id.getPath());
 //                .append(((MutableComponent)effect.getDisplayName()).withStyle(ChatFormatting.GREEN)).append(" (" + strength + ")");
+    }
+
+    @Override
+    public void tick(ItemStack stack, Level level, Entity entity) {
+        if (entity instanceof LivingEntity livingEntity) {
+            MobEffectInstance instance = new MobEffectInstance(effect, 4);
+            livingEntity.addEffect(instance);
+        }
     }
 
     public static Builder builder(ResourceLocation id) {
