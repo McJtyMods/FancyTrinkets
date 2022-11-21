@@ -4,6 +4,7 @@ import com.mcjty.fancytrinkets.curios.CuriosSetup;
 import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.setup.Config;
+import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.setup.ModSetup;
 import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.modules.Modules;
@@ -29,6 +30,7 @@ public class FancyTrinkets {
         Config.register();
         setupModules();
         Registration.register();
+        CustomRegistries.init();
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(setup::init);

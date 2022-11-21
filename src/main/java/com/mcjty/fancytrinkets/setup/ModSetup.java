@@ -9,7 +9,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 public class ModSetup extends DefaultModSetup {
 
     public ModSetup() {
-        createTab("fancytrinkets", () -> new ItemStack(TrinketsModule.REGENERATION_RING.get()));
+        createTab("fancytrinkets", () -> new ItemStack(TrinketsModule.GOLD_RING.get()));
     }
 
     @Override

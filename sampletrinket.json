@@ -1,0 +1,25 @@
+{
+  "id": "fancytrinkets:regeneration_ring",
+  "name": "trinket.fancytrinkets.regeneration_ring.name",
+  "item": "fancytrinkets:golden_ring",
+  "description": "trinket.fancytrinkets.regeneration_ring.description",
+  "effects": [
+    {
+      "id": "fancytrinkets:regeneration",
+      "level": 1
+    }
+  ],
+  "sets": [
+    {
+      "trinkets": ["fancytrinkets:strength_ring"],
+      "effects": [
+        {
+          "id": "fancytrinkets:nightvision"
+        }
+      ]
+    }
+  ],
+  "secret": true,
+  "slots": ["ring"],
+  "lifetime": "permanent"
+}

@@ -1,12 +1,6 @@
 {
   "values": [
-    "fancytrinkets:regeneration_ring",
-    "fancytrinkets:damage_resistance_ring",
-    "fancytrinkets:absorption_ring",
-    "fancytrinkets:haste_ring",
-    "fancytrinkets:star",
-    "fancytrinkets:damage_boost_ring",
-    "fancytrinkets:invisibility_ring",
-    "fancytrinkets:health_boost_ring"
+    "fancytrinkets:gold_ring",
+    "fancytrinkets:star"
   ]
 }

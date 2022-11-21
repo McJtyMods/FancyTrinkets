@@ -25,8 +25,8 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
             Registration.TrinketInfo trinket = entry.getValue();
             RegistryObject<TrinketItem> object = trinket.item();
             add(object.get(), trinket.description());
-            add("message.fancytrinkets." + object.getId().getPath() + ".header", trinket.header());
-            add("message.fancytrinkets." + object.getId().getPath() + ".gold", trinket.extraInformation());
+//            add("message.fancytrinkets." + object.getId().getPath() + ".header", trinket.header());
+//            add("message.fancytrinkets." + object.getId().getPath() + ".gold", trinket.extraInformation());
         }
 
         for (Map.Entry<ResourceLocation, EffectsModule.EffectInfo> entry : EffectsModule.EFFECTS.entrySet()) {

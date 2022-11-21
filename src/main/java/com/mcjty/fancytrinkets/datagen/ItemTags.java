@@ -1,8 +1,7 @@
 package com.mcjty.fancytrinkets.datagen;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
-import com.mcjty.fancytrinkets.curios.CuriosSetup;
-import com.mcjty.fancytrinkets.setup.Registration;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
@@ -15,7 +14,6 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotTypePreset;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
 
 public class ItemTags extends ItemTagsProvider {
 
@@ -33,30 +31,15 @@ public class ItemTags extends ItemTagsProvider {
 
     @Override
     protected void addTags() {
-        for (Map.Entry<ResourceLocation, Registration.TrinketInfo> entry : Registration.TRINKETS.entrySet()) {
-            Registration.TrinketInfo info = entry.getValue();
-            if (info.hasSlot(CuriosSetup.SLOT_RING)) {
-                tag(RING_TAG).add(info.item().get());
-            }
-            if (info.hasSlot(CuriosSetup.SLOT_BELT)) {
-                tag(BELT_TAG).add(info.item().get());
-            }
-            if (info.hasSlot(CuriosSetup.SLOT_BRACELET)) {
-                tag(BRACELET_TAG).add(info.item().get());
-            }
-            if (info.hasSlot(CuriosSetup.SLOT_CHARM)) {
-                tag(CHARM_TAG).add(info.item().get());
-            }
-            if (info.hasSlot(CuriosSetup.SLOT_NECKLACE)) {
-                tag(NECKLACE_TAG).add(info.item().get());
-            }
-            if (info.hasSlot(CuriosSetup.SLOT_HEAD)) {
-                tag(HEAD_TAG).add(info.item().get());
-            }
-            if (info.hasSlot(CuriosSetup.SLOT_BODY)) {
-                tag(BODY_TAG).add(info.item().get());
-            }
-        }
+        tag(RING_TAG).add(TrinketsModule.GOLD_RING.get());
+
+        tag(RING_TAG).add(TrinketsModule.STAR.get());
+        tag(BELT_TAG).add(TrinketsModule.STAR.get());
+        tag(BRACELET_TAG).add(TrinketsModule.STAR.get());
+        tag(CHARM_TAG).add(TrinketsModule.STAR.get());
+        tag(NECKLACE_TAG).add(TrinketsModule.STAR.get());
+        tag(HEAD_TAG).add(TrinketsModule.STAR.get());
+        tag(BODY_TAG).add(TrinketsModule.STAR.get());
     }
 
     @Nonnull

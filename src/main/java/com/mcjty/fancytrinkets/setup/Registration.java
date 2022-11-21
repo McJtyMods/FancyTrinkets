@@ -42,20 +42,14 @@ public class Registration {
 
     public static final Map<ResourceLocation, TrinketInfo> TRINKETS = new HashMap<>();
 
-    public static RegistryObject<TrinketItem> trinket(String id, String texture, String description, String header, String extraInformation,
-                                                      int slots, ResourceLocation... effects) {
-        RegistryObject<TrinketItem> object = ITEMS.register(id, () -> new TrinketItem(effects));
-        TRINKETS.put(object.getId(), new TrinketInfo(new ResourceLocation(MODID, id), texture, description, header, extraInformation, slots, object));
+    public static RegistryObject<TrinketItem> trinket(String id, String texture, String description) {
+        RegistryObject<TrinketItem> object = ITEMS.register(id, TrinketItem::new);
+        TRINKETS.put(object.getId(), new TrinketInfo(new ResourceLocation(MODID, id), texture, description, object));
         return object;
     }
 
     public static record TrinketInfo(ResourceLocation id, String texture,
-                                     String description, String header, String extraInformation,
-                                     int slots,
+                                     String description,
                                      RegistryObject<TrinketItem> item) {
-
-        public boolean hasSlot(int slot) {
-            return (slots & slot) != 0;
-        }
     }
 }
