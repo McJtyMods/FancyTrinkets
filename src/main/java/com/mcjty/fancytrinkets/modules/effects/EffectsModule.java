@@ -1,6 +1,7 @@
 package com.mcjty.fancytrinkets.modules.effects;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.modules.effects.imp.FlightEffect;
 import com.mcjty.fancytrinkets.modules.effects.imp.MobEffectEffect;
 import mcjty.lib.modules.IModule;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +22,8 @@ public class EffectsModule implements IModule {
     public static final ResourceLocation EFFECT_HEALTH_BOOST = new ResourceLocation(FancyTrinkets.MODID, "health_boost");
     public static final ResourceLocation EFFECT_INVISIBILITY = new ResourceLocation(FancyTrinkets.MODID, "invisibility");
 
+    public static final ResourceLocation EFFECT_FLIGHT = new ResourceLocation(FancyTrinkets.MODID, "flight");
+
     public EffectsModule() {
         register(MobEffectEffect.builder(EFFECT_REGENERATION).effect(MobEffects.REGENERATION).build(), "Regeneration");
         register(MobEffectEffect.builder(EFFECT_DAMAGE_BOOST).effect(MobEffects.DAMAGE_BOOST).build(), "Damage Boost");
@@ -29,6 +32,8 @@ public class EffectsModule implements IModule {
         register(MobEffectEffect.builder(EFFECT_HASTE).effect(MobEffects.DIG_SPEED).build(), "Haste");
         register(MobEffectEffect.builder(EFFECT_HEALTH_BOOST).effect(MobEffects.HEALTH_BOOST).build(), "Health Boost");
         register(MobEffectEffect.builder(EFFECT_INVISIBILITY).effect(MobEffects.INVISIBILITY).build(), "Invisibility");
+
+        register(new FlightEffect(EFFECT_FLIGHT), "Flight");
     }
 
     @Override

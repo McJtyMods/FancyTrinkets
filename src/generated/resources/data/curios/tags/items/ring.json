@@ -1,6 +1,17 @@
 {
   "values": [
     "fancytrinkets:gold_ring",
+    "fancytrinkets:gold_ring_blue",
+    "fancytrinkets:gold_ring_green",
+    "fancytrinkets:gold_ring_red",
+    "fancytrinkets:gold_ring_diamond",
+    "fancytrinkets:silver_ring",
+    "fancytrinkets:silver_ring_blue",
+    "fancytrinkets:silver_ring_green",
+    "fancytrinkets:silver_ring_red",
+    "fancytrinkets:silver_ring_diamond",
+    "fancytrinkets:obsidian_ring",
+    "fancytrinkets:obsidian_ring_diamond",
     "fancytrinkets:star"
   ]
 }

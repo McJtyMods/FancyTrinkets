@@ -1,17 +1,16 @@
 package com.mcjty.fancytrinkets.modules.effects.imp;
 
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
-import mcjty.lib.varia.ComponentFactory;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+
+import java.util.UUID;
 
 public class MobEffectEffect implements IEffect {
 
@@ -19,10 +18,13 @@ public class MobEffectEffect implements IEffect {
     private final MobEffect effect;
     private final int strength;
 
+    private final MobEffectInstance instance;
+
     private MobEffectEffect(ResourceLocation id, MobEffect effect, int strength) {
         this.id = id;
         this.effect = effect;
         this.strength = strength;
+        instance = new MobEffectInstance(effect, 20*4, strength-1);
     }
 
     @Override
@@ -31,17 +33,18 @@ public class MobEffectEffect implements IEffect {
     }
 
     @Override
-    public Component getDescription() {
-        return ComponentFactory.translatable("effect." + id.getNamespace() + "." + id.getPath());
-//                .append(((MutableComponent)effect.getDisplayName()).withStyle(ChatFormatting.GREEN)).append(" (" + strength + ")");
+    public void tick(ItemStack stack, Entity entity, int index) {
+        if (entity instanceof LivingEntity livingEntity) {
+            livingEntity.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
+                long gameTime = livingEntity.level.getGameTime();
+                playerEffects.getEffectMap().put(index, new PlayerEffects.EffectHolder(this, gameTime + 4*20));
+            });
+        }
     }
 
     @Override
-    public void tick(ItemStack stack, Level level, Entity entity) {
-        if (entity instanceof LivingEntity livingEntity) {
-            MobEffectInstance instance = new MobEffectInstance(effect, 4);
-            livingEntity.addEffect(instance);
-        }
+    public void perform(ServerPlayer player, int strength) {
+        player.addEffect(new MobEffectInstance(effect, 20*4, strength-1));
     }
 
     public static Builder builder(ResourceLocation id) {

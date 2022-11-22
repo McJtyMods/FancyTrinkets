@@ -2,6 +2,8 @@ package com.mcjty.fancytrinkets.datagen;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
+import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.setup.Registration;
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
@@ -10,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotTypePreset;
 
@@ -31,7 +34,18 @@ public class ItemTags extends ItemTagsProvider {
 
     @Override
     protected void addTags() {
-        tag(RING_TAG).add(TrinketsModule.GOLD_RING.get());
+        tag(RING_TAG).add(TrinketsModule.GOLD_RING.get(),
+                TrinketsModule.GOLD_RING_BLUE.get(),
+                TrinketsModule.GOLD_RING_GREEN.get(),
+                TrinketsModule.GOLD_RING_RED.get(),
+                TrinketsModule.GOLD_RING_DIAMOND.get(),
+                TrinketsModule.SILVER_RING.get(),
+                TrinketsModule.SILVER_RING_BLUE.get(),
+                TrinketsModule.SILVER_RING_GREEN.get(),
+                TrinketsModule.SILVER_RING_RED.get(),
+                TrinketsModule.SILVER_RING_DIAMOND.get(),
+                TrinketsModule.OBSIDIAN_RING.get(),
+                TrinketsModule.OBSIDIAN_RING_DIAMOND.get());
 
         tag(RING_TAG).add(TrinketsModule.STAR.get());
         tag(BELT_TAG).add(TrinketsModule.STAR.get());

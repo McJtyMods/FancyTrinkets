@@ -2,8 +2,8 @@ package com.mcjty.fancytrinkets.modules.trinkets.items;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
-import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
+import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.trinkets.ITrinketItem;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
 import mcjty.lib.tooltips.ITooltipSettings;
@@ -15,16 +15,18 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem {
 
@@ -69,14 +71,13 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
         trinkets.put(description.id(), description.build());
     }
 
-    @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean isSelected) {
+    public void forAllEffects(ItemStack stack, Consumer<IEffect> consumer) {
         ResourceLocation trinketId = getTrinketId(stack);
         if (trinketId != null) {
             TrinketInstance instance = trinkets.get(trinketId);
             if (instance != null) {
                 for (EffectInstance effect : instance.effects()) {
-                    effect.effect().tick(stack, level, entity);
+                    consumer.accept(effect.effect());
                 }
             }
         }
@@ -88,7 +89,12 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
         if (trinketId != null) {
             TrinketInstance instance = trinkets.get(trinketId);
             if (instance != null) {
-                list.add(ComponentFactory.translatable(instance.nameKey()).withStyle(ChatFormatting.AQUA));
+                MutableComponent name = ComponentFactory.translatable(instance.nameKey()).withStyle(ChatFormatting.AQUA);
+                if (list.isEmpty()) {
+                    list.add(name);
+                } else {
+                    list.set(0, name);
+                }
                 list.add(ComponentFactory.translatable(instance.descriptionKey()));
                 for (EffectInstance effectInstance : instance.effects()) {
                     IEffect effect  = effectInstance.effect();
@@ -98,11 +104,10 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
                 return;
             }
         }
-        ResourceLocation id = Tools.getId(this);
-        String namespace = id.getNamespace();
-        String path = id.getPath();
-        String prefix = "message." + namespace + "." + path + ".name";
-        list.add(ComponentFactory.translatable(prefix).withStyle(ChatFormatting.AQUA));
     }
 
+    @Override
+    public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+        return new CuriosCapabilityProvider(stack, this);
+    }
 }
