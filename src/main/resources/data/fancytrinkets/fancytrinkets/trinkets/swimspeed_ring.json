@@ -1,0 +1,11 @@
+{
+  "id": "fancytrinkets:swimspeed_ring",
+  "name": "trinket.fancytrinkets.swimspeed_ring.name",
+  "item": "fancytrinkets:silver_ring",
+  "description": "trinket.fancytrinkets.swimspeed_ring.description",
+  "effects": [
+    {
+      "id": "fancytrinkets:swim_speed"
+    }
+  ]
+}

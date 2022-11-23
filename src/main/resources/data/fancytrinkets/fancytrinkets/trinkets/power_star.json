@@ -1,0 +1,20 @@
+{
+  "id": "fancytrinkets:power_star",
+  "name": "trinket.fancytrinkets.power_star.name",
+  "item": "fancytrinkets:star",
+  "description": "trinket.fancytrinkets.power_star.description",
+  "effects": [
+    {
+      "id": "fancytrinkets:attack_range"
+    },
+    {
+      "id": "fancytrinkets:reach_distance"
+    },
+    {
+      "id": "fancytrinkets:attack_speed"
+    },
+    {
+      "id": "fancytrinkets:attack_damage"
+    }
+  ]
+}

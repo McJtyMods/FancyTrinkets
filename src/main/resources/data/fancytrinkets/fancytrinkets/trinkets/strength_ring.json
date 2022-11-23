@@ -5,8 +5,7 @@
   "description": "trinket.fancytrinkets.strength_ring.description",
   "effects": [
     {
-      "id": "fancytrinkets:damage_boost",
-      "level": 1
+      "id": "fancytrinkets:damage_boost"
     }
   ]
 }

@@ -9,29 +9,29 @@ There are also trinket qualities:
 There are also unique trinkets that have two base effects and some good default secondary effects
 
 Effects:
-  - Regeneration
-  - Strength
+  x Regeneration
+  x Strength
   - Haste
-  - Night vision
+  x Night vision
+  - Night vision with hotkey
   - Invisibility
   - Negate all negative effects
   - Poison resistance
   - Fire resistance
   - Decrease hunger
-  - Speed
+  x Speed
   - Water breathing
   - Slow falling
-  - Flight
-  - Step assist
-  - Step height
+  x Flight
+  X Step assist
   - Increased Jump height
-  - Attack damage
+  x Attack damage
   - Armor
   - Damage reduction
   - Critical hits
   - Undieing
   - Sneak
-  - Luck
+  x Luck
   - Health
   - Feather falling
   - Warp (using a hotkey, the ability to warp to the spot you are looking at)

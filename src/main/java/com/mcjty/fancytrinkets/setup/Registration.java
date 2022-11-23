@@ -4,6 +4,7 @@ package com.mcjty.fancytrinkets.setup;
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -42,14 +43,15 @@ public class Registration {
 
     public static final Map<ResourceLocation, TrinketInfo> TRINKETS = new HashMap<>();
 
-    public static RegistryObject<TrinketItem> trinket(String id, String texture, String description) {
+    public static RegistryObject<TrinketItem> trinket(String id, String texture, String description, TagKey... tags) {
         RegistryObject<TrinketItem> object = ITEMS.register(id, TrinketItem::new);
-        TRINKETS.put(object.getId(), new TrinketInfo(new ResourceLocation(MODID, id), texture, description, object));
+        TRINKETS.put(object.getId(), new TrinketInfo(new ResourceLocation(MODID, id), texture, description, object, tags));
         return object;
     }
 
     public static record TrinketInfo(ResourceLocation id, String texture,
                                      String description,
-                                     RegistryObject<TrinketItem> item) {
+                                     RegistryObject<TrinketItem> item,
+                                     TagKey<Item>... tags) {
     }
 }

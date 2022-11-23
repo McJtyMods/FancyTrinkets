@@ -5,8 +5,7 @@
   "description": "trinket.fancytrinkets.regeneration_ring.description",
   "effects": [
     {
-      "id": "fancytrinkets:regeneration",
-      "level": 1
+      "id": "fancytrinkets:regeneration"
     }
   ]
 }

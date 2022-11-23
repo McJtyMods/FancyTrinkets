@@ -3,17 +3,20 @@ package com.mcjty.fancytrinkets;
 import com.mcjty.fancytrinkets.curios.CuriosSetup;
 import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
+import com.mcjty.fancytrinkets.setup.ClientEventHandlers;
 import com.mcjty.fancytrinkets.setup.Config;
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.setup.ModSetup;
 import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.modules.Modules;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
 
@@ -39,6 +42,7 @@ public class FancyTrinkets {
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             bus.addListener(modules::initClient);
+            MinecraftForge.EVENT_BUS.register(new ClientEventHandlers());
         });
     }
 

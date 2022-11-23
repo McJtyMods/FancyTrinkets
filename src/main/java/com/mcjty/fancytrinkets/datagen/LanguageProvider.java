@@ -31,6 +31,20 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add("trinket.fancytrinkets.strength_ring.description", "This ring gives you a strength boost while wearing it");
         add("trinket.fancytrinkets.flight_star.name", "Star of Flight");
         add("trinket.fancytrinkets.flight_star.description", "With this you can get creative flight");
+        add("trinket.fancytrinkets.stepassist_ring.name", "Step Assist Ring");
+        add("trinket.fancytrinkets.stepassist_ring.description", "Use this ring to get step assist");
+        add("trinket.fancytrinkets.reduced_gravity_ring.name", "Reduced Gravity Ring");
+        add("trinket.fancytrinkets.reduced_gravity_ring.description", "Use this ring to get a gravity reduction");
+        add("trinket.fancytrinkets.swimspeed_ring.name", "Swim Speed Ring");
+        add("trinket.fancytrinkets.swimspeed_ring.description", "Use this ring to swim faster in water");
+        add("trinket.fancytrinkets.power_star.name", "Power Star");
+        add("trinket.fancytrinkets.power_star.description", "All that power!");
+        add("trinket.fancytrinkets.swift_star.name", "Swiftness Star");
+        add("trinket.fancytrinkets.swift_star.description", "Gives you the power to move!");
+        add("trinket.fancytrinkets.super_health.name", "Super health boost");
+        add("trinket.fancytrinkets.super_health.description", "This makes you very healthy indeed!");
+        add("trinket.fancytrinkets.nogravity_feather.name", "No gravity");
+        add("trinket.fancytrinkets.nogravity_feather.description", "You feel so light");
 
         for (Map.Entry<ResourceLocation, EffectsModule.EffectInfo> entry : EffectsModule.EFFECTS.entrySet()) {
             add("effect.fancytrinkets." + entry.getKey().getPath(), entry.getValue().description());

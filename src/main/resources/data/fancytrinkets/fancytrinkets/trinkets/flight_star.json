@@ -5,8 +5,7 @@
   "description": "trinket.fancytrinkets.flight_star.description",
   "effects": [
     {
-      "id": "fancytrinkets:flight",
-      "level": 1
+      "id": "fancytrinkets:flight"
     }
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "id": "fancytrinkets:nogravity_feather",
+  "name": "trinket.fancytrinkets.nogravity_feather.name",
+  "item": "fancytrinkets:feather",
+  "description": "trinket.fancytrinkets.nogravity_feather.description",
+  "effects": [
+    {
+      "id": "fancytrinkets:slow_falling"
+    }
+  ]
+}
