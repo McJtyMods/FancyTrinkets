@@ -28,11 +28,11 @@ public class MobEffectEffect implements IEffect {
     }
 
     @Override
-    public void tick(ItemStack stack, Entity entity, int index) {
+    public void tick(ItemStack stack, Entity entity, String slotId) {
         if (entity instanceof LivingEntity livingEntity) {
             livingEntity.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
                 long gameTime = livingEntity.level.getGameTime();
-                playerEffects.registerEffect(index, this, gameTime + 4*20);
+                playerEffects.registerEffect(slotId, this, gameTime + 4*20);
             });
         }
     }

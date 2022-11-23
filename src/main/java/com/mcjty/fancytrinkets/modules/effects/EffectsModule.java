@@ -50,7 +50,7 @@ public class EffectsModule implements IModule {
         register(MobEffectEffect.builder(EFFECT_HEALTH_BOOST).effect(MobEffects.HEALTH_BOOST).build(), "Health Boost");
         register(MobEffectEffect.builder(EFFECT_INVISIBILITY).effect(MobEffects.INVISIBILITY).build(), "Invisibility");
         register(MobEffectEffect.builder(EFFECT_NIGHTVISION).effect(MobEffects.NIGHT_VISION).build(), "Nightvision");
-        register(MobEffectEffect.builder(EFFECT_SLOW_FALLING).effect(MobEffects.SLOW_FALLING).build(), "Slow Falling");
+        register(MobEffectEffect.builder(EFFECT_SLOW_FALLING).effect(MobEffects.SLOW_FALLING).strengthModifier(1).build(), "Slow Falling");
 
         register(new FlightEffect(EFFECT_FLIGHT), "Flight");
 

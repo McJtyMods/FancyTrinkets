@@ -32,7 +32,7 @@ public class AttributeModifierEffect implements IEffect {
     }
 
     @Override
-    public void tick(ItemStack stack, Entity entity, int index) {
+    public void tick(ItemStack stack, Entity entity, String slotId) {
         if (entity instanceof ServerPlayer serverPlayer) {
             if (!serverPlayer.isCreative()) {
                 AttributeInstance instance = serverPlayer.getAttribute(attribute.get());
@@ -44,7 +44,7 @@ public class AttributeModifierEffect implements IEffect {
     }
 
     @Override
-    public void onUnequip(ItemStack stack, Entity entity, int index) {
+    public void onUnequip(ItemStack stack, Entity entity, String slotId) {
         if (entity instanceof ServerPlayer serverPlayer) {
             if (!serverPlayer.isCreative()) {
                 AttributeInstance instance = serverPlayer.getAttribute(attribute.get());

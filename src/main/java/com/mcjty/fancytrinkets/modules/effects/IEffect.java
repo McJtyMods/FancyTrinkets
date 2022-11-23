@@ -17,11 +17,11 @@ public interface IEffect {
         return ComponentFactory.translatable("effect." + getId().getNamespace() + "." + getId().getPath());
     }
 
-    default void tick(ItemStack stack, Entity entity, int index) {}
+    default void tick(ItemStack stack, Entity entity, String slotId) {}
 
-    default void onEquip(ItemStack stack, Entity entity, int index) {}
+    default void onEquip(ItemStack stack, Entity entity, String slotId) {}
 
-    default void onUnequip(ItemStack stack, Entity entity, int index) {}
+    default void onUnequip(ItemStack stack, Entity entity, String slotId) {}
 
     // Actually perform this effect (delayed from PlayerEffects)
     default void perform(ServerPlayer player, int strength) {}

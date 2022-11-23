@@ -5,7 +5,7 @@
   "description": "trinket.fancytrinkets.reduced_gravity_ring.description",
   "effects": [
     {
-      "id": "fancytrinkets:reduced_gravity"
+      "id": "fancytrinkets:slow_falling"
     }
   ]
 }

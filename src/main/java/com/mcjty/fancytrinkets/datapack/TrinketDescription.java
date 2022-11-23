@@ -35,7 +35,11 @@ public record TrinketDescription(
     public TrinketInstance build() {
         List<EffectInstance> effectInstances = new ArrayList<>();
         for (EffectDescription effectDesc : effects) {
-            IEffect effect  = EffectsModule.EFFECTS.get(effectDesc.id()).effect();
+            EffectsModule.EffectInfo effectInfo = EffectsModule.EFFECTS.get(effectDesc.id());
+            if (effectInfo == null) {
+                throw new RuntimeException("Can't find effect '" + effectDesc.id().toString() + "'!");
+            }
+            IEffect effect  = effectInfo.effect();
             effectInstances.add(new EffectInstance(effectDesc.id(), effect));
         }
         return new TrinketInstance(id, nameKey, descriptionKey, effectInstances);

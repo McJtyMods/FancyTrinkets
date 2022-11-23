@@ -20,7 +20,7 @@ public class FlightEffect implements IEffect {
     }
 
     @Override
-    public void tick(ItemStack stack, Entity entity, int index) {
+    public void tick(ItemStack stack, Entity entity, String slotId) {
         if (entity instanceof ServerPlayer serverPlayer) {
             if (!serverPlayer.isCreative()) {
                 if (!serverPlayer.getAbilities().mayfly) {
@@ -32,7 +32,7 @@ public class FlightEffect implements IEffect {
     }
 
     @Override
-    public void onUnequip(ItemStack stack, Entity entity, int index) {
+    public void onUnequip(ItemStack stack, Entity entity, String slotId) {
         if (entity instanceof ServerPlayer serverPlayer) {
             if (!serverPlayer.isCreative()) {
                 serverPlayer.getAbilities().flying = false;

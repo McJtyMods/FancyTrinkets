@@ -35,17 +35,17 @@ public class CuriosCapabilityProvider implements ICapabilityProvider {
 
             @Override
             public void curioTick(SlotContext slotContext) {
-                trinketItem.forAllEffects(itemStack, effect -> effect.tick(itemStack, slotContext.entity(), slotContext.index()));
+                trinketItem.forAllEffects(itemStack, effect -> effect.tick(itemStack, slotContext.entity(), slotContext.identifier()+slotContext.index()));
             }
 
             @Override
             public void onEquip(SlotContext slotContext, ItemStack prevStack) {
-                trinketItem.forAllEffects(itemStack, effect -> effect.onEquip(itemStack, slotContext.entity(), slotContext.index()));
+                trinketItem.forAllEffects(itemStack, effect -> effect.onEquip(itemStack, slotContext.entity(), slotContext.identifier()+slotContext.index()));
             }
 
             @Override
             public void onUnequip(SlotContext slotContext, ItemStack newStack) {
-                trinketItem.forAllEffects(itemStack, effect -> effect.onUnequip(itemStack, slotContext.entity(), slotContext.index()));
+                trinketItem.forAllEffects(itemStack, effect -> effect.onUnequip(itemStack, slotContext.entity(), slotContext.identifier()+slotContext.index()));
             }
         };
     }

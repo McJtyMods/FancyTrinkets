@@ -22,7 +22,7 @@ public class PlayerEffects {
     }
 
     // Indexed on curios slot index
-    private final Map<Integer, EffectHolder> effectMap = new HashMap<>();
+    private final Map<String, EffectHolder> effectMap = new HashMap<>();
 
     public PlayerEffects() {
     }
@@ -30,8 +30,8 @@ public class PlayerEffects {
     public void tick(ServerPlayer player) {
         long time = player.level.getGameTime();
         Counter<IEffect> collectedEffects = new Counter<>();
-        List<Integer> toDelete = new ArrayList<>();
-        for (Map.Entry<Integer, EffectHolder> entry : effectMap.entrySet()) {
+        List<String> toDelete = new ArrayList<>();
+        for (Map.Entry<String, EffectHolder> entry : effectMap.entrySet()) {
             EffectHolder holder = entry.getValue();
             if (holder.endTime >= time) {
                 collectedEffects.increment(holder.effect);
@@ -42,13 +42,13 @@ public class PlayerEffects {
         for (Map.Entry<IEffect, Integer> entry : collectedEffects.entrySet()) {
             entry.getKey().perform(player, entry.getValue());
         }
-        for (Integer index : toDelete) {
+        for (String index : toDelete) {
             effectMap.remove(index);
         }
     }
 
-    public void registerEffect(int index, IEffect effect, long endTime) {
-        effectMap.put(index, new PlayerEffects.EffectHolder(effect, endTime));
+    public void registerEffect(String slotId, IEffect effect, long endTime) {
+        effectMap.put(slotId, new PlayerEffects.EffectHolder(effect, endTime));
     }
 
     public void copyFrom(PlayerEffects source) {
