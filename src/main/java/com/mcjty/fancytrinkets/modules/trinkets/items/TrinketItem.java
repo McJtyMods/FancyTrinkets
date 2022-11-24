@@ -8,7 +8,6 @@ import com.mcjty.fancytrinkets.modules.trinkets.ITrinketItem;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
 import mcjty.lib.tooltips.ITooltipSettings;
 import mcjty.lib.varia.ComponentFactory;
-import mcjty.lib.varia.Tools;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -101,7 +100,6 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
                     list.add(ComponentFactory.translatable(MESSAGE_EFFECT_HEADER).withStyle(ChatFormatting.AQUA)
                             .append(((MutableComponent)effect.getDescription()).withStyle(ChatFormatting.WHITE)));
                 }
-                return;
             }
         }
     }

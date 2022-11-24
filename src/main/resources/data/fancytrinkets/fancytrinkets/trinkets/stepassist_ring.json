@@ -3,9 +3,5 @@
   "name": "trinket.fancytrinkets.stepassist_ring.name",
   "item": "fancytrinkets:silver_ring",
   "description": "trinket.fancytrinkets.stepassist_ring.description",
-  "effects": [
-    {
-      "id": "fancytrinkets:step_assist"
-    }
-  ]
+  "effects": ["fancytrinkets:step_assist"]
 }

@@ -3,9 +3,5 @@
   "name": "trinket.fancytrinkets.swimspeed_ring.name",
   "item": "fancytrinkets:silver_ring",
   "description": "trinket.fancytrinkets.swimspeed_ring.description",
-  "effects": [
-    {
-      "id": "fancytrinkets:swim_speed"
-    }
-  ]
+  "effects": ["fancytrinkets:swim_speed"]
 }

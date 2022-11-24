@@ -8,7 +8,9 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -18,6 +20,10 @@ public class AttributeModifierEffect implements IEffect {
     private final UUID uuid;
     private final AttributeModifier modifier;
     private final Supplier<Attribute> attribute;
+
+    public static record Params(Double amount) {
+
+    }
 
     public AttributeModifierEffect(ResourceLocation id, String name, Supplier<Attribute> attibute, AttributeModifier.Operation operation, double amount) {
         this.id = id;

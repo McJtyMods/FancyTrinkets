@@ -3,9 +3,5 @@
   "name": "trinket.fancytrinkets.flight_star.name",
   "item": "fancytrinkets:star",
   "description": "trinket.fancytrinkets.flight_star.description",
-  "effects": [
-    {
-      "id": "fancytrinkets:flight"
-    }
-  ]
+  "effects": ["fancytrinkets:flight"]
 }
