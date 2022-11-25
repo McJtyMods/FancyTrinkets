@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "mobeffect",
+    "effect": "minecraft:slow_falling",
+    "strength": 1
+  }
+}

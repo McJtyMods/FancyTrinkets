@@ -1,0 +1,9 @@
+{
+  "description": "trinket.fancytrinkets.super_health.description",
+  "effects": [
+    "fancytrinkets:regeneration",
+    "fancytrinkets:max_health"
+  ],
+  "item": "fancytrinkets:heart_body",
+  "name": "trinket.fancytrinkets.super_health.name"
+}

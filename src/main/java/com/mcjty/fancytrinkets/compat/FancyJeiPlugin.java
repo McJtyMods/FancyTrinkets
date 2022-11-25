@@ -19,7 +19,7 @@ public class FancyJeiPlugin implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        for (Registration.TrinketInfo info : Registration.TRINKETS.values()) {
+        for (Registration.TrinketInfo info : Registration.TRINKET_ITEMS.values()) {
             registration.useNbtForSubtypes(info.item().get());
         }
     }

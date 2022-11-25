@@ -1,0 +1,8 @@
+{
+  "params": {
+    "type": "attribute",
+    "amount": 2.0,
+    "effect": "swim_speed",
+    "operation": "multiply_total"
+  }
+}

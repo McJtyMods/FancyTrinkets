@@ -1,7 +1,0 @@
-{
-  "id": "fancytrinkets:strength_ring",
-  "name": "trinket.fancytrinkets.strength_ring.name",
-  "item": "fancytrinkets:gold_ring",
-  "description": "trinket.fancytrinkets.strength_ring.description",
-  "effects": ["fancytrinkets:damage_boost"]
-}

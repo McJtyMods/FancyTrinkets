@@ -19,9 +19,14 @@ public class CustomRegistries {
     public static final DeferredRegister<TrinketDescription> TRINKET_DEFERRED_REGISTER = DeferredRegister.create(TRINKET_REGISTRY_KEY, FancyTrinkets.MODID);
     public static final Supplier<IForgeRegistry<TrinketDescription>> TRINKET_REGISTRY = TRINKET_DEFERRED_REGISTER.makeRegistry(() -> new RegistryBuilder<TrinketDescription>().dataPackRegistry(TrinketDescription.CODEC));
 
+    public static final ResourceKey<Registry<EffectDescription>> EFFECT_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(FancyTrinkets.MODID, "effects"));
+    public static final DeferredRegister<EffectDescription> EFFECT_DEFERRED_REGISTER = DeferredRegister.create(EFFECT_REGISTRY_KEY, FancyTrinkets.MODID);
+    public static final Supplier<IForgeRegistry<EffectDescription>> EFFECT_REGISTRY = EFFECT_DEFERRED_REGISTER.makeRegistry(() -> new RegistryBuilder<EffectDescription>().dataPackRegistry(EffectDescription.CODEC));
+
     public static void init() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         TRINKET_DEFERRED_REGISTER.register(bus);
+        EFFECT_DEFERRED_REGISTER.register(bus);
     }
 
 }

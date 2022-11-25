@@ -1,15 +1,13 @@
 package com.mcjty.fancytrinkets.modules.effects;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.modules.effects.imp.AttributeModifierEffect;
 import com.mcjty.fancytrinkets.modules.effects.imp.FlightEffect;
 import com.mcjty.fancytrinkets.modules.effects.imp.MobEffectEffect;
 import mcjty.lib.modules.IModule;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
@@ -18,52 +16,41 @@ import java.util.Map;
 
 public class EffectsModule implements IModule {
 
-    public static final ResourceLocation EFFECT_REGENERATION = new ResourceLocation(FancyTrinkets.MODID, "regeneration");
-    public static final ResourceLocation EFFECT_DAMAGE_BOOST = new ResourceLocation(FancyTrinkets.MODID, "damage_boost");
-    public static final ResourceLocation EFFECT_ABSORPTION = new ResourceLocation(FancyTrinkets.MODID, "absorption");
-    public static final ResourceLocation EFFECT_DAMAGE_RESISTANCE = new ResourceLocation(FancyTrinkets.MODID, "damage_resistance");
-    public static final ResourceLocation EFFECT_HASTE = new ResourceLocation(FancyTrinkets.MODID, "haste");
-    public static final ResourceLocation EFFECT_HEALTH_BOOST = new ResourceLocation(FancyTrinkets.MODID, "health_boost");
-    public static final ResourceLocation EFFECT_INVISIBILITY = new ResourceLocation(FancyTrinkets.MODID, "invisibility");
-    public static final ResourceLocation EFFECT_NIGHTVISION = new ResourceLocation(FancyTrinkets.MODID, "night_vision");
-    public static final ResourceLocation EFFECT_SLOW_FALLING = new ResourceLocation(FancyTrinkets.MODID, "slow_falling");
-
-    public static final ResourceLocation EFFECT_FLIGHT = new ResourceLocation(FancyTrinkets.MODID, "flight");
-    public static final ResourceLocation EFFECT_STEPASSIST = new ResourceLocation(FancyTrinkets.MODID, "step_assist");
-    public static final ResourceLocation EFFECT_SWIMSPEED = new ResourceLocation(FancyTrinkets.MODID, "swim_speed");
-    public static final ResourceLocation EFFECT_ATTACK_RANGE = new ResourceLocation(FancyTrinkets.MODID, "attack_range");
-    public static final ResourceLocation EFFECT_REACH_DISTANCE = new ResourceLocation(FancyTrinkets.MODID, "reach_distance");
-
-    public static final ResourceLocation EFFECT_MAX_HEALTH = new ResourceLocation(FancyTrinkets.MODID, "max_health");
-    public static final ResourceLocation EFFECT_KNOCKBACK_RESISTANCE = new ResourceLocation(FancyTrinkets.MODID, "knockback_resistance");
-    public static final ResourceLocation EFFECT_MOVEMENT_SPEED = new ResourceLocation(FancyTrinkets.MODID, "movement_speed");
-    public static final ResourceLocation EFFECT_ATTACK_SPEED = new ResourceLocation(FancyTrinkets.MODID, "attack_speed");
-    public static final ResourceLocation EFFECT_ATTACK_DAMAGE = new ResourceLocation(FancyTrinkets.MODID, "attack_damage");
-    public static final ResourceLocation EFFECT_LUCK = new ResourceLocation(FancyTrinkets.MODID, "luck");
-
     public EffectsModule() {
-        register(MobEffectEffect.builder(EFFECT_REGENERATION).effect(MobEffects.REGENERATION).build(), "Regeneration");
-        register(MobEffectEffect.builder(EFFECT_DAMAGE_BOOST).effect(MobEffects.DAMAGE_BOOST).build(), "Damage Boost");
-        register(MobEffectEffect.builder(EFFECT_ABSORPTION).effect(MobEffects.ABSORPTION).build(), "Absorption");
-        register(MobEffectEffect.builder(EFFECT_DAMAGE_RESISTANCE).effect(MobEffects.DAMAGE_RESISTANCE).build(), "Damage Resistance");
-        register(MobEffectEffect.builder(EFFECT_HASTE).effect(MobEffects.DIG_SPEED).build(), "Haste");
-        register(MobEffectEffect.builder(EFFECT_HEALTH_BOOST).effect(MobEffects.HEALTH_BOOST).build(), "Health Boost");
-        register(MobEffectEffect.builder(EFFECT_INVISIBILITY).effect(MobEffects.INVISIBILITY).build(), "Invisibility");
-        register(MobEffectEffect.builder(EFFECT_NIGHTVISION).effect(MobEffects.NIGHT_VISION).build(), "Nightvision");
-        register(MobEffectEffect.builder(EFFECT_SLOW_FALLING).effect(MobEffects.SLOW_FALLING).build(), "Slow Falling");
+        EFFECTS.clear();
+        register("regeneration", mobEffect("minecraft:regeneration", 1), "Regeneration");
+        register("strength", mobEffect("minecraft:strength", 1), "Strength");
+        register("absorption", mobEffect("minecraft:absorption", 1), "Absorption");
+        register("damage_resistance", mobEffect("minecraft:resistance", 1), "Damage Resistance");
+        register("haste", mobEffect("minecraft:haste", 1), "Haste");
+        register("health_boost", mobEffect("minecraft:health_boost", 1), "Health Boost");
+        register("invisibility", mobEffect("minecraft:invisibility", 1), "Invisibility");
+        register("night_vision", mobEffect("minecraft:night_vision", 1), "Nightvision");
+        register("night_vision_hotkey", mobEffect("minecraft:night_vision", 1, 1), "Nightvision");
+        register("slow_falling", mobEffect("minecraft:slow_falling", 1), "Slow Falling");
+        register("speed", mobEffect("minecraft:speed", 1), "Speed");
+        register("jump_boost", mobEffect("minecraft:jump_boost", 1), "Jump Boost");
+        register("fire_resistance", mobEffect("minecraft:fire_resistance", 1), "Fire Resistance");
+        register("water_breathing", mobEffect("minecraft:water_breathing", 1), "Water Breathing");
+        register("saturation", mobEffect("minecraft:saturation", 1), "Saturation");
+        register("levitation", mobEffect("minecraft:levitation", 1), "Levitation");
+        register("luck_potion", mobEffect("minecraft:luck", 1), "Luck");
+        register("conduit_power", mobEffect("minecraft:conduit_power", 1), "Conduit Power");
 
-        register(new FlightEffect(EFFECT_FLIGHT), "Flight");
+        register("flight", flightEffect(), "Flight");
 
-        register(new AttributeModifierEffect(EFFECT_STEPASSIST, "step assist", ForgeMod.STEP_HEIGHT_ADDITION, AttributeModifier.Operation.ADDITION, .5), "Step assist");
-        register(new AttributeModifierEffect(EFFECT_SWIMSPEED, "swim speed", ForgeMod.SWIM_SPEED, AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Swim speed");
-        register(new AttributeModifierEffect(EFFECT_ATTACK_RANGE, "attack range", ForgeMod.ATTACK_RANGE, AttributeModifier.Operation.ADDITION, 1), "Attack range");
-        register(new AttributeModifierEffect(EFFECT_REACH_DISTANCE, "reach distance", ForgeMod.REACH_DISTANCE, AttributeModifier.Operation.ADDITION, 2), "Reach distance");
-        register(new AttributeModifierEffect(EFFECT_MAX_HEALTH, "max health", () -> Attributes.MAX_HEALTH, AttributeModifier.Operation.ADDITION, 2), "Max health");
-        register(new AttributeModifierEffect(EFFECT_KNOCKBACK_RESISTANCE, "knockback resistance", () -> Attributes.KNOCKBACK_RESISTANCE, AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Knockback resistance");
-        register(new AttributeModifierEffect(EFFECT_MOVEMENT_SPEED, "movement speed", () -> Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Movement speed");
-        register(new AttributeModifierEffect(EFFECT_ATTACK_SPEED, "attack speed", () -> Attributes.ATTACK_SPEED, AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Attack speed");
-        register(new AttributeModifierEffect(EFFECT_ATTACK_DAMAGE, "attack damage", () -> Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Attack damage");
-        register(new AttributeModifierEffect(EFFECT_LUCK, "luck", () -> Attributes.LUCK, AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Luck");
+        register("step_assist", attributeEffect("step_assist", AttributeModifier.Operation.ADDITION, .5), "Step assist");
+        register("swim_speed", attributeEffect("swim_speed", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Swim speed");
+        register("attack_range", attributeEffect("attack_range", AttributeModifier.Operation.ADDITION, 1), "Attack Range");
+        register("reach_distance", attributeEffect("reach_distance", AttributeModifier.Operation.ADDITION, 2), "Reach Distance");
+        register("minor_max_health", attributeEffect("max_health", AttributeModifier.Operation.ADDITION, 2), "Minor Max Health");
+        register("max_health", attributeEffect("max_health", AttributeModifier.Operation.ADDITION, 4), "Max Health");
+        register("major_max_health", attributeEffect("max_health", AttributeModifier.Operation.ADDITION, 8), "Major Max Health");
+        register("knockback_resistance", attributeEffect("knockback_resistance", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Knockback Resistance");
+        register("movement_speed", attributeEffect("movement_speed", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Movement Speed");
+        register("attack_speed", attributeEffect("attack_speed", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Attack Speed");
+        register("attack_damage", attributeEffect("attack_damage", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Attack Damage");
+        register("luck", attributeEffect("luck", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Luck");
     }
 
     @Override
@@ -80,10 +67,26 @@ public class EffectsModule implements IModule {
 
     public static final Map<ResourceLocation, EffectInfo> EFFECTS = new HashMap<>();
 
-    private static void register(IEffect effect, String description) {
-        EFFECTS.put(effect.getId(), new EffectInfo(effect.getId(), description, effect));
+    private EffectDescription mobEffect(String effect, int level) {
+        return new EffectDescription(null, new MobEffectEffect.Params(effect, level));
     }
 
-    public static record EffectInfo(ResourceLocation id, String description, IEffect effect) {
+    private EffectDescription mobEffect(String effect, int level, Integer hotkey) {
+        return new EffectDescription(hotkey, new MobEffectEffect.Params(effect, level));
+    }
+
+    private EffectDescription attributeEffect(String effect, AttributeModifier.Operation operation, double amount) {
+        return new EffectDescription(null, new AttributeModifierEffect.Params(effect, operation, amount));
+    }
+
+    private EffectDescription flightEffect() {
+        return new EffectDescription(null, FlightEffect.Params.EMPTY);
+    }
+
+    private static void register(String id, EffectDescription effect, String description) {
+        EFFECTS.put(new ResourceLocation(FancyTrinkets.MODID, id), new EffectInfo(effect, description));
+    }
+
+    public static record EffectInfo(EffectDescription effect, String description) {
     }
 }

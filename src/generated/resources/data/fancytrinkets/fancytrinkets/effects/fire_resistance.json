@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "mobeffect",
+    "effect": "minecraft:fire_resistance",
+    "strength": 1
+  }
+}

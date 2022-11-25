@@ -1,7 +1,0 @@
-{
-  "id": "fancytrinkets:reduced_gravity_ring",
-  "name": "trinket.fancytrinkets.reduced_gravity_ring.name",
-  "item": "fancytrinkets:silver_ring",
-  "description": "trinket.fancytrinkets.reduced_gravity_ring.description",
-  "effects": ["fancytrinkets:slow_falling"]
-}

@@ -18,7 +18,7 @@ public class Items extends BaseItemModelProvider {
 
     @Override
     protected void registerModels() {
-        for (Map.Entry<ResourceLocation, Registration.TrinketInfo> entry : Registration.TRINKETS.entrySet()) {
+        for (Map.Entry<ResourceLocation, Registration.TrinketInfo> entry : Registration.TRINKET_ITEMS.entrySet()) {
             Registration.TrinketInfo trinket = entry.getValue();
             itemGenerated(trinket.item().get(), trinket.texture());
         }

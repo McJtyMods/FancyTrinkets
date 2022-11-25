@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "mobeffect",
+    "effect": "minecraft:jump_boost",
+    "strength": 1
+  }
+}

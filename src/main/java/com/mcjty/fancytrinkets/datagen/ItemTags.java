@@ -21,7 +21,7 @@ public class ItemTags extends ItemTagsProvider {
 
     @Override
     protected void addTags() {
-        for (Map.Entry<ResourceLocation, Registration.TrinketInfo> entry : Registration.TRINKETS.entrySet()) {
+        for (Map.Entry<ResourceLocation, Registration.TrinketInfo> entry : Registration.TRINKET_ITEMS.entrySet()) {
             for (TagKey<Item> key : entry.getValue().tags()) {
                 tag(key).add(entry.getValue().item().get());
             }

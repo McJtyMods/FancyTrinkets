@@ -1,22 +1,30 @@
 package com.mcjty.fancytrinkets.modules.effects.imp;
 
+import com.mcjty.fancytrinkets.datapack.EffectDescription;
+import com.mcjty.fancytrinkets.datapack.IEffectParameters;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
-import net.minecraft.resources.ResourceLocation;
+import com.mojang.serialization.Codec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 
 public class FlightEffect implements IEffect {
 
-    private final ResourceLocation id;
+    private final Integer hotkey;
 
-    public FlightEffect(ResourceLocation id) {
-        this.id = id;
+    public static record Params() implements IEffectParameters {
+        public static final Params EMPTY = new Params();
+
+        @Override
+        public EffectDescription.EffectType getType() {
+            return EffectDescription.EffectType.FLIGHT;
+        }
     }
 
-    @Override
-    public ResourceLocation getId() {
-        return id;
+    public static final Codec<IEffectParameters> CODEC = Codec.unit(Params.EMPTY);
+
+    public FlightEffect(Integer hotkey) {
+        this.hotkey = hotkey;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.mcjty.fancytrinkets.modules.trinkets;
 
+import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
@@ -14,8 +15,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -26,7 +25,11 @@ import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TrinketsModule implements IModule {
 
@@ -63,6 +66,16 @@ public class TrinketsModule implements IModule {
 
     public TrinketsModule() {
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
+        TRINKETS.clear();
+        register("flight_star", trinket("flight_star", "star", "flight"), "Sky Star", "This star gives you the freedom of flight");
+        register("slowfalling_feather", trinket("slowfalling_feather", "feather", "slow_falling"), "Golden Feather", "Gravity seems to have less effect on you");
+        register("power_star", trinket("power_star", "star", "attack_range", "attack_speed", "attack_damage", "reach_distance"), "Power Star", "You feel the power surging through you!");
+        register("swift_star", trinket("swift_star", "star", "movement_speed", "knockback_resistance", "swim_speed", "step_assist"), "Star of Swiftness", "Feel the freedom of swift and flexible movement");
+        register("regeneration_ring", trinket("regeneration_ring", "gold_ring", "regeneration"), "Regeneration Ring", "Slowly get your health back");
+        register("strength_ring", trinket("strength_ring", "gold_ring", "strength"), "Strength Ring", "Your attacks seem to have more effect");
+        register("nightvision_ring", trinket("nightvision_ring", "gold_ring", "night_vision_hotkey"), "Night Vision", "Using a hotkey you can see clearly in the dark");
+        register("stepassist_ring", trinket("stepassist_ring", "gold_ring", "step_assist"), "Step Assist Ring", "You can move around much easier now");
+        register("super_health", trinket("super_health", "heart_body", "regeneration", "max_health"), "Heart of Health", "You feel so much more healthy now");
     }
 
     @Override
@@ -70,7 +83,7 @@ public class TrinketsModule implements IModule {
     }
 
     public void onServerStarting(ServerStartingEvent event) {
-            registerTrinkets(event.getServer().overworld());
+        registerTrinkets(event.getServer().overworld());
     }
 
     private void registerTrinkets(ServerLevel level) {
@@ -82,7 +95,7 @@ public class TrinketsModule implements IModule {
                 throw new RuntimeException("Can't find item '" + itemId.toString() + "'!");
             }
             if (item instanceof ITrinketItem trinketItem) {
-                trinketItem.registerTrinketInstance(description);
+                trinketItem.registerTrinketInstance(level, entry.getKey().location(), description);
             } else {
                 throw new RuntimeException("Item '" + itemId.toString() + "' is not an ITrinketItem!");
             }
@@ -96,5 +109,22 @@ public class TrinketsModule implements IModule {
     @Override
     public void initConfig() {
 
+    }
+
+    public static final Map<ResourceLocation, TrinketInfo> TRINKETS = new HashMap<>();
+
+    private static void register(String id, TrinketDescription trinket, String name, String description) {
+        TRINKETS.put(new ResourceLocation(FancyTrinkets.MODID, id), new TrinketInfo(trinket, name, description));
+    }
+
+    private TrinketDescription trinket(String id, String itemId, String... effectNames) {
+        List<ResourceLocation> effects = Arrays.stream(effectNames).map(s -> new ResourceLocation(FancyTrinkets.MODID, s)).collect(Collectors.toList());
+        return new TrinketDescription(new ResourceLocation(FancyTrinkets.MODID, itemId),
+                "trinket.fancytrinkets." + id + ".name",
+                "trinket.fancytrinkets." + id + ".description",
+                effects);
+    }
+
+    public static record TrinketInfo(TrinketDescription trinketDescription, String name, String description) {
     }
 }

@@ -1,0 +1,8 @@
+{
+  "description": "trinket.fancytrinkets.slowfalling_feather.description",
+  "effects": [
+    "fancytrinkets:slow_falling"
+  ],
+  "item": "fancytrinkets:feather",
+  "name": "trinket.fancytrinkets.slowfalling_feather.name"
+}

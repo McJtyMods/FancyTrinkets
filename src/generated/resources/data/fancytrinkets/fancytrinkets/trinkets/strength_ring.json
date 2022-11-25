@@ -1,0 +1,8 @@
+{
+  "description": "trinket.fancytrinkets.strength_ring.description",
+  "effects": [
+    "fancytrinkets:strength"
+  ],
+  "item": "fancytrinkets:gold_ring",
+  "name": "trinket.fancytrinkets.strength_ring.name"
+}

@@ -1,0 +1,8 @@
+{
+  "description": "trinket.fancytrinkets.nightvision_ring.description",
+  "effects": [
+    "fancytrinkets:night_vision_hotkey"
+  ],
+  "item": "fancytrinkets:gold_ring",
+  "name": "trinket.fancytrinkets.nightvision_ring.name"
+}

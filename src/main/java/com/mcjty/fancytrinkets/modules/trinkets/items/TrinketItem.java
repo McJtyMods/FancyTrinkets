@@ -14,6 +14,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -66,8 +67,8 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
     }
 
     @Override
-    public void registerTrinketInstance(TrinketDescription description) {
-        trinkets.put(description.id(), description.build());
+    public void registerTrinketInstance(ServerLevel level, ResourceLocation id, TrinketDescription description) {
+        trinkets.put(id, description.build(id, level));
     }
 
     public void forAllEffects(ItemStack stack, Consumer<IEffect> consumer) {
@@ -97,8 +98,10 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
                 list.add(ComponentFactory.translatable(instance.descriptionKey()));
                 for (EffectInstance effectInstance : instance.effects()) {
                     IEffect effect  = effectInstance.effect();
+                    MutableComponent translatable = ComponentFactory.translatable("effect." + effectInstance.id().getNamespace() + "." + effectInstance.id().getPath());
+
                     list.add(ComponentFactory.translatable(MESSAGE_EFFECT_HEADER).withStyle(ChatFormatting.AQUA)
-                            .append(((MutableComponent)effect.getDescription()).withStyle(ChatFormatting.WHITE)));
+                            .append(translatable.withStyle(ChatFormatting.WHITE)));
                 }
             }
         }

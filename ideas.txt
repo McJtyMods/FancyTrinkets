@@ -11,20 +11,20 @@ There are also unique trinkets that have two base effects and some good default 
 Effects:
   x Regeneration
   x Strength
-  - Haste
+  x Haste
   x Night vision
   - Night vision with hotkey
-  - Invisibility
+  x Invisibility
   - Negate all negative effects
   - Poison resistance
-  - Fire resistance
+  x Fire resistance
   - Decrease hunger
   x Speed
-  - Water breathing
-  - Slow falling
+  x Water breathing
+  x Slow falling
   x Flight
   X Step assist
-  - Increased Jump height
+  x Increased Jump height
   x Attack damage
   - Armor
   - Damage reduction
@@ -32,7 +32,7 @@ Effects:
   - Undieing
   - Sneak
   x Luck
-  - Health
+  x Health
   - Feather falling
   - Warp (using a hotkey, the ability to warp to the spot you are looking at)
   - Merge into the Shadows (using a hotkey, the ability to temporarily completely hide you, but you can't interact with anything either)
