@@ -26,7 +26,7 @@ public class EffectsModule implements IModule {
         register("health_boost", mobEffect("minecraft:health_boost", 1), "Health Boost");
         register("invisibility", mobEffect("minecraft:invisibility", 1), "Invisibility");
         register("night_vision", mobEffect("minecraft:night_vision", 1), "Nightvision");
-        register("night_vision_hotkey", mobEffect("minecraft:night_vision", 1, 1), "Nightvision");
+        register("night_vision_hotkey", mobEffect("minecraft:night_vision", 1, 1, "night_vision"), "Nightvision");
         register("slow_falling", mobEffect("minecraft:slow_falling", 1), "Slow Falling");
         register("speed", mobEffect("minecraft:speed", 1), "Speed");
         register("jump_boost", mobEffect("minecraft:jump_boost", 1), "Jump Boost");
@@ -68,19 +68,19 @@ public class EffectsModule implements IModule {
     public static final Map<ResourceLocation, EffectInfo> EFFECTS = new HashMap<>();
 
     private EffectDescription mobEffect(String effect, int level) {
-        return new EffectDescription(null, new MobEffectEffect.Params(effect, level));
+        return new EffectDescription(null, null, new MobEffectEffect.Params(effect, level));
     }
 
-    private EffectDescription mobEffect(String effect, int level, Integer hotkey) {
-        return new EffectDescription(hotkey, new MobEffectEffect.Params(effect, level));
+    private EffectDescription mobEffect(String effect, int level, Integer hotkey, String toggle) {
+        return new EffectDescription(hotkey, toggle, new MobEffectEffect.Params(effect, level));
     }
 
     private EffectDescription attributeEffect(String effect, AttributeModifier.Operation operation, double amount) {
-        return new EffectDescription(null, new AttributeModifierEffect.Params(effect, operation, amount));
+        return new EffectDescription(null, null, new AttributeModifierEffect.Params(effect, operation, amount));
     }
 
     private EffectDescription flightEffect() {
-        return new EffectDescription(null, FlightEffect.Params.EMPTY);
+        return new EffectDescription(null, null, FlightEffect.Params.EMPTY);
     }
 
     private static void register(String id, EffectDescription effect, String description) {

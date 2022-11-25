@@ -22,6 +22,7 @@ public class AttributeModifierEffect implements IEffect {
     private final AttributeModifier modifier;
     private final Supplier<Attribute> attribute;
     private final Integer hotkey;
+    private final String toggle;
 
     public static record Params(String effect, AttributeModifier.Operation operation, Double amount) implements IEffectParameters {
         @Override
@@ -45,9 +46,10 @@ public class AttributeModifierEffect implements IEffect {
             ).apply(instance, (effect, operation, amount) -> new Params(effect, AttributeModifier.Operation.valueOf(operation.toUpperCase()), amount)));
 
 
-    public AttributeModifierEffect(Integer hotkey, String name, Supplier<Attribute> attibute, AttributeModifier.Operation operation, double amount) {
-        this.attribute = attibute;
+    public AttributeModifierEffect(Integer hotkey, String toggle, String name, Supplier<Attribute> attibute, AttributeModifier.Operation operation, double amount) {
         this.hotkey = hotkey;
+        this.toggle = toggle;
+        this.attribute = attibute;
         this.uuid = UUID.randomUUID();
         modifier = new AttributeModifier(uuid, name, amount, operation);
     }

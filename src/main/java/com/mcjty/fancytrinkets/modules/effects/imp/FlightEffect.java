@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 public class FlightEffect implements IEffect {
 
     private final Integer hotkey;
+    private final String toggle;
 
     public static record Params() implements IEffectParameters {
         public static final Params EMPTY = new Params();
@@ -23,8 +24,9 @@ public class FlightEffect implements IEffect {
 
     public static final Codec<IEffectParameters> CODEC = Codec.unit(Params.EMPTY);
 
-    public FlightEffect(Integer hotkey) {
+    public FlightEffect(Integer hotkey, String toggle) {
         this.hotkey = hotkey;
+        this.toggle = toggle;
     }
 
     @Override

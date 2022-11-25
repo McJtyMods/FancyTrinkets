@@ -18,6 +18,7 @@ public class MobEffectEffect implements IEffect {
     private final MobEffect effect;
     private final int strengthModifier;
     private final Integer hotkey;
+    private final String toggle;
 
     public static record Params(String effect, int strength) implements IEffectParameters {
         @Override
@@ -39,8 +40,9 @@ public class MobEffectEffect implements IEffect {
                     Codec.INT.fieldOf("strength").forGetter(l -> ((Params)l).strength)
             ).apply(instance, Params::new));
 
-    public MobEffectEffect(Integer hotkey, MobEffect effect, int strengthModifier) {
+    public MobEffectEffect(Integer hotkey, String toggle, MobEffect effect, int strengthModifier) {
         this.hotkey = hotkey;
+        this.toggle =toggle;
         this.effect = effect;
         this.strengthModifier = strengthModifier;
     }
@@ -49,9 +51,27 @@ public class MobEffectEffect implements IEffect {
     public void tick(ItemStack stack, Entity entity, String slotId) {
         if (entity instanceof LivingEntity livingEntity) {
             livingEntity.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
+                if (toggle != null) {
+                    if (!playerEffects.isToggleOn(toggle)) {
+                        return;
+                    }
+                }
                 long gameTime = livingEntity.level.getGameTime();
                 playerEffects.registerEffect(slotId, this, gameTime + 4*20);
             });
+        }
+    }
+
+    @Override
+    public void onHotkey(ItemStack stack, Entity entity, String slotId, int key) {
+        if (toggle != null) {
+            if (entity instanceof LivingEntity livingEntity) {
+                livingEntity.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
+                    if (!playerEffects.toggle(toggle)) {
+                        playerEffects.unregisterEffect(slotId);
+                    }
+                });
+            }
         }
     }
 

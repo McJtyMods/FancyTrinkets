@@ -4,5 +4,6 @@
     "type": "mobeffect",
     "effect": "minecraft:night_vision",
     "strength": 1
-  }
+  },
+  "toggle": "night_vision"
 }

@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public record EffectDescription(Integer hotkey, IEffectParameters params) {
+public record EffectDescription(Integer hotkey, String toggle, IEffectParameters params) {
 
     public static final Codec<IEffectParameters> PARAMS_CODEC = ExtraCodecs.lazyInitializedCodec(() -> Codec.STRING.dispatch("type",
             s -> s.getType().name().toLowerCase(),
@@ -26,12 +26,12 @@ public record EffectDescription(Integer hotkey, IEffectParameters params) {
 
     public static final Codec<EffectDescription> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-//                    Codec.STRING.fieldOf("type").forGetter(l -> l.type.name().toLowerCase()),
                     Codec.INT.optionalFieldOf("hotkey").forGetter(l -> Optional.ofNullable(l.hotkey)),
+                    Codec.STRING.optionalFieldOf("toggle").forGetter(l -> Optional.ofNullable(l.toggle)),
                     PARAMS_CODEC.fieldOf("params").forGetter(l -> l.params)
-            ).apply(instance, (hotkey, params) -> new EffectDescription(
-//                    EffectType.valueOf(type.toUpperCase()),
+            ).apply(instance, (hotkey, toggle, params) -> new EffectDescription(
                     hotkey.orElse(null),
+                    toggle.orElse(null),
                     params)));
 
     private static Codec<IEffectParameters> getParameterCodec(String stype) {
@@ -58,7 +58,7 @@ public record EffectDescription(Integer hotkey, IEffectParameters params) {
     public IEffect build() {
         return switch (params.getType()) {
             case MOBEFFECT -> getMobEffectEffect();
-            case FLIGHT -> new FlightEffect(hotkey);
+            case FLIGHT -> new FlightEffect(hotkey, toggle);
             case ATTRIBUTE -> getAttributeEffect();
         };
     }
@@ -80,7 +80,7 @@ public record EffectDescription(Integer hotkey, IEffectParameters params) {
             case "luck" -> () -> Attributes.LUCK;
             default -> throw new RuntimeException("Bad attribute effect '" + effName + "'!");
         };
-        return new AttributeModifierEffect(hotkey, effName, attributeSupplier, p.operation(), p.amount());
+        return new AttributeModifierEffect(hotkey, toggle, effName, attributeSupplier, p.operation(), p.amount());
     }
 
     @NotNull
@@ -91,7 +91,7 @@ public record EffectDescription(Integer hotkey, IEffectParameters params) {
         if (effect == null) {
             throw new RuntimeException("Can't find effect '" + effName + "'!");
         }
-        return new MobEffectEffect(hotkey, effect, p.strength() - 1);
+        return new MobEffectEffect(hotkey, toggle, effect, p.strength() - 1);
     }
 
 }
