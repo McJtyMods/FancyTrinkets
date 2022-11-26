@@ -1,7 +1,10 @@
 {
   "description": "trinket.fancytrinkets.regeneration_ring.description",
   "effects": [
-    "fancytrinkets:regeneration"
+    {
+      "hidden": false,
+      "id": "fancytrinkets:regeneration"
+    }
   ],
   "item": "fancytrinkets:gold_ring",
   "name": "trinket.fancytrinkets.regeneration_ring.name"

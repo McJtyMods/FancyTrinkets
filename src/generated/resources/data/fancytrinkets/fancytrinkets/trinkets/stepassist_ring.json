@@ -1,7 +1,10 @@
 {
   "description": "trinket.fancytrinkets.stepassist_ring.description",
   "effects": [
-    "fancytrinkets:step_assist"
+    {
+      "hidden": false,
+      "id": "fancytrinkets:step_assist"
+    }
   ],
   "item": "fancytrinkets:gold_ring",
   "name": "trinket.fancytrinkets.stepassist_ring.name"

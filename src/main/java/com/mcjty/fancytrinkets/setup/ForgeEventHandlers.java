@@ -22,7 +22,11 @@ public class ForgeEventHandlers {
             player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
                 String msgId = event.getSource().msgId;
                 float reduction = playerEffects.getDamageReduction(msgId);
-                event.setAmount(event.getAmount() * reduction);
+                float damage = event.getAmount() * reduction;
+                event.setAmount(damage);
+                if (damage < 0.00001f) {
+                    event.setCanceled(true);
+                }
             });
         }
     }

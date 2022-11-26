@@ -1,0 +1,23 @@
+{
+  "description": "trinket.fancytrinkets.fireresist_ring.description",
+  "effects": [
+    {
+      "hidden": false,
+      "id": "fancytrinkets:dmg_infire_100"
+    },
+    {
+      "hidden": true,
+      "id": "fancytrinkets:dmg_hotfloor_100"
+    },
+    {
+      "hidden": true,
+      "id": "fancytrinkets:dmg_onfire_100"
+    },
+    {
+      "hidden": true,
+      "id": "fancytrinkets:dmg_lava_100"
+    }
+  ],
+  "item": "fancytrinkets:gold_ring_diamond",
+  "name": "trinket.fancytrinkets.fireresist_ring.name"
+}

@@ -10,36 +10,43 @@ import net.minecraft.server.level.ServerLevel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public record TrinketDescription(
         ResourceLocation item,
         String nameKey,
         String descriptionKey,
-        List<ResourceLocation> effects) {
+        List<EffectRef> effects) {
+
+    public static record EffectRef(ResourceLocation effect, boolean hidden) {
+
+        public static final Codec<EffectRef> EFFECTREF_CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(
+                        Codec.STRING.fieldOf("id").forGetter(l -> l.effect.toString()),
+                        Codec.BOOL.fieldOf("hidden").forGetter(l -> l.hidden)
+                ).apply(instance, (id, hidden) -> new EffectRef(new ResourceLocation(id), hidden)));
+    }
 
     public static final Codec<TrinketDescription> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     Codec.STRING.fieldOf("item").forGetter(l -> l.item.toString()),
                     Codec.STRING.fieldOf("name").forGetter(l -> l.nameKey),
                     Codec.STRING.fieldOf("description").forGetter(l -> l.descriptionKey),
-                    Codec.list(Codec.STRING).fieldOf("effects").forGetter(l -> l.effects.stream().map(ResourceLocation::toString).collect(Collectors.toList()))
+                    Codec.list(EffectRef.EFFECTREF_CODEC).fieldOf("effects").forGetter(l -> l.effects)
             ).apply(instance, TrinketDescription::create));
 
-    private static TrinketDescription create(String item, String nameKey, String descriptionKey, List<String> effects) {
-        return new TrinketDescription(new ResourceLocation(item), nameKey, descriptionKey,
-                effects.stream().map(ResourceLocation::new).collect(Collectors.toList()));
+    private static TrinketDescription create(String item, String nameKey, String descriptionKey, List<EffectRef> effects) {
+        return new TrinketDescription(new ResourceLocation(item), nameKey, descriptionKey, effects);
     }
 
     public TrinketInstance build(ResourceLocation id, ServerLevel level) {
         List<EffectInstance> effectInstances = new ArrayList<>();
-        for (ResourceLocation effectId : effects) {
-            EffectDescription effectDescription = level.registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effectId);
+        for (EffectRef effectRef : effects) {
+            EffectDescription effectDescription = level.registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effectRef.effect());
             if (effectDescription == null) {
-                throw new RuntimeException("Can't find effect '" + effectId.toString() + "'!");
+                throw new RuntimeException("Can't find effect '" + effectRef.effect().toString() + "'!");
             }
             IEffect effect = effectDescription.build();
-            effectInstances.add(new EffectInstance(effectId, effect));
+            effectInstances.add(new EffectInstance(effectRef.effect(), effectRef.hidden, effect));
         }
         return new TrinketInstance(id, nameKey, descriptionKey, effectInstances);
     }

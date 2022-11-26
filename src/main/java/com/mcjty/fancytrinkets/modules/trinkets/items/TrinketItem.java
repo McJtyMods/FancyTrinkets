@@ -30,7 +30,6 @@ import java.util.function.Consumer;
 public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem {
 
     public static final String MESSAGE_FANCYTRINKETS_SHIFTMESSAGE = "message.fancytrinkets.shiftmessage";
-    public static final String MESSAGE_EFFECT_HEADER = "effect.fancytrinkets.header";
 
     private final Map<ResourceLocation, TrinketInstance> trinkets = new HashMap<>();
 
@@ -101,26 +100,26 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
                 list.add(ComponentFactory.translatable(instance.descriptionKey()));
                 for (EffectInstance effectInstance : instance.effects()) {
                     IEffect effect  = effectInstance.effect();
-                    MutableComponent translatable = ComponentFactory.translatable("effect." + effectInstance.id().getNamespace() + "." + effectInstance.id().getPath());
-                    String toggle = effect.getToggle();
-                    ChatFormatting color = ChatFormatting.WHITE;
-                    ChatFormatting headerColor = ChatFormatting.AQUA;
-                    if (toggle != null) {
-                        if (!toggles.contains(toggle)) {
-                            color = ChatFormatting.GRAY;
-                            headerColor = ChatFormatting.GRAY;
+                    if (!effectInstance.hidden()) {
+                        MutableComponent translatable = ComponentFactory.translatable("effect." + effectInstance.id().getNamespace() + "." + effectInstance.id().getPath());
+                        String toggle = effect.getToggle();
+                        ChatFormatting color = ChatFormatting.BLUE;
+                        ChatFormatting style = ChatFormatting.BLUE;
+                        if (toggle != null) {
+                            if (!toggles.contains(toggle)) {
+                                color = ChatFormatting.GRAY;
+                                style  = ChatFormatting.STRIKETHROUGH;
+                            }
                         }
-                    }
 
-                    Integer hotkey = effect.getHotkey();
-                    if (hotkey != null) {
-                        Component key = KeyBindings.toggles[hotkey - 1].getKey().getDisplayName();
-                        Component key2 = ComponentFactory.literal(" [Key ").withStyle(ChatFormatting.YELLOW).append(key).append("]");
-                        list.add(ComponentFactory.translatable(MESSAGE_EFFECT_HEADER).withStyle(headerColor)
-                                .append(translatable.withStyle(color)).append(key2));
-                    } else {
-                        list.add(ComponentFactory.translatable(MESSAGE_EFFECT_HEADER).withStyle(headerColor)
-                                .append(translatable.withStyle(color)));
+                        Integer hotkey = effect.getHotkey();
+                        if (hotkey != null) {
+                            Component key = KeyBindings.toggles[hotkey - 1].getKey().getDisplayName();
+                            Component key2 = ComponentFactory.literal(" [Key ").withStyle(ChatFormatting.YELLOW).append(key).append("]");
+                            list.add(ComponentFactory.literal("    ").append(translatable.withStyle(color).withStyle(style).append(key2)));
+                        } else {
+                            list.add(ComponentFactory.literal("    ").append(translatable.withStyle(color).withStyle(style)));
+                        }
                     }
                 }
             }

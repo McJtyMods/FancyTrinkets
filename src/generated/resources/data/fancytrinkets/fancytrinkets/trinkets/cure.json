@@ -1,7 +1,10 @@
 {
   "description": "trinket.fancytrinkets.cure.description",
   "effects": [
-    "fancytrinkets:cure"
+    {
+      "hidden": false,
+      "id": "fancytrinkets:cure"
+    }
   ],
   "item": "fancytrinkets:heart",
   "name": "trinket.fancytrinkets.cure.name"

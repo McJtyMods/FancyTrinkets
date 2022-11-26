@@ -20,7 +20,6 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
     @Override
     protected void addTranslations() {
         add("itemGroup.fancytrinkets", "Fancy Trinkets");
-        add(TrinketItem.MESSAGE_EFFECT_HEADER, "  Effect: ");
         add(TrinketItem.MESSAGE_FANCYTRINKETS_SHIFTMESSAGE, "<Press Shift>");
         add(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_1, "Fancy Trinkets Toggle 1");
         add(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_2, "Fancy Trinkets Toggle 2");

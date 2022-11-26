@@ -1,10 +1,22 @@
 {
   "description": "trinket.fancytrinkets.swift_star.description",
   "effects": [
-    "fancytrinkets:movement_speed",
-    "fancytrinkets:knockback_resistance",
-    "fancytrinkets:swim_speed",
-    "fancytrinkets:step_assist"
+    {
+      "hidden": false,
+      "id": "fancytrinkets:movement_speed"
+    },
+    {
+      "hidden": false,
+      "id": "fancytrinkets:knockback_resistance"
+    },
+    {
+      "hidden": false,
+      "id": "fancytrinkets:swim_speed"
+    },
+    {
+      "hidden": false,
+      "id": "fancytrinkets:step_assist"
+    }
   ],
   "item": "fancytrinkets:star",
   "name": "trinket.fancytrinkets.swift_star.name"

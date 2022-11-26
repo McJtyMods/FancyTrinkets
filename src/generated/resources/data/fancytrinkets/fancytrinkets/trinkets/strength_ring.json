@@ -1,7 +1,10 @@
 {
   "description": "trinket.fancytrinkets.strength_ring.description",
   "effects": [
-    "fancytrinkets:strength"
+    {
+      "hidden": false,
+      "id": "fancytrinkets:strength"
+    }
   ],
   "item": "fancytrinkets:gold_ring",
   "name": "trinket.fancytrinkets.strength_ring.name"
