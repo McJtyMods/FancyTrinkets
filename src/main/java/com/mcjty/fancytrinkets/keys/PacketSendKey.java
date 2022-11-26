@@ -6,6 +6,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.function.Supplier;
 
@@ -28,16 +30,15 @@ public class PacketSendKey {
     public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context ctx = supplier.get();
         ctx.enqueueWork(() -> {
-            CuriosApi.getCuriosHelper().getEquippedCurios(ctx.getSender()).ifPresent(handler -> {
-                for (int i = 0 ; i < handler.getSlots() ; i++) {
-                    ItemStack stack = handler.getStackInSlot(i);
-                    if (stack.getItem() instanceof TrinketItem trinketItem) {
-                        trinketItem.forAllEffects(stack, iEffect -> {
-                            iEffect.onHotkey(stack, ctx.getSender(), );
-                        });
-                    }
+            for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(ctx.getSender(), stack -> stack.getItem() instanceof TrinketItem)) {
+                ItemStack stack = slot.stack();
+                if (stack.getItem() instanceof ITrinketItem trinketItem) {
+                    trinketItem.forAllEffects(stack, iEffect -> {
+                        SlotContext context = slot.slotContext();
+                        iEffect.onHotkey(stack, ctx.getSender(), context.identifier() + context.index(), key);
+                    });
                 }
-            });
+            }
         });
         ctx.setPacketHandled(true);
     }

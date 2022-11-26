@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "fall",
+    "factor": 0.5
+  }
+}

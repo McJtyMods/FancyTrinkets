@@ -2,6 +2,7 @@ package com.mcjty.fancytrinkets.modules.trinkets.items;
 
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -35,17 +36,23 @@ public class CuriosCapabilityProvider implements ICapabilityProvider {
 
             @Override
             public void curioTick(SlotContext slotContext) {
-                trinketItem.forAllEffects(itemStack, effect -> effect.tick(itemStack, slotContext.entity(), slotContext.identifier()+slotContext.index()));
+                if (slotContext.entity() instanceof ServerPlayer player) {
+                    trinketItem.forAllEffects(itemStack, effect -> effect.tick(itemStack, player, slotContext.identifier()+slotContext.index()));
+                }
             }
 
             @Override
             public void onEquip(SlotContext slotContext, ItemStack prevStack) {
-                trinketItem.forAllEffects(itemStack, effect -> effect.onEquip(itemStack, slotContext.entity(), slotContext.identifier()+slotContext.index()));
+                if (slotContext.entity() instanceof ServerPlayer player) {
+                    trinketItem.forAllEffects(itemStack, effect -> effect.onEquip(itemStack, player, slotContext.identifier() + slotContext.index()));
+                }
             }
 
             @Override
             public void onUnequip(SlotContext slotContext, ItemStack newStack) {
-                trinketItem.forAllEffects(itemStack, effect -> effect.onUnequip(itemStack, slotContext.entity(), slotContext.identifier()+slotContext.index()));
+                if (slotContext.entity() instanceof ServerPlayer player) {
+                    trinketItem.forAllEffects(itemStack, effect -> effect.onUnequip(itemStack, player, slotContext.identifier() + slotContext.index()));
+                }
             }
         };
     }

@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "fallingBlock",
+    "factor": 0.5
+  }
+}

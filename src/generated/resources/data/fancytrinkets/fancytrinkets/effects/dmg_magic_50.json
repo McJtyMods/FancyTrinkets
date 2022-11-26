@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "magic",
+    "factor": 0.5
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "inWall",
+    "factor": 0.0
+  }
+}

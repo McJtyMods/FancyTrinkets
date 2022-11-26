@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "anvil",
+    "factor": 0.0
+  }
+}

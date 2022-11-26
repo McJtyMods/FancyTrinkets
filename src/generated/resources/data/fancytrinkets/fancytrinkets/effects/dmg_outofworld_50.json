@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "outOfWorld",
+    "factor": 0.5
+  }
+}

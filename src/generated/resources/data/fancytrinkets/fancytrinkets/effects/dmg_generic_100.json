@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "generic",
+    "factor": 0.0
+  }
+}

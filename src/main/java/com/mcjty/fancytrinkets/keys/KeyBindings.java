@@ -25,6 +25,8 @@ public class KeyBindings {
     public static KeyMapping toggle7;
     public static KeyMapping toggle8;
 
+    public static KeyMapping[] toggles;
+
     public static void init() {
         toggle1 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_1, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
         toggle2 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_2, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
@@ -34,5 +36,6 @@ public class KeyBindings {
         toggle6 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_6, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
         toggle7 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_7, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
         toggle8 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_8, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
+        toggles = new KeyMapping[] { toggle1, toggle2, toggle3, toggle4, toggle5, toggle6, toggle7, toggle8 };
     }
 }

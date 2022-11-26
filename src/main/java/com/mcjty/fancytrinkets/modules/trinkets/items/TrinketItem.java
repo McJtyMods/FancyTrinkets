@@ -2,6 +2,7 @@ package com.mcjty.fancytrinkets.modules.trinkets.items;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
+import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.trinkets.ITrinketItem;
@@ -23,9 +24,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem {
@@ -34,6 +33,9 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
     public static final String MESSAGE_EFFECT_HEADER = "effect.fancytrinkets.header";
 
     private final Map<ResourceLocation, TrinketInstance> trinkets = new HashMap<>();
+
+    // Synced from server, all active toggles
+    public static Set<String> toggles = new HashSet<>();
 
     public TrinketItem() {
         super(new Properties()
@@ -71,6 +73,7 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
         trinkets.put(id, description.build(id, level));
     }
 
+    @Override
     public void forAllEffects(ItemStack stack, Consumer<IEffect> consumer) {
         ResourceLocation trinketId = getTrinketId(stack);
         if (trinketId != null) {
@@ -99,9 +102,26 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
                 for (EffectInstance effectInstance : instance.effects()) {
                     IEffect effect  = effectInstance.effect();
                     MutableComponent translatable = ComponentFactory.translatable("effect." + effectInstance.id().getNamespace() + "." + effectInstance.id().getPath());
+                    String toggle = effect.getToggle();
+                    ChatFormatting color = ChatFormatting.WHITE;
+                    ChatFormatting headerColor = ChatFormatting.AQUA;
+                    if (toggle != null) {
+                        if (!toggles.contains(toggle)) {
+                            color = ChatFormatting.GRAY;
+                            headerColor = ChatFormatting.GRAY;
+                        }
+                    }
 
-                    list.add(ComponentFactory.translatable(MESSAGE_EFFECT_HEADER).withStyle(ChatFormatting.AQUA)
-                            .append(translatable.withStyle(ChatFormatting.WHITE)));
+                    Integer hotkey = effect.getHotkey();
+                    if (hotkey != null) {
+                        Component key = KeyBindings.toggles[hotkey - 1].getKey().getDisplayName();
+                        Component key2 = ComponentFactory.literal(" [Key ").withStyle(ChatFormatting.YELLOW).append(key).append("]");
+                        list.add(ComponentFactory.translatable(MESSAGE_EFFECT_HEADER).withStyle(headerColor)
+                                .append(translatable.withStyle(color)).append(key2));
+                    } else {
+                        list.add(ComponentFactory.translatable(MESSAGE_EFFECT_HEADER).withStyle(headerColor)
+                                .append(translatable.withStyle(color)));
+                    }
                 }
             }
         }

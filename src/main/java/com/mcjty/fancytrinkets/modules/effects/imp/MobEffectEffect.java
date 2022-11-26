@@ -2,23 +2,21 @@ package com.mcjty.fancytrinkets.modules.effects.imp;
 
 import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
-import com.mcjty.fancytrinkets.modules.effects.IEffect;
+import com.mcjty.fancytrinkets.modules.effects.DefaultEffect;
 import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-public class MobEffectEffect implements IEffect {
+import java.util.Objects;
+
+public class MobEffectEffect extends DefaultEffect {
 
     private final MobEffect effect;
     private final int strengthModifier;
-    private final Integer hotkey;
-    private final String toggle;
 
     public static record Params(String effect, int strength) implements IEffectParameters {
         @Override
@@ -41,42 +39,32 @@ public class MobEffectEffect implements IEffect {
             ).apply(instance, Params::new));
 
     public MobEffectEffect(Integer hotkey, String toggle, MobEffect effect, int strengthModifier) {
-        this.hotkey = hotkey;
-        this.toggle =toggle;
+        super(hotkey, toggle);
         this.effect = effect;
         this.strengthModifier = strengthModifier;
     }
 
     @Override
-    public void tick(ItemStack stack, Entity entity, String slotId) {
-        if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-                if (toggle != null) {
-                    if (!playerEffects.isToggleOn(toggle)) {
-                        return;
-                    }
+    public void tick(ItemStack stack, ServerPlayer player, String slotId) {
+        executeIfEnabled(player, playerEffects -> {
+            long gameTime = player.level.getGameTime();
+            playerEffects.registerEffect(slotId, this, gameTime + 4*20);
+        });
+    }
+
+    @Override
+    public void onHotkey(ItemStack stack, ServerPlayer player, String slotId, int key) {
+        if (toggle != null && Objects.equals(key, hotkey)) {
+            player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
+                if (!playerEffects.toggle(player, toggle)) {
+                    playerEffects.unregisterEffect(slotId);
                 }
-                long gameTime = livingEntity.level.getGameTime();
-                playerEffects.registerEffect(slotId, this, gameTime + 4*20);
             });
         }
     }
 
     @Override
-    public void onHotkey(ItemStack stack, Entity entity, String slotId, int key) {
-        if (toggle != null) {
-            if (entity instanceof LivingEntity livingEntity) {
-                livingEntity.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-                    if (!playerEffects.toggle(toggle)) {
-                        playerEffects.unregisterEffect(slotId);
-                    }
-                });
-            }
-        }
-    }
-
-    @Override
     public void perform(ServerPlayer player, int strength) {
-        player.addEffect(new MobEffectInstance(effect, 20*2, strengthModifier + strength-1));
+        player.addEffect(new MobEffectInstance(effect, 20*4, strengthModifier + strength-1));
     }
 }

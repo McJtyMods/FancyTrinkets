@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "stalagmite",
+    "factor": 0.25
+  }
+}

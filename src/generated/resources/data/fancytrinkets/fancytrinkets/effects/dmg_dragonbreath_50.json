@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "dragonBreath",
+    "factor": 0.5
+  }
+}

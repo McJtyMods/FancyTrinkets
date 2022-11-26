@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "cramming",
+    "factor": 0.5
+  }
+}

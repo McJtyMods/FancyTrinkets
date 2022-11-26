@@ -1,0 +1,8 @@
+{
+  "description": "trinket.fancytrinkets.lightness_ring.description",
+  "effects": [
+    "fancytrinkets:dmg_fall_75"
+  ],
+  "item": "fancytrinkets:gold_ring_diamond",
+  "name": "trinket.fancytrinkets.lightness_ring.name"
+}

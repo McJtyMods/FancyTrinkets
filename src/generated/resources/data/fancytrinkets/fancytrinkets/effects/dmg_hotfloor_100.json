@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "hotFloor",
+    "factor": 0.0
+  }
+}

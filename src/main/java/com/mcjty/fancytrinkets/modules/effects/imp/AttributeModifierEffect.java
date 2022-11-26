@@ -2,27 +2,23 @@ package com.mcjty.fancytrinkets.modules.effects.imp;
 
 import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
-import com.mcjty.fancytrinkets.modules.effects.IEffect;
+import com.mcjty.fancytrinkets.modules.effects.DefaultEffect;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public class AttributeModifierEffect implements IEffect {
+public class AttributeModifierEffect extends DefaultEffect {
 
     private final UUID uuid;
     private final AttributeModifier modifier;
     private final Supplier<Attribute> attribute;
-    private final Integer hotkey;
-    private final String toggle;
 
     public static record Params(String effect, AttributeModifier.Operation operation, Double amount) implements IEffectParameters {
         @Override
@@ -47,33 +43,31 @@ public class AttributeModifierEffect implements IEffect {
 
 
     public AttributeModifierEffect(Integer hotkey, String toggle, String name, Supplier<Attribute> attibute, AttributeModifier.Operation operation, double amount) {
-        this.hotkey = hotkey;
-        this.toggle = toggle;
+        super(hotkey, toggle);
         this.attribute = attibute;
         this.uuid = UUID.randomUUID();
         modifier = new AttributeModifier(uuid, name, amount, operation);
     }
 
     @Override
-    public void tick(ItemStack stack, Entity entity, String slotId) {
-        if (entity instanceof ServerPlayer serverPlayer) {
-            if (!serverPlayer.isCreative()) {
-                AttributeInstance instance = serverPlayer.getAttribute(attribute.get());
+    public void tick(ItemStack stack, ServerPlayer player, String slotId) {
+        if (!player.isCreative()) {
+            executeIfEnabled(player, () -> {
+                AttributeInstance instance = player.getAttribute(attribute.get());
                 if (instance != null && instance.getModifier(uuid) == null) {
-                    instance.addPermanentModifier(modifier);
+                    instance.addTransientModifier(modifier);
                 }
-            }
+            });
         }
     }
 
+
     @Override
-    public void onUnequip(ItemStack stack, Entity entity, String slotId) {
-        if (entity instanceof ServerPlayer serverPlayer) {
-            if (!serverPlayer.isCreative()) {
-                AttributeInstance instance = serverPlayer.getAttribute(attribute.get());
-                if (instance != null) {
-                    instance.removePermanentModifier(uuid);
-                }
+    protected void turnOff(ServerPlayer player) {
+        if (!player.isCreative()) {
+            AttributeInstance instance = player.getAttribute(attribute.get());
+            if (instance != null) {
+                instance.removeModifier(uuid);
             }
         }
     }

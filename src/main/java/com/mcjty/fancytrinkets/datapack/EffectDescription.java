@@ -1,9 +1,7 @@
 package com.mcjty.fancytrinkets.datapack;
 
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
-import com.mcjty.fancytrinkets.modules.effects.imp.AttributeModifierEffect;
-import com.mcjty.fancytrinkets.modules.effects.imp.FlightEffect;
-import com.mcjty.fancytrinkets.modules.effects.imp.MobEffectEffect;
+import com.mcjty.fancytrinkets.modules.effects.imp.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceLocation;
@@ -41,7 +39,10 @@ public record EffectDescription(Integer hotkey, String toggle, IEffectParameters
 
     public enum EffectType {
         MOBEFFECT(() -> MobEffectEffect.CODEC),
+        POTIONRESISTANCE(() -> PotionResistanceEffect.CODEC),
+        DAMAGEREDUCTION(() -> DamageReductionEffect.CODEC),
         FLIGHT(() -> FlightEffect.CODEC),
+        CURE(() -> CureEffect.CODEC),
         ATTRIBUTE(() -> AttributeModifierEffect.CODEC)
         ;
         private final Supplier<Codec<IEffectParameters>> codecSupplier;
@@ -58,7 +59,10 @@ public record EffectDescription(Integer hotkey, String toggle, IEffectParameters
     public IEffect build() {
         return switch (params.getType()) {
             case MOBEFFECT -> getMobEffectEffect();
+            case POTIONRESISTANCE -> getPotionResistanceEffect();
+            case DAMAGEREDUCTION -> getDamageReductionEffect();
             case FLIGHT -> new FlightEffect(hotkey, toggle);
+            case CURE -> new CureEffect(hotkey, toggle);
             case ATTRIBUTE -> getAttributeEffect();
         };
     }
@@ -92,6 +96,25 @@ public record EffectDescription(Integer hotkey, String toggle, IEffectParameters
             throw new RuntimeException("Can't find effect '" + effName + "'!");
         }
         return new MobEffectEffect(hotkey, toggle, effect, p.strength() - 1);
+    }
+
+    @NotNull
+    private PotionResistanceEffect getPotionResistanceEffect() {
+        PotionResistanceEffect.Params p = PotionResistanceEffect.Params.cast(params);
+        String effName = p.effect();
+        MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(effName));
+        if (effect == null) {
+            throw new RuntimeException("Can't find effect '" + effName + "'!");
+        }
+        return new PotionResistanceEffect(hotkey, toggle, effect);
+    }
+
+    @NotNull
+    private DamageReductionEffect getDamageReductionEffect() {
+        DamageReductionEffect.Params p = DamageReductionEffect.Params.cast(params);
+        String dmgId = p.dmgId();
+        float factor = p.factor();
+        return new DamageReductionEffect(hotkey, toggle, dmgId, factor);
     }
 
 }

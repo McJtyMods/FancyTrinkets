@@ -2,6 +2,7 @@ package com.mcjty.fancytrinkets.setup;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.keys.PacketSendKey;
+import com.mcjty.fancytrinkets.playerdata.PacketSyncPlayerEffects;
 import mcjty.lib.network.PacketHandler;
 import mcjty.lib.network.PacketSendClientCommand;
 import mcjty.lib.network.PacketSendServerCommand;
@@ -37,6 +38,11 @@ public class Messages {
                 .encoder(PacketSendKey::toBytes)
                 .decoder(PacketSendKey::new)
                 .consumer(PacketSendKey::handle)
+                .add();
+        net.messageBuilder(PacketSyncPlayerEffects.class, id())
+                .encoder(PacketSyncPlayerEffects::toBytes)
+                .decoder(PacketSyncPlayerEffects::new)
+                .consumer(PacketSyncPlayerEffects::handle)
                 .add();
 
         PacketHandler.registerStandardMessages(id(), net);

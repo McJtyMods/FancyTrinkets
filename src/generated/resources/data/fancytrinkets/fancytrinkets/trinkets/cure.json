@@ -1,0 +1,8 @@
+{
+  "description": "trinket.fancytrinkets.cure.description",
+  "effects": [
+    "fancytrinkets:cure"
+  ],
+  "item": "fancytrinkets:heart",
+  "name": "trinket.fancytrinkets.cure.name"
+}

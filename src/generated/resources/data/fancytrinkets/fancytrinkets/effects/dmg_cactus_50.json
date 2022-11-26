@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "cactus",
+    "factor": 0.5
+  }
+}

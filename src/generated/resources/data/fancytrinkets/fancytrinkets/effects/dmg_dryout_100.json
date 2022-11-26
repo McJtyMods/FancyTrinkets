@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "dryout",
+    "factor": 0.0
+  }
+}

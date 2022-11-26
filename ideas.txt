@@ -13,10 +13,10 @@ Effects:
   x Strength
   x Haste
   x Night vision
-  - Night vision with hotkey
+  x Night vision with hotkey
   x Invisibility
-  - Negate all negative effects
-  - Poison resistance
+  x Negate all negative effects
+  x Poison resistance
   x Fire resistance
   - Decrease hunger
   x Speed
@@ -27,13 +27,13 @@ Effects:
   x Increased Jump height
   x Attack damage
   - Armor
-  - Damage reduction
+  x Damage reduction
   - Critical hits
   - Undieing
   - Sneak
   x Luck
   x Health
-  - Feather falling
+  x Feather falling
   - Warp (using a hotkey, the ability to warp to the spot you are looking at)
   - Merge into the Shadows (using a hotkey, the ability to temporarily completely hide you, but you can't interact with anything either)
   - Leap (using a hotkey, do a big jump)

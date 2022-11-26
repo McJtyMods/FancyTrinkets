@@ -76,6 +76,8 @@ public class TrinketsModule implements IModule {
         register("nightvision_ring", trinket("nightvision_ring", "gold_ring", "night_vision_hotkey"), "Night Vision", "Using a hotkey you can see clearly in the dark");
         register("stepassist_ring", trinket("stepassist_ring", "gold_ring", "step_assist"), "Step Assist Ring", "You can move around much easier now");
         register("super_health", trinket("super_health", "heart_body", "regeneration", "max_health"), "Heart of Health", "You feel so much more healthy now");
+        register("cure", trinket("cure", "heart", "cure"), "Heart of Curing", "Negative effects can't harm you");
+        register("lightness_ring", trinket("lightness_ring", "gold_ring_diamond", "dmg_fall_75"), "Ring of Lightness", "Reduce 75% of fall damage");
     }
 
     @Override

@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "inFire",
+    "factor": 0.0
+  }
+}

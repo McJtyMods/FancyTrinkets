@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "flyIntoWall",
+    "factor": 0.25
+  }
+}

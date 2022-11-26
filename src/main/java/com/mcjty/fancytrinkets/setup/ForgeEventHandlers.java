@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,7 +17,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class ForgeEventHandlers {
 
     @SubscribeEvent
-    public void onPlayerInteract(PlayerInteractEvent.RightClickBlock event) {
+    public void onLivingDamageEvent(LivingDamageEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
+                String msgId = event.getSource().msgId;
+                float reduction = playerEffects.getDamageReduction(msgId);
+                event.setAmount(event.getAmount() * reduction);
+            });
+        }
     }
 
     @SubscribeEvent
