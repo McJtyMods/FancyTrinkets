@@ -8,33 +8,17 @@ import net.minecraftforge.fml.config.ModConfig;
 
 public class Config {
 
-    public static final Builder CLIENT_BUILDER = new Builder();
-
-    public static ForgeConfigSpec CLIENT_CONFIG;
-
-    public static ForgeConfigSpec.IntValue ICONS;
-    public static ForgeConfigSpec.IntValue ICON_SIZE;
-    public static ForgeConfigSpec.IntValue HORIZONTAL_ICONS;
-    public static ForgeConfigSpec.IntValue VERTICAL_ICONS;
+    public static ForgeConfigSpec.IntValue MAXEXPERIENCE;
 
     public static void register() {
-        CLIENT_BUILDER.comment("General settings").push("general");
+        Builder builder = new Builder();
 
-        ICONS = CLIENT_BUILDER
-                .comment("Number of icons on the icon sheet (not including the empty icon at 0,0)")
-                .defineInRange("icons", 28, 1, 1024);
-        ICON_SIZE = CLIENT_BUILDER
-                .comment("Size of an individual icon")
-                .defineInRange("iconSize", 32, 2, 512);
-        HORIZONTAL_ICONS = CLIENT_BUILDER
-                .comment("Horizontal numbers of icons on the signs.png icon sheet")
-                .defineInRange("horizontalIcons", 8, 1, 128);
-        VERTICAL_ICONS = CLIENT_BUILDER
-                .comment("Vertical numbers of icons on the signs.png icon sheet")
-                .defineInRange("verticalIcons", 8, 1, 128);
+        builder.comment("General settings").push("general");
 
-        CLIENT_CONFIG = CLIENT_BUILDER.build();
+        MAXEXPERIENCE = builder
+                .comment("Maximum XP that can be stored in the Experience Crafter")
+                .defineInRange("maxexperience", 5345, 1, Integer.MAX_VALUE);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, builder.build());
     }
 }

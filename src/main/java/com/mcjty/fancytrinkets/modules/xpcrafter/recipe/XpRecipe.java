@@ -1,57 +1,27 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.recipe;
 
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
+import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.common.crafting.IShapedRecipe;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 
-public class XpRecipe implements IShapedRecipe<Container> {
+public class XpRecipe extends ShapedRecipe {
 
-    private final ResourceLocation id;
+    public static final int RECIPE_DIMENSION = 5;
 
-    public XpRecipe(ResourceLocation id) {
-        this.id = id;
+    public XpRecipe(ShapedRecipe recipe) {
+        this(recipe.getId(), recipe.getGroup(), recipe.getWidth(), recipe.getHeight(), recipe.getIngredients(), recipe.getResultItem());
     }
 
-    @Override
-    public int getRecipeWidth() {
-        return 5;
+    public XpRecipe(ResourceLocation id, String group, int w, int h, NonNullList<Ingredient> recipeItems, ItemStack result) {
+        super(id, group, w, h, recipeItems, result);
     }
 
-    @Override
-    public int getRecipeHeight() {
-        return 5;
-    }
 
-    @Override
-    public boolean matches(Container pContainer, Level pLevel) {
-        return false;
-    }
-
-    @Override
-    public ItemStack assemble(Container pContainer) {
-        return null;
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int w, int h) {
-        return w >= 5 && h >= 5;
-    }
-
-    @Override
-    public ItemStack getResultItem() {
-        return null;
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return id;
-    }
 
     @Override
     public RecipeSerializer<?> getSerializer() {

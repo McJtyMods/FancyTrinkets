@@ -1,5 +1,6 @@
 package com.mcjty.fancytrinkets.datagen;
 
+import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.datagen.BaseItemModelProvider;
 import net.minecraft.data.DataGenerator;
@@ -22,6 +23,7 @@ public class Items extends BaseItemModelProvider {
             Registration.TrinketInfo trinket = entry.getValue();
             itemGenerated(trinket.item().get(), trinket.texture());
         }
+        parentedBlock(XpCrafterModule.EXPERIENCE_CRAFTER.get(), "block/experience_crafter");
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.setup.Registration;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -30,6 +31,8 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_7, "Fancy Trinkets Toggle 7");
         add(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_8, "Fancy Trinkets Toggle 8");
         add(KeyBindings.KEY_CATEGORIES_FANCYTRINKETS, "Fancy Trinkets");
+
+        add("block." + XpCrafterModule.EXPERIENCE_CRAFTER.getId().getNamespace() + "." + XpCrafterModule.EXPERIENCE_CRAFTER.getId().getPath(), "Experience Crafter");
 
         for (Registration.TrinketInfo info : Registration.TRINKET_ITEMS.values()) {
             add("item." + info.id().getNamespace() + "." + info.id().getPath(), info.description());

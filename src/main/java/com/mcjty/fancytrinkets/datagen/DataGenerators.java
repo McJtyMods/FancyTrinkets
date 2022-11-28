@@ -13,6 +13,7 @@ public class DataGenerators {
         DataGenerator generator = event.getGenerator();
         generator.addProvider(event.includeClient(), new Items(generator, event.getExistingFileHelper()));
         generator.addProvider(event.includeClient(), new LanguageProvider(generator, "en_us"));
+        generator.addProvider(event.includeClient(), new BlockStates(generator, event.getExistingFileHelper()));
         BlockTags blockTags = new BlockTags(generator, event.getExistingFileHelper());
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new ItemTags(generator, blockTags, event.getExistingFileHelper()));

@@ -27,6 +27,6 @@ public class XpRecipeSerializer implements RecipeSerializer<XpRecipe> {
 
     @Override
     public void toNetwork(@Nonnull FriendlyByteBuf buffer, XpRecipe recipe) {
-        serializer.toNetwork(buffer, recipe.getRecipe());
+        serializer.toNetwork(buffer, recipe);
     }
 }

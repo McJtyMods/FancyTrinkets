@@ -1,6 +1,7 @@
 package com.mcjty.fancytrinkets.datagen;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import mcjty.lib.datagen.BaseBlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -15,6 +16,7 @@ public class BlockTags extends BaseBlockTagsProvider {
 
     @Override
     protected void addTags() {
+        ironPickaxe(XpCrafterModule.EXPERIENCE_CRAFTER);
     }
 
     @Override
