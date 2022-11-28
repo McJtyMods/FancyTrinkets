@@ -5,6 +5,7 @@ import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.keys.KeyInputHandler;
 import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
+import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.setup.ClientEventHandlers;
 import com.mcjty.fancytrinkets.setup.Config;
 import com.mcjty.fancytrinkets.setup.ModSetup;
@@ -50,6 +51,7 @@ public class FancyTrinkets {
     private void setupModules() {
         modules.register(new EffectsModule());
         modules.register(new TrinketsModule());
+        modules.register(new XpCrafterModule());
     }
 
     private void onInterModEnqueueEvent(InterModEnqueueEvent event) {
