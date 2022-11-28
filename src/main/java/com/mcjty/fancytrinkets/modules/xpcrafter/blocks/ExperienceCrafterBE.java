@@ -28,11 +28,13 @@ import static mcjty.lib.api.container.DefaultContainerProvider.container;
 public class ExperienceCrafterBE extends GenericTileEntity {
 
     public static final int SLOT_OUTPUT = 0;
-    public static final int SLOT_GRID = 1;
+    public static final int SLOT_PREVIEW = 1;
+    public static final int SLOT_GRID = 2;
 
     public static final Lazy<ContainerFactory> CONTAINER_FACTORY = Lazy.of(() -> new ContainerFactory(5*5+1)
-            .slot(SlotDefinition.generic().out(), SLOT_OUTPUT, 139, 26)
-            .box(SlotDefinition.generic().in(), SLOT_GRID, 10, 10, RECIPE_DIMENSION, RECIPE_DIMENSION)
+            .slot(SlotDefinition.generic().out(), SLOT_OUTPUT, 115, 27)
+            .slot(SlotDefinition.generic(), SLOT_PREVIEW, 151, 27)
+            .box(SlotDefinition.generic().in(), SLOT_GRID, 10, 11, RECIPE_DIMENSION, RECIPE_DIMENSION)
             .playerSlots(10, 110));
 
     @GuiValue

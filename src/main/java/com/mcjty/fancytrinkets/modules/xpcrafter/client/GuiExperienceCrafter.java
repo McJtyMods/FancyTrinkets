@@ -47,7 +47,10 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
                 .name("fillxp")
                 .tooltips("Collect XP of the player");
         xpbar = new EnergyBar().hint(105, 81, 65, 14)
-                .setEnergyOnColor(0x33ff88)
+                .setSpacerColor(0xffccffcc)
+                .setEnergyOnColor(0xff44dd99)
+                .setEnergyOffColor(0xffddeedd)
+                .setTextColor(0xff000000)
                 .maxValue(Config.MAXEXPERIENCE.get())
                 .horizontal();
 
