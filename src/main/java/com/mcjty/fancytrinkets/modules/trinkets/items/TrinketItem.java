@@ -7,6 +7,7 @@ import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.trinkets.ITrinketItem;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import mcjty.lib.tooltips.ITooltipSettings;
 import mcjty.lib.varia.ComponentFactory;
 import net.minecraft.ChatFormatting;
@@ -22,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -56,6 +58,25 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
     public static void toNBT(ItemStack stack, TrinketInstance trinket) {
         CompoundTag tag = stack.getOrCreateTag();
         tag.putString("id", trinket.id().toString());
+    }
+
+    public static ItemStack createTrinketStack(String id) {
+        return createTrinketStack(new ResourceLocation(FancyTrinkets.MODID, id));
+    }
+
+    public static ItemStack createTrinketStack(ResourceLocation id) {
+        TrinketsModule.TrinketInfo info = TrinketsModule.TRINKETS.get(id);
+        if (info == null) {
+            throw new RuntimeException("Cannot find trinket '" + id.toString() + "'!");
+        }
+        ResourceLocation itemId = info.trinketDescription().item();
+        Item item = ForgeRegistries.ITEMS.getValue(itemId);
+        if (item == null) {
+            throw new RuntimeException("Cannot find item for trinket '" + id.toString() + "'!");
+        }
+        ItemStack result = new ItemStack(item);
+        result.getOrCreateTag().putString("id", id.toString());
+        return result;
     }
 
     public static ResourceLocation getTrinketId(ItemStack stack) {

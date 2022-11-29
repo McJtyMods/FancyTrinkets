@@ -1,0 +1,27 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "S": {
+      "type": "forge:nbt",
+      "count": 1,
+      "item": "fancytrinkets:star",
+      "nbt": "{id:\"fancytrinkets:base_star\"}"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    " rrr ",
+    "r   r",
+    "r S r",
+    "r   r",
+    " rrr "
+  ],
+  "result": {
+    "item": "fancytrinkets:star",
+    "nbt": {
+      "id": "fancytrinkets:flight_star"
+    }
+  }
+}

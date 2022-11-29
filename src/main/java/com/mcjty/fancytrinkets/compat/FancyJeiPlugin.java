@@ -23,4 +23,6 @@ public class FancyJeiPlugin implements IModPlugin {
             registration.useNbtForSubtypes(info.item().get());
         }
     }
+
+
 }

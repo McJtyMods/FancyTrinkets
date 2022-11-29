@@ -5,17 +5,17 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
+import com.mojang.serialization.JsonOps;
 import mcjty.lib.crafting.IRecipeBuilder;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.RequirementsStrategy;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
@@ -27,20 +27,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static mcjty.lib.setup.Registration.COPYNBT_SERIALIZER;
-
 public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
 
-    private final Item result;
-    private final int count;
+    private final ItemStack result;
     private final List<String> pattern = Lists.newArrayList();
     private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
-    private final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
-    private String group;
 
-    public XpRecipeBuilder(ItemLike result, int count) {
-        this.result = result.asItem();
-        this.count = count;
+    public XpRecipeBuilder(ItemStack result) {
+        this.result = result.copy();
+    }
+
+    public static XpRecipeBuilder shapedRecipe(ItemStack result) {
+        return new XpRecipeBuilder(result);
     }
 
     @Override
@@ -77,31 +75,27 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
 
     @Override
     public XpRecipeBuilder setGroup(String groupIn) {
-        this.group = groupIn;
+        return this;
+    }
+
+    public XpRecipeBuilder unlockedBy(String name, CriterionTriggerInstance criterionIn) {
         return this;
     }
 
     @Override
     public void build(Consumer<FinishedRecipe> consumer) {
-        this.build(consumer, Registry.ITEM.getKey(this.result));
+        this.build(consumer, Registry.ITEM.getKey(this.result.getItem()));
     }
 
     @Override
     public void build(Consumer<FinishedRecipe> consumer, String save) {
-        ResourceLocation resourcelocation = Registry.ITEM.getKey(this.result);
-        if ((new ResourceLocation(save)).equals(resourcelocation)) {
-            throw new IllegalStateException("Shaped Recipe " + save + " should remove its 'save' argument");
-        } else {
-            this.build(consumer, new ResourceLocation(save));
-        }
+        this.build(consumer, new ResourceLocation(save));
     }
 
     @Override
     public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
         this.validate(id);
-        this.advancementBuilder.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe",
-                new RecipeUnlockedTrigger.TriggerInstance(EntityPredicate.Composite.ANY /* @todo 1.16, is this right? */, id)).rewards(AdvancementRewards.Builder.recipe(id)).requirements(RequirementsStrategy.OR);
-        consumer.accept(new Result(id, this.result, this.count, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + this.result.getItemCategory().getRecipeFolderName() + "/" + id.getPath())));
+        consumer.accept(new Result(id, this.result, this.pattern, this.key));
     }
 
     private void validate(ResourceLocation id) {
@@ -126,41 +120,26 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
                 throw new IllegalStateException("Ingredients are defined but not used in pattern for recipe " + id);
             } else if (this.pattern.size() == 1 && this.pattern.get(0).length() == 1) {
                 throw new IllegalStateException("Shaped recipe " + id + " only takes in a single item - should it be a shapeless recipe instead?");
-            } else if (this.advancementBuilder.getCriteria().isEmpty()) {
-                throw new IllegalStateException("No way of obtaining recipe " + id);
             }
         }
     }
 
     public static class Result implements FinishedRecipe {
         private final ResourceLocation id;
-        private final Item result;
-        private final int count;
-        private final String group;
+        private final ItemStack result;
         private final List<String> pattern;
         private final Map<Character, Ingredient> key;
-        private final Advancement.Builder advancementBuilder;
-        private final ResourceLocation advancementId;
 
-        public Result(ResourceLocation idIn, Item resultIn, int countIn, String groupIn, List<String> patternIn, Map<Character, Ingredient> keyIn, Advancement.Builder advancementBuilderIn, ResourceLocation advancementIdIn) {
-            this.id = idIn;
-            this.result = resultIn;
-            this.count = countIn;
-            this.group = groupIn;
-            this.pattern = patternIn;
-            this.key = keyIn;
-            this.advancementBuilder = advancementBuilderIn;
-            this.advancementId = advancementIdIn;
+        public Result(ResourceLocation id, ItemStack result, List<String> pattern, Map<Character, Ingredient> ingredients) {
+            this.id = id;
+            this.result = result;
+            this.pattern = pattern;
+            this.key = ingredients;
         }
 
         @Override
         public void serializeRecipeData(@Nonnull JsonObject json) {
-            if (!this.group.isEmpty()) {
-                json.addProperty("group", this.group);
-            }
-
             JsonArray jsonarray = new JsonArray();
-
             for(String s : this.pattern) {
                 jsonarray.add(s);
             }
@@ -173,47 +152,41 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
             }
 
             json.add("key", jsonobject);
-            JsonObject jsonobject1 = new JsonObject();
-            jsonobject1.addProperty("item", Registry.ITEM.getKey(this.result).toString());
-            if (this.count > 1) {
-                jsonobject1.addProperty("count", this.count);
+            JsonObject itemObject = new JsonObject();
+            itemObject.addProperty("item", Registry.ITEM.getKey(this.result.getItem()).toString());
+            if (this.result.getCount() > 1) {
+                itemObject.addProperty("count", this.result.getCount());
+            }
+            if (this.result.hasTag()) {
+                CompoundTag.CODEC.encodeStart(JsonOps.INSTANCE, this.result.getTag()).result().ifPresent(
+                        result -> itemObject.add("nbt", result)
+                );
             }
 
-            json.add("result", jsonobject1);
+            json.add("result", itemObject);
         }
-
         @Override
         @Nonnull
         public RecipeSerializer<?> getType() {
-            return COPYNBT_SERIALIZER.get();
+            return XpCrafterModule.XP_RECIPE_SERIALIZER.get();
         }
 
-        /**
-         * Gets the ID for the recipe.
-         */
         @Override
         @Nonnull
         public ResourceLocation getId() {
             return this.id;
         }
 
-        /**
-         * Gets the JSON for the advancement that unlocks this recipe. Null if there is no advancement.
-         */
         @Override
         @Nullable
         public JsonObject serializeAdvancement() {
-            return this.advancementBuilder.serializeToJson();
+            return null;
         }
 
-        /**
-         * Gets the ID for the advancement associated with this recipe. Should not be null if {@link #getAdvancementJson}
-         * is non-null.
-         */
         @Override
         @Nullable
         public ResourceLocation getAdvancementId() {
-            return this.advancementId;
+            return null;
         }
     }
 }

@@ -1,0 +1,24 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "S": {
+      "item": "minecraft:nether_star"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    " rrr ",
+    "r   r",
+    "r S r",
+    "r   r",
+    " rrr "
+  ],
+  "result": {
+    "item": "fancytrinkets:star",
+    "nbt": {
+      "id": "fancytrinkets:base_star"
+    }
+  }
+}

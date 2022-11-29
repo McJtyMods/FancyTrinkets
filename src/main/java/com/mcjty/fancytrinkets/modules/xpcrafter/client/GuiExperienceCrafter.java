@@ -27,6 +27,7 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
     private static final ResourceLocation BACKGROUND = new ResourceLocation(FancyTrinkets.MODID, "textures/gui/experience_crafter.png");
 
     private EnergyBar xpbar;
+    private Button craftButton;
 
     public GuiExperienceCrafter(ExperienceCrafterBE screenControllerTileEntity, GenericContainer container, Inventory inventory) {
         super(screenControllerTileEntity, container, inventory, XpCrafterModule.EXPERIENCE_CRAFTER.get().getManualEntry());
@@ -54,13 +55,18 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
                 .maxValue(Config.MAXEXPERIENCE.get())
                 .horizontal();
 
+        craftButton = button(105, 10, 65, 14, "Craft")
+                .name("craft")
+                .tooltips("Perform the craft");
+
         Panel toplevel = positional().background(BACKGROUND)
-                .children(takexpButton, xpbar);
+                .children(takexpButton, craftButton, xpbar);
         toplevel.bounds(leftPos, topPos, imageWidth, imageHeight);
 
         window = new Window(this, toplevel);
 
         window.action(Messages.INSTANCE, "fillxp", tileEntity, ExperienceCrafterBE.CMD_FILLXP);
+        window.action(Messages.INSTANCE, "craft", tileEntity, ExperienceCrafterBE.CMD_CRAFT);
     }
 
 
@@ -68,5 +74,6 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
     protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int x, int y) {
         drawWindow(matrixStack);
         xpbar.value(tileEntity.getExperience());
+        craftButton.enabled(!tileEntity.getPreviewOutput().isEmpty());
     }
 }
