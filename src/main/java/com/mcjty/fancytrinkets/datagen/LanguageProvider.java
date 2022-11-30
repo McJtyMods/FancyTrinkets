@@ -1,6 +1,7 @@
 package com.mcjty.fancytrinkets.datagen;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.compat.XpRecipeCategory;
 import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
@@ -31,6 +32,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_7, "Fancy Trinkets Toggle 7");
         add(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_8, "Fancy Trinkets Toggle 8");
         add(KeyBindings.KEY_CATEGORIES_FANCYTRINKETS, "Fancy Trinkets");
+        add(XpRecipeCategory.KEY_XP_RECIPE_CATEGORY, "Experience Crafter");
 
         add("block." + XpCrafterModule.EXPERIENCE_CRAFTER.getId().getNamespace() + "." + XpCrafterModule.EXPERIENCE_CRAFTER.getId().getPath(), "Experience Crafter");
 
