@@ -54,7 +54,7 @@ public class XpRecipe implements CraftingRecipe, IShapedRecipe<CraftingContainer
     @Override
     public ItemStack assemble(CraftingContainer pContainer) {
         if (matches(pContainer, null)) {
-            return result;
+            return result.copy();
         }
         return ItemStack.EMPTY;
     }

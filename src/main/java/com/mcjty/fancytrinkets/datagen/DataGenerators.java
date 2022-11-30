@@ -20,5 +20,6 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new Recipes(generator));
         generator.addProvider(event.includeServer(), new StandardEffects(generator));
         generator.addProvider(event.includeServer(), new StandardTrinkets(generator));
+        generator.addProvider(event.includeServer(), new StandardBonusTables(generator));
     }
 }

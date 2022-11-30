@@ -16,6 +16,52 @@ public class EffectsModule implements IModule {
 
     public EffectsModule() {
         EFFECTS.clear();
+
+        // Negative effects
+        register("weakness", mobEffect("minecraft:weakness", 1), "Weakness");
+        register("blindness", mobEffect("minecraft:blindness", 1), "Blindness");
+        register("slowness", mobEffect("minecraft:slowness", 1), "Slowness");
+        register("mining_fatigue", mobEffect("minecraft:mining_fatigue", 1), "Mining Fatigue");
+        register("nausea", mobEffect("minecraft:nausea", 1), "Nausea");
+        register("hunger", mobEffect("minecraft:hunger", 1), "Hunger");
+        register("poison", mobEffect("minecraft:poison", 1), "Poison");
+        register("wither", mobEffect("minecraft:wither", 1), "Wither");
+        register("bad_omen", mobEffect("minecraft:bad_omen", 1), "Bad Omen");
+
+        register("dmg_infire_debuff", damageReductionEffect("inFire", 1.25f), "In Fire Damage Weakness (+25%)");
+        register("dmg_lightningbolt_debuff", damageReductionEffect("lightningBolt", 1.25f), "Lightning Bolt Damage Weakness (+25%)");
+        register("dmg_onfire_debuff", damageReductionEffect("onFire", 1.25f), "On Fire Damage Weakness (+25%)");
+        register("dmg_lava_debuff", damageReductionEffect("lava", 1.25f), "Lava Damage Weakness (+25%)");
+        register("dmg_hotfloor_debuff", damageReductionEffect("hotFloor", 1.25f), "Hot Floor Damage Weakness (+25%)");
+        register("dmg_inwall_debuff", damageReductionEffect("inWall", 1.25f), "Suffocation Damage Weakness (+25%)");
+        register("dmg_cramming_debuff", damageReductionEffect("cramming", 1.25f), "Cramming Damage Weakness (+25%)");
+        register("dmg_drown_debuff", damageReductionEffect("drown", 1.25f), "Drowning Damage Weakness (+25%)");
+        register("dmg_starve_debuff", damageReductionEffect("starve", 1.25f), "Starving Damage Weakness (+25%)");
+        register("dmg_cactus_debuff", damageReductionEffect("cactus", 1.25f), "Cactus Damage Weakness (+25%)");
+        register("dmg_fall_debuff", damageReductionEffect("fall", 1.25f), "Fall Damage Weakness (+25%)");
+        register("dmg_flyintowall_debuff", damageReductionEffect("flyIntoWall", 1.25f), "Fly Into Wall Damage Weakness (+25%)");
+        register("dmg_outofworld_debuff", damageReductionEffect("outOfWorld", 1.25f), "Out Of World Damage Weakness (+25%)");
+        register("dmg_generic_debuff", damageReductionEffect("generic", 1.25f), "Generic Damage Weakness (+25%)");
+        register("dmg_magic_debuff", damageReductionEffect("magic", 1.25f), "Magic Damage Weakness (+25%)");
+        register("dmg_wither_debuff", damageReductionEffect("wither", 1.25f), "Wither Damage Weakness (+25%)");
+        register("dmg_anvil_debuff", damageReductionEffect("anvil", 1.25f), "Anvil Damage Weakness (+25%)");
+        register("dmg_fallingblock_debuff", damageReductionEffect("fallingBlock", 1.25f), "Falling Block Damage Weakness (+25%)");
+        register("dmg_dragonbreath_debuff", damageReductionEffect("dragonBreath", 1.25f), "Dragon Breath Damage Weakness (+25%)");
+        register("dmg_dryout_debuff", damageReductionEffect("dryout", 1.25f), "Dryout Damage Weakness (+25%)");
+        register("dmg_sweetberrybush_debuff", damageReductionEffect("sweetBerryBush", 1.25f), "Sweet Berry Bush Damage Weakness (+25%)");
+        register("dmg_freeze_debuff", damageReductionEffect("freeze", 1.25f), "Freeze Damage Weakness (+25%)");
+        register("dmg_fallingstalactite_debuff", damageReductionEffect("fallingStalactite", 1.25f), "Falling Stalactite Damage Weakness (+25%)");
+        register("dmg_stalagmite_debuff", damageReductionEffect("stalagmite", 1.25f), "Stalagmite Damage Weakness (+25%)");
+
+        register("swim_speed_debuff", attributeEffect("swim_speed_debuff", AttributeModifier.Operation.MULTIPLY_TOTAL, .9), "Swim Speed Reduction (-10%)");
+        register("attack_range_debuff", attributeEffect("attack_range_debuff", AttributeModifier.Operation.ADDITION, -.5), "Attack Range Reduction (-.5)");
+        register("reach_distance_debuff", attributeEffect("reach_distance_debuff", AttributeModifier.Operation.ADDITION, -.5), "Reach Distance Reduction (-.5)");
+        register("max_health_debuff", attributeEffect("max_health_debuff", AttributeModifier.Operation.ADDITION, -1), "Max Health Reduction (-1)");
+        register("movement_speed_debuff", attributeEffect("movement_speed_debuff", AttributeModifier.Operation.MULTIPLY_TOTAL, .9), "Movement Speed Reduction (-10%)");
+        register("attack_speed_debuff", attributeEffect("attack_speed_debuff", AttributeModifier.Operation.MULTIPLY_TOTAL, .8), "Attack Speed Reduction (-20%)");
+        register("attack_damage_debuff", attributeEffect("attack_damage_debuff", AttributeModifier.Operation.MULTIPLY_TOTAL, .75), "Attack Damage Reduction (-25%)");
+
+        // Positive effects
         register("regeneration", mobEffect("minecraft:regeneration", 1), "Regeneration");
         register("strength", mobEffect("minecraft:strength", 1), "Strength");
         register("absorption", mobEffect("minecraft:absorption", 1), "Absorption");

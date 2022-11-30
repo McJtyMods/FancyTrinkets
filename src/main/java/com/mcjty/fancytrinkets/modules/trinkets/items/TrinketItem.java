@@ -1,6 +1,8 @@
 package com.mcjty.fancytrinkets.modules.trinkets.items;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.datapack.CustomRegistries;
+import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
@@ -13,6 +15,9 @@ import mcjty.lib.varia.ComponentFactory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -28,10 +33,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem {
 
     public static final String MESSAGE_FANCYTRINKETS_SHIFTMESSAGE = "message.fancytrinkets.shiftmessage";
+    public static final String MESSAGE_FANCYTRINKETS_BONUS = "message.fancytrinkets.bonus";
 
     private final Map<ResourceLocation, TrinketInstance> trinkets = new HashMap<>();
 
@@ -58,6 +65,24 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
     public static void toNBT(ItemStack stack, TrinketInstance trinket) {
         CompoundTag tag = stack.getOrCreateTag();
         tag.putString("id", trinket.id().toString());
+    }
+
+    public static void addEffects(ItemStack stack, List<ResourceLocation> effects) {
+        CompoundTag tag = stack.getOrCreateTag();
+        ListTag list = new ListTag();
+        for (ResourceLocation location : effects) {
+            list.add(StringTag.valueOf(location.toString()));
+        }
+        tag.put("effects", list);
+    }
+
+    public static List<ResourceLocation> getEffects(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        if (tag != null) {
+            ListTag effects = tag.getList("effects", Tag.TAG_STRING);
+            return effects.stream().map(s -> new ResourceLocation(s.getAsString())).collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 
     public static ItemStack createTrinketStack(String id) {
@@ -140,6 +165,17 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
                             list.add(ComponentFactory.literal("    ").append(translatable.withStyle(color).withStyle(style).append(key2)));
                         } else {
                             list.add(ComponentFactory.literal("    ").append(translatable.withStyle(color).withStyle(style)));
+                        }
+                    }
+                }
+                List<ResourceLocation> effects = getEffects(stack);
+                if (!effects.isEmpty()) {
+                    list.add(ComponentFactory.translatable(MESSAGE_FANCYTRINKETS_BONUS));
+                    for (ResourceLocation effect : effects) {
+                        // @todo WIP
+                        EffectDescription description = world.registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effect);
+                        if (description != null) {
+                            list.add(ComponentFactory.literal("    ").append(description.))
                         }
                     }
                 }

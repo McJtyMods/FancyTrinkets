@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "mobeffect",
+    "effect": "minecraft:poison",
+    "strength": 1
+  }
+}

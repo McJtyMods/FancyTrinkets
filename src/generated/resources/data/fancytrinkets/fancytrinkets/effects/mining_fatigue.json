@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "mobeffect",
+    "effect": "minecraft:mining_fatigue",
+    "strength": 1
+  }
+}

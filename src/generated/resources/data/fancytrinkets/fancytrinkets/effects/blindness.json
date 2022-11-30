@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "mobeffect",
+    "effect": "minecraft:blindness",
+    "strength": 1
+  }
+}

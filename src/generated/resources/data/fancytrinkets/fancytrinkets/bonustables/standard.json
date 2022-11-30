@@ -1,0 +1,232 @@
+{
+  "effects": [
+    {
+      "id": "fancytrinkets:wither",
+      "quality": 0.0
+    },
+    {
+      "id": "fancytrinkets:poison",
+      "quality": 0.0
+    },
+    {
+      "id": "fancytrinkets:nausea",
+      "quality": 2.0
+    },
+    {
+      "id": "fancytrinkets:blindness",
+      "quality": 4.0
+    },
+    {
+      "id": "fancytrinkets:mining_fatigue",
+      "quality": 8.0
+    },
+    {
+      "id": "fancytrinkets:slowness",
+      "quality": 8.0
+    },
+    {
+      "id": "fancytrinkets:dmg_generic_debuff",
+      "quality": 10.0
+    },
+    {
+      "id": "fancytrinkets:max_health_debuff",
+      "quality": 10.0
+    },
+    {
+      "id": "fancytrinkets:dmg_wither_debuff",
+      "quality": 10.0
+    },
+    {
+      "id": "fancytrinkets:attack_damage_debuff",
+      "quality": 15.0
+    },
+    {
+      "id": "fancytrinkets:dmg_fall_debuff",
+      "quality": 15.0
+    },
+    {
+      "id": "fancytrinkets:attack_range_debuff",
+      "quality": 15.0
+    },
+    {
+      "id": "fancytrinkets:reach_distance_debuff",
+      "quality": 15.0
+    },
+    {
+      "id": "fancytrinkets:attack_speed_debuff",
+      "quality": 20.0
+    },
+    {
+      "id": "fancytrinkets:dmg_magic_debuff",
+      "quality": 20.0
+    },
+    {
+      "id": "fancytrinkets:swim_speed_debuff",
+      "quality": 30.0
+    },
+    {
+      "id": "fancytrinkets:luck",
+      "quality": 50.0
+    },
+    {
+      "id": "fancytrinkets:saturation",
+      "quality": 60.0
+    },
+    {
+      "id": "fancytrinkets:dmg_magic_50",
+      "quality": 60.0
+    },
+    {
+      "id": "fancytrinkets:dmg_wither_50",
+      "quality": 60.0
+    },
+    {
+      "id": "fancytrinkets:dmg_fall_50",
+      "quality": 60.0
+    },
+    {
+      "id": "fancytrinkets:night_vision",
+      "quality": 70.0
+    },
+    {
+      "id": "fancytrinkets:nausea_resist",
+      "quality": 70.0
+    },
+    {
+      "id": "fancytrinkets:blindness_resist",
+      "quality": 70.0
+    },
+    {
+      "id": "fancytrinkets:dmg_magic_75",
+      "quality": 70.0
+    },
+    {
+      "id": "fancytrinkets:dmg_fall_50",
+      "quality": 70.0
+    },
+    {
+      "id": "fancytrinkets:swim_speed",
+      "quality": 70.0
+    },
+    {
+      "id": "fancytrinkets:speed",
+      "quality": 75.0
+    },
+    {
+      "id": "fancytrinkets:movement_speed",
+      "quality": 75.0
+    },
+    {
+      "id": "fancytrinkets:knockback_resistance",
+      "quality": 75.0
+    },
+    {
+      "id": "fancytrinkets:jump_boost",
+      "quality": 75.0
+    },
+    {
+      "id": "fancytrinkets:water_breathing",
+      "quality": 75.0
+    },
+    {
+      "id": "fancytrinkets:reach_distance",
+      "quality": 80.0
+    },
+    {
+      "id": "fancytrinkets:dmg_generic_50",
+      "quality": 80.0
+    },
+    {
+      "id": "fancytrinkets:dmg_wither_75",
+      "quality": 80.0
+    },
+    {
+      "id": "fancytrinkets:dmg_fall_75",
+      "quality": 80.0
+    },
+    {
+      "id": "fancytrinkets:poison_resist",
+      "quality": 80.0
+    },
+    {
+      "id": "fancytrinkets:weakness_resist",
+      "quality": 80.0
+    },
+    {
+      "id": "fancytrinkets:attack_speed",
+      "quality": 85.0
+    },
+    {
+      "id": "fancytrinkets:regeneration",
+      "quality": 85.0
+    },
+    {
+      "id": "fancytrinkets:fire_resistance",
+      "quality": 85.0
+    },
+    {
+      "id": "fancytrinkets:minor_max_health",
+      "quality": 85.0
+    },
+    {
+      "id": "fancytrinkets:attack_damage",
+      "quality": 90.0
+    },
+    {
+      "id": "fancytrinkets:wither_resist",
+      "quality": 90.0
+    },
+    {
+      "id": "fancytrinkets:strength",
+      "quality": 90.0
+    },
+    {
+      "id": "fancytrinkets:absorption",
+      "quality": 90.0
+    },
+    {
+      "id": "fancytrinkets:attack_range",
+      "quality": 90.0
+    },
+    {
+      "id": "fancytrinkets:dmg_magic_100",
+      "quality": 90.0
+    },
+    {
+      "id": "fancytrinkets:max_health",
+      "quality": 90.0
+    },
+    {
+      "id": "fancytrinkets:dmg_generic_75",
+      "quality": 95.0
+    },
+    {
+      "id": "fancytrinkets:health_boost",
+      "quality": 95.0
+    },
+    {
+      "id": "fancytrinkets:dmg_wither_100",
+      "quality": 95.0
+    },
+    {
+      "id": "fancytrinkets:major_max_health",
+      "quality": 100.0
+    },
+    {
+      "id": "fancytrinkets:flight",
+      "quality": 100.0
+    },
+    {
+      "id": "fancytrinkets:cure",
+      "quality": 100.0
+    },
+    {
+      "id": "fancytrinkets:dmg_generic_100",
+      "quality": 100.0
+    },
+    {
+      "id": "fancytrinkets:dmg_fall_100",
+      "quality": 100.0
+    }
+  ]
+}

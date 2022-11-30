@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "damagereduction",
+    "damage": "freeze",
+    "factor": 1.25
+  }
+}

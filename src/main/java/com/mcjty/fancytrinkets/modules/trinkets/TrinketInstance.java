@@ -7,6 +7,7 @@ import java.util.List;
 
 public record TrinketInstance(
         ResourceLocation id,
+        ResourceLocation bonusTableId,
         String nameKey,
         String descriptionKey,
         List<EffectInstance> effects) {

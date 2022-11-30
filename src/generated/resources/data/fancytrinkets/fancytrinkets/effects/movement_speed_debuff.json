@@ -1,0 +1,8 @@
+{
+  "params": {
+    "type": "attribute",
+    "amount": 0.9,
+    "effect": "movement_speed_debuff",
+    "operation": "multiply_total"
+  }
+}

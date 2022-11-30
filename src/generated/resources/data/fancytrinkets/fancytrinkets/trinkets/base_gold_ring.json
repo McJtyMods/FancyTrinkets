@@ -1,4 +1,5 @@
 {
+  "bonustable": "fancytrinkets:standard",
   "description": "trinket.fancytrinkets.base_gold_ring.description",
   "effects": [],
   "item": "fancytrinkets:gold_ring",

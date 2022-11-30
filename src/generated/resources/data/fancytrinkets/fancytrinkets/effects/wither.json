@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "mobeffect",
+    "effect": "minecraft:wither",
+    "strength": 1
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "params": {
+    "type": "attribute",
+    "amount": -0.5,
+    "effect": "reach_distance_debuff",
+    "operation": "addition"
+  }
+}

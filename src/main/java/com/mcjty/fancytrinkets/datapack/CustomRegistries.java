@@ -23,10 +23,15 @@ public class CustomRegistries {
     public static final DeferredRegister<EffectDescription> EFFECT_DEFERRED_REGISTER = DeferredRegister.create(EFFECT_REGISTRY_KEY, FancyTrinkets.MODID);
     public static final Supplier<IForgeRegistry<EffectDescription>> EFFECT_REGISTRY = EFFECT_DEFERRED_REGISTER.makeRegistry(() -> new RegistryBuilder<EffectDescription>().dataPackRegistry(EffectDescription.CODEC));
 
+    public static final ResourceKey<Registry<BonusTable>> BONUS_TABLE_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(FancyTrinkets.MODID, "bonustables"));
+    public static final DeferredRegister<BonusTable> BONUS_TABLE_DEFERRED_REGISTER = DeferredRegister.create(BONUS_TABLE_REGISTRY_KEY, FancyTrinkets.MODID);
+    public static final Supplier<IForgeRegistry<BonusTable>> BONUS_TABLE_REGISTRY = BONUS_TABLE_DEFERRED_REGISTER.makeRegistry(() -> new RegistryBuilder<BonusTable>().dataPackRegistry(BonusTable.CODEC));
+
     public static void init() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         TRINKET_DEFERRED_REGISTER.register(bus);
         EFFECT_DEFERRED_REGISTER.register(bus);
+        BONUS_TABLE_DEFERRED_REGISTER.register(bus);
     }
 
 }
