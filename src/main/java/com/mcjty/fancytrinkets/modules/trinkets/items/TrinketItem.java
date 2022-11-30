@@ -1,8 +1,6 @@
 package com.mcjty.fancytrinkets.modules.trinkets.items;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
-import com.mcjty.fancytrinkets.datapack.CustomRegistries;
-import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
@@ -170,13 +168,10 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
                 }
                 List<ResourceLocation> effects = getEffects(stack);
                 if (!effects.isEmpty()) {
-                    list.add(ComponentFactory.translatable(MESSAGE_FANCYTRINKETS_BONUS));
+                    list.add(ComponentFactory.translatable(MESSAGE_FANCYTRINKETS_BONUS).withStyle(ChatFormatting.AQUA));
                     for (ResourceLocation effect : effects) {
-                        // @todo WIP
-                        EffectDescription description = world.registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effect);
-                        if (description != null) {
-                            list.add(ComponentFactory.literal("    ").append(description.))
-                        }
+                        MutableComponent translatable = ComponentFactory.translatable("effect." + effect.getNamespace() + "." + effect.getPath());
+                        list.add(ComponentFactory.literal("    ").append(translatable).withStyle(ChatFormatting.GREEN));
                     }
                 }
             }
