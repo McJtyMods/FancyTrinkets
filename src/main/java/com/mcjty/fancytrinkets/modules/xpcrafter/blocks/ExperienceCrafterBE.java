@@ -123,6 +123,9 @@ public class ExperienceCrafterBE extends GenericTileEntity {
                 if (bonusTable != null) {
                     List<ResourceLocation> effects = new ArrayList<>();
                     List<BonusTable.EffectRef> list = bonusTable.effects();
+                    float experienceFactor = experience / (float) Config.MAXEXPERIENCE.get();
+                    experience = 0;
+                    setChanged();
                     // @todo temporary, use other random
                     BonusTable.EffectRef ref = list.get(level.random.nextInt(list.size()));
                     effects.add(ref.effect());

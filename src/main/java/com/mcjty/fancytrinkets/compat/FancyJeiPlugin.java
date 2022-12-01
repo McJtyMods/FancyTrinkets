@@ -1,6 +1,9 @@
 package com.mcjty.fancytrinkets.compat;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.datapack.CustomRegistries;
+import com.mcjty.fancytrinkets.datapack.TrinketDescription;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.blocks.ExperienceCrafterBE;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
@@ -8,15 +11,19 @@ import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.container.GenericContainer;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
+import mezz.jei.api.ingredients.IIngredientTypeWithSubtypes;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
+import java.util.Map;
 
 @JeiPlugin
 public class FancyJeiPlugin implements IModPlugin {
@@ -30,10 +37,16 @@ public class FancyJeiPlugin implements IModPlugin {
         return ID;
     }
 
+//    @Override
+//    public void registerIngredients(IModIngredientRegistration registration) {
+//        registration.register();
+//    }
+
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
         for (Registration.TrinketInfo info : Registration.TRINKET_ITEMS.values()) {
             registration.useNbtForSubtypes(info.item().get());
+            registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, info.item().get(), new XpRecipeSubtypeInterpreter());
         }
     }
 
