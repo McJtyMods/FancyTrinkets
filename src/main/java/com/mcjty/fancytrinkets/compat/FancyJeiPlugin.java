@@ -1,9 +1,6 @@
 package com.mcjty.fancytrinkets.compat;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
-import com.mcjty.fancytrinkets.datapack.CustomRegistries;
-import com.mcjty.fancytrinkets.datapack.TrinketDescription;
-import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.blocks.ExperienceCrafterBE;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
@@ -14,16 +11,14 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
-import mezz.jei.api.ingredients.IIngredientTypeWithSubtypes;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
-import java.util.Map;
 
 @JeiPlugin
 public class FancyJeiPlugin implements IModPlugin {
@@ -44,10 +39,14 @@ public class FancyJeiPlugin implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        for (Registration.TrinketInfo info : Registration.TRINKET_ITEMS.values()) {
-            registration.useNbtForSubtypes(info.item().get());
-            registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, info.item().get(), new XpRecipeSubtypeInterpreter());
-        }
+        Registration.TRINKET_ITEMS.values()
+            .stream()
+            .map(Registration.TrinketInfo::item)
+            .map(RegistryObject::get)
+            .distinct()
+            .forEach(item -> {
+                registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, item, TrinketItemSubtypeInterpreter.INSTANCE);
+            });
     }
 
     @Override
