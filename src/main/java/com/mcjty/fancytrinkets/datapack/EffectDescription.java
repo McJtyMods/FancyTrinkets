@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public record EffectDescription(Integer hotkey, String toggle, IEffectParameters params) {
+public record EffectDescription(Integer hotkey, String toggle, boolean harmful, IEffectParameters params, IEffect effect) {
 
     public static final Codec<IEffectParameters> PARAMS_CODEC = ExtraCodecs.lazyInitializedCodec(() -> Codec.STRING.dispatch("type",
             s -> s.getType().name().toLowerCase(),
@@ -26,11 +26,17 @@ public record EffectDescription(Integer hotkey, String toggle, IEffectParameters
             instance.group(
                     Codec.INT.optionalFieldOf("hotkey").forGetter(l -> Optional.ofNullable(l.hotkey)),
                     Codec.STRING.optionalFieldOf("toggle").forGetter(l -> Optional.ofNullable(l.toggle)),
+                    Codec.BOOL.optionalFieldOf("harmful").forGetter(l -> l.harmful ? Optional.of(l.harmful) : Optional.empty()),
                     PARAMS_CODEC.fieldOf("params").forGetter(l -> l.params)
-            ).apply(instance, (hotkey, toggle, params) -> new EffectDescription(
+            ).apply(instance, (hotkey, toggle, harmful, params) -> create(
                     hotkey.orElse(null),
                     toggle.orElse(null),
+                    harmful.orElse(false),
                     params)));
+
+    public static EffectDescription create(Integer hotkey, String toggle, boolean harmful, IEffectParameters params) {
+        return new EffectDescription(hotkey, toggle, harmful, params, buildEffect(params, hotkey, toggle));
+    }
 
     private static Codec<IEffectParameters> getParameterCodec(String stype) {
         EffectType type = EffectType.valueOf(stype.toUpperCase());
@@ -42,6 +48,7 @@ public record EffectDescription(Integer hotkey, String toggle, IEffectParameters
         POTIONRESISTANCE(() -> PotionResistanceEffect.CODEC),
         DAMAGEREDUCTION(() -> DamageReductionEffect.CODEC),
         FLIGHT(() -> FlightEffect.CODEC),
+        WARP(() -> WarpEffect.CODEC),
         CURE(() -> CureEffect.CODEC),
         ATTRIBUTE(() -> AttributeModifierEffect.CODEC)
         ;
@@ -56,19 +63,20 @@ public record EffectDescription(Integer hotkey, String toggle, IEffectParameters
         }
     }
 
-    public IEffect build() {
+    private static IEffect buildEffect(IEffectParameters params, Integer hotkey, String toggle) {
         return switch (params.getType()) {
-            case MOBEFFECT -> getMobEffectEffect();
-            case POTIONRESISTANCE -> getPotionResistanceEffect();
-            case DAMAGEREDUCTION -> getDamageReductionEffect();
+            case MOBEFFECT -> getMobEffectEffect(params, hotkey, toggle);
+            case POTIONRESISTANCE -> getPotionResistanceEffect(params, hotkey, toggle);
+            case DAMAGEREDUCTION -> getDamageReductionEffect(params, hotkey, toggle);
             case FLIGHT -> new FlightEffect(hotkey, toggle);
+            case WARP -> new WarpEffect(hotkey, toggle);
             case CURE -> new CureEffect(hotkey, toggle);
-            case ATTRIBUTE -> getAttributeEffect();
+            case ATTRIBUTE -> getAttributeEffect(params, hotkey, toggle);
         };
     }
 
     @NotNull
-    private AttributeModifierEffect getAttributeEffect() {
+    private static AttributeModifierEffect getAttributeEffect(IEffectParameters params, Integer hotkey, String toggle) {
         AttributeModifierEffect.Params p = AttributeModifierEffect.Params.cast(params);
         String effName = p.effect();
         Supplier<Attribute> attributeSupplier = switch (effName) {
@@ -82,35 +90,35 @@ public record EffectDescription(Integer hotkey, String toggle, IEffectParameters
             case "attack_speed" -> () -> Attributes.ATTACK_SPEED;
             case "attack_damage" -> () -> Attributes.ATTACK_DAMAGE;
             case "luck" -> () -> Attributes.LUCK;
-            default -> throw new RuntimeException("Bad attribute effect '" + effName + "'!");
+            default -> throw new RuntimeException("Bad attribute effectId '" + effName + "'!");
         };
         return new AttributeModifierEffect(hotkey, toggle, effName, attributeSupplier, p.operation(), p.amount());
     }
 
     @NotNull
-    private MobEffectEffect getMobEffectEffect() {
+    private static MobEffectEffect getMobEffectEffect(IEffectParameters params, Integer hotkey, String toggle) {
         MobEffectEffect.Params p = MobEffectEffect.Params.cast(params);
         String effName = p.effect();
         MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(effName));
         if (effect == null) {
-            throw new RuntimeException("Can't find effect '" + effName + "'!");
+            throw new RuntimeException("Can't find effectId '" + effName + "'!");
         }
         return new MobEffectEffect(hotkey, toggle, effect, p.strength() - 1);
     }
 
     @NotNull
-    private PotionResistanceEffect getPotionResistanceEffect() {
+    private static PotionResistanceEffect getPotionResistanceEffect(IEffectParameters params, Integer hotkey, String toggle) {
         PotionResistanceEffect.Params p = PotionResistanceEffect.Params.cast(params);
         String effName = p.effect();
         MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(effName));
         if (effect == null) {
-            throw new RuntimeException("Can't find effect '" + effName + "'!");
+            throw new RuntimeException("Can't find effectId '" + effName + "'!");
         }
         return new PotionResistanceEffect(hotkey, toggle, effect);
     }
 
     @NotNull
-    private DamageReductionEffect getDamageReductionEffect() {
+    private static DamageReductionEffect getDamageReductionEffect(IEffectParameters params, Integer hotkey, String toggle) {
         DamageReductionEffect.Params p = DamageReductionEffect.Params.cast(params);
         String dmgId = p.dmgId();
         float factor = p.factor();

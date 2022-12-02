@@ -2,7 +2,7 @@
   "params": {
     "type": "attribute",
     "amount": 1.0,
-    "effect": "attack_range",
+    "effectId": "attack_range",
     "operation": "addition"
   }
 }

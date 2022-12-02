@@ -2,7 +2,7 @@
   "params": {
     "type": "attribute",
     "amount": 2.0,
-    "effect": "swim_speed",
+    "effectId": "swim_speed",
     "operation": "multiply_total"
   }
 }

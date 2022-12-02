@@ -2,7 +2,6 @@ package com.mcjty.fancytrinkets.modules.effects.imp;
 
 import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
-import com.mcjty.fancytrinkets.modules.effects.DefaultEffect;
 import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -13,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Objects;
 
-public class MobEffectEffect extends DefaultEffect {
+public class MobEffectEffect extends EffectImp {
 
     private final MobEffect effect;
     private final int strengthModifier;
@@ -34,7 +33,7 @@ public class MobEffectEffect extends DefaultEffect {
 
     public static final Codec<IEffectParameters> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    Codec.STRING.fieldOf("effect").forGetter(l -> ((Params)l).effect),
+                    Codec.STRING.fieldOf("effectId").forGetter(l -> ((Params)l).effect),
                     Codec.INT.fieldOf("strength").forGetter(l -> ((Params)l).strength)
             ).apply(instance, Params::new));
 

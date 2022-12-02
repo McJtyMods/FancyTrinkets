@@ -1,7 +1,7 @@
 {
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:absorption",
+    "effectId": "minecraft:absorption",
     "strength": 1
   }
 }

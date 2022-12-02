@@ -2,7 +2,6 @@ package com.mcjty.fancytrinkets.modules.effects.imp;
 
 import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
-import com.mcjty.fancytrinkets.modules.effects.DefaultEffect;
 import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
 import com.mojang.serialization.Codec;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Objects;
 
-public class FlightEffect extends DefaultEffect {
+public class FlightEffect extends EffectImp {
 
     public static record Params() implements IEffectParameters {
         public static final Params EMPTY = new Params();

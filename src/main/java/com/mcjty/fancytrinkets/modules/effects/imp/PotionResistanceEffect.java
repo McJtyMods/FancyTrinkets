@@ -2,14 +2,13 @@ package com.mcjty.fancytrinkets.modules.effects.imp;
 
 import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
-import com.mcjty.fancytrinkets.modules.effects.DefaultEffect;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.ItemStack;
 
-public class PotionResistanceEffect extends DefaultEffect {
+public class PotionResistanceEffect extends EffectImp {
 
     private final MobEffect effect;
 
@@ -29,7 +28,7 @@ public class PotionResistanceEffect extends DefaultEffect {
 
     public static final Codec<IEffectParameters> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    Codec.STRING.fieldOf("effect").forGetter(l -> ((Params)l).effect)
+                    Codec.STRING.fieldOf("effectId").forGetter(l -> ((Params)l).effect)
             ).apply(instance, Params::new));
 
     public PotionResistanceEffect(Integer hotkey, String toggle, MobEffect effect) {

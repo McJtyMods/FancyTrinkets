@@ -3,7 +3,7 @@ package com.mcjty.fancytrinkets.datagen;
 import com.google.gson.JsonElement;
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.datapack.BonusTable;
-import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
+import com.mcjty.fancytrinkets.modules.trinkets.DefaultBonusTables;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
@@ -14,17 +14,17 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 
-public class StandardBonusTables implements DataProvider {
+public class GenBonusTables implements DataProvider {
 
     private final DataGenerator.PathProvider pathProvider;
 
-    public StandardBonusTables(DataGenerator generator) {
+    public GenBonusTables(DataGenerator generator) {
         this.pathProvider = generator.createPathProvider(DataGenerator.Target.DATA_PACK, "fancytrinkets/bonustables");
     }
 
     @Override
     public void run(CachedOutput output) throws IOException {
-        for (Map.Entry<ResourceLocation, TrinketsModule.BonusTableInfo> entry : TrinketsModule.BONUS_TABLES.entrySet()) {
+        for (Map.Entry<ResourceLocation, DefaultBonusTables.BonusTableInfo> entry : DefaultBonusTables.DEFAULT_BONUS_TABLES.entrySet()) {
             table(output, entry.getKey().getPath(), entry.getValue().bonusTable());
         }
     }

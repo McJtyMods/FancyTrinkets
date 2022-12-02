@@ -1,7 +1,8 @@
 {
+  "harmful": true,
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:mining_fatigue",
+    "effectId": "minecraft:mining_fatigue",
     "strength": 1
   }
 }

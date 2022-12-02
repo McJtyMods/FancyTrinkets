@@ -1,7 +1,7 @@
 {
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:resistance",
+    "effectId": "minecraft:resistance",
     "strength": 1
   }
 }

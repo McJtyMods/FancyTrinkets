@@ -1,8 +1,9 @@
 {
+  "harmful": true,
   "params": {
     "type": "attribute",
     "amount": 0.8,
-    "effect": "attack_speed_debuff",
+    "effectId": "attack_speed",
     "operation": "multiply_total"
   }
 }

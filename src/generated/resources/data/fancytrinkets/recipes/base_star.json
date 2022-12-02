@@ -1,19 +1,16 @@
 {
   "type": "fancytrinkets:xprecipe",
   "key": {
-    "S": {
-      "item": "minecraft:nether_star"
-    },
-    "r": {
-      "item": "minecraft:redstone"
+    "g": {
+      "tag": "forge:dusts/prismarine"
     }
   },
   "pattern": [
-    " rrr ",
-    "r   r",
-    "r S r",
-    "r   r",
-    " rrr "
+    "g g g",
+    "  g  ",
+    "ggggg",
+    "  g  ",
+    "g g g"
   ],
   "result": {
     "item": "fancytrinkets:star",

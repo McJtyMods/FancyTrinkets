@@ -1,8 +1,9 @@
 {
+  "harmful": true,
   "params": {
     "type": "attribute",
     "amount": -0.5,
-    "effect": "attack_range_debuff",
+    "effectId": "attack_range",
     "operation": "addition"
   }
 }

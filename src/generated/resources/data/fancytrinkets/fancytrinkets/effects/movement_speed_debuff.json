@@ -1,8 +1,9 @@
 {
+  "harmful": true,
   "params": {
     "type": "attribute",
     "amount": 0.9,
-    "effect": "movement_speed_debuff",
+    "effectId": "movement_speed",
     "operation": "multiply_total"
   }
 }

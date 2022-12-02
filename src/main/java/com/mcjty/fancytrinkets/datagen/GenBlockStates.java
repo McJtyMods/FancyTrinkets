@@ -6,9 +6,9 @@ import mcjty.lib.datagen.BaseBlockStateProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
-public class BlockStates extends BaseBlockStateProvider {
+public class GenBlockStates extends BaseBlockStateProvider {
 
-    public BlockStates(DataGenerator gen, ExistingFileHelper exFileHelper) {
+    public GenBlockStates(DataGenerator gen, ExistingFileHelper exFileHelper) {
         super(gen, FancyTrinkets.MODID, exFileHelper);
     }
 

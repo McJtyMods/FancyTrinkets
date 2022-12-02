@@ -1,8 +1,9 @@
 {
+  "harmful": true,
   "params": {
     "type": "attribute",
     "amount": 0.9,
-    "effect": "swim_speed_debuff",
+    "effectId": "swim_speed",
     "operation": "multiply_total"
   }
 }

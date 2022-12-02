@@ -1,5 +1,6 @@
-package com.mcjty.fancytrinkets.modules.effects;
+package com.mcjty.fancytrinkets.modules.effects.imp;
 
+import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -7,12 +8,12 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class DefaultEffect implements IEffect {
+public class EffectImp implements IEffect {
 
     protected final Integer hotkey;
     protected final String toggle;
 
-    public DefaultEffect(Integer hotkey, String toggle) {
+    public EffectImp(Integer hotkey, String toggle) {
         this.hotkey = hotkey;
         this.toggle = toggle;
     }

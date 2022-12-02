@@ -1,7 +1,7 @@
 {
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:night_vision",
+    "effectId": "minecraft:night_vision",
     "strength": 1
   }
 }

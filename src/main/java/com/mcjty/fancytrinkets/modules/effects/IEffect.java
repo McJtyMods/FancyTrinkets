@@ -13,7 +13,7 @@ public interface IEffect {
 
     default void onHotkey(ItemStack stack, ServerPlayer player, String slotId, int key) {}
 
-    // Actually perform this effect (delayed from PlayerEffects)
+    // Actually perform this effectId (delayed from PlayerEffects)
     default void perform(ServerPlayer player, int strength) {}
 
     Integer getHotkey();

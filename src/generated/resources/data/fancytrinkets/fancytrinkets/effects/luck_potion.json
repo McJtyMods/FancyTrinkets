@@ -1,7 +1,7 @@
 {
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:luck",
+    "effectId": "minecraft:luck",
     "strength": 1
   }
 }

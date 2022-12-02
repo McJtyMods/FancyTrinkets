@@ -1,7 +1,8 @@
 {
+  "harmful": true,
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:nausea",
+    "effectId": "minecraft:nausea",
     "strength": 1
   }
 }

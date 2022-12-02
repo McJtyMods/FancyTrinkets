@@ -9,6 +9,10 @@ import net.minecraftforge.fml.config.ModConfig;
 public class Config {
 
     public static ForgeConfigSpec.IntValue MAXEXPERIENCE;
+    public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT1;
+    public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT2;
+    public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT3;
+    public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT4;
 
     public static void register() {
         Builder builder = new Builder();
@@ -18,6 +22,18 @@ public class Config {
         MAXEXPERIENCE = builder
                 .comment("Maximum XP that can be stored in the Experience Crafter")
                 .defineInRange("maxexperience", 5345, 1, Integer.MAX_VALUE);
+        CHANCE_BONUS_EFFECT1 = builder
+                .comment("Chance that upon crafting a trinket you get the first bonus effectId (percentage)")
+                .defineInRange("chanceBonusEffect1", 85.0f, 0.0f, 100.0f);
+        CHANCE_BONUS_EFFECT2 = builder
+                .comment("Chance that upon crafting a trinket you get the second bonus effectId (percentage). This only applies if you already got the first bonus effectId")
+                .defineInRange("chanceBonusEffect2", 55.0f, 0.0f, 100.0f);
+        CHANCE_BONUS_EFFECT3 = builder
+                .comment("Chance that upon crafting a trinket you get the third bonus effectId (percentage). This only applies if you already got the second bonus effectId")
+                .defineInRange("chanceBonusEffect3", 30.0f, 0.0f, 100.0f);
+        CHANCE_BONUS_EFFECT4 = builder
+                .comment("Chance that upon crafting a trinket you get the fourth bonus effectId (percentage). This only applies if you already got the third bonus effectId")
+                .defineInRange("chanceBonusEffect4", 2.0f, 0.0f, 100.0f);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, builder.build());
     }

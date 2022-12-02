@@ -1,7 +1,7 @@
 {
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:regeneration",
+    "effectId": "minecraft:regeneration",
     "strength": 1
   }
 }

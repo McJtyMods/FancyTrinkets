@@ -11,9 +11,9 @@ import java.util.Map;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
 
-public class Items extends BaseItemModelProvider {
+public class GenItems extends BaseItemModelProvider {
 
-    public Items(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+    public GenItems(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, MODID, existingFileHelper);
     }
 

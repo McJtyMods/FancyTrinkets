@@ -3,8 +3,8 @@ package com.mcjty.fancytrinkets.datagen;
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.compat.XpRecipeCategory;
 import com.mcjty.fancytrinkets.keys.KeyBindings;
-import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
-import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
+import com.mcjty.fancytrinkets.modules.effects.DefaultEffects;
+import com.mcjty.fancytrinkets.modules.trinkets.DefaultTrinkets;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.setup.Registration;
@@ -13,9 +13,9 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 
-public class LanguageProvider extends net.minecraftforge.common.data.LanguageProvider {
+public class GenLanguageProvider extends net.minecraftforge.common.data.LanguageProvider {
 
-    public LanguageProvider(DataGenerator gen, String locale) {
+    public GenLanguageProvider(DataGenerator gen, String locale) {
         super(gen, FancyTrinkets.MODID, locale);
     }
 
@@ -40,13 +40,13 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         for (Registration.TrinketInfo info : Registration.TRINKET_ITEMS.values()) {
             add("item." + info.id().getNamespace() + "." + info.id().getPath(), info.description());
         }
-        for (Map.Entry<ResourceLocation, TrinketsModule.TrinketInfo> entry : TrinketsModule.TRINKETS.entrySet()) {
+        for (Map.Entry<ResourceLocation, DefaultTrinkets.TrinketInfo> entry : DefaultTrinkets.DEFAULT_TRINKETS.entrySet()) {
             ResourceLocation key = entry.getKey();
             add("trinket." + key.getNamespace() + "." + key.getPath() + ".name", entry.getValue().name());
             add("trinket." + key.getNamespace() + "." + key.getPath() + ".description", entry.getValue().description());
         }
-        for (Map.Entry<ResourceLocation, EffectsModule.EffectInfo> entry : EffectsModule.EFFECTS.entrySet()) {
-            add("effect.fancytrinkets." + entry.getKey().getPath(), entry.getValue().description());
+        for (Map.Entry<ResourceLocation, DefaultEffects.EffectInfo> entry : DefaultEffects.DEFAULT_EFFECTS.entrySet()) {
+            add("effectId.fancytrinkets." + entry.getKey().getPath(), entry.getValue().description());
         }
     }
 }

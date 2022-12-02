@@ -2,7 +2,7 @@
   "hotkey": 1,
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:night_vision",
+    "effectId": "minecraft:night_vision",
     "strength": 1
   },
   "toggle": "night_vision"

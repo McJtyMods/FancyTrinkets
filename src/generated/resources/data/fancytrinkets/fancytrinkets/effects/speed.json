@@ -1,7 +1,7 @@
 {
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:speed",
+    "effectId": "minecraft:speed",
     "strength": 1
   }
 }

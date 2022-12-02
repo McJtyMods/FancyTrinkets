@@ -1,6 +1,6 @@
 {
   "params": {
     "type": "potionresistance",
-    "effect": "minecraft:poison"
+    "effectId": "minecraft:poison"
   }
 }

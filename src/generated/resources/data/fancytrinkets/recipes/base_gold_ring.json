@@ -1,0 +1,21 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "g": {
+      "tag": "forge:ingots/gold"
+    }
+  },
+  "pattern": [
+    " ggg ",
+    "g   g",
+    "g   g",
+    "g   g",
+    " ggg "
+  ],
+  "result": {
+    "item": "fancytrinkets:gold_ring",
+    "nbt": {
+      "id": "fancytrinkets:base_gold_ring"
+    }
+  }
+}

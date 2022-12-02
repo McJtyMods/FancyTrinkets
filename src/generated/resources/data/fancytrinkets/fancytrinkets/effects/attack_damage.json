@@ -2,7 +2,7 @@
   "params": {
     "type": "attribute",
     "amount": 2.0,
-    "effect": "attack_damage",
+    "effectId": "attack_damage",
     "operation": "multiply_total"
   }
 }

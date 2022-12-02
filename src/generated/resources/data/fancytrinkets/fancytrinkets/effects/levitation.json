@@ -1,7 +1,7 @@
 {
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:levitation",
+    "effectId": "minecraft:levitation",
     "strength": 1
   }
 }

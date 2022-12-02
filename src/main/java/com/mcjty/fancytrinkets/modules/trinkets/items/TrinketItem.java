@@ -1,17 +1,20 @@
 package com.mcjty.fancytrinkets.modules.trinkets.items;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.datapack.CustomRegistries;
+import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.trinkets.ITrinketItem;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
-import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import mcjty.lib.tooltips.ITooltipSettings;
 import mcjty.lib.varia.ComponentFactory;
+import mcjty.lib.varia.SafeClientTools;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -27,11 +30,13 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem {
 
@@ -74,25 +79,18 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
         tag.put("effects", list);
     }
 
-    public static List<ResourceLocation> getEffects(ItemStack stack) {
+    public static Stream<ResourceLocation> getEffects(ItemStack stack) {
         CompoundTag tag = stack.getTag();
         if (tag != null) {
             ListTag effects = tag.getList("effects", Tag.TAG_STRING);
-            return effects.stream().map(s -> new ResourceLocation(s.getAsString())).collect(Collectors.toList());
+            return effects.stream().map(s -> new ResourceLocation(s.getAsString()));
         }
-        return Collections.emptyList();
+        return Stream.empty();
     }
 
-    public static ItemStack createTrinketStack(String id) {
-        return createTrinketStack(new ResourceLocation(FancyTrinkets.MODID, id));
-    }
-
-    public static ItemStack createTrinketStack(ResourceLocation id) {
-        TrinketsModule.TrinketInfo info = TrinketsModule.TRINKETS.get(id);
-        if (info == null) {
-            throw new RuntimeException("Cannot find trinket '" + id.toString() + "'!");
-        }
-        ResourceLocation itemId = info.trinketDescription().item();
+    @NotNull
+    public static ItemStack createTrinketStack(TrinketDescription description, ResourceLocation id) {
+        ResourceLocation itemId = description.item();
         Item item = ForgeRegistries.ITEMS.getValue(itemId);
         if (item == null) {
             throw new RuntimeException("Cannot find item for trinket '" + id.toString() + "'!");
@@ -117,7 +115,7 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
     }
 
     @Override
-    public void forAllEffects(ItemStack stack, Consumer<IEffect> consumer) {
+    public void forAllEffects(Level level, ItemStack stack, Consumer<IEffect> consumer) {
         ResourceLocation trinketId = getTrinketId(stack);
         if (trinketId != null) {
             TrinketInstance instance = trinkets.get(trinketId);
@@ -126,6 +124,13 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
                     consumer.accept(effect.effect());
                 }
             }
+            Registry<EffectDescription> registry = level.registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY);
+            getEffects(stack).forEach(effect -> {
+                EffectDescription description = registry.get(effect);
+                if (description != null) {
+                    consumer.accept(description.effect());
+                }
+            });
         }
     }
 
@@ -145,7 +150,7 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
                 for (EffectInstance effectInstance : instance.effects()) {
                     IEffect effect  = effectInstance.effect();
                     if (!effectInstance.hidden()) {
-                        MutableComponent translatable = ComponentFactory.translatable("effect." + effectInstance.id().getNamespace() + "." + effectInstance.id().getPath());
+                        MutableComponent translatable = ComponentFactory.translatable("effectId." + effectInstance.id().getNamespace() + "." + effectInstance.id().getPath());
                         String toggle = effect.getToggle();
                         ChatFormatting color = ChatFormatting.BLUE;
                         ChatFormatting style = ChatFormatting.BLUE;
@@ -166,14 +171,20 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
                         }
                     }
                 }
-                List<ResourceLocation> effects = getEffects(stack);
-                if (!effects.isEmpty()) {
-                    list.add(ComponentFactory.translatable(MESSAGE_FANCYTRINKETS_BONUS).withStyle(ChatFormatting.AQUA));
-                    for (ResourceLocation effect : effects) {
-                        MutableComponent translatable = ComponentFactory.translatable("effect." + effect.getNamespace() + "." + effect.getPath());
-                        list.add(ComponentFactory.literal("    ").append(translatable).withStyle(ChatFormatting.GREEN));
+                AtomicBoolean first = new AtomicBoolean(true);
+                getEffects(stack).forEach(effect -> {
+                    if (first.get()) {
+                        list.add(ComponentFactory.translatable(MESSAGE_FANCYTRINKETS_BONUS).withStyle(ChatFormatting.AQUA));
+                        first.set(false);
                     }
-                }
+                    MutableComponent translatable = ComponentFactory.translatable("effectId." + effect.getNamespace() + "." + effect.getPath());
+                    ChatFormatting color = ChatFormatting.GREEN;
+                    EffectDescription description = SafeClientTools.getClientWorld().registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effect);
+                    if (description != null && description.harmful()) {
+                        color = ChatFormatting.RED;
+                    }
+                    list.add(ComponentFactory.literal("    ").append(translatable).withStyle(color));
+                });
             }
         }
     }

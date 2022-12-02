@@ -1,8 +1,9 @@
 {
+  "harmful": true,
   "params": {
     "type": "attribute",
     "amount": 0.75,
-    "effect": "attack_damage_debuff",
+    "effectId": "attack_damage",
     "operation": "multiply_total"
   }
 }

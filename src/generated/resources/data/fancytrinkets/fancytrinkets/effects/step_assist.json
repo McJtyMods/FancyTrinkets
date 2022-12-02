@@ -2,7 +2,7 @@
   "params": {
     "type": "attribute",
     "amount": 0.5,
-    "effect": "step_assist",
+    "effectId": "step_assist",
     "operation": "addition"
   }
 }

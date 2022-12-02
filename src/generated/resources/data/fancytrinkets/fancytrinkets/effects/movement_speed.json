@@ -2,7 +2,7 @@
   "params": {
     "type": "attribute",
     "amount": 2.0,
-    "effect": "movement_speed",
+    "effectId": "movement_speed",
     "operation": "multiply_total"
   }
 }

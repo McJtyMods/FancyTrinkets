@@ -1,7 +1,7 @@
 {
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:health_boost",
+    "effectId": "minecraft:health_boost",
     "strength": 1
   }
 }

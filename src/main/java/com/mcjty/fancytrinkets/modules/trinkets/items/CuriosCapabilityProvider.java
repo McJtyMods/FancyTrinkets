@@ -37,21 +37,21 @@ public class CuriosCapabilityProvider implements ICapabilityProvider {
             @Override
             public void curioTick(SlotContext slotContext) {
                 if (slotContext.entity() instanceof ServerPlayer player) {
-                    trinketItem.forAllEffects(itemStack, effect -> effect.tick(itemStack, player, slotContext.identifier()+slotContext.index()));
+                    trinketItem.forAllEffects(player.level, itemStack, effect -> effect.tick(itemStack, player, slotContext.identifier()+slotContext.index()));
                 }
             }
 
             @Override
             public void onEquip(SlotContext slotContext, ItemStack prevStack) {
                 if (slotContext.entity() instanceof ServerPlayer player) {
-                    trinketItem.forAllEffects(itemStack, effect -> effect.onEquip(itemStack, player, slotContext.identifier() + slotContext.index()));
+                    trinketItem.forAllEffects(player.level, itemStack, effect -> effect.onEquip(itemStack, player, slotContext.identifier() + slotContext.index()));
                 }
             }
 
             @Override
             public void onUnequip(SlotContext slotContext, ItemStack newStack) {
                 if (slotContext.entity() instanceof ServerPlayer player) {
-                    trinketItem.forAllEffects(itemStack, effect -> effect.onUnequip(itemStack, player, slotContext.identifier() + slotContext.index()));
+                    trinketItem.forAllEffects(player.level, itemStack, effect -> effect.onUnequip(itemStack, player, slotContext.identifier() + slotContext.index()));
                 }
             }
         };

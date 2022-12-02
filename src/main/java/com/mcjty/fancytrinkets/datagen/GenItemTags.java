@@ -13,9 +13,9 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class ItemTags extends ItemTagsProvider {
+public class GenItemTags extends ItemTagsProvider {
 
-    public ItemTags(DataGenerator generator, BlockTagsProvider blockTags, ExistingFileHelper helper) {
+    public GenItemTags(DataGenerator generator, BlockTagsProvider blockTags, ExistingFileHelper helper) {
         super(generator, blockTags, FancyTrinkets.MODID, helper);
     }
 

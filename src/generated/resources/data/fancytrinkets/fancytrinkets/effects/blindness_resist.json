@@ -1,6 +1,6 @@
 {
   "params": {
     "type": "potionresistance",
-    "effect": "minecraft:blindness"
+    "effectId": "minecraft:blindness"
   }
 }

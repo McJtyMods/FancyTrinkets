@@ -6,16 +6,19 @@
       "item": "fancytrinkets:star",
       "nbt": "{id:\"fancytrinkets:base_star\"}"
     },
-    "r": {
-      "item": "minecraft:redstone"
+    "f": {
+      "tag": "forge:feathers"
+    },
+    "g": {
+      "tag": "forge:ingots/gold"
     }
   },
   "pattern": [
-    " rrr ",
-    "r   r",
-    "r S r",
-    "r   r",
-    " rrr "
+    " fgf ",
+    "f   f",
+    "g S g",
+    "f   f",
+    " fgf "
   ],
   "result": {
     "item": "fancytrinkets:star",

@@ -1,7 +1,5 @@
 package com.mcjty.fancytrinkets.modules.trinkets;
 
-import com.mcjty.fancytrinkets.FancyTrinkets;
-import com.mcjty.fancytrinkets.datapack.BonusTable;
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
@@ -26,8 +24,6 @@ import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class TrinketsModule implements IModule {
@@ -65,114 +61,9 @@ public class TrinketsModule implements IModule {
 
     public TrinketsModule() {
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
-        TRINKETS.clear();
-        register("base_star", trinket("base_star", "star"), "Base Star", "Crafting ingredient to make star trinkets");
-        register("flight_star", trinket("flight_star", "star",
-                effect("flight")), "Sky Star", "This star gives you the freedom of flight");
-        register("power_star", trinket("power_star", "star",
-                effect("attack_range"), effect("attack_speed"), effect("attack_damage"), effect("reach_distance")), "Power Star", "You feel the power surging through you!");
-        register("swift_star", trinket("swift_star", "star",
-                effect("movement_speed"), effect("knockback_resistance"), effect("swim_speed"), effect("step_assist")), "Star of Swiftness", "Feel the freedom of swift and flexible movement");
 
-        register("base_feather", trinket("base_feather", "feather"), "Base Feather", "Crafting ingredient to make feather trinkets");
-        register("slowfalling_feather", trinket("slowfalling_feather", "feather",
-                effect("slow_falling")), "Golden Feather", "Gravity seems to have less effect on you");
-
-        register("base_gold_ring", trinket("base_gold_ring", "gold_ring"), "Base Golden Ring", "Crafting ingredient to make golden ring trinkets");
-        register("regeneration_ring", trinket("regeneration_ring", "gold_ring",
-                effect("regeneration")), "Regeneration Ring", "Slowly get your health back");
-        register("strength_ring", trinket("strength_ring", "gold_ring",
-                effect("strength")), "Strength Ring", "Your attacks seem to have more effect");
-        register("nightvision_ring", trinket("nightvision_ring", "gold_ring",
-                effect("night_vision_hotkey")), "Night Vision", "Using a hotkey you can see clearly in the dark");
-        register("stepassist_ring", trinket("stepassist_ring", "gold_ring",
-                effect("step_assist")), "Step Assist Ring", "You can move around much easier now");
-
-        register("base_heart", trinket("base_heart", "heart"), "Base Heart", "Crafting ingredient to make heart trinkets");
-        register("super_health", trinket("super_health", "heart_body",
-                effect("regeneration"), effect("max_health")), "Heart of Health", "You feel so much more healthy now");
-        register("cure", trinket("cure", "heart",
-                effect("cure")), "Heart of Curing", "Negative effects can't harm you");
-
-        register("base_gold_ring_diamond", trinket("base_gold_ring_diamond", "gold_ring_diamond"), "Base Golden Ring with Diamond", "Crafting ingredient to make golden ring trinkets (with diamond)");
-        register("lightness_ring", trinket("lightness_ring", "gold_ring_diamond",
-                effect("dmg_fall_75")), "Ring of Lightness", "Reduce 75% of fall damage");
-        register("fireresist_ring", trinket("fireresist_ring", "gold_ring_diamond",
-                effect("dmg_infire_100"), hidden("dmg_hotfloor_100"), hidden("dmg_onfire_100"), hidden("dmg_lava_100")), "Ring of Coolness", "Reduce all heat related damage (100%)");
-
-        BONUS_TABLES.clear();
-        register("standard", bonusTable(
-                effect("wither", 0.0f),
-                effect("poison", 0.0f),
-                effect("nausea", 2.0f),
-                effect("blindness", 4.0f),
-                effect("mining_fatigue", 8.0f),
-                effect("slowness", 8.0f),
-                effect("dmg_generic_debuff", 10.0f),
-                effect("max_health_debuff", 10.0f),
-                effect("dmg_wither_debuff", 10.0f),
-                effect("attack_damage_debuff", 15.0f),
-                effect("dmg_fall_debuff", 15.0f),
-                effect("attack_range_debuff", 15.0f),
-                effect("reach_distance_debuff", 15.0f),
-                effect("attack_speed_debuff", 20.0f),
-                effect("dmg_magic_debuff", 20.0f),
-                effect("swim_speed_debuff", 30.0f),
-
-                effect("luck", 50.0f),
-                effect("saturation", 60.0f),
-                effect("dmg_magic_50", 60.0f),
-                effect("dmg_wither_50", 60.0f),
-                effect("dmg_fall_50", 60.0f),
-                effect("night_vision", 70.0f),
-                effect("nausea_resist", 70.0f),
-                effect("blindness_resist", 70.0f),
-                effect("dmg_magic_75", 70.0f),
-                effect("dmg_fall_50", 70.0f),
-                effect("swim_speed", 70.0f),
-                effect("speed", 75.0f),
-                effect("movement_speed", 75.0f),
-                effect("knockback_resistance", 75.0f),
-                effect("jump_boost", 75.0f),
-                effect("water_breathing", 75.0f),
-                effect("reach_distance", 80.0f),
-                effect("dmg_generic_50", 80.0f),
-                effect("dmg_wither_75", 80.0f),
-                effect("dmg_fall_75", 80.0f),
-                effect("poison_resist", 80.0f),
-                effect("weakness_resist", 80.0f),
-                effect("attack_speed", 85.0f),
-                effect("regeneration", 85.0f),
-                effect("fire_resistance", 85.0f),
-                effect("minor_max_health", 85.0f),
-                effect("attack_damage", 90.0f),
-                effect("wither_resist", 90.0f),
-                effect("strength", 90.0f),
-                effect("absorption", 90.0f),
-                effect("attack_range", 90.0f),
-                effect("dmg_magic_100", 90.0f),
-                effect("max_health", 90.0f),
-                effect("dmg_generic_75", 95.0f),
-                effect("health_boost", 95.0f),
-                effect("dmg_wither_100", 95.0f),
-                effect("major_max_health", 100.0f),
-                effect("flight", 100.0f),
-                effect("cure", 100.0f),
-                effect("dmg_generic_100", 100.0f),
-                effect("dmg_fall_100", 100.0f)
-        ), "Standard");
-    }
-
-    public static TrinketDescription.EffectRef effect(String id) {
-        return new TrinketDescription.EffectRef(new ResourceLocation(FancyTrinkets.MODID, id), false);
-    }
-
-    public static TrinketDescription.EffectRef hidden(String id) {
-        return new TrinketDescription.EffectRef(new ResourceLocation(FancyTrinkets.MODID, id), true);
-    }
-
-    public static BonusTable.EffectRef effect(String id, float quality) {
-        return new BonusTable.EffectRef(new ResourceLocation(FancyTrinkets.MODID, id), quality);
+        DefaultTrinkets.init();
+        DefaultBonusTables.init();
     }
 
 
@@ -209,33 +100,4 @@ public class TrinketsModule implements IModule {
 
     }
 
-    public static final Map<ResourceLocation, TrinketInfo> TRINKETS = new HashMap<>();
-
-    private static void register(String id, TrinketDescription trinket, String name, String description) {
-        TRINKETS.put(new ResourceLocation(FancyTrinkets.MODID, id), new TrinketInfo(trinket, name, description));
-    }
-
-    private TrinketDescription trinket(String id, String itemId, TrinketDescription.EffectRef... effects) {
-        return new TrinketDescription(new ResourceLocation(FancyTrinkets.MODID, itemId),
-                new ResourceLocation(FancyTrinkets.MODID, "standard"),
-                "trinket.fancytrinkets." + id + ".name",
-                "trinket.fancytrinkets." + id + ".description",
-                List.of(effects));
-    }
-
-    public static record TrinketInfo(TrinketDescription trinketDescription, String name, String description) {
-    }
-
-    public static final Map<ResourceLocation, BonusTableInfo> BONUS_TABLES = new HashMap<>();
-
-    private static void register(String id, BonusTable bonusTable, String name) {
-        BONUS_TABLES.put(new ResourceLocation(FancyTrinkets.MODID, id), new BonusTableInfo(bonusTable, name));
-    }
-
-    private BonusTable bonusTable(BonusTable.EffectRef... effects) {
-        return new BonusTable(List.of(effects));
-    }
-
-    public static record BonusTableInfo(BonusTable bonusTable, String name) {
-    }
 }

@@ -1,7 +1,7 @@
 {
   "params": {
     "type": "mobeffect",
-    "effect": "minecraft:invisibility",
+    "effectId": "minecraft:invisibility",
     "strength": 1
   }
 }

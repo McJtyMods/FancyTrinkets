@@ -8,9 +8,9 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 
 import javax.annotation.Nonnull;
 
-public class BlockTags extends BaseBlockTagsProvider {
+public class GenBlockTags extends BaseBlockTagsProvider {
 
-    public BlockTags(DataGenerator generator, ExistingFileHelper helper) {
+    public GenBlockTags(DataGenerator generator, ExistingFileHelper helper) {
         super(generator, FancyTrinkets.MODID, helper);
     }
 

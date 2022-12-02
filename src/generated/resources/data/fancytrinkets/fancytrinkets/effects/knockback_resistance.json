@@ -2,7 +2,7 @@
   "params": {
     "type": "attribute",
     "amount": 2.0,
-    "effect": "knockback_resistance",
+    "effectId": "knockback_resistance",
     "operation": "multiply_total"
   }
 }

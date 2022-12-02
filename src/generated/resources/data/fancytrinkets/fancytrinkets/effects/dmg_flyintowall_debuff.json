@@ -1,4 +1,5 @@
 {
+  "harmful": true,
   "params": {
     "type": "damagereduction",
     "damage": "flyIntoWall",

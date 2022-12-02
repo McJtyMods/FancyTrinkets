@@ -33,9 +33,9 @@ public class PacketSendKey {
             for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(ctx.getSender(), stack -> stack.getItem() instanceof TrinketItem)) {
                 ItemStack stack = slot.stack();
                 if (stack.getItem() instanceof ITrinketItem trinketItem) {
-                    trinketItem.forAllEffects(stack, iEffect -> {
+                    trinketItem.forAllEffects(ctx.getSender().level, stack, effect -> {
                         SlotContext context = slot.slotContext();
-                        iEffect.onHotkey(stack, ctx.getSender(), context.identifier() + context.index(), key);
+                        effect.onHotkey(stack, ctx.getSender(), context.identifier() + context.index(), key);
                     });
                 }
             }

@@ -1,7 +1,6 @@
 package com.mcjty.fancytrinkets.datapack;
 
 import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
-import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -18,11 +17,11 @@ public record TrinketDescription(
         String descriptionKey,
         List<EffectRef> effects) {
 
-    public static record EffectRef(ResourceLocation effect, boolean hidden) {
+    public static record EffectRef(ResourceLocation effectId, boolean hidden) {
 
         public static final Codec<EffectRef> EFFECTREF_CODEC = RecordCodecBuilder.create(instance ->
                 instance.group(
-                        Codec.STRING.fieldOf("id").forGetter(l -> l.effect.toString()),
+                        Codec.STRING.fieldOf("id").forGetter(l -> l.effectId.toString()),
                         Codec.BOOL.fieldOf("hidden").forGetter(l -> l.hidden)
                 ).apply(instance, (id, hidden) -> new EffectRef(new ResourceLocation(id), hidden)));
     }
@@ -43,12 +42,11 @@ public record TrinketDescription(
     public TrinketInstance build(ResourceLocation id, ServerLevel level) {
         List<EffectInstance> effectInstances = new ArrayList<>();
         for (EffectRef effectRef : effects) {
-            EffectDescription effectDescription = level.registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effectRef.effect());
+            EffectDescription effectDescription = level.registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effectRef.effectId());
             if (effectDescription == null) {
-                throw new RuntimeException("Can't find effect '" + effectRef.effect().toString() + "'!");
+                throw new RuntimeException("Can't find effectId '" + effectRef.effectId().toString() + "'!");
             }
-            IEffect effect = effectDescription.build();
-            effectInstances.add(new EffectInstance(effectRef.effect(), effectRef.hidden, effect));
+            effectInstances.add(new EffectInstance(effectRef.effectId(), effectRef.hidden, effectDescription.effect()));
         }
         return new TrinketInstance(id, bonusTableId, nameKey, descriptionKey, effectInstances);
     }

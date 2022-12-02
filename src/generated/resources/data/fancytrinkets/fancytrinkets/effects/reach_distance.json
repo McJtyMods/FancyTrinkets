@@ -2,7 +2,7 @@
   "params": {
     "type": "attribute",
     "amount": 2.0,
-    "effect": "reach_distance",
+    "effectId": "reach_distance",
     "operation": "addition"
   }
 }

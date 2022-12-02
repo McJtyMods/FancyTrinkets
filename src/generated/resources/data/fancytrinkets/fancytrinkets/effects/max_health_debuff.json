@@ -1,8 +1,9 @@
 {
+  "harmful": true,
   "params": {
     "type": "attribute",
     "amount": -1.0,
-    "effect": "max_health_debuff",
+    "effectId": "max_health",
     "operation": "addition"
   }
 }

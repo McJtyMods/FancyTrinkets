@@ -1,8 +1,9 @@
 {
+  "harmful": true,
   "params": {
     "type": "attribute",
     "amount": -0.5,
-    "effect": "reach_distance_debuff",
+    "effectId": "reach_distance",
     "operation": "addition"
   }
 }

@@ -2,7 +2,7 @@
   "params": {
     "type": "attribute",
     "amount": 4.0,
-    "effect": "max_health",
+    "effectId": "max_health",
     "operation": "addition"
   }
 }

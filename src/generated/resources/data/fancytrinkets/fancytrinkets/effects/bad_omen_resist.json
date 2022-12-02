@@ -1,6 +1,6 @@
 {
   "params": {
     "type": "potionresistance",
-    "effect": "minecraft:bad_omen"
+    "effectId": "minecraft:bad_omen"
   }
 }
