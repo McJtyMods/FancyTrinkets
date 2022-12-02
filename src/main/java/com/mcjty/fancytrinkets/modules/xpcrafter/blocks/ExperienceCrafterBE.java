@@ -34,10 +34,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe.RECIPE_DIMENSION;
 import static mcjty.lib.api.container.DefaultContainerProvider.container;
@@ -123,19 +121,26 @@ public class ExperienceCrafterBE extends GenericTileEntity {
                 BonusTable bonusTable = level.registryAccess().registryOrThrow(CustomRegistries.BONUS_TABLE_REGISTRY_KEY).get(bonusTableId);
                 if (bonusTable != null) {
                     List<ResourceLocation> effects = new ArrayList<>();
-                    List<BonusTable.EffectRef> list = new ArrayList<>(bonusTable.effects());    // Make a copy!
-                    float experienceFactor = 100.0f * experience / (float) Config.MAXEXPERIENCE.get();
+                    float targetQuality = 100.0f * (experience + Config.EXPERIENCE_OFFSET.get()) / (float) (Config.MAXEXPERIENCE.get() + Config.EXPERIENCE_OFFSET.get());
                     experience = 0;
                     setChanged();
 
-                    if (random.nextDouble(100.0) < Config.CHANCE_BONUS_EFFECT1.get()) {
-                        addEffect(experienceFactor, effects, list);
-                        if (random.nextDouble(100.0) < Config.CHANCE_BONUS_EFFECT2.get()) {
-                            addEffect(experienceFactor, effects, list);
-                            if (random.nextDouble(100.0) < Config.CHANCE_BONUS_EFFECT3.get()) {
-                                addEffect(experienceFactor, effects, list);
-                                if (random.nextDouble(100.0) < Config.CHANCE_BONUS_EFFECT4.get()) {
-                                    addEffect(experienceFactor, effects, list);
+                    // Find a good set of effects for the desired quality
+                    List<BonusTable.EffectRef> list = Collections.emptyList();
+                    float maxDiff = 5.0f;
+                    while (list.size() < 5) {
+                        list = findSuitableEffects(bonusTable.effects(), targetQuality, maxDiff);
+                        maxDiff += 5;
+                    }
+
+                    if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT1.get()) {
+                        addEffect(targetQuality, effects, list);
+                        if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT2.get()) {
+                            addEffect(targetQuality, effects, list);
+                            if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT3.get()) {
+                                addEffect(targetQuality, effects, list);
+                                if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT4.get()) {
+                                    addEffect(targetQuality, effects, list);
                                 }
                             }
                         }
@@ -146,12 +151,16 @@ public class ExperienceCrafterBE extends GenericTileEntity {
         }
     }
 
-    private void addEffect(float experienceFactor, List<ResourceLocation> effects, List<BonusTable.EffectRef> list) {
+    private List<BonusTable.EffectRef> findSuitableEffects(List<BonusTable.EffectRef> list, float desiredQuality, float maxDiff) {
+        return list.stream().filter(ref -> Math.abs(ref.quality() - desiredQuality) <= maxDiff).collect(Collectors.toList());
+    }
+
+    private void addEffect(float targetQuality, List<ResourceLocation> effects, List<BonusTable.EffectRef> list) {
         int bestIndex = -1;
         float bestDiff = Float.MAX_VALUE;
         for (int i = 0 ; i < 20 ; i++) {
             BonusTable.EffectRef ref = list.get(random.nextInt(list.size()));
-            float diff = Math.abs(ref.quality() - experienceFactor);
+            float diff = Math.abs(ref.quality() - targetQuality);
             if (diff < bestDiff) {
                 bestDiff = diff;
                 bestIndex = i;

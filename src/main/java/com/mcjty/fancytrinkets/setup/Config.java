@@ -13,6 +13,7 @@ public class Config {
     public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT2;
     public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT3;
     public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT4;
+    public static ForgeConfigSpec.IntValue EXPERIENCE_OFFSET;
 
     public static void register() {
         Builder builder = new Builder();
@@ -21,10 +22,10 @@ public class Config {
 
         MAXEXPERIENCE = builder
                 .comment("Maximum XP that can be stored in the Experience Crafter")
-                .defineInRange("maxexperience", 5345, 1, Integer.MAX_VALUE);
+                .defineInRange("maxexperience", 2920, 1, Integer.MAX_VALUE);
         CHANCE_BONUS_EFFECT1 = builder
                 .comment("Chance that upon crafting a trinket you get the first bonus effectId (percentage)")
-                .defineInRange("chanceBonusEffect1", 85.0f, 0.0f, 100.0f);
+                .defineInRange("chanceBonusEffect1", 100.0f, 0.0f, 100.0f);
         CHANCE_BONUS_EFFECT2 = builder
                 .comment("Chance that upon crafting a trinket you get the second bonus effectId (percentage). This only applies if you already got the first bonus effectId")
                 .defineInRange("chanceBonusEffect2", 55.0f, 0.0f, 100.0f);
@@ -34,6 +35,10 @@ public class Config {
         CHANCE_BONUS_EFFECT4 = builder
                 .comment("Chance that upon crafting a trinket you get the fourth bonus effectId (percentage). This only applies if you already got the third bonus effectId")
                 .defineInRange("chanceBonusEffect4", 2.0f, 0.0f, 100.0f);
+        EXPERIENCE_OFFSET = builder
+                .comment("This is added to the experience that you get from the input experience. This way even a craft with 0 experience can get some reasonable things")
+                .defineInRange("qualityOffset", 400, 0, Integer.MAX_VALUE);
+
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, builder.build());
     }
