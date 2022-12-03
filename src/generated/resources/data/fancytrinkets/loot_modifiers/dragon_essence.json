@@ -1,0 +1,13 @@
+{
+  "type": "fancytrinkets:essence_loot",
+  "chance": 1.0,
+  "conditions": [
+    {
+      "condition": "minecraft:killed_by_player"
+    }
+  ],
+  "item": "fancytrinkets:dragon_essence",
+  "looting": 0.3,
+  "max": 1,
+  "min": 1
+}

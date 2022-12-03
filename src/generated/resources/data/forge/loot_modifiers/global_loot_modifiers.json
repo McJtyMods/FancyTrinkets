@@ -1,0 +1,11 @@
+{
+  "entries": [
+    "fancytrinkets:zombie_essence",
+    "fancytrinkets:dragon_essence",
+    "fancytrinkets:wither_essence",
+    "fancytrinkets:wither_skeleton_essence",
+    "fancytrinkets:enderman_essence",
+    "fancytrinkets:skeleton_essence"
+  ],
+  "replace": false
+}

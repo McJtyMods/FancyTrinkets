@@ -1,0 +1,13 @@
+{
+  "type": "fancytrinkets:essence_loot",
+  "chance": 0.1,
+  "conditions": [
+    {
+      "condition": "minecraft:killed_by_player"
+    }
+  ],
+  "item": "fancytrinkets:wither_skeleton_essence",
+  "looting": 0.3,
+  "max": 2,
+  "min": 1
+}

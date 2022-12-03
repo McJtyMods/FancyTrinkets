@@ -10,6 +10,8 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 
+import java.util.Map;
+
 public class GenGLM extends GlobalLootModifierProvider {
 
     public GenGLM(DataGenerator gen) {
@@ -18,8 +20,11 @@ public class GenGLM extends GlobalLootModifierProvider {
 
     @Override
     protected void start() {
-        add("zombie_extra", new EssenceLootModifier(new LootItemCondition[] {
-                LootItemKilledByPlayerCondition.killedByPlayer().build()
-        }, LootModule.ZOMBIE_ESSENCE.getId()));
+        for (Map.Entry<String, LootModule.EssenceGLM> entry : LootModule.ESSENCE_GLMS.entrySet()) {
+            LootModule.EssenceGLM glm = entry.getValue();
+            add(entry.getKey(), new EssenceLootModifier(new LootItemCondition[] {
+                    LootItemKilledByPlayerCondition.killedByPlayer().build()
+            }, glm.itemId(), glm.chance(), glm.min(), glm.max(), glm.looting()));
+        }
     }
 }
