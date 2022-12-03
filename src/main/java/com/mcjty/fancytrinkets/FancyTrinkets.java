@@ -4,6 +4,7 @@ import com.mcjty.fancytrinkets.curios.CuriosSetup;
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.keys.KeyInputHandler;
 import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
+import com.mcjty.fancytrinkets.modules.loot.LootModule;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.setup.ClientEventHandlers;
@@ -52,6 +53,7 @@ public class FancyTrinkets {
         modules.register(new EffectsModule());
         modules.register(new TrinketsModule());
         modules.register(new XpCrafterModule());
+        modules.register(new LootModule());
     }
 
     private void onInterModEnqueueEvent(InterModEnqueueEvent event) {

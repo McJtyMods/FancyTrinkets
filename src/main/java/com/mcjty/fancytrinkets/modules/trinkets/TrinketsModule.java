@@ -1,5 +1,6 @@
 package com.mcjty.fancytrinkets.modules.trinkets;
 
+import com.mcjty.fancytrinkets.api.ITrinketItem;
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
@@ -24,9 +25,14 @@ import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
+
 public class TrinketsModule implements IModule {
+
+    public static final Map<ResourceLocation, TrinketInfo> TRINKET_ITEMS = new HashMap<>();
 
     public static final TagKey<Item> RING_TAG = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, SlotTypePreset.RING.getIdentifier()));
     public static final TagKey<Item> BELT_TAG = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BELT.getIdentifier()));
@@ -36,25 +42,25 @@ public class TrinketsModule implements IModule {
     public static final TagKey<Item> HEAD_TAG = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, SlotTypePreset.HEAD.getIdentifier()));
     public static final TagKey<Item> BODY_TAG = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BODY.getIdentifier()));
 
-    public static final RegistryObject<TrinketItem> GOLD_RING = Registration.trinket("gold_ring", "item/gold_ring", "Base golden ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> GOLD_RING_BLUE = Registration.trinket("gold_ring_blue", "item/gold_ring_blue", "Base golden ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> GOLD_RING_GREEN = Registration.trinket("gold_ring_green", "item/gold_ring_green", "Base golden ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> GOLD_RING_RED = Registration.trinket("gold_ring_red", "item/gold_ring_red", "Base golden ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> GOLD_RING_DIAMOND = Registration.trinket("gold_ring_diamond", "item/gold_ring_diamond", "Base golden ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> SILVER_RING = Registration.trinket("silver_ring", "item/silver_ring", "Base silver ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> SILVER_RING_BLUE = Registration.trinket("silver_ring_blue", "item/silver_ring_blue", "Base silver ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> SILVER_RING_GREEN = Registration.trinket("silver_ring_green", "item/silver_ring_green", "Base silver ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> SILVER_RING_RED = Registration.trinket("silver_ring_red", "item/silver_ring_red", "Base silver ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> SILVER_RING_DIAMOND = Registration.trinket("silver_ring_diamond", "item/silver_ring_diamond", "Base silver ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> OBSIDIAN_RING = Registration.trinket("obsidian_ring", "item/obsidian_ring", "Base obsidian ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> OBSIDIAN_RING_DIAMOND = Registration.trinket("obsidian_ring_diamond", "item/obsidian_ring_diamond", "Base obsidian ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> GOLD_RING = trinket("gold_ring", "item/gold_ring", "Base golden ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> GOLD_RING_BLUE = trinket("gold_ring_blue", "item/gold_ring_blue", "Base golden ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> GOLD_RING_GREEN = trinket("gold_ring_green", "item/gold_ring_green", "Base golden ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> GOLD_RING_RED = trinket("gold_ring_red", "item/gold_ring_red", "Base golden ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> GOLD_RING_DIAMOND = trinket("gold_ring_diamond", "item/gold_ring_diamond", "Base golden ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> SILVER_RING = trinket("silver_ring", "item/silver_ring", "Base silver ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> SILVER_RING_BLUE = trinket("silver_ring_blue", "item/silver_ring_blue", "Base silver ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> SILVER_RING_GREEN = trinket("silver_ring_green", "item/silver_ring_green", "Base silver ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> SILVER_RING_RED = trinket("silver_ring_red", "item/silver_ring_red", "Base silver ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> SILVER_RING_DIAMOND = trinket("silver_ring_diamond", "item/silver_ring_diamond", "Base silver ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> OBSIDIAN_RING = trinket("obsidian_ring", "item/obsidian_ring", "Base obsidian ring item", RING_TAG);
+    public static final RegistryObject<TrinketItem> OBSIDIAN_RING_DIAMOND = trinket("obsidian_ring_diamond", "item/obsidian_ring_diamond", "Base obsidian ring item", RING_TAG);
 
-    public static final RegistryObject<TrinketItem> STAR = Registration.trinket("star", "item/star", "Base star item",
+    public static final RegistryObject<TrinketItem> STAR = trinket("star", "item/star", "Base star item",
             RING_TAG, BELT_TAG, BRACELET_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
-    public static final RegistryObject<TrinketItem> HEART = Registration.trinket("heart", "item/heart", "Base heart item",
+    public static final RegistryObject<TrinketItem> HEART = trinket("heart", "item/heart", "Base heart item",
             RING_TAG, BELT_TAG, BRACELET_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
-    public static final RegistryObject<TrinketItem> HEART_BODY = Registration.trinket("heart_body", "item/heart", "Base heart item (body)", BODY_TAG);
-    public static final RegistryObject<TrinketItem> FEATHER = Registration.trinket("feather", "item/feather", "Feather star item",
+    public static final RegistryObject<TrinketItem> HEART_BODY = trinket("heart_body", "item/heart", "Base heart item (body)", BODY_TAG);
+    public static final RegistryObject<TrinketItem> FEATHER = trinket("feather", "item/feather", "Feather star item",
             BELT_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
 
     public static final Capability<ICurio> CURIOS_CAPABILITY = CuriosCapability.ITEM;
@@ -64,6 +70,12 @@ public class TrinketsModule implements IModule {
 
         DefaultTrinkets.init();
         DefaultBonusTables.init();
+    }
+
+    public static RegistryObject<TrinketItem> trinket(String id, String texture, String description, TagKey... tags) {
+        RegistryObject<TrinketItem> object = Registration.ITEMS.register(id, TrinketItem::new);
+        TRINKET_ITEMS.put(object.getId(), new TrinketInfo(new ResourceLocation(MODID, id), texture, description, object, tags));
+        return object;
     }
 
 
@@ -100,4 +112,9 @@ public class TrinketsModule implements IModule {
 
     }
 
+    public static record TrinketInfo(ResourceLocation id, String texture,
+                                     String description,
+                                     RegistryObject<TrinketItem> item,
+                                     TagKey<Item>... tags) {
+    }
 }

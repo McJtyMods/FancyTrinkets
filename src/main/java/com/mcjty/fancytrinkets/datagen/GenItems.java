@@ -1,7 +1,8 @@
 package com.mcjty.fancytrinkets.datagen;
 
+import com.mcjty.fancytrinkets.modules.loot.LootModule;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
-import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.datagen.BaseItemModelProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -19,10 +20,16 @@ public class GenItems extends BaseItemModelProvider {
 
     @Override
     protected void registerModels() {
-        for (Map.Entry<ResourceLocation, Registration.TrinketInfo> entry : Registration.TRINKET_ITEMS.entrySet()) {
-            Registration.TrinketInfo trinket = entry.getValue();
+        for (Map.Entry<ResourceLocation, TrinketsModule.TrinketInfo> entry : TrinketsModule.TRINKET_ITEMS.entrySet()) {
+            TrinketsModule.TrinketInfo trinket = entry.getValue();
             itemGenerated(trinket.item().get(), trinket.texture());
         }
+
+        for (Map.Entry<String, LootModule.Essence> entry : LootModule.ESSENCE_ITEMS.entrySet()) {
+            LootModule.Essence essence = entry.getValue();
+            itemGenerated(essence.item().get(), essence.texture());
+        }
+
         parentedBlock(XpCrafterModule.EXPERIENCE_CRAFTER.get(), "block/experience_crafter");
     }
 

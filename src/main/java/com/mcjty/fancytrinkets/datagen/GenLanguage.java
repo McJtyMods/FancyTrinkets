@@ -4,18 +4,23 @@ import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.compat.XpRecipeCategory;
 import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.DefaultEffects;
+import com.mcjty.fancytrinkets.modules.loot.LootModule;
 import com.mcjty.fancytrinkets.modules.trinkets.DefaultTrinkets;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
-import com.mcjty.fancytrinkets.setup.Registration;
+import com.mcjty.fancytrinkets.modules.xpcrafter.blocks.ExperienceCrafterBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Map;
 
-public class GenLanguageProvider extends net.minecraftforge.common.data.LanguageProvider {
+public class GenLanguage extends net.minecraftforge.common.data.LanguageProvider {
 
-    public GenLanguageProvider(DataGenerator gen, String locale) {
+    public GenLanguage(DataGenerator gen, String locale) {
         super(gen, FancyTrinkets.MODID, locale);
     }
 
@@ -35,10 +40,15 @@ public class GenLanguageProvider extends net.minecraftforge.common.data.Language
         add(KeyBindings.KEY_CATEGORIES_FANCYTRINKETS, "Fancy Trinkets");
         add(XpRecipeCategory.KEY_XP_RECIPE_CATEGORY, "Experience Crafter");
 
-        add("block." + XpCrafterModule.EXPERIENCE_CRAFTER.getId().getNamespace() + "." + XpCrafterModule.EXPERIENCE_CRAFTER.getId().getPath(), "Experience Crafter");
+        RegistryObject<ExperienceCrafterBlock> b = XpCrafterModule.EXPERIENCE_CRAFTER;
+        add("block." + getStringId(b), "Experience Crafter");
+        add("message." + getStringId(b) + ".header", "Craft trinkets using experience. With low experience you'll potentially get low quality trinkets");
 
-        for (Registration.TrinketInfo info : Registration.TRINKET_ITEMS.values()) {
-            add("item." + info.id().getNamespace() + "." + info.id().getPath(), info.description());
+        for (TrinketsModule.TrinketInfo info : TrinketsModule.TRINKET_ITEMS.values()) {
+            add("item." + getStringId(info.id()), info.description());
+        }
+        for (LootModule.Essence essence : LootModule.ESSENCE_ITEMS.values()) {
+            add("item." + getStringItemId(essence.item()), essence.description());
         }
         for (Map.Entry<ResourceLocation, DefaultTrinkets.TrinketInfo> entry : DefaultTrinkets.DEFAULT_TRINKETS.entrySet()) {
             ResourceLocation key = entry.getKey();
@@ -48,5 +58,17 @@ public class GenLanguageProvider extends net.minecraftforge.common.data.Language
         for (Map.Entry<ResourceLocation, DefaultEffects.EffectInfo> entry : DefaultEffects.DEFAULT_EFFECTS.entrySet()) {
             add("effectId.fancytrinkets." + entry.getKey().getPath(), entry.getValue().description());
         }
+    }
+
+    private String getStringId(RegistryObject<? extends Block> b) {
+        return b.getId().getNamespace() + "." + b.getId().getPath();
+    }
+
+    private String getStringItemId(RegistryObject<? extends Item> b) {
+        return b.getId().getNamespace() + "." + b.getId().getPath();
+    }
+
+    private String getStringId(ResourceLocation id) {
+        return id.getNamespace() + "." + id.getPath();
     }
 }

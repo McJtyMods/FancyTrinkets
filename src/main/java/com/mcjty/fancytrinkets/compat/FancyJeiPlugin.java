@@ -1,10 +1,10 @@
 package com.mcjty.fancytrinkets.compat;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.blocks.ExperienceCrafterBE;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
-import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.container.GenericContainer;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -39,9 +39,9 @@ public class FancyJeiPlugin implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        Registration.TRINKET_ITEMS.values()
+        TrinketsModule.TRINKET_ITEMS.values()
             .stream()
-            .map(Registration.TrinketInfo::item)
+            .map(TrinketsModule.TrinketInfo::item)
             .map(RegistryObject::get)
             .distinct()
             .forEach(item -> {

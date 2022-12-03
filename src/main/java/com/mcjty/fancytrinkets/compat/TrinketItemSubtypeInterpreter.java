@@ -1,6 +1,6 @@
 package com.mcjty.fancytrinkets.compat;
 
-import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.setup.Registration;
 import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +15,7 @@ public class TrinketItemSubtypeInterpreter implements IIngredientSubtypeInterpre
 
     @Override
     public String apply(ItemStack ingredient, UidContext context) {
-        ResourceLocation trinketId = TrinketItem.getTrinketId(ingredient);
+        ResourceLocation trinketId = ingredient.getCapability(Registration.TRINKET_ITEM_CAPABILITY).map(trinket -> trinket.getTrinketId(ingredient)).orElse(null);
         return trinketId == null ? IIngredientSubtypeInterpreter.NONE : trinketId.toString();
     }
 }

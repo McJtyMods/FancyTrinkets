@@ -69,7 +69,7 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
             case POTIONRESISTANCE -> getPotionResistanceEffect(params, hotkey, toggle);
             case DAMAGEREDUCTION -> getDamageReductionEffect(params, hotkey, toggle);
             case FLIGHT -> new FlightEffect(hotkey, toggle);
-            case WARP -> new WarpEffect(hotkey, toggle);
+            case WARP -> new WarpEffect(hotkey, toggle, WarpEffect.Params.cast(params).maxdist());
             case CURE -> new CureEffect(hotkey, toggle);
             case ATTRIBUTE -> getAttributeEffect(params, hotkey, toggle);
         };

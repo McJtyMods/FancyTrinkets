@@ -1,7 +1,7 @@
 package com.mcjty.fancytrinkets.datagen;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
-import com.mcjty.fancytrinkets.setup.Registration;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -21,7 +21,7 @@ public class GenItemTags extends ItemTagsProvider {
 
     @Override
     protected void addTags() {
-        for (Map.Entry<ResourceLocation, Registration.TrinketInfo> entry : Registration.TRINKET_ITEMS.entrySet()) {
+        for (Map.Entry<ResourceLocation, TrinketsModule.TrinketInfo> entry : TrinketsModule.TRINKET_ITEMS.entrySet()) {
             for (TagKey<Item> key : entry.getValue().tags()) {
                 tag(key).add(entry.getValue().item().get());
             }

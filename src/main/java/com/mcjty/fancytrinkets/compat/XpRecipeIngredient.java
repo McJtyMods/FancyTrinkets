@@ -1,6 +1,6 @@
 package com.mcjty.fancytrinkets.compat;
 
-import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.setup.Registration;
 import mezz.jei.api.ingredients.IIngredientTypeWithSubtypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -20,7 +20,7 @@ public class XpRecipeIngredient implements IIngredientTypeWithSubtypes<XpRecipeI
 
     @Override
     public XpIng getBase(ItemStack ingredient) {
-        ResourceLocation id = TrinketItem.getTrinketId(ingredient);
+        ResourceLocation id = ingredient.getCapability(Registration.TRINKET_ITEM_CAPABILITY).map(trinket -> trinket.getTrinketId(ingredient)).orElse(null);
         return new XpIng(ingredient.getItem(), id);
     }
 

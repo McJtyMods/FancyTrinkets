@@ -1,12 +1,13 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.blocks;
 
+import com.mcjty.fancytrinkets.api.ITrinketItem;
 import com.mcjty.fancytrinkets.datapack.BonusTable;
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
-import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
 import com.mcjty.fancytrinkets.setup.Config;
+import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.api.container.DefaultContainerProvider;
 import mcjty.lib.bindings.GuiValue;
 import mcjty.lib.blockcommands.Command;
@@ -97,9 +98,10 @@ public class ExperienceCrafterBE extends GenericTileEntity {
             ItemStack outputSlot = items.getStackInSlot(SLOT_OUTPUT);
             if (outputSlot.isEmpty()) {
                 stack = stack.copy();
-                if (stack.getItem() instanceof TrinketItem) {
-                    addBonusEffects(stack);
-                }
+                ItemStack finalStack = stack;
+                stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
+                    addBonusEffects(trinket, finalStack);
+                });
                 items.setStackInSlot(SLOT_OUTPUT, stack);
                 for (int i = 0; i < RECIPE_DIMENSION * RECIPE_DIMENSION; i++) {
                     ItemStack in = items.getStackInSlot(SLOT_GRID + i);
@@ -112,8 +114,8 @@ public class ExperienceCrafterBE extends GenericTileEntity {
         });
     }
 
-    private void addBonusEffects(ItemStack stack) {
-        ResourceLocation id = TrinketItem.getTrinketId(stack);
+    private void addBonusEffects(ITrinketItem trinket, ItemStack stack) {
+        ResourceLocation id = trinket.getTrinketId(stack);
         TrinketDescription description = level.registryAccess().registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).get(id);
         if (description != null) {
             ResourceLocation bonusTableId = description.bonusTableId();
@@ -128,7 +130,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
                     // Find a good set of effects for the desired quality
                     List<BonusTable.EffectRef> list = Collections.emptyList();
                     float maxDiff = 5.0f;
-                    while (list.size() < 5) {
+                    while (list.size() < 9) {
                         list = findSuitableEffects(bonusTable.effects(), targetQuality, maxDiff);
                         maxDiff += 5;
                     }
@@ -145,7 +147,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
                             }
                         }
                     }
-                    TrinketItem.addEffects(stack, effects);
+                    trinket.addEffects(stack, effects);
                 }
             }
         }
@@ -158,7 +160,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     private void addEffect(float targetQuality, List<ResourceLocation> effects, List<BonusTable.EffectRef> list) {
         int bestIndex = -1;
         float bestDiff = Float.MAX_VALUE;
-        for (int i = 0 ; i < 20 ; i++) {
+        for (int i = 0 ; i < 5 ; i++) {
             BonusTable.EffectRef ref = list.get(random.nextInt(list.size()));
             float diff = Math.abs(ref.quality() - targetQuality);
             if (diff < bestDiff) {
@@ -188,8 +190,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
         for (int i = SLOT_GRID; i < SLOT_GRID + RECIPE_DIMENSION * RECIPE_DIMENSION; i++) {
             inv.setItem(i - SLOT_GRID, items.getStackInSlot(i));
         }
-        Optional<XpRecipe> result = level.getRecipeManager().getRecipeFor(XpCrafterModule.XP_RECIPE_TYPE.get(), inv, level);
-        return result;
+        return level.getRecipeManager().getRecipeFor(XpCrafterModule.XP_RECIPE_TYPE.get(), inv, level);
     }
 
     private void fillExperience(ServerPlayer player) {

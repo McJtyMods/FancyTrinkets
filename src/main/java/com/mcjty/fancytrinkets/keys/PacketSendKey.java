@@ -1,7 +1,8 @@
 package com.mcjty.fancytrinkets.keys;
 
-import com.mcjty.fancytrinkets.modules.trinkets.ITrinketItem;
+import com.mcjty.fancytrinkets.api.ITrinketItem;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.setup.Registration;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
@@ -30,14 +31,14 @@ public class PacketSendKey {
     public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context ctx = supplier.get();
         ctx.enqueueWork(() -> {
-            for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(ctx.getSender(), stack -> stack.getItem() instanceof TrinketItem)) {
+            for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(ctx.getSender(), stack -> stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).isPresent())) {
                 ItemStack stack = slot.stack();
-                if (stack.getItem() instanceof ITrinketItem trinketItem) {
-                    trinketItem.forAllEffects(ctx.getSender().level, stack, effect -> {
+                stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
+                    trinket.forAllEffects(ctx.getSender().level, stack, effect -> {
                         SlotContext context = slot.slotContext();
                         effect.onHotkey(stack, ctx.getSender(), context.identifier() + context.index(), key);
                     });
-                }
+                });
             }
         });
         ctx.setPacketHandled(true);

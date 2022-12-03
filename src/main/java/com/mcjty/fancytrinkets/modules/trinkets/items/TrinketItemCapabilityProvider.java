@@ -1,6 +1,8 @@
 package com.mcjty.fancytrinkets.modules.trinkets.items;
 
+import com.mcjty.fancytrinkets.api.ITrinketItem;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
+import com.mcjty.fancytrinkets.setup.Registration;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -14,16 +16,22 @@ import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import javax.annotation.Nonnull;
 
-public class CuriosCapabilityProvider implements ICapabilityProvider {
+public class TrinketItemCapabilityProvider implements ICapabilityProvider {
 
     private final ItemStack itemStack;
     private final TrinketItem trinketItem;
 
     private final LazyOptional<ICurio> curio = LazyOptional.of(this::createCurio);
+    private final LazyOptional<ITrinketItem> trinket = LazyOptional.of(this::getTrinket);
 
-    public CuriosCapabilityProvider(ItemStack itemStack, TrinketItem trinketItem) {
+    public TrinketItemCapabilityProvider(ItemStack itemStack, TrinketItem trinketItem) {
         this.itemStack = itemStack;
         this.trinketItem = trinketItem;
+    }
+
+    @Nonnull
+    private ITrinketItem getTrinket() {
+        return trinketItem;
     }
 
     @Nonnull
@@ -62,6 +70,9 @@ public class CuriosCapabilityProvider implements ICapabilityProvider {
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if (cap == TrinketsModule.CURIOS_CAPABILITY) {
             return curio.cast();
+        }
+        if (cap == Registration.TRINKET_ITEM_CAPABILITY) {
+            return trinket.cast();
         }
         return LazyOptional.empty();
     }

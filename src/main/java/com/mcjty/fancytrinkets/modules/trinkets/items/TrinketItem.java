@@ -7,7 +7,7 @@ import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
-import com.mcjty.fancytrinkets.modules.trinkets.ITrinketItem;
+import com.mcjty.fancytrinkets.api.ITrinketItem;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
 import mcjty.lib.tooltips.ITooltipSettings;
 import mcjty.lib.varia.ComponentFactory;
@@ -70,7 +70,8 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
         tag.putString("id", trinket.id().toString());
     }
 
-    public static void addEffects(ItemStack stack, List<ResourceLocation> effects) {
+    @Override
+    public void addEffects(ItemStack stack, List<ResourceLocation> effects) {
         CompoundTag tag = stack.getOrCreateTag();
         ListTag list = new ListTag();
         for (ResourceLocation location : effects) {
@@ -100,7 +101,8 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
         return result;
     }
 
-    public static ResourceLocation getTrinketId(ItemStack stack) {
+    @Override
+    public ResourceLocation getTrinketId(ItemStack stack) {
         CompoundTag tag = stack.getTag();
         if (tag != null && tag.contains("id")) {
             return new ResourceLocation(tag.getString("id"));
@@ -191,6 +193,6 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
 
     @Override
     public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new CuriosCapabilityProvider(stack, this);
+        return new TrinketItemCapabilityProvider(stack, this);
     }
 }

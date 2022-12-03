@@ -81,7 +81,7 @@ public class DefaultEffects {
         register("conduit_power", mobEffect("minecraft:conduit_power", 1, false), "Conduit Power");
 
         register("flight", flightEffect(), "Flight");
-        register("warp", warpEffect(2), "Warp");
+        register("warp", warpEffect(2, 40), "Warp");
         register("cure", cureEffect(), "Cure");
 
         register("poison_resist", potionResistEffect("minecraft:poison"), "Poison Resistance");
@@ -214,8 +214,8 @@ public class DefaultEffects {
         return EffectDescription.create(null, null, false, FlightEffect.Params.EMPTY);
     }
 
-    private static EffectDescription warpEffect(int hotkey) {
-        return EffectDescription.create(hotkey, null, false, WarpEffect.Params.EMPTY);
+    private static EffectDescription warpEffect(int hotkey, int maxdist) {
+        return EffectDescription.create(hotkey, null, false, new WarpEffect.Params(maxdist));
     }
 
     private static EffectDescription cureEffect() {

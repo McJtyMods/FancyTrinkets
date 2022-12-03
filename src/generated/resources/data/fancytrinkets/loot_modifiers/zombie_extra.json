@@ -1,0 +1,9 @@
+{
+  "type": "fancytrinkets:zombie_extra",
+  "conditions": [
+    {
+      "condition": "minecraft:killed_by_player"
+    }
+  ],
+  "item": "fancytrinkets:zombie_essence"
+}
