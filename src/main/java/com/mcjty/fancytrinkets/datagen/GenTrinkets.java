@@ -1,47 +1,29 @@
 package com.mcjty.fancytrinkets.datagen;
 
-import com.google.gson.JsonElement;
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.modules.trinkets.DefaultTrinkets;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.JsonCodecProvider;
+import org.apache.commons.lang3.tuple.Pair;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-public class GenTrinkets implements DataProvider {
+public class GenTrinkets extends JsonCodecProvider<TrinketDescription> {
 
-    private final DataGenerator.PathProvider pathProvider;
-
-    public GenTrinkets(DataGenerator generator) {
-        this.pathProvider = generator.createPathProvider(DataGenerator.Target.DATA_PACK, "fancytrinkets/trinkets");
+    public GenTrinkets(DataGenerator generator, ExistingFileHelper fileHelper) {
+        super(generator, fileHelper, FancyTrinkets.MODID, JsonOps.INSTANCE,
+                PackType.SERVER_DATA, "fancytrinkets/trinkets", TrinketDescription.CODEC, getEntries());
     }
 
-    @Override
-    public void run(CachedOutput output) throws IOException {
-        for (Map.Entry<ResourceLocation, DefaultTrinkets.TrinketInfo> entry : DefaultTrinkets.DEFAULT_TRINKETS.entrySet()) {
-            trinket(output, entry.getKey().getPath(), entry.getValue().trinketDescription());
-        }
-    }
-
-    private void trinket(CachedOutput output, String id, TrinketDescription trinket) {
-        JsonElement element = TrinketDescription.CODEC.encodeStart(JsonOps.INSTANCE, trinket)
-                .getOrThrow(false, s -> FancyTrinkets.setup.getLogger().error(s));
-        Path path = pathProvider.json(new ResourceLocation(FancyTrinkets.MODID, id));
-        try {
-            DataProvider.saveStable(output, element, path);
-        } catch (IOException ioexception) {
-            FancyTrinkets.setup.getLogger().error("Couldn't save trinkets to {}", path, ioexception);
-        }
-    }
-
-    @Override
-    public String getName() {
-        return "FancyTrinkets trinkets provider";
+    private static Map<ResourceLocation, TrinketDescription> getEntries() {
+        return DefaultTrinkets.DEFAULT_TRINKETS.entrySet().stream()
+                .map(entry -> Pair.of(entry.getKey(), entry.getValue().trinketDescription()))
+                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight));
     }
 }
