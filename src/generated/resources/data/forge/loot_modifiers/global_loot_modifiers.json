@@ -3,9 +3,13 @@
     "fancytrinkets:zombie_essence",
     "fancytrinkets:dragon_essence",
     "fancytrinkets:wither_essence",
+    "fancytrinkets:ghast_essence",
     "fancytrinkets:wither_skeleton_essence",
     "fancytrinkets:enderman_essence",
-    "fancytrinkets:skeleton_essence"
+    "fancytrinkets:wither_trinket",
+    "fancytrinkets:enderman_trinket",
+    "fancytrinkets:skeleton_essence",
+    "fancytrinkets:dragon_trinket"
   ],
   "replace": false
 }

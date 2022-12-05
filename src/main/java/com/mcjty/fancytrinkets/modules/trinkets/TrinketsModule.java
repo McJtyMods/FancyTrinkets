@@ -63,6 +63,18 @@ public class TrinketsModule implements IModule {
     public static final RegistryObject<TrinketItem> FEATHER = trinket("feather", "item/feather", "Feather star item",
             BELT_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
 
+    public static final RegistryObject<TrinketItem> BLACK_PEARL = trinket("black_pearl", "item/black_pearl", "Black pearl",
+            CHARM_TAG);
+    public static final RegistryObject<TrinketItem> BLUE_PEARL = trinket("blue_pearl", "item/blue_pearl", "Blue pearl",
+            CHARM_TAG);
+    public static final RegistryObject<TrinketItem> YELLOW_PEARL = trinket("yellow_pearl", "item/yellow_pearl", "Yellow pearl",
+            CHARM_TAG);
+    public static final RegistryObject<TrinketItem> PURPLE_PEARL = trinket("purple_pearl", "item/purple_pearl", "Purple pearl",
+            CHARM_TAG);
+    public static final RegistryObject<TrinketItem> SHINY_PEARL = trinket("shiny_pearl", "item/shiny_pearl", "Shiny pearl",
+            CHARM_TAG);
+
+
     public static final Capability<ICurio> CURIOS_CAPABILITY = CuriosCapability.ITEM;
 
     public TrinketsModule() {

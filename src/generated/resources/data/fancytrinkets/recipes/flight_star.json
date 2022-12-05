@@ -10,15 +10,18 @@
       "tag": "forge:feathers"
     },
     "g": {
-      "tag": "forge:ingots/gold"
+      "item": "fancytrinkets:ghast_essence"
+    },
+    "t": {
+      "item": "minecraft:ghast_tear"
     }
   },
   "pattern": [
-    " fgf ",
-    "f   f",
-    "g S g",
-    "f   f",
-    " fgf "
+    "g   f",
+    " gtg ",
+    " tSt ",
+    " gtg ",
+    "f   g"
   ],
   "result": {
     "item": "fancytrinkets:star",

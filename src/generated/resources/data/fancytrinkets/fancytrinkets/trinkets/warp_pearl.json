@@ -1,0 +1,12 @@
+{
+  "bonustable": "fancytrinkets:standard",
+  "description": "trinket.fancytrinkets.warp_pearl.description",
+  "effects": [
+    {
+      "hidden": false,
+      "id": "fancytrinkets:warp"
+    }
+  ],
+  "item": "fancytrinkets:blue_pearl",
+  "name": "trinket.fancytrinkets.warp_pearl.name"
+}

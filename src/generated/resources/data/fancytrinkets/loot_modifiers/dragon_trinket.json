@@ -1,0 +1,18 @@
+{
+  "type": "fancytrinkets:trinket_loot",
+  "chance": 1.0,
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/ender_dragon"
+    }
+  ],
+  "looting": 0.0,
+  "max": 1,
+  "maxquality": 100.0,
+  "min": 1,
+  "minquality": 90.0,
+  "trinkets": [
+    "fancytrinkets:power_star"
+  ]
+}

@@ -47,8 +47,16 @@ public class MobEffectEffect extends EffectImp {
     public void tick(ItemStack stack, ServerPlayer player, String slotId) {
         executeIfEnabled(player, playerEffects -> {
             long gameTime = player.level.getGameTime();
-            playerEffects.registerEffect(slotId, this, gameTime + 4*20);
+            playerEffects.registerEffect(slotId, this, gameTime + 12*20);
         });
+    }
+
+    @Override
+    public void onUnequip(ItemStack stack, ServerPlayer player, String slotId) {
+        player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
+            playerEffects.unregisterEffect(slotId);
+        });
+        turnOff(player);
     }
 
     @Override
@@ -57,13 +65,26 @@ public class MobEffectEffect extends EffectImp {
             player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
                 if (!playerEffects.toggle(player, toggle)) {
                     playerEffects.unregisterEffect(slotId);
+                    turnOff(player);
                 }
             });
         }
     }
 
     @Override
+    protected void turnOff(ServerPlayer player) {
+        MobEffectInstance instance = player.getActiveEffectsMap().get(effect);
+        if (instance != null) {
+            player.removeEffect(instance.getEffect());
+        }
+    }
+
+    @Override
     public void perform(ServerPlayer player, int strength) {
-        player.addEffect(new MobEffectInstance(effect, 20*4, strengthModifier + strength-1));
+        MobEffectInstance instance = player.getActiveEffectsMap().get(effect);
+        int amplifier = strengthModifier + strength - 1;
+        if (instance == null || instance.getAmplifier() != amplifier || instance.getDuration() < 11*20) {
+            player.addEffect(new MobEffectInstance(effect, 20*12, amplifier));
+        }
     }
 }

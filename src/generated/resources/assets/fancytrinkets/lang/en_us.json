@@ -160,9 +160,12 @@
   "fancytrinkets.key.toggle7": "Fancy Trinkets Toggle 7",
   "fancytrinkets.key.toggle8": "Fancy Trinkets Toggle 8",
   "fancytrinkets.xp_recipe_category": "Experience Crafter",
+  "item.fancytrinkets.black_pearl": "Black pearl",
+  "item.fancytrinkets.blue_pearl": "Blue pearl",
   "item.fancytrinkets.dragon_essence": "Enderdragon Essence",
   "item.fancytrinkets.enderman_essence": "Enderman Essence",
   "item.fancytrinkets.feather": "Feather star item",
+  "item.fancytrinkets.ghast_essence": "Ghast Essence",
   "item.fancytrinkets.gold_ring": "Base golden ring item",
   "item.fancytrinkets.gold_ring_blue": "Base golden ring item",
   "item.fancytrinkets.gold_ring_diamond": "Base golden ring item",
@@ -172,6 +175,8 @@
   "item.fancytrinkets.heart_body": "Base heart item (body)",
   "item.fancytrinkets.obsidian_ring": "Base obsidian ring item",
   "item.fancytrinkets.obsidian_ring_diamond": "Base obsidian ring item",
+  "item.fancytrinkets.purple_pearl": "Purple pearl",
+  "item.fancytrinkets.shiny_pearl": "Shiny pearl",
   "item.fancytrinkets.silver_ring": "Base silver ring item",
   "item.fancytrinkets.silver_ring_blue": "Base silver ring item",
   "item.fancytrinkets.silver_ring_diamond": "Base silver ring item",
@@ -181,6 +186,7 @@
   "item.fancytrinkets.star": "Base star item",
   "item.fancytrinkets.wither_essence": "Wither Essence",
   "item.fancytrinkets.wither_skeleton_essence": "Wither Skeleton Essence",
+  "item.fancytrinkets.yellow_pearl": "Yellow pearl",
   "item.fancytrinkets.zombie_essence": "Zombie Essence",
   "itemGroup.fancytrinkets": "Fancy Trinkets",
   "key.categories.fancytrinkets": "Fancy Trinkets",
@@ -220,5 +226,7 @@
   "trinket.fancytrinkets.super_health.description": "You feel so much more healthy now",
   "trinket.fancytrinkets.super_health.name": "Heart of Health",
   "trinket.fancytrinkets.swift_star.description": "Feel the freedom of swift and flexible movement",
-  "trinket.fancytrinkets.swift_star.name": "Star of Swiftness"
+  "trinket.fancytrinkets.swift_star.name": "Star of Swiftness",
+  "trinket.fancytrinkets.warp_pearl.description": "Warp Pearl",
+  "trinket.fancytrinkets.warp_pearl.name": "Warp Pearl"
 }

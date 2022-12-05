@@ -1,6 +1,7 @@
 package com.mcjty.fancytrinkets.datagen;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.modules.loot.LootModule;
 import com.mcjty.fancytrinkets.modules.trinkets.DefaultTrinkets;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
@@ -33,17 +34,20 @@ public class GenRecipes extends BaseRecipeProvider {
                         .unlockedBy("redstone", has(Items.REDSTONE)),
                 "iii", "gCg", "iii");
 
-        build(consumer, trinket("base_gold_ring"), XpRecipeBuilder.shapedRecipe(createTrinketStack("base_gold_ring"))
-                        .define('g', Tags.Items.INGOTS_GOLD),
-                " ggg ", "g   g", "g   g", "g   g", " ggg ");
         build(consumer, trinket("base_star"), XpRecipeBuilder.shapedRecipe(createTrinketStack("base_star"))
                         .define('g', Tags.Items.DUSTS_PRISMARINE),
                 "g g g", "  g  ", "ggggg", "  g  ", "g g g");
         build(consumer, trinket("flight_star"), XpRecipeBuilder.shapedRecipe(createTrinketStack("flight_star"))
                         .define('f', Tags.Items.FEATHERS)
-                        .define('g', Tags.Items.INGOTS_GOLD)
+                        .define('t', Items.GHAST_TEAR)
+                        .define('g', LootModule.GHAST_ESSENCE.get())
                         .define('S', createTrinketIngredient("base_star")),
-                " fgf ", "f   f", "g S g", "f   f", " fgf ");
+                "g   f", " gtg ", " tSt ", " gtg ", "f   g");
+
+        build(consumer, trinket("base_gold_ring"), XpRecipeBuilder.shapedRecipe(createTrinketStack("base_gold_ring"))
+                        .define('g', Tags.Items.INGOTS_GOLD),
+                " ggg ", "g   g", "g   g", "g   g", " ggg ");
+
     }
 
     private ResourceLocation trinket(String id) {

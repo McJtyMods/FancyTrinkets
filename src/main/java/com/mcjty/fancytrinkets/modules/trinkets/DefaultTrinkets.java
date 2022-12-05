@@ -46,6 +46,8 @@ public class DefaultTrinkets {
                 effect("dmg_fall_75")), "Ring of Lightness", "Reduce 75% of fall damage");
         register("fireresist_ring", trinket("fireresist_ring", "gold_ring_diamond",
                 effect("dmg_infire_100"), hidden("dmg_hotfloor_100"), hidden("dmg_onfire_100"), hidden("dmg_lava_100")), "Ring of Coolness", "Reduce all heat related damage (100%)");
+
+        register("warp_pearl", trinket("warp_pearl", "blue_pearl", effect("warp")), "Warp Pearl", "Warp Pearl");
     }
 
     private static TrinketDescription.EffectRef effect(String id) {

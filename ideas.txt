@@ -39,6 +39,10 @@ Effects:
   - Leap (using a hotkey, do a big jump)
   - Repulsion (using a hotkey, push all nearby mobs away)
 
+  - Thorns
+  - Knockback
+  -
+
 Kinds of items:
   - Ring
   - Amulet

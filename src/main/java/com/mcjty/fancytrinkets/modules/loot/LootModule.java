@@ -29,8 +29,10 @@ public class LootModule implements IModule {
     public static final RegistryObject<Item> SKELETON_ESSENCE = createBasicItem("skeleton_essence", "item/essence/skeleton_essence", "Skeleton Essence");
     public static final RegistryObject<Item> DRAGON_ESSENCE = createBasicItem("dragon_essence", "item/essence/dragon_essence", "Enderdragon Essence");
     public static final RegistryObject<Item> ENDERMAN_ESSENCE = createBasicItem("enderman_essence", "item/essence/enderman_essence", "Enderman Essence");
+    public static final RegistryObject<Item> GHAST_ESSENCE = createBasicItem("ghast_essence", "item/essence/ghast_essence", "Ghast Essence");
 
     public static final RegistryObject<Codec<? extends IGlobalLootModifier>> ESSENCE_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("essence_loot", () -> EssenceLootModifier.CODEC);
+    public static final RegistryObject<Codec<? extends IGlobalLootModifier>> TRINKET_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("trinket_loot", () -> TrinketLootModifier.CODEC);
 
     public static final EssenceGLM ZOMBIE_LOOT_MODIFIER = createGlm("zombie_essence", EntityType.ZOMBIE, 0.1f, 1, 2, .3f);
     public static final EssenceGLM WITHER_SKELETON_LOOT_MODIFIER = createGlm("wither_skeleton_essence", EntityType.WITHER_SKELETON, 0.1f, 1, 2, .3f);
@@ -38,6 +40,7 @@ public class LootModule implements IModule {
     public static final EssenceGLM SKELETON_LOOT_MODIFIER = createGlm("skeleton_essence", EntityType.SKELETON, 0.1f, 1, 2, .3f);
     public static final EssenceGLM DRAGON_LOOT_MODIFIER = createGlm("dragon_essence", EntityType.ENDER_DRAGON, 1.0f, 1, 1, .3f);
     public static final EssenceGLM ENDERMAN_LOOT_MODIFIER = createGlm("enderman_essence", EntityType.ENDERMAN, 0.1f, 1, 2, .3f);
+    public static final EssenceGLM GHAST_LOOT_MODIFIER = createGlm("ghast_essence", EntityType.GHAST, 0.4f, 1, 2, .3f);
 
     public LootModule() {
     }
