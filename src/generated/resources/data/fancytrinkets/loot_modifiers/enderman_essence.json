@@ -3,6 +3,13 @@
   "chance": 0.1,
   "conditions": [
     {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "type": "minecraft:enderman"
+      }
+    },
+    {
       "condition": "minecraft:killed_by_player"
     }
   ],

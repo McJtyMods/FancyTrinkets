@@ -4,6 +4,7 @@ import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mojang.serialization.Codec;
 import mcjty.lib.modules.IModule;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -31,12 +32,12 @@ public class LootModule implements IModule {
 
     public static final RegistryObject<Codec<? extends IGlobalLootModifier>> ESSENCE_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("essence_loot", () -> EssenceLootModifier.CODEC);
 
-    public static final EssenceGLM ZOMBIE_LOOT_MODIFIER = createGlm("zombie_essence", 0.1f, 1, 2, .3f);
-    public static final EssenceGLM WITHER_SKELETON_LOOT_MODIFIER = createGlm("wither_skeleton_essence", 0.1f, 1, 2, .3f);
-    public static final EssenceGLM WITHER_LOOT_MODIFIER = createGlm("wither_essence", 1.0f, 1, 1, .3f);
-    public static final EssenceGLM SKELETON_LOOT_MODIFIER = createGlm("skeleton_essence", 0.1f, 1, 2, .3f);
-    public static final EssenceGLM DRAGON_LOOT_MODIFIER = createGlm("dragon_essence", 1.0f, 1, 1, .3f);
-    public static final EssenceGLM ENDERMAN_LOOT_MODIFIER = createGlm("enderman_essence", 0.1f, 1, 2, .3f);
+    public static final EssenceGLM ZOMBIE_LOOT_MODIFIER = createGlm("zombie_essence", EntityType.ZOMBIE, 0.1f, 1, 2, .3f);
+    public static final EssenceGLM WITHER_SKELETON_LOOT_MODIFIER = createGlm("wither_skeleton_essence", EntityType.WITHER_SKELETON, 0.1f, 1, 2, .3f);
+    public static final EssenceGLM WITHER_LOOT_MODIFIER = createGlm("wither_essence", EntityType.WITHER, 1.0f, 1, 1, .3f);
+    public static final EssenceGLM SKELETON_LOOT_MODIFIER = createGlm("skeleton_essence", EntityType.SKELETON, 0.1f, 1, 2, .3f);
+    public static final EssenceGLM DRAGON_LOOT_MODIFIER = createGlm("dragon_essence", EntityType.ENDER_DRAGON, 1.0f, 1, 1, .3f);
+    public static final EssenceGLM ENDERMAN_LOOT_MODIFIER = createGlm("enderman_essence", EntityType.ENDERMAN, 0.1f, 1, 2, .3f);
 
     public LootModule() {
     }
@@ -55,7 +56,7 @@ public class LootModule implements IModule {
     }
 
     public static record Essence(RegistryObject<Item> item, String texture, String description) {}
-    public static record EssenceGLM(ResourceLocation itemId, float chance, int min, int max, float looting) {}
+    public static record EssenceGLM(ResourceLocation itemId, EntityType<?> type, float chance, int min, int max, float looting) {}
 
     @Nonnull
     private static RegistryObject<Item> createBasicItem(String id, String texture, String description) {
@@ -64,8 +65,8 @@ public class LootModule implements IModule {
         return object;
     }
 
-    private static EssenceGLM createGlm(String id, float chance, int min, int max, float looting) {
-        EssenceGLM glm = new EssenceGLM(new ResourceLocation(FancyTrinkets.MODID, id), chance, min, max, looting);
+    private static EssenceGLM createGlm(String id, EntityType<?> type, float chance, int min, int max, float looting) {
+        EssenceGLM glm = new EssenceGLM(new ResourceLocation(FancyTrinkets.MODID, id), type, chance, min, max, looting);
         ESSENCE_GLMS.put(id, glm);
         return glm;
     }

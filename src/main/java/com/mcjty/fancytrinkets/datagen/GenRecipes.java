@@ -3,10 +3,12 @@ package com.mcjty.fancytrinkets.datagen;
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.trinkets.DefaultTrinkets;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipeBuilder;
 import mcjty.lib.datagen.BaseRecipeProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -25,11 +27,17 @@ public class GenRecipes extends BaseRecipeProvider {
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
 
+        build(consumer, XpCrafterModule.EXPERIENCE_CRAFTER.getId(), ShapedRecipeBuilder.shaped(XpCrafterModule.EXPERIENCE_CRAFTER_ITEM.get())
+                        .define('C', Items.CRAFTING_TABLE)
+                        .define('g', Items.GLOWSTONE_DUST)
+                        .unlockedBy("redstone", has(Items.REDSTONE)),
+                "iii", "gCg", "iii");
+
         build(consumer, trinket("base_gold_ring"), XpRecipeBuilder.shapedRecipe(createTrinketStack("base_gold_ring"))
                         .define('g', Tags.Items.INGOTS_GOLD),
                 " ggg ", "g   g", "g   g", "g   g", " ggg ");
         build(consumer, trinket("base_star"), XpRecipeBuilder.shapedRecipe(createTrinketStack("base_star"))
-                .define('g', Tags.Items.DUSTS_PRISMARINE),
+                        .define('g', Tags.Items.DUSTS_PRISMARINE),
                 "g g g", "  g  ", "ggggg", "  g  ", "g g g");
         build(consumer, trinket("flight_star"), XpRecipeBuilder.shapedRecipe(createTrinketStack("flight_star"))
                         .define('f', Tags.Items.FEATHERS)

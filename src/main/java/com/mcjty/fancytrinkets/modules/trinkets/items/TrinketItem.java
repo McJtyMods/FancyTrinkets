@@ -1,14 +1,17 @@
 package com.mcjty.fancytrinkets.modules.trinkets.items;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.api.ITrinketItem;
+import com.mcjty.fancytrinkets.datapack.BonusTable;
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
-import com.mcjty.fancytrinkets.api.ITrinketItem;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
+import com.mcjty.fancytrinkets.setup.Config;
+import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.tooltips.ITooltipSettings;
 import mcjty.lib.varia.ComponentFactory;
 import mcjty.lib.varia.SafeClientTools;
@@ -36,12 +39,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem {
 
     public static final String MESSAGE_FANCYTRINKETS_SHIFTMESSAGE = "message.fancytrinkets.shiftmessage";
     public static final String MESSAGE_FANCYTRINKETS_BONUS = "message.fancytrinkets.bonus";
+    private static final Random random = new Random();
 
     private final Map<ResourceLocation, TrinketInstance> trinkets = new HashMap<>();
 
@@ -52,6 +57,62 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
         super(new Properties()
                 .stacksTo(1)
                 .tab(FancyTrinkets.setup.getTab()));
+    }
+
+    public static boolean addBonusEffects(Level level, ITrinketItem trinket, ItemStack stack, float targetQuality) {
+        ResourceLocation id = trinket.getTrinketId(stack);
+        TrinketDescription description = level.registryAccess().registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).get(id);
+        if (description != null) {
+            ResourceLocation bonusTableId = description.bonusTableId();
+            if (bonusTableId != null) {
+                BonusTable bonusTable = level.registryAccess().registryOrThrow(CustomRegistries.BONUS_TABLE_REGISTRY_KEY).get(bonusTableId);
+                if (bonusTable != null) {
+                    List<ResourceLocation> effects = new ArrayList<>();
+                    // Find a good set of effects for the desired quality
+                    List<BonusTable.EffectRef> list = Collections.emptyList();
+                    float maxDiff = 5.0f;
+                    while (list.size() < 9) {
+                        list = findSuitableEffects(bonusTable.effects(), targetQuality, maxDiff);
+                        maxDiff += 5;
+                    }
+
+                    if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT1.get()) {
+                        addEffect(targetQuality, effects, list);
+                        if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT2.get()) {
+                            addEffect(targetQuality, effects, list);
+                            if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT3.get()) {
+                                addEffect(targetQuality, effects, list);
+                                if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT4.get()) {
+                                    addEffect(targetQuality, effects, list);
+                                }
+                            }
+                        }
+                    }
+                    trinket.addEffects(stack, effects);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static List<BonusTable.EffectRef> findSuitableEffects(List<BonusTable.EffectRef> list, float desiredQuality, float maxDiff) {
+        return list.stream().filter(ref -> Math.abs(ref.quality() - desiredQuality) <= maxDiff).collect(Collectors.toList());
+    }
+
+    private static void addEffect(float targetQuality, List<ResourceLocation> effects, List<BonusTable.EffectRef> list) {
+        int bestIndex = -1;
+        float bestDiff = Float.MAX_VALUE;
+        for (int i = 0 ; i < 5 ; i++) {
+            BonusTable.EffectRef ref = list.get(random.nextInt(list.size()));
+            float diff = Math.abs(ref.quality() - targetQuality);
+            if (diff < bestDiff) {
+                bestDiff = diff;
+                bestIndex = i;
+            }
+        }
+        ResourceLocation id = list.remove(bestIndex).effect();
+        effects.add(id);
     }
 
     @Override
@@ -87,6 +148,14 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
             return effects.stream().map(s -> new ResourceLocation(s.getAsString()));
         }
         return Stream.empty();
+    }
+
+    public static ItemStack createTrinketStack(Level level, TrinketDescription description, ResourceLocation id, float quality) {
+        ItemStack stack = createTrinketStack(description, id);
+        stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
+            addBonusEffects(level, trinket, stack, quality);
+        });
+        return stack;
     }
 
     @NotNull

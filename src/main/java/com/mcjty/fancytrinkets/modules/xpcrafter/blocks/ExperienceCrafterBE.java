@@ -1,9 +1,7 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.blocks;
 
 import com.mcjty.fancytrinkets.api.ITrinketItem;
-import com.mcjty.fancytrinkets.datapack.BonusTable;
-import com.mcjty.fancytrinkets.datapack.CustomRegistries;
-import com.mcjty.fancytrinkets.datapack.TrinketDescription;
+import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
 import com.mcjty.fancytrinkets.setup.Config;
@@ -21,7 +19,6 @@ import mcjty.lib.tileentity.CapType;
 import mcjty.lib.tileentity.GenericTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
@@ -35,8 +32,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import static com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe.RECIPE_DIMENSION;
 import static mcjty.lib.api.container.DefaultContainerProvider.container;
@@ -85,8 +81,6 @@ public class ExperienceCrafterBE extends GenericTileEntity {
         }
     }, RECIPE_DIMENSION, RECIPE_DIMENSION);
 
-    private static final Random random = new Random();
-
     public ExperienceCrafterBE(BlockPos pos, BlockState state) {
         super(XpCrafterModule.TYPE_EXPERIENCE_CRAFTER.get(), pos, state);
     }
@@ -115,61 +109,11 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     }
 
     private void addBonusEffects(ITrinketItem trinket, ItemStack stack) {
-        ResourceLocation id = trinket.getTrinketId(stack);
-        TrinketDescription description = level.registryAccess().registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).get(id);
-        if (description != null) {
-            ResourceLocation bonusTableId = description.bonusTableId();
-            if (bonusTableId != null) {
-                BonusTable bonusTable = level.registryAccess().registryOrThrow(CustomRegistries.BONUS_TABLE_REGISTRY_KEY).get(bonusTableId);
-                if (bonusTable != null) {
-                    List<ResourceLocation> effects = new ArrayList<>();
-                    float targetQuality = 100.0f * (experience + Config.EXPERIENCE_OFFSET.get()) / (float) (Config.MAXEXPERIENCE.get() + Config.EXPERIENCE_OFFSET.get());
-                    experience = 0;
-                    setChanged();
-
-                    // Find a good set of effects for the desired quality
-                    List<BonusTable.EffectRef> list = Collections.emptyList();
-                    float maxDiff = 5.0f;
-                    while (list.size() < 9) {
-                        list = findSuitableEffects(bonusTable.effects(), targetQuality, maxDiff);
-                        maxDiff += 5;
-                    }
-
-                    if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT1.get()) {
-                        addEffect(targetQuality, effects, list);
-                        if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT2.get()) {
-                            addEffect(targetQuality, effects, list);
-                            if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT3.get()) {
-                                addEffect(targetQuality, effects, list);
-                                if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT4.get()) {
-                                    addEffect(targetQuality, effects, list);
-                                }
-                            }
-                        }
-                    }
-                    trinket.addEffects(stack, effects);
-                }
-            }
+        float targetQuality = 100.0f * (experience + Config.EXPERIENCE_OFFSET.get()) / (float) (Config.MAXEXPERIENCE.get() + Config.EXPERIENCE_OFFSET.get());
+        if (TrinketItem.addBonusEffects(level, trinket, stack, targetQuality)) {
+            experience = 0;
+            setChanged();
         }
-    }
-
-    private List<BonusTable.EffectRef> findSuitableEffects(List<BonusTable.EffectRef> list, float desiredQuality, float maxDiff) {
-        return list.stream().filter(ref -> Math.abs(ref.quality() - desiredQuality) <= maxDiff).collect(Collectors.toList());
-    }
-
-    private void addEffect(float targetQuality, List<ResourceLocation> effects, List<BonusTable.EffectRef> list) {
-        int bestIndex = -1;
-        float bestDiff = Float.MAX_VALUE;
-        for (int i = 0 ; i < 5 ; i++) {
-            BonusTable.EffectRef ref = list.get(random.nextInt(list.size()));
-            float diff = Math.abs(ref.quality() - targetQuality);
-            if (diff < bestDiff) {
-                bestDiff = diff;
-                bestIndex = i;
-            }
-        }
-        ResourceLocation id = list.remove(bestIndex).effect();
-        effects.add(id);
     }
 
     private void onUpdate(int slot, ItemStack stack) {
