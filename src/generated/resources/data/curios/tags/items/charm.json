@@ -1,12 +1,14 @@
 {
   "values": [
+    "fancytrinkets:charm2",
+    "fancytrinkets:charm1",
     "fancytrinkets:heart",
     "fancytrinkets:blue_pearl",
     "fancytrinkets:shiny_pearl",
-    "fancytrinkets:purple_pearl",
     "fancytrinkets:star",
     "fancytrinkets:black_pearl",
     "fancytrinkets:feather",
+    "fancytrinkets:purple_pearl",
     "fancytrinkets:yellow_pearl"
   ]
 }

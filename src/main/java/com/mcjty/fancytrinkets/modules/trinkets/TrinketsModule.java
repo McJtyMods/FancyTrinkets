@@ -60,20 +60,21 @@ public class TrinketsModule implements IModule {
     public static final RegistryObject<TrinketItem> HEART = trinket("heart", "item/heart", "Base heart item",
             RING_TAG, BELT_TAG, BRACELET_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
     public static final RegistryObject<TrinketItem> HEART_BODY = trinket("heart_body", "item/heart", "Base heart item (body)", BODY_TAG);
+
     public static final RegistryObject<TrinketItem> FEATHER = trinket("feather", "item/feather", "Feather star item",
             BELT_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
 
-    public static final RegistryObject<TrinketItem> BLACK_PEARL = trinket("black_pearl", "item/black_pearl", "Black pearl",
-            CHARM_TAG);
-    public static final RegistryObject<TrinketItem> BLUE_PEARL = trinket("blue_pearl", "item/blue_pearl", "Blue pearl",
-            CHARM_TAG);
-    public static final RegistryObject<TrinketItem> YELLOW_PEARL = trinket("yellow_pearl", "item/yellow_pearl", "Yellow pearl",
-            CHARM_TAG);
-    public static final RegistryObject<TrinketItem> PURPLE_PEARL = trinket("purple_pearl", "item/purple_pearl", "Purple pearl",
-            CHARM_TAG);
-    public static final RegistryObject<TrinketItem> SHINY_PEARL = trinket("shiny_pearl", "item/shiny_pearl", "Shiny pearl",
-            CHARM_TAG);
+    public static final RegistryObject<TrinketItem> BLACK_PEARL = trinket("black_pearl", "item/black_pearl", "Black pearl", CHARM_TAG);
+    public static final RegistryObject<TrinketItem> BLUE_PEARL = trinket("blue_pearl", "item/blue_pearl", "Blue pearl", CHARM_TAG);
+    public static final RegistryObject<TrinketItem> YELLOW_PEARL = trinket("yellow_pearl", "item/yellow_pearl", "Yellow pearl", CHARM_TAG);
+    public static final RegistryObject<TrinketItem> PURPLE_PEARL = trinket("purple_pearl", "item/purple_pearl", "Purple pearl", CHARM_TAG);
+    public static final RegistryObject<TrinketItem> SHINY_PEARL = trinket("shiny_pearl", "item/shiny_pearl", "Shiny pearl", CHARM_TAG);
 
+    public static final RegistryObject<TrinketItem> LEATHER_BELT = trinket("leather_belt", "item/leather_belt", "Leather Belt", BELT_TAG);
+    public static final RegistryObject<TrinketItem> BLUE_BELT = trinket("blue_belt", "item/blue_belt", "Blue Belt", BELT_TAG);
+
+    public static final RegistryObject<TrinketItem> CHARM1 = trinket("charm1", "item/charm1", "Charm", CHARM_TAG);
+    public static final RegistryObject<TrinketItem> CHARM2 = trinket("charm2", "item/charm2", "Charm", CHARM_TAG);
 
     public static final Capability<ICurio> CURIOS_CAPABILITY = CuriosCapability.ITEM;
 

@@ -22,7 +22,7 @@ public class Config {
 
         MAXEXPERIENCE = builder
                 .comment("Maximum XP that can be stored in the Experience Crafter")
-                .defineInRange("maxexperience", 2920, 1, Integer.MAX_VALUE);
+                .defineInRange("maxexperience", 1395, 1, Integer.MAX_VALUE);
         CHANCE_BONUS_EFFECT1 = builder
                 .comment("Chance that upon crafting a trinket you get the first bonus effectId (percentage)")
                 .defineInRange("chanceBonusEffect1", 100.0f, 0.0f, 100.0f);

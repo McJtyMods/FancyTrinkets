@@ -16,6 +16,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Objects;
+
 public class WarpEffect extends EffectImp {
 
     private final int maxdist;
@@ -48,20 +50,22 @@ public class WarpEffect extends EffectImp {
 
     @Override
     public void onHotkey(ItemStack stack, ServerPlayer player, String slotId, int key) {
-        executeIfEnabled(player, () -> {
-            Vec3 lookVec = player.getLookAngle();
-            Vec3 start = new Vec3(player.getX(), player.getY() + player.getEyeHeight(), player.getZ());
-            int distance = maxdist;
-            boolean gothrough = false;
-            if (player.isShiftKeyDown()) {
-                distance /= 2;
-            }
+        if (Objects.equals(key, hotkey)) {
+            executeIfEnabled(player, () -> {
+                Vec3 lookVec = player.getLookAngle();
+                Vec3 start = new Vec3(player.getX(), player.getY() + player.getEyeHeight(), player.getZ());
+                int distance = maxdist;
+                boolean gothrough = false;
+                if (player.isShiftKeyDown()) {
+                    distance /= 2;
+                }
 
-            Vec3 end = start.add(lookVec.x * distance, lookVec.y * distance, lookVec.z * distance);
-            ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player);
-            HitResult position = player.level.clip(context);
-            safeTeleport(player, (BlockHitResult) position);
-        });
+                Vec3 end = start.add(lookVec.x * distance, lookVec.y * distance, lookVec.z * distance);
+                ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player);
+                HitResult position = player.level.clip(context);
+                safeTeleport(player, (BlockHitResult) position);
+            });
+        }
     }
 
     private void safeTeleport(ServerPlayer player, BlockHitResult position) {

@@ -1,0 +1,32 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:gold_ring",
+      "nbt": "{id:\"fancytrinkets:base_gold_ring\"}"
+    },
+    "f": {
+      "item": "fancytrinkets:iron_golem_essence"
+    },
+    "g": {
+      "item": "fancytrinkets:blaze_essence"
+    },
+    "t": {
+      "item": "minecraft:ghast_tear"
+    }
+  },
+  "pattern": [
+    "gfgfg",
+    "ftgtf",
+    "ggSgg",
+    "ftgtf",
+    "gfgfg"
+  ],
+  "result": {
+    "item": "fancytrinkets:gold_ring",
+    "nbt": {
+      "id": "fancytrinkets:fireresist_ring"
+    }
+  }
+}

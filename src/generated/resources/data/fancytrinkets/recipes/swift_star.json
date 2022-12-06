@@ -1,0 +1,29 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:star",
+      "nbt": "{id:\"fancytrinkets:base_star\"}"
+    },
+    "g": {
+      "item": "fancytrinkets:spider_essence"
+    },
+    "t": {
+      "tag": "forge:gems/quartz"
+    }
+  },
+  "pattern": [
+    "ttgtt",
+    "tgggt",
+    "ggSgg",
+    "tgggt",
+    "ttgtt"
+  ],
+  "result": {
+    "item": "fancytrinkets:star",
+    "nbt": {
+      "id": "fancytrinkets:swift_star"
+    }
+  }
+}

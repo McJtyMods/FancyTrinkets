@@ -1,0 +1,17 @@
+{
+  "type": "fancytrinkets:essence_loot",
+  "chance": 0.1,
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/chicken"
+    },
+    {
+      "condition": "minecraft:killed_by_player"
+    }
+  ],
+  "item": "fancytrinkets:chicken_essence",
+  "looting": 0.3,
+  "max": 1,
+  "min": 1
+}

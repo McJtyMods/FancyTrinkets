@@ -1,0 +1,26 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:heart_body",
+      "nbt": "{id:\"fancytrinkets:super_health\"}"
+    },
+    "g": {
+      "item": "fancytrinkets:iron_golem_essence"
+    }
+  },
+  "pattern": [
+    "     ",
+    " ggg ",
+    " gSg ",
+    " ggg ",
+    "     "
+  ],
+  "result": {
+    "item": "fancytrinkets:heart_body",
+    "nbt": {
+      "id": "fancytrinkets:super_health"
+    }
+  }
+}

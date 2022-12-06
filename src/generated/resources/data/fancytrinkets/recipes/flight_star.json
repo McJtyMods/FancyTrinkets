@@ -17,11 +17,11 @@
     }
   },
   "pattern": [
-    "g   f",
-    " gtg ",
-    " tSt ",
-    " gtg ",
-    "f   g"
+    "gfgfg",
+    "fgtgf",
+    "gtStg",
+    "fgtgf",
+    "gfgfg"
   ],
   "result": {
     "item": "fancytrinkets:star",

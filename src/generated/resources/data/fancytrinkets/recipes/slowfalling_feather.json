@@ -1,0 +1,27 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "f": {
+      "tag": "forge:feathers"
+    },
+    "g": {
+      "item": "fancytrinkets:chicken_essence"
+    },
+    "o": {
+      "tag": "forge:ender_pearls"
+    }
+  },
+  "pattern": [
+    "ooofg",
+    "oofgg",
+    "ogggo",
+    "fggoo",
+    "gfooo"
+  ],
+  "result": {
+    "item": "fancytrinkets:feather",
+    "nbt": {
+      "id": "fancytrinkets:slowfalling_feather"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "fancytrinkets:trinket_loot",
+  "chance": 0.1,
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/jungle_temple_dispenser"
+    }
+  ],
+  "looting": 0.0,
+  "max": 1,
+  "maxquality": 10.0,
+  "min": 1,
+  "minquality": 5.0,
+  "trinkets": []
+}

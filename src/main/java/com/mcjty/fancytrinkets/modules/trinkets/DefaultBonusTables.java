@@ -68,8 +68,6 @@ public class DefaultBonusTables {
                 effect("health_boost", 90.0f),
                 effect("dmg_wither_100", 90.0f),
                 effect("major_max_health", 100.0f),
-                effect("flight", 100.0f),
-                effect("cure", 100.0f),
                 effect("dmg_generic_100", 100.0f),
                 effect("dmg_fall_100", 100.0f)
         ), "Standard");

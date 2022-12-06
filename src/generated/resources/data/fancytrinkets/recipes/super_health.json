@@ -1,0 +1,35 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:heart",
+      "nbt": "{id:\"fancytrinkets:base_heart\"}"
+    },
+    "f": {
+      "item": "fancytrinkets:enderman_essence"
+    },
+    "g": {
+      "item": "fancytrinkets:iron_golem_essence"
+    },
+    "t": {
+      "item": "minecraft:ghast_tear"
+    },
+    "w": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "pattern": [
+    "tffft",
+    "fgwgf",
+    "fgSgf",
+    "fgwgf",
+    "tffft"
+  ],
+  "result": {
+    "item": "fancytrinkets:heart_body",
+    "nbt": {
+      "id": "fancytrinkets:super_health"
+    }
+  }
+}

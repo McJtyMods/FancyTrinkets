@@ -3,11 +3,8 @@
   "chance": 0.4,
   "conditions": [
     {
-      "condition": "minecraft:entity_properties",
-      "entity": "this",
-      "predicate": {
-        "type": "minecraft:ghast"
-      }
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/ghast"
     },
     {
       "condition": "minecraft:killed_by_player"

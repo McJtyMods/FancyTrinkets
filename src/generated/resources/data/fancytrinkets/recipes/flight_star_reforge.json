@@ -1,0 +1,26 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:star",
+      "nbt": "{id:\"fancytrinkets:flight_star\"}"
+    },
+    "g": {
+      "item": "fancytrinkets:ghast_essence"
+    }
+  },
+  "pattern": [
+    "     ",
+    " ggg ",
+    " gSg ",
+    " ggg ",
+    "     "
+  ],
+  "result": {
+    "item": "fancytrinkets:star",
+    "nbt": {
+      "id": "fancytrinkets:flight_star"
+    }
+  }
+}

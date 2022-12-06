@@ -3,11 +3,8 @@
   "chance": 1.0,
   "conditions": [
     {
-      "condition": "minecraft:entity_properties",
-      "entity": "this",
-      "predicate": {
-        "type": "minecraft:wither"
-      }
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/wither"
     },
     {
       "condition": "minecraft:killed_by_player"
@@ -15,6 +12,6 @@
   ],
   "item": "fancytrinkets:wither_essence",
   "looting": 0.3,
-  "max": 1,
+  "max": 2,
   "min": 1
 }

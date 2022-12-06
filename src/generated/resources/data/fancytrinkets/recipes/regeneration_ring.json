@@ -1,0 +1,32 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:gold_ring_diamond",
+      "nbt": "{id:\"fancytrinkets:base_gold_ring_diamond\"}"
+    },
+    "g": {
+      "item": "fancytrinkets:zombie_essence"
+    },
+    "t": {
+      "item": "minecraft:ghast_tear"
+    },
+    "w": {
+      "item": "fancytrinkets:wither_essence"
+    }
+  },
+  "pattern": [
+    "ggggg",
+    "gwtwg",
+    "gtStg",
+    "gwtwg",
+    "ggggg"
+  ],
+  "result": {
+    "item": "fancytrinkets:gold_ring_diamond",
+    "nbt": {
+      "id": "fancytrinkets:regeneration_ring"
+    }
+  }
+}

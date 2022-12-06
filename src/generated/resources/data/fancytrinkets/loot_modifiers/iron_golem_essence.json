@@ -1,0 +1,17 @@
+{
+  "type": "fancytrinkets:essence_loot",
+  "chance": 0.3,
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/iron_golem"
+    },
+    {
+      "condition": "minecraft:killed_by_player"
+    }
+  ],
+  "item": "fancytrinkets:iron_golem_essence",
+  "looting": 0.3,
+  "max": 2,
+  "min": 1
+}

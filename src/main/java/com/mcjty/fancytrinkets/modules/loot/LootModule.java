@@ -30,17 +30,25 @@ public class LootModule implements IModule {
     public static final RegistryObject<Item> DRAGON_ESSENCE = createBasicItem("dragon_essence", "item/essence/dragon_essence", "Enderdragon Essence");
     public static final RegistryObject<Item> ENDERMAN_ESSENCE = createBasicItem("enderman_essence", "item/essence/enderman_essence", "Enderman Essence");
     public static final RegistryObject<Item> GHAST_ESSENCE = createBasicItem("ghast_essence", "item/essence/ghast_essence", "Ghast Essence");
+    public static final RegistryObject<Item> SPIDER_ESSENCE = createBasicItem("spider_essence", "item/essence/spider_essence", "Spider Essence");
+    public static final RegistryObject<Item> CHICKEN_ESSENCE = createBasicItem("chicken_essence", "item/essence/chicken_essence", "Chicken Essence");
+    public static final RegistryObject<Item> IRON_GOLEM_ESSENCE = createBasicItem("iron_golem_essence", "item/essence/iron_golem_essence", "Iron Golem Essence");
+    public static final RegistryObject<Item> BLAZE_ESSENCE = createBasicItem("blaze_essence", "item/essence/blaze_essence", "Blaze Essence");
 
     public static final RegistryObject<Codec<? extends IGlobalLootModifier>> ESSENCE_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("essence_loot", () -> EssenceLootModifier.CODEC);
     public static final RegistryObject<Codec<? extends IGlobalLootModifier>> TRINKET_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("trinket_loot", () -> TrinketLootModifier.CODEC);
 
     public static final EssenceGLM ZOMBIE_LOOT_MODIFIER = createGlm("zombie_essence", EntityType.ZOMBIE, 0.1f, 1, 2, .3f);
     public static final EssenceGLM WITHER_SKELETON_LOOT_MODIFIER = createGlm("wither_skeleton_essence", EntityType.WITHER_SKELETON, 0.1f, 1, 2, .3f);
-    public static final EssenceGLM WITHER_LOOT_MODIFIER = createGlm("wither_essence", EntityType.WITHER, 1.0f, 1, 1, .3f);
+    public static final EssenceGLM WITHER_LOOT_MODIFIER = createGlm("wither_essence", EntityType.WITHER, 1.0f, 1, 2, .3f);
     public static final EssenceGLM SKELETON_LOOT_MODIFIER = createGlm("skeleton_essence", EntityType.SKELETON, 0.1f, 1, 2, .3f);
-    public static final EssenceGLM DRAGON_LOOT_MODIFIER = createGlm("dragon_essence", EntityType.ENDER_DRAGON, 1.0f, 1, 1, .3f);
+    public static final EssenceGLM DRAGON_LOOT_MODIFIER = createGlm("dragon_essence", EntityType.ENDER_DRAGON, 1.0f, 4, 7, .3f);
     public static final EssenceGLM ENDERMAN_LOOT_MODIFIER = createGlm("enderman_essence", EntityType.ENDERMAN, 0.1f, 1, 2, .3f);
     public static final EssenceGLM GHAST_LOOT_MODIFIER = createGlm("ghast_essence", EntityType.GHAST, 0.4f, 1, 2, .3f);
+    public static final EssenceGLM SPIDER_LOOT_MODIFIER = createGlm("spider_essence", EntityType.SPIDER, 0.1f, 1, 1, .3f);
+    public static final EssenceGLM CHICKEN_LOOT_MODIFIER = createGlm("chicken_essence", EntityType.CHICKEN, 0.1f, 1, 1, .3f);
+    public static final EssenceGLM IRON_GOLEM_LOOT_MODIFIER = createGlm("iron_golem_essence", EntityType.IRON_GOLEM, 0.3f, 1, 2, .3f);
+    public static final EssenceGLM BLAZE_LOOT_MODIFIER = createGlm("blaze_essence", EntityType.BLAZE, 0.3f, 1, 2, .3f);
 
     public LootModule() {
     }
@@ -59,7 +67,7 @@ public class LootModule implements IModule {
     }
 
     public static record Essence(RegistryObject<Item> item, String texture, String description) {}
-    public static record EssenceGLM(ResourceLocation itemId, EntityType<?> type, float chance, int min, int max, float looting) {}
+    public static record EssenceGLM(ResourceLocation itemId, ResourceLocation lootTable, float chance, int min, int max, float looting) {}
 
     @Nonnull
     private static RegistryObject<Item> createBasicItem(String id, String texture, String description) {
@@ -69,7 +77,8 @@ public class LootModule implements IModule {
     }
 
     private static EssenceGLM createGlm(String id, EntityType<?> type, float chance, int min, int max, float looting) {
-        EssenceGLM glm = new EssenceGLM(new ResourceLocation(FancyTrinkets.MODID, id), type, chance, min, max, looting);
+        EssenceGLM glm = new EssenceGLM(new ResourceLocation(FancyTrinkets.MODID, id),
+                type.getDefaultLootTable(), chance, min, max, looting);
         ESSENCE_GLMS.put(id, glm);
         return glm;
     }

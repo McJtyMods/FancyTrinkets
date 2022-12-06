@@ -3,11 +3,8 @@
   "chance": 0.1,
   "conditions": [
     {
-      "condition": "minecraft:entity_properties",
-      "entity": "this",
-      "predicate": {
-        "type": "minecraft:skeleton"
-      }
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/skeleton"
     },
     {
       "condition": "minecraft:killed_by_player"

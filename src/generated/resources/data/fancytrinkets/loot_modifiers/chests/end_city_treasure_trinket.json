@@ -1,0 +1,16 @@
+{
+  "type": "fancytrinkets:trinket_loot",
+  "chance": 0.2,
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/end_city_treasure"
+    }
+  ],
+  "looting": 0.0,
+  "max": 1,
+  "maxquality": 70.0,
+  "min": 1,
+  "minquality": 20.0,
+  "trinkets": []
+}

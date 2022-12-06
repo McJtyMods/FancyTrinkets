@@ -1,0 +1,35 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:gold_ring",
+      "nbt": "{id:\"fancytrinkets:base_gold_ring\"}"
+    },
+    "f": {
+      "item": "minecraft:fermented_spider_eye"
+    },
+    "g": {
+      "item": "fancytrinkets:spider_essence"
+    },
+    "t": {
+      "item": "minecraft:spider_eye"
+    },
+    "w": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "pattern": [
+    "tfwft",
+    "wtgfw",
+    "wgSgt",
+    "fwgtf",
+    "twfwf"
+  ],
+  "result": {
+    "item": "fancytrinkets:gold_ring",
+    "nbt": {
+      "id": "fancytrinkets:nightvision_ring"
+    }
+  }
+}

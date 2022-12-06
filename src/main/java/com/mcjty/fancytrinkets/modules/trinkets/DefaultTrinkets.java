@@ -21,17 +21,17 @@ public class DefaultTrinkets {
         register("swift_star", trinket("swift_star", "star",
                 effect("movement_speed"), effect("knockback_resistance"), effect("swim_speed"), effect("step_assist")), "Star of Swiftness", "Feel the freedom of swift and flexible movement");
 
-        register("base_feather", trinket("base_feather", "feather"), "Base Feather", "Crafting ingredient to make feather trinkets");
         register("slowfalling_feather", trinket("slowfalling_feather", "feather",
                 effect("slow_falling")), "Golden Feather", "Gravity seems to have less effectId on you");
 
         register("base_gold_ring", trinket("base_gold_ring", "gold_ring"), "Base Golden Ring", "Crafting ingredient to make golden ring trinkets");
-        register("regeneration_ring", trinket("regeneration_ring", "gold_ring",
-                effect("regeneration")), "Regeneration Ring", "Slowly get your health back");
-        register("strength_ring", trinket("strength_ring", "gold_ring",
-                effect("strength")), "Strength Ring", "Your attacks seem to have more effectId");
+        register("lightness_ring", trinket("lightness_ring", "gold_ring",
+                effect("dmg_fall_75")), "Ring of Lightness", "Reduce 75% of fall damage");
+        register("fireresist_ring", trinket("fireresist_ring", "gold_ring",
+                effect("dmg_infire_100"), hidden("dmg_hotfloor_100"), hidden("dmg_onfire_100"), hidden("dmg_lava_100")), "Ring of Coolness", "Reduce all heat related damage (100%)");
         register("nightvision_ring", trinket("nightvision_ring", "gold_ring",
                 effect("night_vision_hotkey")), "Night Vision", "Using a hotkey you can see clearly in the dark");
+
         register("stepassist_ring", trinket("stepassist_ring", "gold_ring",
                 effect("step_assist")), "Step Assist Ring", "You can move around much easier now");
 
@@ -42,10 +42,12 @@ public class DefaultTrinkets {
                 effect("cure")), "Heart of Curing", "Negative effects can't harm you");
 
         register("base_gold_ring_diamond", trinket("base_gold_ring_diamond", "gold_ring_diamond"), "Base Golden Ring with Diamond", "Crafting ingredient to make golden ring trinkets (with diamond)");
-        register("lightness_ring", trinket("lightness_ring", "gold_ring_diamond",
-                effect("dmg_fall_75")), "Ring of Lightness", "Reduce 75% of fall damage");
-        register("fireresist_ring", trinket("fireresist_ring", "gold_ring_diamond",
-                effect("dmg_infire_100"), hidden("dmg_hotfloor_100"), hidden("dmg_onfire_100"), hidden("dmg_lava_100")), "Ring of Coolness", "Reduce all heat related damage (100%)");
+        register("absorption_ring", trinket("absorption_ring", "gold_ring_diamond",
+                effect("absorption")), "Ring of Absorption", "Provides some damage absorption");
+        register("regeneration_ring", trinket("regeneration_ring", "gold_ring_diamond",
+                effect("regeneration")), "Regeneration Ring", "Slowly get your health back");
+        register("strength_ring", trinket("strength_ring", "gold_ring_diamond",
+                effect("strength")), "Strength Ring", "Your attacks seem to have more effectId");
 
         register("warp_pearl", trinket("warp_pearl", "blue_pearl", effect("warp")), "Warp Pearl", "Warp Pearl");
     }
