@@ -32,11 +32,6 @@ public class FancyJeiPlugin implements IModPlugin {
         return ID;
     }
 
-//    @Override
-//    public void registerIngredients(IModIngredientRegistration registration) {
-//        registration.register();
-//    }
-
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
         TrinketsModule.TRINKET_ITEMS.values()

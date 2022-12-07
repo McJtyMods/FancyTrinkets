@@ -40,6 +40,6 @@ public class Config {
                 .defineInRange("qualityOffset", 600, 0, Integer.MAX_VALUE);
 
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, builder.build());
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, builder.build());
     }
 }
