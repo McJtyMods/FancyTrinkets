@@ -24,6 +24,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new GenRecipes(generator));
         generator.addProvider(event.includeServer(), new GenEffects(generator, fileHelper));
         generator.addProvider(event.includeServer(), new GenTrinkets(generator, fileHelper));
+        generator.addProvider(event.includeServer(), new GenTrinketSets(generator, fileHelper));
         generator.addProvider(event.includeServer(), new GenBonusTables(generator, fileHelper));
         generator.addProvider(event.includeServer(), new GenLootTables(generator));
         generator.addProvider(event.includeServer(), new GenGLM(generator));

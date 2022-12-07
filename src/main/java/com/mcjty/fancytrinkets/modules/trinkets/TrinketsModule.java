@@ -7,7 +7,6 @@ import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.modules.IModule;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
@@ -101,15 +100,16 @@ public class TrinketsModule implements IModule {
     }
 
     private void registerTrinkets(ServerLevel level) {
-        for (Map.Entry<ResourceKey<TrinketDescription>, TrinketDescription> entry : level.registryAccess().registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).entrySet()) {
-            TrinketDescription description = entry.getValue();
+        Registry<TrinketDescription> registry = level.registryAccess().registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY);
+        for (ResourceLocation trinket : level.registryAccess().registryOrThrow(CustomRegistries.TRINKET_SET_REGISTRY_KEY).get(new ResourceLocation(MODID, "standard")).trinkets()) {
+            TrinketDescription description = registry.get(trinket);
             ResourceLocation itemId = description.item();
             Item item = ForgeRegistries.ITEMS.getValue(itemId);
             if (item == null || item == Items.AIR) {
                 throw new RuntimeException("Can't find item '" + itemId.toString() + "'!");
             }
             if (item instanceof ITrinketItem trinketItem) {
-                trinketItem.registerTrinketInstance(level, entry.getKey().location(), description);
+                trinketItem.registerTrinketInstance(level, trinket, description);
             } else {
                 throw new RuntimeException("Item '" + itemId.toString() + "' is not an ITrinketItem!");
             }

@@ -35,9 +35,12 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -186,20 +189,21 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
     }
 
     @Override
-    public void forAllEffects(Level level, ItemStack stack, Consumer<IEffect> consumer) {
+    public void forAllEffects(Level level, ItemStack stack, BiConsumer<IEffect, Integer> consumer) {
         ResourceLocation trinketId = getTrinketId(stack);
         if (trinketId != null) {
+            AtomicInteger idx = new AtomicInteger(0);
             TrinketInstance instance = trinkets.get(trinketId);
             if (instance != null) {
                 for (EffectInstance effect : instance.effects()) {
-                    consumer.accept(effect.effect());
+                    consumer.accept(effect.effect(), idx.incrementAndGet());
                 }
             }
             Registry<EffectDescription> registry = level.registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY);
             getEffects(stack).forEach(effect -> {
                 EffectDescription description = registry.get(effect);
                 if (description != null) {
-                    consumer.accept(description.effect());
+                    consumer.accept(description.effect(), idx.incrementAndGet());
                 }
             });
         }

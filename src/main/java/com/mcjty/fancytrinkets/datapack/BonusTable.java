@@ -14,9 +14,9 @@ public record BonusTable(
 
         public static final Codec<EffectRef> EFFECTREF_CODEC = RecordCodecBuilder.create(instance ->
                 instance.group(
-                        Codec.STRING.fieldOf("id").forGetter(l -> l.effect.toString()),
+                        ResourceLocation.CODEC.fieldOf("id").forGetter(l -> l.effect),
                         Codec.FLOAT.fieldOf("quality").forGetter(l -> l.quality)
-                ).apply(instance, (id, quality) -> new EffectRef(new ResourceLocation(id), quality)));
+                ).apply(instance, EffectRef::new));
     }
 
     public static final Codec<BonusTable> CODEC = RecordCodecBuilder.create(instance ->

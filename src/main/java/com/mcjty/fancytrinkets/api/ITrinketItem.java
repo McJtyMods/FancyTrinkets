@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 public interface ITrinketItem {
 
@@ -17,7 +17,7 @@ public interface ITrinketItem {
 
     void registerTrinketInstance(ServerLevel level, ResourceLocation id, TrinketDescription description);
 
-    void forAllEffects(Level level, ItemStack stack, Consumer<IEffect> consumer);
+    void forAllEffects(Level level, ItemStack stack, BiConsumer<IEffect, Integer> consumer);
 
     void addEffects(ItemStack stack, List<ResourceLocation> effects);
 }

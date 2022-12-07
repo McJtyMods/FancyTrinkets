@@ -24,12 +24,12 @@ public class EssenceLootModifier extends LootModifier {
 
     public static final Codec<EssenceLootModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(l -> l.conditions),
-            Codec.STRING.fieldOf("item").forGetter(l -> l.item.toString()),
+            ResourceLocation.CODEC.fieldOf("item").forGetter(l -> l.item),
             Codec.FLOAT.fieldOf("chance").forGetter(l -> l.chance),
             Codec.INT.fieldOf("min").forGetter(l -> l.min),
             Codec.INT.fieldOf("max").forGetter(l -> l.max),
             Codec.FLOAT.fieldOf("looting").forGetter(l -> l.lootingFactor)
-    ).apply(instance, (conditions, item, chance, min, max, looting) -> new EssenceLootModifier(conditions, new ResourceLocation(item), chance, min, max, looting)));
+    ).apply(instance, EssenceLootModifier::new));
 
 
     public EssenceLootModifier(LootItemCondition[] conditionsIn, ResourceLocation item, float chance, int min, int max, float looting) {

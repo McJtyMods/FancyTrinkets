@@ -21,23 +21,19 @@ public record TrinketDescription(
 
         public static final Codec<EffectRef> EFFECTREF_CODEC = RecordCodecBuilder.create(instance ->
                 instance.group(
-                        Codec.STRING.fieldOf("id").forGetter(l -> l.effectId.toString()),
+                        ResourceLocation.CODEC.fieldOf("id").forGetter(l -> l.effectId),
                         Codec.BOOL.fieldOf("hidden").forGetter(l -> l.hidden)
-                ).apply(instance, (id, hidden) -> new EffectRef(new ResourceLocation(id), hidden)));
+                ).apply(instance, EffectRef::new));
     }
 
     public static final Codec<TrinketDescription> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    Codec.STRING.fieldOf("item").forGetter(l -> l.item.toString()),
-                    Codec.STRING.fieldOf("bonustable").forGetter(l -> l.bonusTableId.toString()),
+                    ResourceLocation.CODEC.fieldOf("item").forGetter(l -> l.item),
+                    ResourceLocation.CODEC.fieldOf("bonustable").forGetter(l -> l.bonusTableId),
                     Codec.STRING.fieldOf("name").forGetter(l -> l.nameKey),
                     Codec.STRING.fieldOf("description").forGetter(l -> l.descriptionKey),
                     Codec.list(EffectRef.EFFECTREF_CODEC).fieldOf("effects").forGetter(l -> l.effects)
-            ).apply(instance, TrinketDescription::create));
-
-    private static TrinketDescription create(String item, String bonusTable, String nameKey, String descriptionKey, List<EffectRef> effects) {
-        return new TrinketDescription(new ResourceLocation(item), new ResourceLocation(bonusTable), nameKey, descriptionKey, effects);
-    }
+            ).apply(instance, TrinketDescription::new));
 
     public TrinketInstance build(ResourceLocation id, ServerLevel level) {
         List<EffectInstance> effectInstances = new ArrayList<>();

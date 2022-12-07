@@ -32,17 +32,14 @@ public class TrinketLootModifier extends LootModifier {
 
     public static final Codec<TrinketLootModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(l -> l.conditions),
-            Codec.list(Codec.STRING).fieldOf("trinkets").forGetter(l -> l.trinketIds.stream().map(ResourceLocation::toString).collect(Collectors.toList())),
+            Codec.list(ResourceLocation.CODEC).fieldOf("trinkets").forGetter(l -> l.trinketIds),
             Codec.FLOAT.fieldOf("chance").forGetter(l -> l.chance),
             Codec.INT.fieldOf("min").forGetter(l -> l.min),
             Codec.INT.fieldOf("max").forGetter(l -> l.max),
             Codec.FLOAT.fieldOf("looting").forGetter(l -> l.lootingFactor),
             Codec.FLOAT.fieldOf("minquality").forGetter(l -> l.minQuality),
             Codec.FLOAT.fieldOf("maxquality").forGetter(l -> l.maxQuality)
-    ).apply(instance, (conditions, trinkets, chance, min, max, looting, minquality, maxquality)
-            -> new TrinketLootModifier(conditions,
-            trinkets.stream().map(ResourceLocation::new).collect(Collectors.toList()),
-            chance, min, max, looting, minquality, maxquality)));
+    ).apply(instance, TrinketLootModifier::new));
 
 
     public TrinketLootModifier(LootItemCondition[] conditionsIn, List<ResourceLocation> trinketIds, float chance, int min, int max, float looting,

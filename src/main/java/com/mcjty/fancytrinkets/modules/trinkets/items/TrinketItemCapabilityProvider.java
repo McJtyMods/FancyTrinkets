@@ -45,21 +45,24 @@ public class TrinketItemCapabilityProvider implements ICapabilityProvider {
             @Override
             public void curioTick(SlotContext slotContext) {
                 if (slotContext.entity() instanceof ServerPlayer player) {
-                    trinketItem.forAllEffects(player.level, itemStack, effect -> effect.tick(itemStack, player, slotContext.identifier()+slotContext.index()));
+                    String slotId = slotContext.identifier() + slotContext.index() + "_";
+                    trinketItem.forAllEffects(player.level, itemStack, (effect, idx) -> effect.tick(itemStack, player, slotId + idx));
                 }
             }
 
             @Override
             public void onEquip(SlotContext slotContext, ItemStack prevStack) {
                 if (slotContext.entity() instanceof ServerPlayer player) {
-                    trinketItem.forAllEffects(player.level, itemStack, effect -> effect.onEquip(itemStack, player, slotContext.identifier() + slotContext.index()));
+                    String slotId = slotContext.identifier() + slotContext.index() + "_";
+                    trinketItem.forAllEffects(player.level, itemStack, (effect, idx) -> effect.onEquip(itemStack, player, slotId + idx));
                 }
             }
 
             @Override
             public void onUnequip(SlotContext slotContext, ItemStack newStack) {
                 if (slotContext.entity() instanceof ServerPlayer player) {
-                    trinketItem.forAllEffects(player.level, itemStack, effect -> effect.onUnequip(itemStack, player, slotContext.identifier() + slotContext.index()));
+                    String slotId = slotContext.identifier() + slotContext.index() + "_";
+                    trinketItem.forAllEffects(player.level, itemStack, (effect, idx) -> effect.onUnequip(itemStack, player, slotId + idx));
                 }
             }
         };
