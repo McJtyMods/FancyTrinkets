@@ -1,6 +1,6 @@
 {
   "type": "fancytrinkets:trinket_loot",
-  "chance": 0.1,
+  "chance": 0.02,
   "conditions": [
     {
       "condition": "forge:loot_table_id",

@@ -74,8 +74,6 @@ public class PlayerEffects {
     }
 
     public void registerEffect(String slotId, IEffect effect, long endTime) {
-
-
         effectMap.put(slotId, new PlayerEffects.EffectHolder(effect, endTime));
     }
 

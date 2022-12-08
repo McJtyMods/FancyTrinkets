@@ -52,8 +52,8 @@ public class XpRecipeCategory implements IRecipeCategory<XpRecipe> {
 
     @Override
     public void draw(XpRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
-            for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
+        for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
+            for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
                 slot.draw(stack, 4 + x*18, 4 + y*18);
             }
         }
@@ -62,8 +62,8 @@ public class XpRecipeCategory implements IRecipeCategory<XpRecipe> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, XpRecipe recipe, IFocusGroup focuses) {
-        for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
-            for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
+        for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
+            for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
                 builder.addSlot(RecipeIngredientRole.INPUT, 5 + x*18, 5 + y*18)
                         .addIngredients(recipe.getIngredients().get(y*XpRecipe.RECIPE_DIMENSION + x));
 

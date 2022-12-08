@@ -58,7 +58,7 @@ public class GenGLM extends GlobalLootModifierProvider {
         for (ResourceLocation chest : goodChests) {
             add(chest.getPath() + "_trinket", new TrinketLootModifier(new LootItemCondition[]{
                     LootTableIdCondition.builder(chest).build()
-            }, Collections.emptyList(), 0.2f, 1, 1, 0, 20, 70));
+            }, Collections.emptyList(), 0.1f, 1, 1, 0, 20, 70));
         }
 
         ResourceLocation[] otherChests = new ResourceLocation[]{
@@ -88,7 +88,7 @@ public class GenGLM extends GlobalLootModifierProvider {
         for (ResourceLocation chest : otherChests) {
             add(chest.getPath() + "_trinket", new TrinketLootModifier(new LootItemCondition[]{
                     LootTableIdCondition.builder(chest).build()
-            }, Collections.emptyList(), 0.1f, 1, 1, 0, 5, 10));
+            }, Collections.emptyList(), 0.02f, 1, 1, 0, 5, 10));
         }
 
     }
