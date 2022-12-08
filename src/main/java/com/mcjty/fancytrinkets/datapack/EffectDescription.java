@@ -11,12 +11,21 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public record EffectDescription(Integer hotkey, String toggle, boolean harmful, IEffectParameters params, IEffect effect) {
+public class EffectDescription implements IForgeRegistryEntry<EffectDescription> {
+
+    private ResourceLocation name;
+    private final Integer hotkey;
+    private final String toggle;
+    private final boolean harmful;
+    private final IEffectParameters params;
+    private final IEffect effect;
 
     public static final Codec<IEffectParameters> PARAMS_CODEC = ExtraCodecs.lazyInitializedCodec(() -> Codec.STRING.dispatch("type",
             s -> s.getType().name().toLowerCase(),
@@ -43,6 +52,14 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
         return type.getCodecSupplier().get();
     }
 
+    public IEffect effect() {
+        return this.effect;
+    }
+
+    public boolean harmful() {
+        return this.harmful;
+    }
+
     public enum EffectType {
         MOBEFFECT(() -> MobEffectEffect.CODEC),
         POTIONRESISTANCE(() -> PotionResistanceEffect.CODEC),
@@ -61,6 +78,31 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
         public Supplier<Codec<IEffectParameters>> getCodecSupplier() {
             return codecSupplier;
         }
+    }
+
+    public EffectDescription(Integer hotkey, String toggle, boolean harmful, IEffectParameters params, IEffect effect) {
+        this.hotkey = hotkey;
+        this.toggle = toggle;
+        this.harmful = harmful;
+        this.params = params;
+        this.effect = effect;
+    }
+
+    @Override
+    public EffectDescription setRegistryName(ResourceLocation name) {
+        this.name = name;
+        return this;
+    }
+
+    @Nullable
+    @Override
+    public ResourceLocation getRegistryName() {
+        return name;
+    }
+
+    @Override
+    public Class<EffectDescription> getRegistryType() {
+        return EffectDescription.class;
     }
 
     private static IEffect buildEffect(IEffectParameters params, Integer hotkey, String toggle) {

@@ -21,13 +21,15 @@ import static com.mcjty.fancytrinkets.setup.Registration.*;
 
 public class XpCrafterModule implements IModule {
 
-    public static final RegistryObject<RecipeType<XpRecipe>> XP_RECIPE_TYPE = RECIPE_TYPES.register("xprecipe", XpRecipeType::new);
+//    public static final RegistryObject<RecipeType<XpRecipe>> XP_RECIPE_TYPE = RECIPE_TYPES.register("xprecipe", XpRecipeType::new);
     public static final RegistryObject<RecipeSerializer<XpRecipe>> XP_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("xprecipe", XpRecipeSerializer::new);
 
     public static final RegistryObject<ExperienceCrafterBlock> EXPERIENCE_CRAFTER = BLOCKS.register("experience_crafter", ExperienceCrafterBlock::new);
     public static final RegistryObject<BlockItem> EXPERIENCE_CRAFTER_ITEM = ITEMS.register("experience_crafter", () -> new BlockItem(EXPERIENCE_CRAFTER.get(), createStandardProperties()));
     public static final RegistryObject<BlockEntityType<?>> TYPE_EXPERIENCE_CRAFTER = TILES.register("experience_crafter", () -> BlockEntityType.Builder.of(ExperienceCrafterBE::new, EXPERIENCE_CRAFTER.get()).build(null));
     public static final RegistryObject<MenuType<GenericContainer>> CONTAINER_EXPERIENCE_CRAFTER = CONTAINERS.register("experience_crafter", GenericContainer::createContainerType);
+
+    public static final RecipeType<XpRecipe> XP_RECIPE_TYPE = new XpRecipeType();
 
     public XpCrafterModule() {
     }

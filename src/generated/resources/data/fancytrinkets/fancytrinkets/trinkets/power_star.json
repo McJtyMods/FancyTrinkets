@@ -1,24 +1,24 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.power_star.name",
   "description": "trinket.fancytrinkets.power_star.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:attack_range"
+      "id": "fancytrinkets:attack_range",
+      "hidden": false
     },
     {
-      "hidden": false,
-      "id": "fancytrinkets:attack_speed"
+      "id": "fancytrinkets:attack_speed",
+      "hidden": false
     },
     {
-      "hidden": false,
-      "id": "fancytrinkets:attack_damage"
+      "id": "fancytrinkets:attack_damage",
+      "hidden": false
     },
     {
-      "hidden": false,
-      "id": "fancytrinkets:reach_distance"
+      "id": "fancytrinkets:reach_distance",
+      "hidden": false
     }
   ],
   "item": "fancytrinkets:star",
-  "name": "trinket.fancytrinkets.power_star.name"
+  "bonustable": "fancytrinkets:standard"
 }

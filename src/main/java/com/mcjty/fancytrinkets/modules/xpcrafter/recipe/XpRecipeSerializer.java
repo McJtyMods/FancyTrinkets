@@ -1,6 +1,7 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.recipe;
 
 import com.google.gson.JsonObject;
+import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -9,11 +10,35 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 
 public class XpRecipeSerializer implements RecipeSerializer<XpRecipe> {
+
+    private ResourceLocation name;
+
+    @Override
+    public RecipeSerializer<?> setRegistryName(ResourceLocation name) {
+        this.name = name;
+        return this;
+    }
+
+    @Nullable
+    @Override
+    public ResourceLocation getRegistryName() {
+        return name;
+    }
+
+    @Override
+    public Class<RecipeSerializer<?>> getRegistryType() {
+        return XpRecipeSerializer.<RecipeSerializer<?>>castClass(RecipeSerializer.class);
+    }
+
+    private static <G> Class<G> castClass(Class<?> cls) {
+        return (Class<G>) cls;
+    }
 
     @Override
     @Nonnull
@@ -29,7 +54,7 @@ public class XpRecipeSerializer implements RecipeSerializer<XpRecipe> {
     public XpRecipe fromNetwork(@Nonnull ResourceLocation recipeId, @Nonnull FriendlyByteBuf buffer) {
         NonNullList<Ingredient> ingredients = NonNullList.withSize(XpRecipe.RECIPE_DIMENSION * XpRecipe.RECIPE_DIMENSION, Ingredient.EMPTY);
 
-        for(int i = 0; i < ingredients.size(); ++i) {
+        for (int i = 0; i < ingredients.size(); ++i) {
             ingredients.set(i, Ingredient.fromNetwork(buffer));
         }
 
@@ -39,7 +64,7 @@ public class XpRecipeSerializer implements RecipeSerializer<XpRecipe> {
 
     @Override
     public void toNetwork(@Nonnull FriendlyByteBuf buffer, XpRecipe recipe) {
-        for(Ingredient ingredient : recipe.getIngredients()) {
+        for (Ingredient ingredient : recipe.getIngredients()) {
             ingredient.toNetwork(buffer);
         }
         buffer.writeItem(recipe.getResultItem());

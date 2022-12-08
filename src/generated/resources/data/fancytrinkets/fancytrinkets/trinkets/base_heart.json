@@ -1,7 +1,7 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.base_heart.name",
   "description": "trinket.fancytrinkets.base_heart.description",
   "effects": [],
   "item": "fancytrinkets:heart",
-  "name": "trinket.fancytrinkets.base_heart.name"
+  "bonustable": "fancytrinkets:standard"
 }

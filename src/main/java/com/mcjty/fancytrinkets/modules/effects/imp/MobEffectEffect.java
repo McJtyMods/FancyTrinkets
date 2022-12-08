@@ -47,7 +47,7 @@ public class MobEffectEffect extends EffectImp {
     public void tick(ItemStack stack, ServerPlayer player, String slotId) {
         executeIfEnabled(player, playerEffects -> {
             long gameTime = player.level.getGameTime();
-            playerEffects.registerEffect(slotId, this, gameTime + 12*20);
+            playerEffects.registerEffect(slotId, this, gameTime + 14*20);
         });
     }
 
@@ -84,7 +84,7 @@ public class MobEffectEffect extends EffectImp {
         MobEffectInstance instance = player.getActiveEffectsMap().get(effect);
         int amplifier = strengthModifier + strength - 1;
         if (instance == null || instance.getAmplifier() != amplifier || instance.getDuration() < 11*20) {
-            player.addEffect(new MobEffectInstance(effect, 20*12, amplifier));
+            player.addEffect(new MobEffectInstance(effect, 20*14, amplifier));
         }
     }
 }

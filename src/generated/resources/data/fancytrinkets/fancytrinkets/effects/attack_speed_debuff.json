@@ -1,9 +1,9 @@
 {
   "harmful": true,
   "params": {
-    "type": "attribute",
-    "amount": 0.8,
     "effectId": "attack_speed",
-    "operation": "multiply_total"
+    "operation": "multiply_total",
+    "amount": 0.8,
+    "type": "attribute"
   }
 }

@@ -1,12 +1,12 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.stepassist_ring.name",
   "description": "trinket.fancytrinkets.stepassist_ring.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:step_assist"
+      "id": "fancytrinkets:step_assist",
+      "hidden": false
     }
   ],
   "item": "fancytrinkets:gold_ring",
-  "name": "trinket.fancytrinkets.stepassist_ring.name"
+  "bonustable": "fancytrinkets:standard"
 }

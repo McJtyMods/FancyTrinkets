@@ -1,10 +1,5 @@
 {
   "type": "fancytrinkets:xprecipe",
-  "key": {
-    "g": {
-      "item": "minecraft:redstone_block"
-    }
-  },
   "pattern": [
     " ggg ",
     "ggggg",
@@ -12,6 +7,11 @@
     " ggg ",
     "  g  "
   ],
+  "key": {
+    "g": {
+      "item": "minecraft:redstone_block"
+    }
+  },
   "result": {
     "item": "fancytrinkets:heart",
     "nbt": {

@@ -1,21 +1,5 @@
 {
   "type": "fancytrinkets:xprecipe",
-  "key": {
-    "S": {
-      "type": "forge:partial_nbt",
-      "item": "fancytrinkets:star",
-      "nbt": "{id:\"fancytrinkets:base_star\"}"
-    },
-    "f": {
-      "tag": "forge:feathers"
-    },
-    "g": {
-      "item": "fancytrinkets:ghast_essence"
-    },
-    "t": {
-      "item": "minecraft:ghast_tear"
-    }
-  },
   "pattern": [
     "gfgfg",
     "fgtgf",
@@ -23,6 +7,22 @@
     "fgtgf",
     "gfgfg"
   ],
+  "key": {
+    "f": {
+      "tag": "forge:feathers"
+    },
+    "t": {
+      "item": "minecraft:ghast_tear"
+    },
+    "g": {
+      "item": "fancytrinkets:ghast_essence"
+    },
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:star",
+      "nbt": "{id:\"fancytrinkets:base_star\"}"
+    }
+  },
   "result": {
     "item": "fancytrinkets:star",
     "nbt": {

@@ -1,21 +1,5 @@
 {
   "type": "fancytrinkets:xprecipe",
-  "key": {
-    "S": {
-      "type": "forge:partial_nbt",
-      "item": "fancytrinkets:gold_ring_diamond",
-      "nbt": "{id:\"fancytrinkets:base_gold_ring_diamond\"}"
-    },
-    "f": {
-      "item": "fancytrinkets:iron_golem_essence"
-    },
-    "g": {
-      "item": "fancytrinkets:wither_essence"
-    },
-    "t": {
-      "item": "minecraft:ghast_tear"
-    }
-  },
   "pattern": [
     "gfgfg",
     "ftgtf",
@@ -23,6 +7,22 @@
     "ftgtf",
     "gfgfg"
   ],
+  "key": {
+    "t": {
+      "item": "minecraft:ghast_tear"
+    },
+    "f": {
+      "item": "fancytrinkets:iron_golem_essence"
+    },
+    "g": {
+      "item": "fancytrinkets:wither_essence"
+    },
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:gold_ring_diamond",
+      "nbt": "{id:\"fancytrinkets:base_gold_ring_diamond\"}"
+    }
+  },
   "result": {
     "item": "fancytrinkets:gold_ring_diamond",
     "nbt": {

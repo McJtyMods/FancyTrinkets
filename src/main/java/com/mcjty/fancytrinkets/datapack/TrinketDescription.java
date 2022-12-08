@@ -6,16 +6,28 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record TrinketDescription(
-        ResourceLocation item,
-        ResourceLocation bonusTableId,
-        String nameKey,
-        String descriptionKey,
-        List<EffectRef> effects) {
+public class TrinketDescription implements IForgeRegistryEntry<TrinketDescription> {
+
+    private ResourceLocation name;
+    private final ResourceLocation item;
+    private final ResourceLocation bonusTableId;
+    private final String nameKey;
+    private final String descriptionKey;
+    private final List<EffectRef> effects;
+
+    public ResourceLocation item() {
+        return this.item;
+    }
+
+    public ResourceLocation bonusTableId() {
+        return this.bonusTableId;
+    }
 
     public static record EffectRef(ResourceLocation effectId, boolean hidden) {
 
@@ -34,6 +46,31 @@ public record TrinketDescription(
                     Codec.STRING.fieldOf("description").forGetter(l -> l.descriptionKey),
                     Codec.list(EffectRef.EFFECTREF_CODEC).fieldOf("effects").forGetter(l -> l.effects)
             ).apply(instance, TrinketDescription::new));
+
+    public TrinketDescription(ResourceLocation item, ResourceLocation bonusTableId, String nameKey, String descriptionKey, List<EffectRef> effects) {
+        this.item = item;
+        this.bonusTableId = bonusTableId;
+        this.nameKey = nameKey;
+        this.descriptionKey = descriptionKey;
+        this.effects = effects;
+    }
+
+    @Override
+    public TrinketDescription setRegistryName(ResourceLocation name) {
+        this.name = name;
+        return this;
+    }
+
+    @Nullable
+    @Override
+    public ResourceLocation getRegistryName() {
+        return name;
+    }
+
+    @Override
+    public Class<TrinketDescription> getRegistryType() {
+        return TrinketDescription.class;
+    }
 
     public TrinketInstance build(ResourceLocation id, ServerLevel level) {
         List<EffectInstance> effectInstances = new ArrayList<>();

@@ -73,7 +73,7 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
                     List<ResourceLocation> effects = new ArrayList<>();
                     // Find a good set of effects for the desired quality
                     List<BonusTable.EffectRef> list = Collections.emptyList();
-                    float maxDiff = 5.0f;
+                    float maxDiff = 10.0f;
                     while (list.size() < 9) {
                         list = findSuitableEffects(bonusTable.effects(), targetQuality, maxDiff);
                         maxDiff += 5;
@@ -120,7 +120,7 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
 
     @Override
     public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
-        if (allowedIn(tab)) {
+        if (allowdedIn(tab)) {
             for (TrinketInstance trinket : trinkets.values()) {
                 ItemStack stack = new ItemStack(this);
                 toNBT(stack, trinket);

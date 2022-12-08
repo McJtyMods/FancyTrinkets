@@ -1,7 +1,7 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.base_star.name",
   "description": "trinket.fancytrinkets.base_star.description",
   "effects": [],
   "item": "fancytrinkets:star",
-  "name": "trinket.fancytrinkets.base_star.name"
+  "bonustable": "fancytrinkets:standard"
 }

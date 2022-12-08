@@ -1,8 +1,8 @@
 {
   "harmful": true,
   "params": {
-    "type": "damagereduction",
     "damage": "dragonBreath",
-    "factor": 1.25
+    "factor": 1.25,
+    "type": "damagereduction"
   }
 }

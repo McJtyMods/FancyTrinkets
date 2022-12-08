@@ -1,21 +1,5 @@
 {
   "type": "fancytrinkets:xprecipe",
-  "key": {
-    "S": {
-      "type": "forge:partial_nbt",
-      "item": "fancytrinkets:gold_ring",
-      "nbt": "{id:\"fancytrinkets:base_gold_ring\"}"
-    },
-    "g": {
-      "item": "fancytrinkets:spider_essence"
-    },
-    "t": {
-      "tag": "minecraft:stairs"
-    },
-    "w": {
-      "tag": "minecraft:wooden_stairs"
-    }
-  },
   "pattern": [
     "twtwt",
     "wtgtw",
@@ -23,6 +7,22 @@
     "wtgtw",
     "twtwt"
   ],
+  "key": {
+    "t": {
+      "tag": "minecraft:stairs"
+    },
+    "w": {
+      "tag": "minecraft:wooden_stairs"
+    },
+    "g": {
+      "item": "fancytrinkets:spider_essence"
+    },
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:gold_ring",
+      "nbt": "{id:\"fancytrinkets:base_gold_ring\"}"
+    }
+  },
   "result": {
     "item": "fancytrinkets:gold_ring",
     "nbt": {

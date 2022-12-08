@@ -1,12 +1,12 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.lightness_ring.name",
   "description": "trinket.fancytrinkets.lightness_ring.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:dmg_fall_75"
+      "id": "fancytrinkets:dmg_fall_75",
+      "hidden": false
     }
   ],
   "item": "fancytrinkets:gold_ring",
-  "name": "trinket.fancytrinkets.lightness_ring.name"
+  "bonustable": "fancytrinkets:standard"
 }

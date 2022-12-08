@@ -59,7 +59,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
 
     @Cap(type = CapType.CONTAINER)
     private final LazyOptional<MenuProvider> screenHandler = LazyOptional.of(() -> new DefaultContainerProvider<GenericContainer>("Experience Crafter")
-            .containerSupplier(container(XpCrafterModule.CONTAINER_EXPERIENCE_CRAFTER, CONTAINER_FACTORY,this))
+            .containerSupplier((windowId, player) -> new ExperienceCrafterContainer(XpCrafterModule.CONTAINER_EXPERIENCE_CRAFTER, windowId, CONTAINER_FACTORY, this, player))
             .itemHandler(() -> items)
             .setupSync(this));
 
@@ -134,7 +134,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
         for (int i = SLOT_GRID; i < SLOT_GRID + RECIPE_DIMENSION * RECIPE_DIMENSION; i++) {
             inv.setItem(i - SLOT_GRID, items.getStackInSlot(i));
         }
-        return level.getRecipeManager().getRecipeFor(XpCrafterModule.XP_RECIPE_TYPE.get(), inv, level);
+        return level.getRecipeManager().getRecipeFor(XpCrafterModule.XP_RECIPE_TYPE, inv, level);
     }
 
     private void fillExperience(ServerPlayer player) {

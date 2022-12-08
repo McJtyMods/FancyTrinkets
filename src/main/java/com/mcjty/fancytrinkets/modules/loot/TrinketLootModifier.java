@@ -1,23 +1,25 @@
 package com.mcjty.fancytrinkets.modules.loot;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class TrinketLootModifier extends LootModifier {
@@ -29,18 +31,6 @@ public class TrinketLootModifier extends LootModifier {
     private final float lootingFactor;
     private final float minQuality;
     private final float maxQuality;
-
-    public static final Codec<TrinketLootModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(l -> l.conditions),
-            Codec.list(ResourceLocation.CODEC).fieldOf("trinkets").forGetter(l -> l.trinketIds),
-            Codec.FLOAT.fieldOf("chance").forGetter(l -> l.chance),
-            Codec.INT.fieldOf("min").forGetter(l -> l.min),
-            Codec.INT.fieldOf("max").forGetter(l -> l.max),
-            Codec.FLOAT.fieldOf("looting").forGetter(l -> l.lootingFactor),
-            Codec.FLOAT.fieldOf("minquality").forGetter(l -> l.minQuality),
-            Codec.FLOAT.fieldOf("maxquality").forGetter(l -> l.maxQuality)
-    ).apply(instance, TrinketLootModifier::new));
-
 
     public TrinketLootModifier(LootItemCondition[] conditionsIn, List<ResourceLocation> trinketIds, float chance, int min, int max, float looting,
                                float minQuality, float maxQuality) {
@@ -54,9 +44,10 @@ public class TrinketLootModifier extends LootModifier {
         this.maxQuality = maxQuality;
     }
 
+    @NotNull
     @Override
-    protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        RandomSource random = context.getRandom();
+    protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+        Random random = context.getRandom();
         ResourceLocation id;
         if (trinketIds.isEmpty()) {
             // Pick a totally random trinket
@@ -97,8 +88,42 @@ public class TrinketLootModifier extends LootModifier {
         return generatedLoot;
     }
 
-    @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
-        return CODEC;
+    public static class Serializer extends GlobalLootModifierSerializer<TrinketLootModifier> {
+
+        public static final Serializer INSTANCE = new Serializer();
+
+        @Override
+        public TrinketLootModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] ailootcondition) {
+            ResourceLocation item = new ResourceLocation(object.get("item").getAsString());
+            JsonArray array = object.get("trinkets").getAsJsonArray();
+            List<ResourceLocation> trinkets = new ArrayList<>();
+            for (JsonElement element : array) {
+                trinkets.add(new ResourceLocation(element.getAsString()));
+            }
+            float chance = object.get("chance").getAsFloat();
+            int min = object.get("min").getAsInt();
+            int max = object.get("max").getAsInt();
+            float looting = object.get("looting").getAsFloat();
+            float minQuality = object.get("minquality").getAsFloat();
+            float maxQuality = object.get("maxquality").getAsFloat();
+            return new TrinketLootModifier(ailootcondition, trinkets, chance, min, max, looting, minQuality, maxQuality);
+        }
+
+        @Override
+        public JsonObject write(TrinketLootModifier instance) {
+            JsonObject object = makeConditions(instance.conditions);
+            JsonArray array = new JsonArray();
+            for (ResourceLocation id : instance.trinketIds) {
+                array.add(id.toString());
+            }
+            object.add("trinkets", array);
+            object.add("chance", new JsonPrimitive(instance.chance));
+            object.add("min", new JsonPrimitive(instance.min));
+            object.add("max", new JsonPrimitive(instance.max));
+            object.add("looting", new JsonPrimitive(instance.lootingFactor));
+            object.add("minquality", new JsonPrimitive(instance.minQuality));
+            object.add("maxquality", new JsonPrimitive(instance.maxQuality));
+            return object;
+        }
     }
 }

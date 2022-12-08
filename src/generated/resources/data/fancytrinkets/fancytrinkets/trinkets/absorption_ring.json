@@ -1,12 +1,12 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.absorption_ring.name",
   "description": "trinket.fancytrinkets.absorption_ring.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:absorption"
+      "id": "fancytrinkets:absorption",
+      "hidden": false
     }
   ],
   "item": "fancytrinkets:gold_ring_diamond",
-  "name": "trinket.fancytrinkets.absorption_ring.name"
+  "bonustable": "fancytrinkets:standard"
 }

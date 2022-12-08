@@ -1,5 +1,12 @@
 {
   "type": "fancytrinkets:xprecipe",
+  "pattern": [
+    " ooo ",
+    "ogggo",
+    "ogggo",
+    "ogggo",
+    " ooo "
+  ],
   "key": {
     "g": {
       "item": "fancytrinkets:enderman_essence"
@@ -8,13 +15,6 @@
       "tag": "forge:ender_pearls"
     }
   },
-  "pattern": [
-    " ooo ",
-    "ogggo",
-    "ogggo",
-    "ogggo",
-    " ooo "
-  ],
   "result": {
     "item": "fancytrinkets:blue_pearl",
     "nbt": {

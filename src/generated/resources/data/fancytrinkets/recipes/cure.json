@@ -1,24 +1,5 @@
 {
   "type": "fancytrinkets:xprecipe",
-  "key": {
-    "S": {
-      "type": "forge:partial_nbt",
-      "item": "fancytrinkets:heart",
-      "nbt": "{id:\"fancytrinkets:base_heart\"}"
-    },
-    "f": {
-      "item": "fancytrinkets:iron_golem_essence"
-    },
-    "g": {
-      "item": "fancytrinkets:enderman_essence"
-    },
-    "t": {
-      "item": "minecraft:end_crystal"
-    },
-    "w": {
-      "item": "minecraft:nether_star"
-    }
-  },
   "pattern": [
     "tffft",
     "fgwgf",
@@ -26,6 +7,25 @@
     "fgwgf",
     "tffft"
   ],
+  "key": {
+    "t": {
+      "item": "minecraft:end_crystal"
+    },
+    "w": {
+      "item": "minecraft:nether_star"
+    },
+    "f": {
+      "item": "fancytrinkets:iron_golem_essence"
+    },
+    "g": {
+      "item": "fancytrinkets:enderman_essence"
+    },
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:heart",
+      "nbt": "{id:\"fancytrinkets:base_heart\"}"
+    }
+  },
   "result": {
     "item": "fancytrinkets:heart",
     "nbt": {

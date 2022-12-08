@@ -1,24 +1,24 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.fireresist_ring.name",
   "description": "trinket.fancytrinkets.fireresist_ring.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:dmg_infire_100"
+      "id": "fancytrinkets:dmg_infire_100",
+      "hidden": false
     },
     {
-      "hidden": true,
-      "id": "fancytrinkets:dmg_hotfloor_100"
+      "id": "fancytrinkets:dmg_hotfloor_100",
+      "hidden": true
     },
     {
-      "hidden": true,
-      "id": "fancytrinkets:dmg_onfire_100"
+      "id": "fancytrinkets:dmg_onfire_100",
+      "hidden": true
     },
     {
-      "hidden": true,
-      "id": "fancytrinkets:dmg_lava_100"
+      "id": "fancytrinkets:dmg_lava_100",
+      "hidden": true
     }
   ],
   "item": "fancytrinkets:gold_ring",
-  "name": "trinket.fancytrinkets.fireresist_ring.name"
+  "bonustable": "fancytrinkets:standard"
 }

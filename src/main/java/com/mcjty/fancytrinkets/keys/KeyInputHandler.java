@@ -8,7 +8,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class KeyInputHandler {
 
     @SubscribeEvent
-    public void onKeyInput(InputEvent.Key event) {
+    public void onKeyInput(InputEvent.KeyInputEvent event) {
         if (KeyBindings.toggle1.consumeClick()) {
             Messages.INSTANCE.sendToServer(new PacketSendKey(1));
         } else if (KeyBindings.toggle2.consumeClick()) {

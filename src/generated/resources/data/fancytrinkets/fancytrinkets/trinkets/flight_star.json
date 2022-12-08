@@ -1,12 +1,12 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.flight_star.name",
   "description": "trinket.fancytrinkets.flight_star.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:flight"
+      "id": "fancytrinkets:flight",
+      "hidden": false
     }
   ],
   "item": "fancytrinkets:star",
-  "name": "trinket.fancytrinkets.flight_star.name"
+  "bonustable": "fancytrinkets:standard"
 }

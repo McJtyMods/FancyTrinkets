@@ -1,12 +1,12 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.cure.name",
   "description": "trinket.fancytrinkets.cure.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:cure"
+      "id": "fancytrinkets:cure",
+      "hidden": false
     }
   ],
   "item": "fancytrinkets:heart",
-  "name": "trinket.fancytrinkets.cure.name"
+  "bonustable": "fancytrinkets:standard"
 }

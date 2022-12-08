@@ -1,24 +1,5 @@
 {
   "type": "fancytrinkets:xprecipe",
-  "key": {
-    "I": {
-      "item": "minecraft:iron_block"
-    },
-    "S": {
-      "type": "forge:partial_nbt",
-      "item": "fancytrinkets:gold_ring_diamond",
-      "nbt": "{id:\"fancytrinkets:base_gold_ring_diamond\"}"
-    },
-    "g": {
-      "item": "fancytrinkets:iron_golem_essence"
-    },
-    "t": {
-      "item": "minecraft:nether_star"
-    },
-    "w": {
-      "item": "fancytrinkets:wither_essence"
-    }
-  },
   "pattern": [
     "IgggI",
     "gwtwg",
@@ -26,6 +7,25 @@
     "gwtwg",
     "IgggI"
   ],
+  "key": {
+    "t": {
+      "item": "minecraft:nether_star"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "w": {
+      "item": "fancytrinkets:wither_essence"
+    },
+    "g": {
+      "item": "fancytrinkets:iron_golem_essence"
+    },
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:gold_ring_diamond",
+      "nbt": "{id:\"fancytrinkets:base_gold_ring_diamond\"}"
+    }
+  },
   "result": {
     "item": "fancytrinkets:gold_ring_diamond",
     "nbt": {

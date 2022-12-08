@@ -1,15 +1,5 @@
 {
   "type": "fancytrinkets:xprecipe",
-  "key": {
-    "S": {
-      "type": "forge:partial_nbt",
-      "item": "fancytrinkets:gold_ring",
-      "nbt": "{id:\"fancytrinkets:nightvision_ring\"}"
-    },
-    "g": {
-      "item": "fancytrinkets:spider_essence"
-    }
-  },
   "pattern": [
     "     ",
     " ggg ",
@@ -17,6 +7,16 @@
     " ggg ",
     "     "
   ],
+  "key": {
+    "g": {
+      "item": "fancytrinkets:spider_essence"
+    },
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:gold_ring",
+      "nbt": "{id:\"fancytrinkets:nightvision_ring\"}"
+    }
+  },
   "result": {
     "item": "fancytrinkets:gold_ring",
     "nbt": {

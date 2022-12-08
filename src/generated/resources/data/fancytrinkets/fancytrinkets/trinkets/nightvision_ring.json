@@ -1,12 +1,12 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.nightvision_ring.name",
   "description": "trinket.fancytrinkets.nightvision_ring.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:night_vision_hotkey"
+      "id": "fancytrinkets:night_vision_hotkey",
+      "hidden": false
     }
   ],
   "item": "fancytrinkets:gold_ring",
-  "name": "trinket.fancytrinkets.nightvision_ring.name"
+  "bonustable": "fancytrinkets:standard"
 }

@@ -1,7 +1,7 @@
 {
   "params": {
-    "type": "mobeffect",
     "effectId": "minecraft:water_breathing",
-    "strength": 1
+    "strength": 1,
+    "type": "mobeffect"
   }
 }

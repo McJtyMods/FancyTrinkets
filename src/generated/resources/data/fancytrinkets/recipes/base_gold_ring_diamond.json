@@ -1,13 +1,5 @@
 {
   "type": "fancytrinkets:xprecipe",
-  "key": {
-    "d": {
-      "item": "minecraft:diamond"
-    },
-    "g": {
-      "tag": "forge:ingots/gold"
-    }
-  },
   "pattern": [
     " gdg ",
     "g   g",
@@ -15,6 +7,14 @@
     "g   g",
     " ggg "
   ],
+  "key": {
+    "g": {
+      "tag": "forge:ingots/gold"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    }
+  },
   "result": {
     "item": "fancytrinkets:gold_ring_diamond",
     "nbt": {

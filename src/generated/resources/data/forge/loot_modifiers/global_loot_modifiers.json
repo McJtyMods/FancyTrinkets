@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "entries": [
     "fancytrinkets:zombie_essence",
     "fancytrinkets:chests/bastion_other_trinket",
@@ -15,7 +16,6 @@
     "fancytrinkets:chests/pillager_outpost_trinket",
     "fancytrinkets:chests/woodland_mansion_trinket",
     "fancytrinkets:chests/desert_pyramid_trinket",
-    "fancytrinkets:chests/ancient_city_trinket",
     "fancytrinkets:wither_trinket",
     "fancytrinkets:chests/shipwreck_supply_trinket",
     "fancytrinkets:dragon_trinket",
@@ -38,10 +38,8 @@
     "fancytrinkets:chests/bastion_hoglin_stable_trinket",
     "fancytrinkets:chests/jungle_temple_dispenser_trinket",
     "fancytrinkets:chests/underwater_ruin_big_trinket",
-    "fancytrinkets:chests/ancient_city_ice_box_trinket",
     "fancytrinkets:blaze_essence",
     "fancytrinkets:skeleton_essence",
     "fancytrinkets:chests/nether_bridge_trinket"
-  ],
-  "replace": false
+  ]
 }

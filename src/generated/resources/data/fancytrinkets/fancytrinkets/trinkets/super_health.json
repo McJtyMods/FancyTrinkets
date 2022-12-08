@@ -1,16 +1,16 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.super_health.name",
   "description": "trinket.fancytrinkets.super_health.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:regeneration"
+      "id": "fancytrinkets:regeneration",
+      "hidden": false
     },
     {
-      "hidden": false,
-      "id": "fancytrinkets:max_health"
+      "id": "fancytrinkets:max_health",
+      "hidden": false
     }
   ],
   "item": "fancytrinkets:heart_body",
-  "name": "trinket.fancytrinkets.super_health.name"
+  "bonustable": "fancytrinkets:standard"
 }

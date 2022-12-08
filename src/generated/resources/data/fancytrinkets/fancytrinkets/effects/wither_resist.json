@@ -1,6 +1,6 @@
 {
   "params": {
-    "type": "potionresistance",
-    "effectId": "minecraft:wither"
+    "effectId": "minecraft:wither",
+    "type": "potionresistance"
   }
 }

@@ -1,12 +1,12 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.slowfalling_feather.name",
   "description": "trinket.fancytrinkets.slowfalling_feather.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:slow_falling"
+      "id": "fancytrinkets:slow_falling",
+      "hidden": false
     }
   ],
   "item": "fancytrinkets:feather",
-  "name": "trinket.fancytrinkets.slowfalling_feather.name"
+  "bonustable": "fancytrinkets:standard"
 }

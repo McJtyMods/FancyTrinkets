@@ -1,7 +1,7 @@
 {
   "hotkey": 2,
   "params": {
-    "type": "warp",
-    "maxdist": 40
+    "maxdist": 40,
+    "type": "warp"
   }
 }

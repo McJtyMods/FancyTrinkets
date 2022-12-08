@@ -1,9 +1,9 @@
 {
   "hotkey": 1,
+  "toggle": "night_vision",
   "params": {
-    "type": "mobeffect",
     "effectId": "minecraft:night_vision",
-    "strength": 1
-  },
-  "toggle": "night_vision"
+    "strength": 1,
+    "type": "mobeffect"
+  }
 }

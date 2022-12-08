@@ -1,24 +1,24 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.swift_star.name",
   "description": "trinket.fancytrinkets.swift_star.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:movement_speed"
+      "id": "fancytrinkets:movement_speed",
+      "hidden": false
     },
     {
-      "hidden": false,
-      "id": "fancytrinkets:knockback_resistance"
+      "id": "fancytrinkets:knockback_resistance",
+      "hidden": false
     },
     {
-      "hidden": false,
-      "id": "fancytrinkets:swim_speed"
+      "id": "fancytrinkets:swim_speed",
+      "hidden": false
     },
     {
-      "hidden": false,
-      "id": "fancytrinkets:step_assist"
+      "id": "fancytrinkets:step_assist",
+      "hidden": false
     }
   ],
   "item": "fancytrinkets:star",
-  "name": "trinket.fancytrinkets.swift_star.name"
+  "bonustable": "fancytrinkets:standard"
 }

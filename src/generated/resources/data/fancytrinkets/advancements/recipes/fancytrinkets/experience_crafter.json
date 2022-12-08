@@ -1,13 +1,13 @@
 {
   "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "fancytrinkets:experience_crafter"
+    ]
+  },
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "fancytrinkets:experience_crafter"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
     "redstone": {
+      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -16,8 +16,13 @@
             ]
           }
         ]
-      },
-      "trigger": "minecraft:inventory_changed"
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "fancytrinkets:experience_crafter"
+      }
     }
   },
   "requirements": [
@@ -25,10 +30,5 @@
       "redstone",
       "has_the_recipe"
     ]
-  ],
-  "rewards": {
-    "recipes": [
-      "fancytrinkets:experience_crafter"
-    ]
-  }
+  ]
 }

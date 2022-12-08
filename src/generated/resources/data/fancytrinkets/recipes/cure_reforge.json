@@ -1,15 +1,5 @@
 {
   "type": "fancytrinkets:xprecipe",
-  "key": {
-    "S": {
-      "type": "forge:partial_nbt",
-      "item": "fancytrinkets:heart",
-      "nbt": "{id:\"fancytrinkets:cure\"}"
-    },
-    "g": {
-      "item": "fancytrinkets:iron_golem_essence"
-    }
-  },
   "pattern": [
     "     ",
     " ggg ",
@@ -17,6 +7,16 @@
     " ggg ",
     "     "
   ],
+  "key": {
+    "g": {
+      "item": "fancytrinkets:iron_golem_essence"
+    },
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:heart",
+      "nbt": "{id:\"fancytrinkets:cure\"}"
+    }
+  },
   "result": {
     "item": "fancytrinkets:heart",
     "nbt": {

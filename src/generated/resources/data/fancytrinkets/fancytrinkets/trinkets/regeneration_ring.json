@@ -1,12 +1,12 @@
 {
-  "bonustable": "fancytrinkets:standard",
+  "name": "trinket.fancytrinkets.regeneration_ring.name",
   "description": "trinket.fancytrinkets.regeneration_ring.description",
   "effects": [
     {
-      "hidden": false,
-      "id": "fancytrinkets:regeneration"
+      "id": "fancytrinkets:regeneration",
+      "hidden": false
     }
   ],
   "item": "fancytrinkets:gold_ring_diamond",
-  "name": "trinket.fancytrinkets.regeneration_ring.name"
+  "bonustable": "fancytrinkets:standard"
 }

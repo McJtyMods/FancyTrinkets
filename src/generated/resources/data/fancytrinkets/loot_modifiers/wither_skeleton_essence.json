@@ -1,6 +1,4 @@
 {
-  "type": "fancytrinkets:essence_loot",
-  "chance": 0.1,
   "conditions": [
     {
       "condition": "forge:loot_table_id",
@@ -11,7 +9,9 @@
     }
   ],
   "item": "fancytrinkets:wither_skeleton_essence",
-  "looting": 0.3,
+  "chance": 0.1,
+  "min": 1,
   "max": 2,
-  "min": 1
+  "looting": 0.3,
+  "type": "fancytrinkets:essence_loot"
 }

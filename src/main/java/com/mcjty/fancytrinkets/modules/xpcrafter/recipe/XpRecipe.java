@@ -81,6 +81,6 @@ public class XpRecipe implements CraftingRecipe, IShapedRecipe<CraftingContainer
 
     @Override
     public RecipeType<?> getType() {
-        return XpCrafterModule.XP_RECIPE_TYPE.get();
+        return XpCrafterModule.XP_RECIPE_TYPE;
     }
 }

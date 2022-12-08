@@ -1,7 +1,7 @@
 {
   "params": {
-    "type": "damagereduction",
     "damage": "fallingStalactite",
-    "factor": 0.0
+    "factor": 0.0,
+    "type": "damagereduction"
   }
 }

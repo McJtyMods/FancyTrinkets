@@ -1,8 +1,8 @@
 {
   "params": {
-    "type": "attribute",
-    "amount": 8.0,
     "effectId": "max_health",
-    "operation": "addition"
+    "operation": "addition",
+    "amount": 8.0,
+    "type": "attribute"
   }
 }

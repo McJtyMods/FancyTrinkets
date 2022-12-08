@@ -1,5 +1,6 @@
 package com.mcjty.fancytrinkets.compat;
 
+import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -14,6 +15,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class XpRecipeCategory implements IRecipeCategory<XpRecipe> {
@@ -28,6 +30,16 @@ public class XpRecipeCategory implements IRecipeCategory<XpRecipe> {
         slot = guiHelper.getSlotDrawable();
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(XpCrafterModule.EXPERIENCE_CRAFTER.get()));
         background = guiHelper.createBlankDrawable(140, 120);
+    }
+
+    @Override
+    public ResourceLocation getUid() {
+        return new ResourceLocation(FancyTrinkets.MODID, "xprecipe");
+    }
+
+    @Override
+    public Class<? extends XpRecipe> getRecipeClass() {
+        return XpRecipe.class;
     }
 
     @Override
@@ -52,8 +64,8 @@ public class XpRecipeCategory implements IRecipeCategory<XpRecipe> {
 
     @Override
     public void draw(XpRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
-            for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
+        for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
+            for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
                 slot.draw(stack, 4 + x*18, 4 + y*18);
             }
         }
@@ -62,8 +74,8 @@ public class XpRecipeCategory implements IRecipeCategory<XpRecipe> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, XpRecipe recipe, IFocusGroup focuses) {
-        for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
-            for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
+        for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
+            for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
                 builder.addSlot(RecipeIngredientRole.INPUT, 5 + x*18, 5 + y*18)
                         .addIngredients(recipe.getIngredients().get(y*XpRecipe.RECIPE_DIMENSION + x));
 

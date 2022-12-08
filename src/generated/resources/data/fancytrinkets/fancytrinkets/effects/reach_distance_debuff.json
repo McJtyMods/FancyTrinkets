@@ -1,9 +1,9 @@
 {
   "harmful": true,
   "params": {
-    "type": "attribute",
-    "amount": -0.5,
     "effectId": "reach_distance",
-    "operation": "addition"
+    "operation": "addition",
+    "amount": -0.5,
+    "type": "attribute"
   }
 }

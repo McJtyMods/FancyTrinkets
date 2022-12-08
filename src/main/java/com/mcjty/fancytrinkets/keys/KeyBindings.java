@@ -2,6 +2,7 @@ package com.mcjty.fancytrinkets.keys;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.settings.KeyConflictContext;
 
 public class KeyBindings {
@@ -37,5 +38,8 @@ public class KeyBindings {
         toggle7 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_7, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
         toggle8 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_8, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
         toggles = new KeyMapping[] { toggle1, toggle2, toggle3, toggle4, toggle5, toggle6, toggle7, toggle8 };
+        for (KeyMapping toggle : toggles) {
+            ClientRegistry.registerKeyBinding(toggle);
+        }
     }
 }

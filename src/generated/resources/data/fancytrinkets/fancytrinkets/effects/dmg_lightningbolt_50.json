@@ -1,7 +1,7 @@
 {
   "params": {
-    "type": "damagereduction",
     "damage": "lightningBolt",
-    "factor": 0.5
+    "factor": 0.5,
+    "type": "damagereduction"
   }
 }

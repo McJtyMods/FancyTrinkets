@@ -1,24 +1,5 @@
 {
   "type": "fancytrinkets:xprecipe",
-  "key": {
-    "S": {
-      "type": "forge:partial_nbt",
-      "item": "fancytrinkets:gold_ring",
-      "nbt": "{id:\"fancytrinkets:base_gold_ring\"}"
-    },
-    "f": {
-      "item": "fancytrinkets:iron_golem_essence"
-    },
-    "g": {
-      "item": "fancytrinkets:chicken_essence"
-    },
-    "t": {
-      "item": "minecraft:diamond_block"
-    },
-    "w": {
-      "item": "minecraft:amethyst_block"
-    }
-  },
   "pattern": [
     " wtw ",
     "wfgfw",
@@ -26,6 +7,25 @@
     "wfgfw",
     " wtw "
   ],
+  "key": {
+    "t": {
+      "item": "minecraft:diamond_block"
+    },
+    "w": {
+      "item": "minecraft:amethyst_block"
+    },
+    "f": {
+      "item": "fancytrinkets:iron_golem_essence"
+    },
+    "g": {
+      "item": "fancytrinkets:chicken_essence"
+    },
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:gold_ring",
+      "nbt": "{id:\"fancytrinkets:base_gold_ring\"}"
+    }
+  },
   "result": {
     "item": "fancytrinkets:gold_ring",
     "nbt": {

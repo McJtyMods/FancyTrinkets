@@ -1,8 +1,8 @@
 {
   "params": {
-    "type": "attribute",
-    "amount": 2.0,
     "effectId": "luck",
-    "operation": "multiply_total"
+    "operation": "multiply_total",
+    "amount": 2.0,
+    "type": "attribute"
   }
 }

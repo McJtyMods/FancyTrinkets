@@ -1,15 +1,5 @@
 {
   "type": "fancytrinkets:xprecipe",
-  "key": {
-    "S": {
-      "type": "forge:partial_nbt",
-      "item": "fancytrinkets:star",
-      "nbt": "{id:\"fancytrinkets:flight_star\"}"
-    },
-    "g": {
-      "item": "fancytrinkets:ghast_essence"
-    }
-  },
   "pattern": [
     "     ",
     " ggg ",
@@ -17,6 +7,16 @@
     " ggg ",
     "     "
   ],
+  "key": {
+    "g": {
+      "item": "fancytrinkets:ghast_essence"
+    },
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:star",
+      "nbt": "{id:\"fancytrinkets:flight_star\"}"
+    }
+  },
   "result": {
     "item": "fancytrinkets:star",
     "nbt": {

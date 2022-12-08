@@ -37,9 +37,9 @@ public class Config {
                 .defineInRange("chanceBonusEffect4", 2.0f, 0.0f, 100.0f);
         EXPERIENCE_OFFSET = builder
                 .comment("This is added to the experience that you get from the input experience. This way even a craft with 0 experience can get some reasonable things")
-                .defineInRange("qualityOffset", 600, 0, Integer.MAX_VALUE);
+                .defineInRange("qualityOffset", 150, 0, Integer.MAX_VALUE);
 
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, builder.build());
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, builder.build());
     }
 }

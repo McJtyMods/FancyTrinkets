@@ -41,7 +41,7 @@ archivesBaseName = 'fancytrinkets'
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-    mappings channel: 'parchment', version: "2022.11.20-1.19.2"
+    mappings channel: 'parchment', version: "2022.06.05-1.18.2"
     //mappings channel: 'official', version: "1.19"
     runs {
         client {
@@ -103,10 +103,10 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-1.19-common-api:${jei_version}")
-    compileOnly fg.deobf("mezz.jei:jei-1.19-forge-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-1.18.2-common-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-1.18.2-forge-api:${jei_version}")
     // at runtime, use the full JEI jar for Forge
-    runtimeOnly fg.deobf("mezz.jei:jei-1.19-forge:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2-forge:${jei_version}")
 
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")

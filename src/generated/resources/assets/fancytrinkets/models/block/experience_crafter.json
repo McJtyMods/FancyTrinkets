@@ -2,11 +2,11 @@
   "parent": "minecraft:block/cube",
   "textures": {
     "down": "fancytrinkets:block/experience_crafter_bottom",
-    "east": "fancytrinkets:block/experience_crafter_side",
-    "north": "fancytrinkets:block/experience_crafter_side",
-    "particle": "fancytrinkets:block/experience_crafter_top",
-    "south": "fancytrinkets:block/experience_crafter_side",
     "up": "fancytrinkets:block/experience_crafter_top",
-    "west": "fancytrinkets:block/experience_crafter_side"
+    "north": "fancytrinkets:block/experience_crafter_side",
+    "south": "fancytrinkets:block/experience_crafter_side",
+    "east": "fancytrinkets:block/experience_crafter_side",
+    "west": "fancytrinkets:block/experience_crafter_side",
+    "particle": "fancytrinkets:block/experience_crafter_top"
   }
 }
