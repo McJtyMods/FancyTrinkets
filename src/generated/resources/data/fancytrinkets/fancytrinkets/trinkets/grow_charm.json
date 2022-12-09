@@ -1,0 +1,12 @@
+{
+  "bonustable": "fancytrinkets:standard",
+  "description": "trinket.fancytrinkets.grow_charm.description",
+  "effects": [
+    {
+      "hidden": false,
+      "id": "fancytrinkets:growtick"
+    }
+  ],
+  "item": "fancytrinkets:charm1",
+  "name": "trinket.fancytrinkets.grow_charm.name"
+}

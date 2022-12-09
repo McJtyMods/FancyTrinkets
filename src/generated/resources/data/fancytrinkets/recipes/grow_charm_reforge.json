@@ -1,0 +1,26 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "S": {
+      "type": "forge:partial_nbt",
+      "item": "fancytrinkets:charm1",
+      "nbt": "{id:\"fancytrinkets:grow_charm\"}"
+    },
+    "g": {
+      "item": "fancytrinkets:skeleton_essence"
+    }
+  },
+  "pattern": [
+    "     ",
+    " ggg ",
+    " gSg ",
+    " ggg ",
+    "     "
+  ],
+  "result": {
+    "item": "fancytrinkets:charm1",
+    "nbt": {
+      "id": "fancytrinkets:grow_charm"
+    }
+  }
+}

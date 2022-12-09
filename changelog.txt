@@ -1,5 +1,6 @@
 Upcoming:
 - Fixed some bad descriptions (effectId -> effect)
+- Added a new type of effect: 'growtick' and a default charm that uses it
 
 1.19-2.0.0:
 - Fancy Trinkets!

@@ -83,6 +83,7 @@ public class DefaultEffects {
         register("flight", flightEffect(), "Flight");
         register("warp", warpEffect(2, 40), "Warp");
         register("cure", cureEffect(), "Cure");
+        register("growtick", growtickEffect(), "Grow Tick Increase");
 
         register("poison_resist", potionResistEffect("minecraft:poison"), "Poison Resistance");
         register("weakness_resist", potionResistEffect("minecraft:weakness"), "Weakness Resistance");
@@ -220,6 +221,10 @@ public class DefaultEffects {
 
     private static EffectDescription cureEffect() {
         return EffectDescription.create(null, null, false, CureEffect.Params.EMPTY);
+    }
+
+    private static EffectDescription growtickEffect() {
+        return EffectDescription.create(null, null, false, new GrowTickEffect.Params(6, 15));
     }
 
     public static record EffectInfo(EffectDescription effect, String description) {
