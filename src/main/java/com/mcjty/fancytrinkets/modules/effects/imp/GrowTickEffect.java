@@ -14,9 +14,9 @@ public class GrowTickEffect extends EffectImp {
 
     private static final RandomSource random = RandomSource.create();
     private final int maxdist;
-    private final float blocks;
+    private final int blocks;
 
-    public static record Params(int maxdist, float blocks) implements IEffectParameters {
+    public static record Params(int maxdist, int blocks) implements IEffectParameters {
         @Override
         public EffectDescription.EffectType getType() {
             return EffectDescription.EffectType.GROWTICK;
@@ -33,10 +33,10 @@ public class GrowTickEffect extends EffectImp {
     public static final Codec<IEffectParameters> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     Codec.INT.fieldOf("maxdist").forGetter(l -> ((GrowTickEffect.Params)l).maxdist),
-                    Codec.FLOAT.fieldOf("blocks").forGetter(l -> ((GrowTickEffect.Params)l).blocks)
+                    Codec.INT.fieldOf("blocks").forGetter(l -> ((GrowTickEffect.Params)l).blocks)
             ).apply(instance, GrowTickEffect.Params::new));
 
-    public GrowTickEffect(Integer hotkey, String toggle, int maxdist, float blocks) {
+    public GrowTickEffect(Integer hotkey, String toggle, int maxdist, int blocks) {
         super(hotkey, toggle);
         this.maxdist = maxdist;
         this.blocks = blocks;
@@ -53,7 +53,6 @@ public class GrowTickEffect extends EffectImp {
                 BlockPos dest = blockPos.offset(dx, dy, dz);
                 player.level.getBlockState(dest).randomTick((ServerLevel) player.level, dest, random);
             }
-
         });
     }
 }
