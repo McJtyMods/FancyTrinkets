@@ -1,0 +1,7 @@
+{
+  "params": {
+    "type": "growtick",
+    "blocks": 15.0,
+    "maxdist": 6
+  }
+}

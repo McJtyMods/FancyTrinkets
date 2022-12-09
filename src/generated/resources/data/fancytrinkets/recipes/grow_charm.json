@@ -1,0 +1,30 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "f": {
+      "tag": "forge:bones"
+    },
+    "g": {
+      "item": "fancytrinkets:skeleton_essence"
+    },
+    "t": {
+      "item": "minecraft:bone_meal"
+    },
+    "w": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "pattern": [
+    " fwf ",
+    "fgggf",
+    "tgggt",
+    "fgggf",
+    " fwf "
+  ],
+  "result": {
+    "item": "fancytrinkets:charm1",
+    "nbt": {
+      "id": "fancytrinkets:grow_charm"
+    }
+  }
+}

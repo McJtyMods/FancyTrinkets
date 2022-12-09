@@ -15,6 +15,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -67,7 +68,8 @@ public class EffectDescription implements IForgeRegistryEntry<EffectDescription>
         FLIGHT(() -> FlightEffect.CODEC),
         WARP(() -> WarpEffect.CODEC),
         CURE(() -> CureEffect.CODEC),
-        ATTRIBUTE(() -> AttributeModifierEffect.CODEC)
+        ATTRIBUTE(() -> AttributeModifierEffect.CODEC),
+        GROWTICK(() -> GrowTickEffect.CODEC)
         ;
         private final Supplier<Codec<IEffectParameters>> codecSupplier;
 
@@ -114,10 +116,17 @@ public class EffectDescription implements IForgeRegistryEntry<EffectDescription>
             case WARP -> new WarpEffect(hotkey, toggle, WarpEffect.Params.cast(params).maxdist());
             case CURE -> new CureEffect(hotkey, toggle);
             case ATTRIBUTE -> getAttributeEffect(params, hotkey, toggle);
+            case GROWTICK -> getGrowTickEffect(params, hotkey, toggle);
         };
     }
 
-    @NotNull
+    @Nonnull
+    private static GrowTickEffect getGrowTickEffect(IEffectParameters params, Integer hotkey, String toggle) {
+        GrowTickEffect.Params p = GrowTickEffect.Params.cast(params);
+        return new GrowTickEffect(hotkey, toggle, p.maxdist(), p.blocks());
+    }
+
+    @Nonnull
     private static AttributeModifierEffect getAttributeEffect(IEffectParameters params, Integer hotkey, String toggle) {
         AttributeModifierEffect.Params p = AttributeModifierEffect.Params.cast(params);
         String effName = p.effect();
@@ -137,7 +146,7 @@ public class EffectDescription implements IForgeRegistryEntry<EffectDescription>
         return new AttributeModifierEffect(hotkey, toggle, effName, attributeSupplier, p.operation(), p.amount());
     }
 
-    @NotNull
+    @Nonnull
     private static MobEffectEffect getMobEffectEffect(IEffectParameters params, Integer hotkey, String toggle) {
         MobEffectEffect.Params p = MobEffectEffect.Params.cast(params);
         String effName = p.effect();
@@ -148,7 +157,7 @@ public class EffectDescription implements IForgeRegistryEntry<EffectDescription>
         return new MobEffectEffect(hotkey, toggle, effect, p.strength() - 1);
     }
 
-    @NotNull
+    @Nonnull
     private static PotionResistanceEffect getPotionResistanceEffect(IEffectParameters params, Integer hotkey, String toggle) {
         PotionResistanceEffect.Params p = PotionResistanceEffect.Params.cast(params);
         String effName = p.effect();
@@ -159,7 +168,7 @@ public class EffectDescription implements IForgeRegistryEntry<EffectDescription>
         return new PotionResistanceEffect(hotkey, toggle, effect);
     }
 
-    @NotNull
+    @Nonnull
     private static DamageReductionEffect getDamageReductionEffect(IEffectParameters params, Integer hotkey, String toggle) {
         DamageReductionEffect.Params p = DamageReductionEffect.Params.cast(params);
         String dmgId = p.dmgId();

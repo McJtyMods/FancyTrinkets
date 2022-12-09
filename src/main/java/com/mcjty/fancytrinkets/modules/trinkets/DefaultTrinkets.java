@@ -35,6 +35,9 @@ public class DefaultTrinkets {
         register("stepassist_ring", trinket("stepassist_ring", "gold_ring",
                 effect("step_assist")), "Step Assist Ring", "You can move around much easier now");
 
+        register("grow_charm", trinket("grow_charm", "charm1",
+                effect("growtick")), "Charm of Growth", "Crops grow faster around you");
+
         register("base_heart", trinket("base_heart", "heart"), "Base Heart", "Crafting ingredient to make heart trinkets");
         register("super_health", trinket("super_health", "heart_body",
                 effect("regeneration"), effect("max_health")), "Heart of Health", "You feel so much more healthy now");

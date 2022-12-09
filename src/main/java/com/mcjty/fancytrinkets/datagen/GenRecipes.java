@@ -71,6 +71,17 @@ public class GenRecipes extends BaseRecipeProvider {
                         .define('S', createTrinketIngredient("swift_star")),
                 "     ", " ggg ", " gSg ", " ggg ", "     ");
 
+        build(consumer, trinket("grow_charm"), XpRecipeBuilder.shapedRecipe(createTrinketStack("grow_charm"))
+                        .define('f', Tags.Items.BONES)
+                        .define('t', Items.BONE_MEAL)
+                        .define('w', Items.DIAMOND_BLOCK)
+                        .define('g', LootModule.SKELETON_ESSENCE.get()),
+                " fwf ", "fgggf", "tgggt", "fgggf", " fwf ");
+        build(consumer, trinket("grow_charm_reforge"), XpRecipeBuilder.shapedRecipe(createTrinketStack("grow_charm"))
+                        .define('g', LootModule.SKELETON_ESSENCE.get())
+                        .define('S', createTrinketIngredient("grow_charm")),
+                "     ", " ggg ", " gSg ", " ggg ", "     ");
+
         build(consumer, trinket("slowfalling_feather"), XpRecipeBuilder.shapedRecipe(createTrinketStack("slowfalling_feather"))
                         .define('f', Tags.Items.FEATHERS)
                         .define('g', LootModule.CHICKEN_ESSENCE.get()),
