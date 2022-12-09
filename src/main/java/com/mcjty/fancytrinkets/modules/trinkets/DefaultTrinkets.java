@@ -22,7 +22,7 @@ public class DefaultTrinkets {
                 effect("movement_speed"), effect("knockback_resistance"), effect("swim_speed"), effect("step_assist")), "Star of Swiftness", "Feel the freedom of swift and flexible movement");
 
         register("slowfalling_feather", trinket("slowfalling_feather", "feather",
-                effect("slow_falling")), "Golden Feather", "Gravity seems to have less effectId on you");
+                effect("slow_falling")), "Golden Feather", "Gravity seems to have less effect on you");
 
         register("base_gold_ring", trinket("base_gold_ring", "gold_ring"), "Base Golden Ring", "Crafting ingredient to make golden ring trinkets");
         register("lightness_ring", trinket("lightness_ring", "gold_ring",
@@ -47,7 +47,7 @@ public class DefaultTrinkets {
         register("regeneration_ring", trinket("regeneration_ring", "gold_ring_diamond",
                 effect("regeneration")), "Regeneration Ring", "Slowly get your health back");
         register("strength_ring", trinket("strength_ring", "gold_ring_diamond",
-                effect("strength")), "Strength Ring", "Your attacks seem to have more effectId");
+                effect("strength")), "Strength Ring", "Your attacks seem to have more effect");
 
         register("warp_pearl", trinket("warp_pearl", "blue_pearl", effect("warp")), "Warp Pearl", "Warp Pearl");
     }
