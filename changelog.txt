@@ -1,3 +1,6 @@
+Upcoming:
+- Small fix
+
 1.18-1.0.1:
 - Fixed some bad descriptions (effectId -> effect)
 - Added a new type of effect: 'growtick' and a default charm that uses it
