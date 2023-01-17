@@ -40,16 +40,6 @@ public class GenLanguage extends net.minecraftforge.common.data.LanguageProvider
         add(KeyBindings.KEY_CATEGORIES_FANCYTRINKETS, "Fancy Trinkets");
         add(XpRecipeCategory.KEY_XP_RECIPE_CATEGORY, "Experience Crafter");
 
-        RegistryObject<ExperienceCrafterBlock> b = XpCrafterModule.EXPERIENCE_CRAFTER;
-        add("block." + getStringId(b), "Experience Crafter");
-        add("message." + getStringId(b) + ".header", "Craft trinkets using experience. With low experience you'll potentially get low quality trinkets");
-
-        for (TrinketsModule.TrinketInfo info : TrinketsModule.TRINKET_ITEMS.values()) {
-            add("item." + getStringId(info.id()), info.description());
-        }
-        for (LootModule.Essence essence : LootModule.ESSENCE_ITEMS.values()) {
-            add("item." + getStringItemId(essence.item()), essence.description());
-        }
         for (Map.Entry<ResourceLocation, DefaultTrinkets.TrinketInfo> entry : DefaultTrinkets.DEFAULT_TRINKETS.entrySet()) {
             ResourceLocation key = entry.getKey();
             add("trinket." + key.getNamespace() + "." + key.getPath() + ".name", entry.getValue().name());

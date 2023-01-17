@@ -2,6 +2,8 @@ package com.mcjty.fancytrinkets.modules.loot;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mojang.serialization.Codec;
+import mcjty.lib.datagen.DataGen;
+import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -15,6 +17,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.mcjty.fancytrinkets.FancyTrinkets.tab;
 import static com.mcjty.fancytrinkets.setup.Registration.ITEMS;
 import static com.mcjty.fancytrinkets.setup.Registration.LOOT_MODIFIER_SERIALIZERS;
 
@@ -66,12 +69,24 @@ public class LootModule implements IModule {
 
     }
 
+    @Override
+    public void initDatagen(DataGen dataGen) {
+        for (Map.Entry<String, LootModule.Essence> entry : LootModule.ESSENCE_ITEMS.entrySet()) {
+            LootModule.Essence essence = entry.getValue();
+            dataGen.add(
+                    Dob.itemBuilder(essence.item())
+                            .name(essence.description())
+                            .generatedItem(essence.texture())
+            );
+        }
+    }
+
     public static record Essence(RegistryObject<Item> item, String texture, String description) {}
     public static record EssenceGLM(ResourceLocation itemId, ResourceLocation lootTable, float chance, int min, int max, float looting) {}
 
     @Nonnull
     private static RegistryObject<Item> createBasicItem(String id, String texture, String description) {
-        RegistryObject<Item> object = ITEMS.register(id, () -> new Item(new Item.Properties().tab(FancyTrinkets.setup.getTab()).stacksTo(64)));
+        RegistryObject<Item> object = ITEMS.register(id, tab(() -> new Item(new Item.Properties().tab(FancyTrinkets.setup.getTab()).stacksTo(64))));
         ESSENCE_ITEMS.put(id, new Essence(object, texture, description));
         return object;
     }

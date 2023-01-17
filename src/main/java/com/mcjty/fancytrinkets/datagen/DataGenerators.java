@@ -14,19 +14,13 @@ public class DataGenerators {
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper fileHelper = event.getExistingFileHelper();
 
-        generator.addProvider(event.includeClient(), new GenItems(generator, fileHelper));
         generator.addProvider(event.includeClient(), new GenLanguage(generator, "en_us"));
-        generator.addProvider(event.includeClient(), new GenBlockStates(generator, fileHelper));
 
-        GenBlockTags blockTags = new GenBlockTags(generator, fileHelper);
-        generator.addProvider(event.includeServer(), blockTags);
-        generator.addProvider(event.includeServer(), new GenItemTags(generator, blockTags, fileHelper));
         generator.addProvider(event.includeServer(), new GenRecipes(generator));
         generator.addProvider(event.includeServer(), new GenEffects(generator, fileHelper));
         generator.addProvider(event.includeServer(), new GenTrinkets(generator, fileHelper));
         generator.addProvider(event.includeServer(), new GenTrinketSets(generator, fileHelper));
         generator.addProvider(event.includeServer(), new GenBonusTables(generator, fileHelper));
-        generator.addProvider(event.includeServer(), new GenLootTables(generator));
         generator.addProvider(event.includeServer(), new GenGLM(generator));
     }
 }

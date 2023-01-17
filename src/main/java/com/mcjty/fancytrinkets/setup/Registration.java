@@ -47,7 +47,7 @@ public class Registration {
     }
 
     public static Item.Properties createStandardProperties() {
-        return new Item.Properties().tab(FancyTrinkets.setup.getTab());
+        return FancyTrinkets.setup.defaultProperties();
     }
 
 }

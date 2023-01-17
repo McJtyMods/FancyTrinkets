@@ -5,6 +5,8 @@ import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import com.mcjty.fancytrinkets.setup.Registration;
+import mcjty.lib.datagen.DataGen;
+import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -25,9 +27,11 @@ import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
+import static com.mcjty.fancytrinkets.FancyTrinkets.tab;
 
 public class TrinketsModule implements IModule {
 
@@ -85,11 +89,10 @@ public class TrinketsModule implements IModule {
     }
 
     public static RegistryObject<TrinketItem> trinket(String id, String texture, String description, TagKey... tags) {
-        RegistryObject<TrinketItem> object = Registration.ITEMS.register(id, TrinketItem::new);
+        RegistryObject<TrinketItem> object = Registration.ITEMS.register(id, tab(TrinketItem::new));
         TRINKET_ITEMS.put(object.getId(), new TrinketInfo(new ResourceLocation(MODID, id), texture, description, object, tags));
         return object;
     }
-
 
     @Override
     public void init(FMLCommonSetupEvent event) {
@@ -123,6 +126,19 @@ public class TrinketsModule implements IModule {
     @Override
     public void initConfig() {
 
+    }
+
+    @Override
+    public void initDatagen(DataGen dataGen) {
+        for (Map.Entry<ResourceLocation, TrinketsModule.TrinketInfo> entry : TrinketsModule.TRINKET_ITEMS.entrySet()) {
+            TrinketsModule.TrinketInfo trinket = entry.getValue();
+            dataGen.add(
+                    Dob.itemBuilder(trinket.item())
+                            .name(trinket.description())
+                            .generatedItem(trinket.texture())
+                            .itemTags(List.of(trinket.tags()))
+            );
+        }
     }
 
     public static record TrinketInfo(ResourceLocation id, String texture,
