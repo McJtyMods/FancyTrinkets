@@ -55,7 +55,7 @@ public class XpCrafterModule implements IModule {
         dataGen.add(
                 Dob.blockBuilder(EXPERIENCE_CRAFTER)
                         .name("Experience Crafter")
-                        .message("header", "Craft trinkets using experience. With low experience you'll potentially get low quality trinkets")
+                        .keyedMessage("header", "Craft trinkets using experience. With low experience you'll potentially get low quality trinkets")
                         .ironPickaxeTags()
                         .parentedItem("block/experience_crafter")
                         .standardLoot(TYPE_EXPERIENCE_CRAFTER)

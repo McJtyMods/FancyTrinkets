@@ -35,61 +35,61 @@ public class GenGLM extends GlobalLootModifierProvider {
             }, glm.itemId(), glm.chance(), glm.min(), glm.max(), glm.looting()));
         }
 
-        add("wither_trinket", new TrinketLootModifier(new LootItemCondition[]{
-                LootTableIdCondition.builder(EntityType.WITHER.getDefaultLootTable()).build()
-        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70));
+//        add("wither_trinket", new TrinketLootModifier(new LootItemCondition[]{
+//                LootTableIdCondition.builder(EntityType.WITHER.getDefaultLootTable()).build()
+//        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70));
 
-        add("dragon_trinket", new TrinketLootModifier(new LootItemCondition[]{
-                LootTableIdCondition.builder(EntityType.ENDER_DRAGON.getDefaultLootTable()).build()
-        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100));
+//        add("dragon_trinket", new TrinketLootModifier(new LootItemCondition[]{
+//                LootTableIdCondition.builder(EntityType.ENDER_DRAGON.getDefaultLootTable()).build()
+//        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100));
 
-        add("enderman_trinket", new TrinketLootModifier(new LootItemCondition[]{
-                LootTableIdCondition.builder(EntityType.ENDERMAN.getDefaultLootTable()).build()
-        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100));
+//        add("enderman_trinket", new TrinketLootModifier(new LootItemCondition[]{
+//                LootTableIdCondition.builder(EntityType.ENDERMAN.getDefaultLootTable()).build()
+//        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100));
 
-        ResourceLocation[] goodChests = new ResourceLocation[]{
-                BuiltInLootTables.END_CITY_TREASURE,
-                BuiltInLootTables.STRONGHOLD_LIBRARY,
-                BuiltInLootTables.DESERT_PYRAMID,
-                BuiltInLootTables.WOODLAND_MANSION,
-                BuiltInLootTables.BASTION_TREASURE,
-                BuiltInLootTables.ANCIENT_CITY
-        };
-        for (ResourceLocation chest : goodChests) {
-            add(chest.getPath() + "_trinket", new TrinketLootModifier(new LootItemCondition[]{
-                    LootTableIdCondition.builder(chest).build()
-            }, Collections.emptyList(), 0.1f, 1, 1, 0, 20, 70));
-        }
+//        ResourceLocation[] goodChests = new ResourceLocation[]{
+//                BuiltInLootTables.END_CITY_TREASURE,
+//                BuiltInLootTables.STRONGHOLD_LIBRARY,
+//                BuiltInLootTables.DESERT_PYRAMID,
+//                BuiltInLootTables.WOODLAND_MANSION,
+//                BuiltInLootTables.BASTION_TREASURE,
+//                BuiltInLootTables.ANCIENT_CITY
+//        };
+//        for (ResourceLocation chest : goodChests) {
+//            add(chest.getPath() + "_trinket", new TrinketLootModifier(new LootItemCondition[]{
+//                    LootTableIdCondition.builder(chest).build()
+//            }, Collections.emptyList(), 0.1f, 1, 1, 0, 20, 70));
+//        }
 
-        ResourceLocation[] otherChests = new ResourceLocation[]{
-                BuiltInLootTables.SIMPLE_DUNGEON,
-                BuiltInLootTables.VILLAGE_CARTOGRAPHER,
-                BuiltInLootTables.VILLAGE_TEMPLE,
-                BuiltInLootTables.ABANDONED_MINESHAFT,
-                BuiltInLootTables.NETHER_BRIDGE,
-                BuiltInLootTables.STRONGHOLD_CROSSING,
-                BuiltInLootTables.STRONGHOLD_CORRIDOR,
-                BuiltInLootTables.JUNGLE_TEMPLE,
-                BuiltInLootTables.JUNGLE_TEMPLE_DISPENSER,
-                BuiltInLootTables.IGLOO_CHEST,
-                BuiltInLootTables.UNDERWATER_RUIN_SMALL,
-                BuiltInLootTables.UNDERWATER_RUIN_BIG,
-                BuiltInLootTables.BURIED_TREASURE,
-                BuiltInLootTables.SHIPWRECK_MAP,
-                BuiltInLootTables.SHIPWRECK_SUPPLY,
-                BuiltInLootTables.SHIPWRECK_TREASURE,
-                BuiltInLootTables.PILLAGER_OUTPOST,
-                BuiltInLootTables.BASTION_OTHER,
-                BuiltInLootTables.BASTION_BRIDGE,
-                BuiltInLootTables.BASTION_HOGLIN_STABLE,
-                BuiltInLootTables.ANCIENT_CITY_ICE_BOX,
-                BuiltInLootTables.RUINED_PORTAL
-        };
-        for (ResourceLocation chest : otherChests) {
-            add(chest.getPath() + "_trinket", new TrinketLootModifier(new LootItemCondition[]{
-                    LootTableIdCondition.builder(chest).build()
-            }, Collections.emptyList(), 0.02f, 1, 1, 0, 5, 10));
-        }
+//        ResourceLocation[] otherChests = new ResourceLocation[]{
+//                BuiltInLootTables.SIMPLE_DUNGEON,
+//                BuiltInLootTables.VILLAGE_CARTOGRAPHER,
+//                BuiltInLootTables.VILLAGE_TEMPLE,
+//                BuiltInLootTables.ABANDONED_MINESHAFT,
+//                BuiltInLootTables.NETHER_BRIDGE,
+//                BuiltInLootTables.STRONGHOLD_CROSSING,
+//                BuiltInLootTables.STRONGHOLD_CORRIDOR,
+//                BuiltInLootTables.JUNGLE_TEMPLE,
+//                BuiltInLootTables.JUNGLE_TEMPLE_DISPENSER,
+//                BuiltInLootTables.IGLOO_CHEST,
+//                BuiltInLootTables.UNDERWATER_RUIN_SMALL,
+//                BuiltInLootTables.UNDERWATER_RUIN_BIG,
+//                BuiltInLootTables.BURIED_TREASURE,
+//                BuiltInLootTables.SHIPWRECK_MAP,
+//                BuiltInLootTables.SHIPWRECK_SUPPLY,
+//                BuiltInLootTables.SHIPWRECK_TREASURE,
+//                BuiltInLootTables.PILLAGER_OUTPOST,
+//                BuiltInLootTables.BASTION_OTHER,
+//                BuiltInLootTables.BASTION_BRIDGE,
+//                BuiltInLootTables.BASTION_HOGLIN_STABLE,
+//                BuiltInLootTables.ANCIENT_CITY_ICE_BOX,
+//                BuiltInLootTables.RUINED_PORTAL
+//        };
+//        for (ResourceLocation chest : otherChests) {
+//            add(chest.getPath() + "_trinket", new TrinketLootModifier(new LootItemCondition[]{
+//                    LootTableIdCondition.builder(chest).build()
+//            }, Collections.emptyList(), 0.02f, 1, 1, 0, 5, 10));
+//        }
 
     }
 }

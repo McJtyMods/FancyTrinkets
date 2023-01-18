@@ -65,6 +65,7 @@ public class FancyTrinkets {
     private void onDataGen(GatherDataEvent event) {
         DataGen datagen = new DataGen(MODID, event);
         modules.datagen(datagen);
+        setup.datagen(datagen);
         datagen.generate();
     }
 
