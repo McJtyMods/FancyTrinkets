@@ -27,7 +27,7 @@ repositories {
     maven { url "https://maven.theillusivec4.top/" } // Curios
 }
 
-group = 'com.mcjty.fancytrinkets'
+group = "com.github.mcjty"
 archivesBaseName = 'fancytrinkets'
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
