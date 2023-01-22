@@ -26,7 +26,7 @@ All kinds of useful baubles (curios)
 [[dependencies.fancytrinkets]]
     modId="mcjtylib"
     mandatory=true
-    versionRange="[1.19-7.1.0,)"
+    versionRange="[1.19-7.1.1,)"
     ordering="AFTER"
     side="BOTH"
 [[dependencies.fancytrinkets]]
