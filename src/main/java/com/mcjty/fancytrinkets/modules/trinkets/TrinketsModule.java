@@ -13,6 +13,7 @@ import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
+import mcjty.lib.varia.TagTools;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -50,13 +51,13 @@ public class TrinketsModule implements IModule {
 
     public static final Map<ResourceLocation, TrinketInfo> TRINKET_ITEMS = new HashMap<>();
 
-    public static final TagKey<Item> RING_TAG = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, SlotTypePreset.RING.getIdentifier()));
-    public static final TagKey<Item> BELT_TAG = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BELT.getIdentifier()));
-    public static final TagKey<Item> BRACELET_TAG = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BRACELET.getIdentifier()));
-    public static final TagKey<Item> CHARM_TAG = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, SlotTypePreset.CHARM.getIdentifier()));
-    public static final TagKey<Item> NECKLACE_TAG = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, SlotTypePreset.NECKLACE.getIdentifier()));
-    public static final TagKey<Item> HEAD_TAG = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, SlotTypePreset.HEAD.getIdentifier()));
-    public static final TagKey<Item> BODY_TAG = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BODY.getIdentifier()));
+    public static final TagKey<Item> RING_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.RING.getIdentifier()));
+    public static final TagKey<Item> BELT_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BELT.getIdentifier()));
+    public static final TagKey<Item> BRACELET_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BRACELET.getIdentifier()));
+    public static final TagKey<Item> CHARM_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.CHARM.getIdentifier()));
+    public static final TagKey<Item> NECKLACE_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.NECKLACE.getIdentifier()));
+    public static final TagKey<Item> HEAD_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.HEAD.getIdentifier()));
+    public static final TagKey<Item> BODY_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BODY.getIdentifier()));
 
     public static final RegistryObject<TrinketItem> GOLD_RING = trinket("gold_ring", "item/gold_ring", "Base golden ring item", RING_TAG);
     public static final RegistryObject<TrinketItem> GOLD_RING_BLUE = trinket("gold_ring_blue", "item/gold_ring_blue", "Base golden ring item", RING_TAG);

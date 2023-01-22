@@ -12,11 +12,11 @@ import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
 import com.mcjty.fancytrinkets.setup.Config;
 import com.mcjty.fancytrinkets.setup.Registration;
+import mcjty.lib.items.BaseItem;
 import mcjty.lib.tooltips.ITooltipSettings;
 import mcjty.lib.varia.ComponentFactory;
 import mcjty.lib.varia.SafeClientTools;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -26,7 +26,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -35,17 +34,15 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem {
+public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketItem {
 
     public static final String MESSAGE_FANCYTRINKETS_SHIFTMESSAGE = "message.fancytrinkets.shiftmessage";
     public static final String MESSAGE_FANCYTRINKETS_BONUS = "message.fancytrinkets.bonus";
@@ -57,9 +54,8 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
     public static Set<String> toggles = new HashSet<>();
 
     public TrinketItem() {
-        super(new Properties()
-                .stacksTo(1)
-                .tab(FancyTrinkets.setup.getTab()));
+        super(FancyTrinkets.setup.defaultProperties()
+                .stacksTo(1));
     }
 
     public static boolean addBonusEffects(Level level, ITrinketItem trinket, ItemStack stack, float targetQuality) {
@@ -119,14 +115,14 @@ public class TrinketItem extends Item implements ITooltipSettings, ITrinketItem 
     }
 
     @Override
-    public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
-        if (allowedIn(tab)) {
-            for (TrinketInstance trinket : trinkets.values()) {
-                ItemStack stack = new ItemStack(this);
-                toNBT(stack, trinket);
-                list.add(stack);
-            }
+    public List<ItemStack> getItemsForTab() {
+        List<ItemStack> list = new ArrayList<>();
+        for (TrinketInstance trinket : trinkets.values()) {
+            ItemStack stack = new ItemStack(this);
+            toNBT(stack, trinket);
+            list.add(stack);
         }
+        return list;
     }
 
     public static void toNBT(ItemStack stack, TrinketInstance trinket) {

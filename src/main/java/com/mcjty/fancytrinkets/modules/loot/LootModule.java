@@ -171,7 +171,7 @@ public class LootModule implements IModule {
 
     @Nonnull
     private static RegistryObject<Item> createBasicItem(String id, String texture, String description) {
-        RegistryObject<Item> object = ITEMS.register(id, tab(() -> new Item(new Item.Properties().tab(FancyTrinkets.setup.getTab()).stacksTo(64))));
+        RegistryObject<Item> object = ITEMS.register(id, tab(() -> new Item(FancyTrinkets.setup.defaultProperties().stacksTo(64))));
         ESSENCE_ITEMS.put(id, new Essence(object, texture, description));
         return object;
     }

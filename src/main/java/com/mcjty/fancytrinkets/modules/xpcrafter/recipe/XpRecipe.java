@@ -1,6 +1,8 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.recipe;
 
+import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
+import mcjty.lib.crafting.BaseShapedRecipe;
 import mcjty.lib.varia.ItemStackTools;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
@@ -12,7 +14,7 @@ import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-public class XpRecipe implements CraftingRecipe, IShapedRecipe<CraftingContainer> {
+public class XpRecipe extends BaseShapedRecipe {
 
     private final ResourceLocation id;
     private final NonNullList<Ingredient> ingredients;
@@ -21,6 +23,7 @@ public class XpRecipe implements CraftingRecipe, IShapedRecipe<CraftingContainer
     public static final int RECIPE_DIMENSION = 5;
 
     public XpRecipe(ResourceLocation id, NonNullList<Ingredient> ingredients, ItemStack result) {
+        super(id, FancyTrinkets.MODID, RECIPE_DIMENSION, RECIPE_DIMENSION, ingredients, result);
         this.id = id;
         this.ingredients = ingredients;
         this.result = result;

@@ -8,8 +8,8 @@ import com.google.gson.JsonObject;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mojang.serialization.JsonOps;
 import mcjty.lib.crafting.IRecipeBuilder;
+import mcjty.lib.varia.Tools;
 import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -84,7 +84,7 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
 
     @Override
     public void build(Consumer<FinishedRecipe> consumer) {
-        this.build(consumer, Registry.ITEM.getKey(this.result.getItem()));
+        this.build(consumer, Tools.getId(this.result.getItem()));
     }
 
     @Override
@@ -153,7 +153,7 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
 
             json.add("key", jsonobject);
             JsonObject itemObject = new JsonObject();
-            itemObject.addProperty("item", Registry.ITEM.getKey(this.result.getItem()).toString());
+            itemObject.addProperty("item", Tools.getId(this.result.getItem()).toString());
             if (this.result.getCount() > 1) {
                 itemObject.addProperty("count", this.result.getCount());
             }
