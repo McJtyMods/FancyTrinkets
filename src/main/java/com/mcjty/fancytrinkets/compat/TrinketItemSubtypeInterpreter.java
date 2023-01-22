@@ -15,7 +15,12 @@ public class TrinketItemSubtypeInterpreter implements IIngredientSubtypeInterpre
 
     @Override
     public String apply(ItemStack ingredient, UidContext context) {
-        ResourceLocation trinketId = ingredient.getCapability(Registration.TRINKET_ITEM_CAPABILITY).map(trinket -> trinket.getTrinketId(ingredient)).orElse(null);
-        return trinketId == null ? IIngredientSubtypeInterpreter.NONE : trinketId.toString();
+        return ingredient.getCapability(Registration.TRINKET_ITEM_CAPABILITY).map(trinket -> {
+            ResourceLocation trinketId = trinket.getTrinketId(ingredient);
+            if (trinketId != null) {
+                return trinketId.toString();
+            }
+            return IIngredientSubtypeInterpreter.NONE;
+        }).orElse(IIngredientSubtypeInterpreter.NONE);
     }
 }

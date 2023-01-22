@@ -1,5 +1,6 @@
 Upcoming:
 - Updated for latest McJtyLib
+- Fixes to JEI integration
 
 1.19-2.0.2:
 - Small fix
