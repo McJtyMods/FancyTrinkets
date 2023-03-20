@@ -5,6 +5,7 @@ import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import mcjty.lib.crafting.BaseShapedRecipe;
 import mcjty.lib.varia.ItemStackTools;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -55,7 +56,7 @@ public class XpRecipe extends BaseShapedRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer pContainer) {
+    public ItemStack assemble(CraftingContainer pContainer, RegistryAccess access) {
         if (matches(pContainer, null)) {
             return result.copy();
         }
@@ -72,7 +73,6 @@ public class XpRecipe extends BaseShapedRecipe {
         return true;
     }
 
-    @Override
     public ItemStack getResultItem() {
         return result;
     }

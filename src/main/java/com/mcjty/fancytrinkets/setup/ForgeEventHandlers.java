@@ -20,7 +20,7 @@ public class ForgeEventHandlers {
     public void onLivingDamageEvent(LivingDamageEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-                String msgId = event.getSource().msgId;
+                String msgId = event.getSource().getMsgId();
                 float reduction = playerEffects.getDamageReduction(msgId);
                 float damage = event.getAmount() * reduction;
                 event.setAmount(damage);

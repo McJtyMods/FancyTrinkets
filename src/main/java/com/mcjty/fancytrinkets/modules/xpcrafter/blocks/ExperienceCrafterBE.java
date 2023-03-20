@@ -88,7 +88,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     private void craft() {
         Optional<XpRecipe> result = findRecipe();
         result.ifPresent(recipe -> {
-            ItemStack stack = recipe.assemble(inv);
+            ItemStack stack = recipe.assemble(inv, level.registryAccess());
             ItemStack outputSlot = items.getStackInSlot(SLOT_OUTPUT);
             if (outputSlot.isEmpty()) {
                 stack = stack.copy();
