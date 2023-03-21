@@ -55,6 +55,7 @@ public class XpRecipe extends BaseShapedRecipe {
         return ingredients;
     }
 
+
     @Override
     public ItemStack assemble(CraftingContainer pContainer, RegistryAccess access) {
         if (matches(pContainer, null)) {
