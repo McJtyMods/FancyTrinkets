@@ -14,6 +14,7 @@ import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
 import mcjty.lib.varia.TagTools;
+import mcjty.lib.varia.Tools;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -117,8 +118,8 @@ public class TrinketsModule implements IModule {
     }
 
     private void registerTrinkets(ServerLevel level) {
-        Registry<TrinketDescription> registry = level.registryAccess().registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY);
-        for (ResourceLocation trinket : level.registryAccess().registryOrThrow(CustomRegistries.TRINKET_SET_REGISTRY_KEY).get(new ResourceLocation(MODID, "standard")).trinkets()) {
+        Registry<TrinketDescription> registry = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY);
+        for (ResourceLocation trinket : Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_SET_REGISTRY_KEY).get(new ResourceLocation(MODID, "standard")).trinkets()) {
             TrinketDescription description = registry.get(trinket);
             ResourceLocation itemId = description.item();
             Item item = ForgeRegistries.ITEMS.getValue(itemId);

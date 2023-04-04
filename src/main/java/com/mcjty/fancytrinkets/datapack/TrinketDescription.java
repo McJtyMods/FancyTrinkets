@@ -4,6 +4,7 @@ import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import mcjty.lib.varia.Tools;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 
@@ -38,7 +39,7 @@ public record TrinketDescription(
     public TrinketInstance build(ResourceLocation id, ServerLevel level) {
         List<EffectInstance> effectInstances = new ArrayList<>();
         for (EffectRef effectRef : effects) {
-            EffectDescription effectDescription = level.registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effectRef.effectId());
+            EffectDescription effectDescription = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effectRef.effectId());
             if (effectDescription == null) {
                 throw new RuntimeException("Can't find effectId '" + effectRef.effectId().toString() + "'!");
             }
