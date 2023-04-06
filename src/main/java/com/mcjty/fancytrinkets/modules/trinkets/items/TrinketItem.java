@@ -16,6 +16,7 @@ import mcjty.lib.items.BaseItem;
 import mcjty.lib.tooltips.ITooltipSettings;
 import mcjty.lib.varia.ComponentFactory;
 import mcjty.lib.varia.SafeClientTools;
+import mcjty.lib.varia.Tools;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -60,11 +61,11 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
 
     public static boolean addBonusEffects(Level level, ITrinketItem trinket, ItemStack stack, float targetQuality) {
         ResourceLocation id = trinket.getTrinketId(stack);
-        TrinketDescription description = level.registryAccess().registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).get(id);
+        TrinketDescription description = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).get(id);
         if (description != null) {
             ResourceLocation bonusTableId = description.bonusTableId();
             if (bonusTableId != null) {
-                BonusTable bonusTable = level.registryAccess().registryOrThrow(CustomRegistries.BONUS_TABLE_REGISTRY_KEY).get(bonusTableId);
+                BonusTable bonusTable = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.BONUS_TABLE_REGISTRY_KEY).get(bonusTableId);
                 if (bonusTable != null) {
                     List<ResourceLocation> effects = new ArrayList<>();
                     // Find a good set of effects for the desired quality
@@ -195,7 +196,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
                     consumer.accept(effect.effect(), idx.incrementAndGet());
                 }
             }
-            Registry<EffectDescription> registry = level.registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY);
+            Registry<EffectDescription> registry = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY);
             getEffects(stack).forEach(effect -> {
                 EffectDescription description = registry.get(effect);
                 if (description != null) {
@@ -250,7 +251,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
                     }
                     MutableComponent translatable = ComponentFactory.translatable("effectId." + effect.getNamespace() + "." + effect.getPath());
                     ChatFormatting color = ChatFormatting.GREEN;
-                    EffectDescription description = SafeClientTools.getClientWorld().registryAccess().registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effect);
+                    EffectDescription description = Tools.getRegistryAccess(SafeClientTools.getClientWorld()).registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effect);
                     if (description != null && description.harmful()) {
                         color = ChatFormatting.RED;
                     }

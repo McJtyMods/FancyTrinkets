@@ -6,6 +6,7 @@ import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import mcjty.lib.varia.Tools;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
@@ -60,8 +61,8 @@ public class TrinketLootModifier extends LootModifier {
         ResourceLocation id;
         if (trinketIds.isEmpty()) {
             // Pick a totally random trinket
-            List<ResourceLocation> keys = context.getLevel().registryAccess().registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).entrySet()
-                    .stream().map(p -> p.getKey().location()).collect(Collectors.toList());
+            List<ResourceLocation> keys = Tools.getRegistryAccess(context.getLevel()).registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).entrySet()
+                    .stream().map(p -> p.getKey().location()).toList();
             if (keys.isEmpty()) {
                 // Weird
                 return generatedLoot;
@@ -71,7 +72,7 @@ public class TrinketLootModifier extends LootModifier {
             id = trinketIds.get(random.nextInt(trinketIds.size()));
         }
 
-        TrinketDescription trinket = context.getLevel().registryAccess().registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).get(id);
+        TrinketDescription trinket = Tools.getRegistryAccess(context.getLevel()).registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).get(id);
         if (trinket == null) {
             return generatedLoot;
         }

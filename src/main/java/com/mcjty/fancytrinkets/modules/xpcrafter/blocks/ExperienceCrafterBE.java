@@ -17,6 +17,7 @@ import mcjty.lib.container.SlotDefinition;
 import mcjty.lib.tileentity.Cap;
 import mcjty.lib.tileentity.CapType;
 import mcjty.lib.tileentity.GenericTileEntity;
+import mcjty.lib.varia.Tools;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -88,7 +89,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     private void craft() {
         Optional<XpRecipe> result = findRecipe();
         result.ifPresent(recipe -> {
-            ItemStack stack = recipe.assemble(inv, level.registryAccess());
+            ItemStack stack = recipe.assemble(inv, Tools.getRegistryAccess(level));
             ItemStack outputSlot = items.getStackInSlot(SLOT_OUTPUT);
             if (outputSlot.isEmpty()) {
                 stack = stack.copy();
