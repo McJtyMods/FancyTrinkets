@@ -1,3 +1,6 @@
+Upcoming:
+- Fixed JEI integration on servers
+
 1.19-2.1.2:
 - Update for latest McJtyLib fixing the registryAccess() problem
 
