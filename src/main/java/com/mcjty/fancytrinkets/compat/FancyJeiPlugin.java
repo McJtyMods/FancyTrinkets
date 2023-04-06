@@ -17,9 +17,7 @@ import mezz.jei.api.registration.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.RegistryObject;
-import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.List;
 
@@ -61,12 +59,7 @@ public class FancyJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        Level level;
-        if (FMLLoader.getDist().isClient()) {
-            level = SafeClientTools.getWorld();
-        } else {
-            level = ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD);
-        }
+        Level level = SafeClientTools.getWorld();
         List<XpRecipe> recipes = level.getRecipeManager().getAllRecipesFor(XpCrafterModule.XP_RECIPE_TYPE.get());
         registration.addRecipes(XP_RECIPE_TYPE, recipes);
     }
