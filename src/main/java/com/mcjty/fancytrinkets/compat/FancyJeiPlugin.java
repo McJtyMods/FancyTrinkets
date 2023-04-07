@@ -6,6 +6,7 @@ import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.blocks.ExperienceCrafterBE;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
 import mcjty.lib.container.GenericContainer;
+import mcjty.lib.varia.SafeClientTools;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -13,9 +14,9 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
@@ -58,7 +59,8 @@ public class FancyJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        List<XpRecipe> recipes = Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(XpCrafterModule.XP_RECIPE_TYPE.get());
+        Level level = SafeClientTools.getWorld();
+        List<XpRecipe> recipes = level.getRecipeManager().getAllRecipesFor(XpCrafterModule.XP_RECIPE_TYPE.get());
         registration.addRecipes(XP_RECIPE_TYPE, recipes);
     }
 
