@@ -10,6 +10,7 @@ import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.setup.Config;
 import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.items.BaseItem;
@@ -26,7 +27,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -118,7 +118,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     @Override
     public List<ItemStack> getItemsForTab() {
         List<ItemStack> list = new ArrayList<>();
-        for (TrinketInstance trinket : trinkets.values()) {
+        for (TrinketInstance trinket : getTrinkets(SafeClientTools.getClientWorld()).values()) {
             ItemStack stack = new ItemStack(this);
             toNBT(stack, trinket);
             list.add(stack);
@@ -181,8 +181,16 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     }
 
     @Override
-    public void registerTrinketInstance(ServerLevel level, ResourceLocation id, TrinketDescription description) {
+    public void registerTrinketInstance(Level level, ResourceLocation id, TrinketDescription description) {
         trinkets.put(id, description.build(id, level));
+    }
+
+    // Get and create trinket map
+    private Map<ResourceLocation, TrinketInstance> getTrinkets(Level level) {
+        if (trinkets.isEmpty()) {
+            TrinketsModule.registerTrinkets(level);
+        }
+        return trinkets;
     }
 
     @Override
@@ -190,7 +198,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
         ResourceLocation trinketId = getTrinketId(stack);
         if (trinketId != null) {
             AtomicInteger idx = new AtomicInteger(0);
-            TrinketInstance instance = trinkets.get(trinketId);
+            TrinketInstance instance = getTrinkets(level).get(trinketId);
             if (instance != null) {
                 for (EffectInstance effect : instance.effects()) {
                     consumer.accept(effect.effect(), idx.incrementAndGet());
@@ -210,7 +218,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     public void appendHoverText(ItemStack stack, Level world, List<Component> list, TooltipFlag flags) {
         ResourceLocation trinketId = getTrinketId(stack);
         if (trinketId != null) {
-            TrinketInstance instance = trinkets.get(trinketId);
+            TrinketInstance instance = getTrinkets(world).get(trinketId);
             if (instance != null) {
                 MutableComponent name = ComponentFactory.translatable(instance.nameKey()).withStyle(ChatFormatting.AQUA);
                 if (list.isEmpty()) {

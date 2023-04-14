@@ -6,7 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import mcjty.lib.varia.Tools;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public record TrinketDescription(
                     Codec.list(EffectRef.EFFECTREF_CODEC).fieldOf("effects").forGetter(l -> l.effects)
             ).apply(instance, TrinketDescription::new));
 
-    public TrinketInstance build(ResourceLocation id, ServerLevel level) {
+    public TrinketInstance build(ResourceLocation id, Level level) {
         List<EffectInstance> effectInstances = new ArrayList<>();
         for (EffectRef effectRef : effects) {
             EffectDescription effectDescription = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effectRef.effectId());
