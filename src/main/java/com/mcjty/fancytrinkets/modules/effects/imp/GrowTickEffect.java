@@ -51,7 +51,7 @@ public class GrowTickEffect extends EffectImp {
                 int dy = random.nextInt(3 * 2) - 3;
                 int dz = random.nextInt(maxdist * 2) - maxdist;
                 BlockPos dest = blockPos.offset(dx, dy, dz);
-                player.level.getBlockState(dest).randomTick((ServerLevel) player.level, dest, random);
+                player.level().getBlockState(dest).randomTick((ServerLevel) player.level(), dest, random);
             }
         });
     }

@@ -90,8 +90,8 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
         Supplier<Attribute> attributeSupplier = switch (effName) {
             case "step_assist" -> ForgeMod.STEP_HEIGHT_ADDITION;
             case "swim_speed" -> ForgeMod.SWIM_SPEED;
-            case "attack_range" -> ForgeMod.ATTACK_RANGE;
-            case "reach_distance" -> ForgeMod.REACH_DISTANCE;
+            case "attack_range" -> ForgeMod.ENTITY_REACH;
+            case "reach_distance" -> ForgeMod.BLOCK_REACH;
             case "max_health" -> () -> Attributes.MAX_HEALTH;
             case "knockback_resistance" -> () -> Attributes.KNOCKBACK_RESISTANCE;
             case "movement_speed" -> () -> Attributes.MOVEMENT_SPEED;

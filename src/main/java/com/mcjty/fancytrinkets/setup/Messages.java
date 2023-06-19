@@ -37,12 +37,12 @@ public class Messages {
         net.messageBuilder(PacketSendKey.class, id())
                 .encoder(PacketSendKey::toBytes)
                 .decoder(PacketSendKey::new)
-                .consumer(PacketSendKey::handle)
+                .consumerMainThread(PacketSendKey::handle)
                 .add();
         net.messageBuilder(PacketSyncPlayerEffects.class, id())
                 .encoder(PacketSyncPlayerEffects::toBytes)
                 .decoder(PacketSyncPlayerEffects::new)
-                .consumer(PacketSyncPlayerEffects::handle)
+                .consumerMainThread(PacketSyncPlayerEffects::handle)
                 .add();
 
         PacketHandler.registerStandardMessages(id(), net);

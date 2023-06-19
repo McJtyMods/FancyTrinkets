@@ -12,6 +12,7 @@ import mcjty.lib.gui.Window;
 import mcjty.lib.gui.widgets.Button;
 import mcjty.lib.gui.widgets.EnergyBar;
 import mcjty.lib.gui.widgets.Panel;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -71,8 +72,8 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
 
 
     @Override
-    protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int x, int y) {
-        drawWindow(matrixStack);
+    protected void renderBg(@Nonnull GuiGraphics graphics, float partialTicks, int x, int y) {
+        drawWindow(graphics);
         xpbar.value(tileEntity.getExperience());
         craftButton.enabled(!tileEntity.getPreviewOutput().isEmpty());
     }

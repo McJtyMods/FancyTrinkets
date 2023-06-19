@@ -62,14 +62,14 @@ public class WarpEffect extends EffectImp {
 
                 Vec3 end = start.add(lookVec.x * distance, lookVec.y * distance, lookVec.z * distance);
                 ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player);
-                HitResult position = player.level.clip(context);
+                HitResult position = player.level().clip(context);
                 safeTeleport(player, (BlockHitResult) position);
             });
         }
     }
 
     private void safeTeleport(ServerPlayer player, BlockHitResult position) {
-        Level level = player.level;
+        Level level = player.level();
         BlockPos blockPos = position.getBlockPos();
         int x = blockPos.getX();
         int y = blockPos.getY();
