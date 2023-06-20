@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[43,)"
+loaderVersion="[47,)"
 license="MIT License https://github.com/McJty/YouTubeModding14/blob/1.16/LICENCE"
 
 [[mods]]
@@ -14,19 +14,19 @@ All kinds of useful baubles (curios)
 [[dependencies.fancytrinkets]]
     modId="forge"
     mandatory=true
-    versionRange="[43,)"
+    versionRange="[47,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.fancytrinkets]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.2,)"
+    versionRange="[1.20,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.fancytrinkets]]
     modId="mcjtylib"
     mandatory=true
-    versionRange="[1.19-7.2.4,)"
+    versionRange="[1.20-8.0.0,)"
     ordering="AFTER"
     side="BOTH"
 [[dependencies.fancytrinkets]]
