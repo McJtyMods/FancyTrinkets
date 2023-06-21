@@ -26,6 +26,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.Lazy;
@@ -70,7 +71,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     @ServerCommand
     public static final Command<?> CMD_CRAFT = Command.<ExperienceCrafterBE>create("craft", (te, player, params) -> te.craft());
 
-    private final CraftingContainer inv = new CraftingContainer(new AbstractContainerMenu(null, -1) {
+    private final CraftingContainer inv = new TransientCraftingContainer(new AbstractContainerMenu(null, -1) {
         @Override
         public boolean stillValid(@Nonnull Player playerIn) {
             return false;

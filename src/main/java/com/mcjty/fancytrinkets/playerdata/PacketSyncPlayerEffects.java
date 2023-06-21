@@ -32,10 +32,6 @@ public class PacketSyncPlayerEffects {
     }
 
     public void handle(Supplier<NetworkEvent.Context> supplier) {
-        NetworkEvent.Context ctx = supplier.get();
-        ctx.enqueueWork(() -> {
-            TrinketItem.toggles = toggles;
-        });
-        ctx.setPacketHandled(true);
+        TrinketItem.toggles = toggles;
     }
 }
