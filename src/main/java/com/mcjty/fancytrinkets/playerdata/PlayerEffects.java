@@ -39,7 +39,7 @@ public class PlayerEffects {
     }
 
     public void tick(ServerPlayer player) {
-        long time = player.level().getGameTime();
+        long time = player.level.getGameTime();
         Counter<IEffect> collectedEffects = new Counter<>();
         List<String> toDelete = new ArrayList<>();
         for (Map.Entry<String, EffectHolder> entry : effectMap.entrySet()) {

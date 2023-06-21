@@ -30,15 +30,18 @@ public class PacketSendKey {
 
     public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context ctx = supplier.get();
-        for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(ctx.getSender(), stack -> stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).isPresent())) {
-            ItemStack stack = slot.stack();
-            stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
-                SlotContext context = slot.slotContext();
-                String slotId = context.identifier() + context.index() + "_";
-                trinket.forAllEffects(ctx.getSender().level(), stack, (effect, idx) -> {
-                    effect.onHotkey(stack, ctx.getSender(), slotId + idx, key);
+        ctx.enqueueWork(() -> {
+            for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(ctx.getSender(), stack -> stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).isPresent())) {
+                ItemStack stack = slot.stack();
+                stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
+                    SlotContext context = slot.slotContext();
+                    String slotId = context.identifier() + context.index() + "_";
+                    trinket.forAllEffects(ctx.getSender().level, stack, (effect, idx) -> {
+                        effect.onHotkey(stack, ctx.getSender(), slotId + idx, key);
+                    });
                 });
-            });
-        }
+            }
+        });
+        ctx.setPacketHandled(true);
     }
 }

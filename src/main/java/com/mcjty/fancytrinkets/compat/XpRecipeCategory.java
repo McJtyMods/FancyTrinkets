@@ -13,7 +13,6 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
@@ -52,13 +51,13 @@ public class XpRecipeCategory implements IRecipeCategory<XpRecipe> {
     }
 
     @Override
-    public void draw(XpRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+    public void draw(XpRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
         for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
             for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
-                slot.draw(graphics, 4 + x*18, 4 + y*18);
+                slot.draw(stack, 4 + x*18, 4 + y*18);
             }
         }
-        slot.draw(graphics, 4+6*18, 4);
+        slot.draw(stack, 4+6*18, 4);
     }
 
     @Override

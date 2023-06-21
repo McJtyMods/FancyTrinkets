@@ -46,7 +46,7 @@ public class MobEffectEffect extends EffectImp {
     @Override
     public void tick(ItemStack stack, ServerPlayer player, String slotId) {
         executeIfEnabled(player, playerEffects -> {
-            long gameTime = player.level().getGameTime();
+            long gameTime = player.level.getGameTime();
             playerEffects.registerEffect(slotId, this, gameTime + 14*20);
         });
     }
