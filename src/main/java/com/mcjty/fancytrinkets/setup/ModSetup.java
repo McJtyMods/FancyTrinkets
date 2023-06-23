@@ -19,10 +19,6 @@ import java.util.Map;
 
 public class ModSetup extends DefaultModSetup {
 
-    public ModSetup() {
-        createTab(FancyTrinkets.MODID, "fancytrinkets", () -> new ItemStack(TrinketsModule.GOLD_RING.get()));
-    }
-
     @Override
     public void init(FMLCommonSetupEvent e) {
         super.init(e);
