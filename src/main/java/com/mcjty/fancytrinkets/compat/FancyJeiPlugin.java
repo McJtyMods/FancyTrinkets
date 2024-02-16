@@ -6,6 +6,7 @@ import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.blocks.ExperienceCrafterBE;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
 import mcjty.lib.container.GenericContainer;
+import mcjty.lib.setup.DeferredItem;
 import mcjty.lib.varia.SafeClientTools;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -38,7 +39,7 @@ public class FancyJeiPlugin implements IModPlugin {
         TrinketsModule.TRINKET_ITEMS.values()
             .stream()
             .map(TrinketsModule.TrinketInfo::item)
-            .map(RegistryObject::get)
+            .map(DeferredItem::get)
             .distinct()
             .forEach(item -> {
                 registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, item, TrinketItemSubtypeInterpreter.INSTANCE);

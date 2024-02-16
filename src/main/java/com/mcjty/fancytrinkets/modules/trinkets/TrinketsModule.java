@@ -13,11 +13,11 @@ import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
+import mcjty.lib.setup.DeferredItem;
 import mcjty.lib.varia.TagTools;
 import mcjty.lib.varia.Tools;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -61,39 +61,39 @@ public class TrinketsModule implements IModule {
     public static final TagKey<Item> HEAD_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.HEAD.getIdentifier()));
     public static final TagKey<Item> BODY_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BODY.getIdentifier()));
 
-    public static final RegistryObject<TrinketItem> GOLD_RING = trinket("gold_ring", "item/gold_ring", "Base golden ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> GOLD_RING_BLUE = trinket("gold_ring_blue", "item/gold_ring_blue", "Base golden ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> GOLD_RING_GREEN = trinket("gold_ring_green", "item/gold_ring_green", "Base golden ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> GOLD_RING_RED = trinket("gold_ring_red", "item/gold_ring_red", "Base golden ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> GOLD_RING_DIAMOND = trinket("gold_ring_diamond", "item/gold_ring_diamond", "Base golden ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> SILVER_RING = trinket("silver_ring", "item/silver_ring", "Base silver ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> SILVER_RING_BLUE = trinket("silver_ring_blue", "item/silver_ring_blue", "Base silver ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> SILVER_RING_GREEN = trinket("silver_ring_green", "item/silver_ring_green", "Base silver ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> SILVER_RING_RED = trinket("silver_ring_red", "item/silver_ring_red", "Base silver ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> SILVER_RING_DIAMOND = trinket("silver_ring_diamond", "item/silver_ring_diamond", "Base silver ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> OBSIDIAN_RING = trinket("obsidian_ring", "item/obsidian_ring", "Base obsidian ring item", RING_TAG);
-    public static final RegistryObject<TrinketItem> OBSIDIAN_RING_DIAMOND = trinket("obsidian_ring_diamond", "item/obsidian_ring_diamond", "Base obsidian ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> GOLD_RING = trinket("gold_ring", "item/gold_ring", "Base golden ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> GOLD_RING_BLUE = trinket("gold_ring_blue", "item/gold_ring_blue", "Base golden ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> GOLD_RING_GREEN = trinket("gold_ring_green", "item/gold_ring_green", "Base golden ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> GOLD_RING_RED = trinket("gold_ring_red", "item/gold_ring_red", "Base golden ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> GOLD_RING_DIAMOND = trinket("gold_ring_diamond", "item/gold_ring_diamond", "Base golden ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> SILVER_RING = trinket("silver_ring", "item/silver_ring", "Base silver ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> SILVER_RING_BLUE = trinket("silver_ring_blue", "item/silver_ring_blue", "Base silver ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> SILVER_RING_GREEN = trinket("silver_ring_green", "item/silver_ring_green", "Base silver ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> SILVER_RING_RED = trinket("silver_ring_red", "item/silver_ring_red", "Base silver ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> SILVER_RING_DIAMOND = trinket("silver_ring_diamond", "item/silver_ring_diamond", "Base silver ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> OBSIDIAN_RING = trinket("obsidian_ring", "item/obsidian_ring", "Base obsidian ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> OBSIDIAN_RING_DIAMOND = trinket("obsidian_ring_diamond", "item/obsidian_ring_diamond", "Base obsidian ring item", RING_TAG);
 
-    public static final RegistryObject<TrinketItem> STAR = trinket("star", "item/star", "Base star item",
+    public static final DeferredItem<TrinketItem> STAR = trinket("star", "item/star", "Base star item",
             RING_TAG, BELT_TAG, BRACELET_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
-    public static final RegistryObject<TrinketItem> HEART = trinket("heart", "item/heart", "Base heart item",
+    public static final DeferredItem<TrinketItem> HEART = trinket("heart", "item/heart", "Base heart item",
             RING_TAG, BELT_TAG, BRACELET_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
-    public static final RegistryObject<TrinketItem> HEART_BODY = trinket("heart_body", "item/heart", "Base heart item (body)", BODY_TAG);
+    public static final DeferredItem<TrinketItem> HEART_BODY = trinket("heart_body", "item/heart", "Base heart item (body)", BODY_TAG);
 
-    public static final RegistryObject<TrinketItem> FEATHER = trinket("feather", "item/feather", "Feather star item",
+    public static final DeferredItem<TrinketItem> FEATHER = trinket("feather", "item/feather", "Feather star item",
             BELT_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
 
-    public static final RegistryObject<TrinketItem> BLACK_PEARL = trinket("black_pearl", "item/black_pearl", "Black pearl", CHARM_TAG);
-    public static final RegistryObject<TrinketItem> BLUE_PEARL = trinket("blue_pearl", "item/blue_pearl", "Blue pearl", CHARM_TAG);
-    public static final RegistryObject<TrinketItem> YELLOW_PEARL = trinket("yellow_pearl", "item/yellow_pearl", "Yellow pearl", CHARM_TAG);
-    public static final RegistryObject<TrinketItem> PURPLE_PEARL = trinket("purple_pearl", "item/purple_pearl", "Purple pearl", CHARM_TAG);
-    public static final RegistryObject<TrinketItem> SHINY_PEARL = trinket("shiny_pearl", "item/shiny_pearl", "Shiny pearl", CHARM_TAG);
+    public static final DeferredItem<TrinketItem> BLACK_PEARL = trinket("black_pearl", "item/black_pearl", "Black pearl", CHARM_TAG);
+    public static final DeferredItem<TrinketItem> BLUE_PEARL = trinket("blue_pearl", "item/blue_pearl", "Blue pearl", CHARM_TAG);
+    public static final DeferredItem<TrinketItem> YELLOW_PEARL = trinket("yellow_pearl", "item/yellow_pearl", "Yellow pearl", CHARM_TAG);
+    public static final DeferredItem<TrinketItem> PURPLE_PEARL = trinket("purple_pearl", "item/purple_pearl", "Purple pearl", CHARM_TAG);
+    public static final DeferredItem<TrinketItem> SHINY_PEARL = trinket("shiny_pearl", "item/shiny_pearl", "Shiny pearl", CHARM_TAG);
 
-    public static final RegistryObject<TrinketItem> LEATHER_BELT = trinket("leather_belt", "item/leather_belt", "Leather Belt", BELT_TAG);
-    public static final RegistryObject<TrinketItem> BLUE_BELT = trinket("blue_belt", "item/blue_belt", "Blue Belt", BELT_TAG);
+    public static final DeferredItem<TrinketItem> LEATHER_BELT = trinket("leather_belt", "item/leather_belt", "Leather Belt", BELT_TAG);
+    public static final DeferredItem<TrinketItem> BLUE_BELT = trinket("blue_belt", "item/blue_belt", "Blue Belt", BELT_TAG);
 
-    public static final RegistryObject<TrinketItem> CHARM1 = trinket("charm1", "item/charm1", "Charm", CHARM_TAG);
-    public static final RegistryObject<TrinketItem> CHARM2 = trinket("charm2", "item/charm2", "Charm", CHARM_TAG);
+    public static final DeferredItem<TrinketItem> CHARM1 = trinket("charm1", "item/charm1", "Charm", CHARM_TAG);
+    public static final DeferredItem<TrinketItem> CHARM2 = trinket("charm2", "item/charm2", "Charm", CHARM_TAG);
 
     public static final Capability<ICurio> CURIOS_CAPABILITY = CuriosCapability.ITEM;
 
@@ -104,8 +104,8 @@ public class TrinketsModule implements IModule {
         DefaultBonusTables.init();
     }
 
-    public static RegistryObject<TrinketItem> trinket(String id, String texture, String description, TagKey... tags) {
-        RegistryObject<TrinketItem> object = Registration.ITEMS.register(id, tab(TrinketItem::new));
+    public static DeferredItem<TrinketItem> trinket(String id, String texture, String description, TagKey... tags) {
+        DeferredItem<TrinketItem> object = Registration.ITEMS.register(id, tab(TrinketItem::new));
         TRINKET_ITEMS.put(object.getId(), new TrinketInfo(new ResourceLocation(MODID, id), texture, description, object, tags));
         return object;
     }
@@ -536,7 +536,7 @@ public class TrinketsModule implements IModule {
 
     public static record TrinketInfo(ResourceLocation id, String texture,
                                      String description,
-                                     RegistryObject<TrinketItem> item,
+                                     DeferredItem<TrinketItem> item,
                                      TagKey<Item>... tags) {
     }
 }

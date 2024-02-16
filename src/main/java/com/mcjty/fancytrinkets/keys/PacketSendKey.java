@@ -1,44 +1,53 @@
 package com.mcjty.fancytrinkets.keys;
 
-import com.mcjty.fancytrinkets.api.ITrinketItem;
-import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.setup.Registration;
+import mcjty.lib.network.CustomPacketPayload;
+import mcjty.lib.network.PlayPayloadContext;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.NetworkEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.SlotResult;
 
-import java.util.function.Supplier;
+public record PacketSendKey(Integer key) implements CustomPacketPayload {
 
-public class PacketSendKey {
+    public static final ResourceLocation ID = new ResourceLocation(FancyTrinkets.MODID, "send_key");
 
-    private final int key;
+    public static PacketSendKey create(int key) {
+        return new PacketSendKey(key);
+    }
 
-    public void toBytes(FriendlyByteBuf buf) {
+    @Override
+    public void write(FriendlyByteBuf buf) {
         buf.writeInt(key);
     }
 
-    public PacketSendKey(FriendlyByteBuf buf) {
-        key = buf.readInt();
+    @Override
+    public ResourceLocation id() {
+        return ID;
     }
 
-    public PacketSendKey(int key) {
-        this.key = key;
+    public static PacketSendKey create(FriendlyByteBuf buf) {
+        return new PacketSendKey(buf.readInt());
     }
 
-    public void handle(Supplier<NetworkEvent.Context> supplier) {
-        NetworkEvent.Context ctx = supplier.get();
-        for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(ctx.getSender(), stack -> stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).isPresent())) {
-            ItemStack stack = slot.stack();
-            stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
-                SlotContext context = slot.slotContext();
-                String slotId = context.identifier() + context.index() + "_";
-                trinket.forAllEffects(ctx.getSender().level(), stack, (effect, idx) -> {
-                    effect.onHotkey(stack, ctx.getSender(), slotId + idx, key);
-                });
+    public void handle(PlayPayloadContext ctx) {
+        ctx.workHandler().submitAsync(() -> {
+            ctx.player().ifPresent(player -> {
+                for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(player, stack -> stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).isPresent())) {
+                    ItemStack stack = slot.stack();
+                    stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
+                        SlotContext context = slot.slotContext();
+                        String slotId = context.identifier() + context.index() + "_";
+                        trinket.forAllEffects(player.level(), stack, (effect, idx) -> {
+                            effect.onHotkey(stack, (ServerPlayer) player, slotId + idx, key);
+                        });
+                    });
+                }
             });
-        }
+        });
     }
 }

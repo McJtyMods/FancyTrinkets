@@ -16,6 +16,8 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 import javax.annotation.Nonnull;
 
+import static mcjty.lib.network.PlayPayloadContext.wrap;
+
 public class Messages {
     public static SimpleChannel INSTANCE;
 
@@ -34,16 +36,8 @@ public class Messages {
 
         INSTANCE = net;
 
-        net.messageBuilder(PacketSendKey.class, id())
-                .encoder(PacketSendKey::toBytes)
-                .decoder(PacketSendKey::new)
-                .consumerMainThread(PacketSendKey::handle)
-                .add();
-        net.messageBuilder(PacketSyncPlayerEffects.class, id())
-                .encoder(PacketSyncPlayerEffects::toBytes)
-                .decoder(PacketSyncPlayerEffects::new)
-                .consumerMainThread(PacketSyncPlayerEffects::handle)
-                .add();
+        net.registerMessage(id(), PacketSendKey.class, PacketSendKey::write, PacketSendKey::create, wrap(PacketSendKey::handle));
+        net.registerMessage(id(), PacketSyncPlayerEffects.class, PacketSyncPlayerEffects::write, PacketSyncPlayerEffects::create, wrap(PacketSyncPlayerEffects::handle));
 
         PacketHandler.registerStandardMessages(id(), net);
     }
@@ -62,5 +56,13 @@ public class Messages {
 
     public static void sendToClient(Player player, String command) {
         INSTANCE.sendTo(new PacketSendClientCommand(FancyTrinkets.MODID, command, TypedMap.EMPTY), ((ServerPlayer) player).connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+    }
+
+    public static <T> void sendToPlayer(T packet, Player player) {
+        INSTANCE.sendTo(packet, ((ServerPlayer)player).connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+    }
+
+    public static <T> void sendToServer(T packet) {
+        INSTANCE.sendToServer(packet);
     }
 }

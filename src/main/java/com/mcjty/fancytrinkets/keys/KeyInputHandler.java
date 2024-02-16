@@ -10,21 +10,21 @@ public class KeyInputHandler {
     @SubscribeEvent
     public void onKeyInput(InputEvent.Key event) {
         if (KeyBindings.toggle1.consumeClick()) {
-            Messages.INSTANCE.sendToServer(new PacketSendKey(1));
+            Messages.sendToServer(PacketSendKey.create(1));
         } else if (KeyBindings.toggle2.consumeClick()) {
-            Messages.INSTANCE.sendToServer(new PacketSendKey(2));
+            Messages.sendToServer(PacketSendKey.create(2));
         } else if (KeyBindings.toggle3.consumeClick()) {
-            Messages.INSTANCE.sendToServer(new PacketSendKey(3));
+            Messages.sendToServer(PacketSendKey.create(3));
         } else if (KeyBindings.toggle4.consumeClick()) {
-            Messages.INSTANCE.sendToServer(new PacketSendKey(4));
+            Messages.sendToServer(PacketSendKey.create(4));
         } else if (KeyBindings.toggle5.consumeClick()) {
-            Messages.INSTANCE.sendToServer(new PacketSendKey(5));
+            Messages.sendToServer(PacketSendKey.create(5));
         } else if (KeyBindings.toggle6.consumeClick()) {
-            Messages.INSTANCE.sendToServer(new PacketSendKey(6));
+            Messages.sendToServer(PacketSendKey.create(6));
         } else if (KeyBindings.toggle7.consumeClick()) {
-            Messages.INSTANCE.sendToServer(new PacketSendKey(7));
+            Messages.sendToServer(PacketSendKey.create(7));
         } else if (KeyBindings.toggle8.consumeClick()) {
-            Messages.INSTANCE.sendToServer(new PacketSendKey(8));
+            Messages.sendToServer(PacketSendKey.create(8));
         }
     }
 }

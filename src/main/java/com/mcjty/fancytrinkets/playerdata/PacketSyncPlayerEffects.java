@@ -1,37 +1,46 @@
 package com.mcjty.fancytrinkets.playerdata;
 
+import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import mcjty.lib.network.CustomPacketPayload;
+import mcjty.lib.network.PlayPayloadContext;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Supplier;
 
-public class PacketSyncPlayerEffects {
+public record PacketSyncPlayerEffects(Set<String> toggles) implements CustomPacketPayload {
 
-    private final Set<String> toggles;
+    public static final ResourceLocation ID = new ResourceLocation(FancyTrinkets.MODID, "sync_player_effects");
 
-    public void toBytes(FriendlyByteBuf buf) {
+    @Override
+    public void write(FriendlyByteBuf buf) {
         buf.writeInt(toggles.size());
         for (String toggle : toggles) {
             buf.writeUtf(toggle);
         }
     }
 
-    public PacketSyncPlayerEffects(FriendlyByteBuf buf) {
+    @Override
+    public ResourceLocation id() {
+        return ID;
+    }
+
+    public static PacketSyncPlayerEffects create(FriendlyByteBuf buf) {
         int size = buf.readInt();
-        toggles = new HashSet<>(size);
+        Set<String> toggles = new HashSet<>(size);
         for (int i = 0 ; i < size ; i++) {
             toggles.add(buf.readUtf(32767));
         }
+        return new PacketSyncPlayerEffects(toggles);
     }
 
-    public PacketSyncPlayerEffects(PlayerEffects effects) {
-        this.toggles = new HashSet<>(effects.getToggles());
+    public static PacketSyncPlayerEffects create(PlayerEffects effects) {
+        return new PacketSyncPlayerEffects(new HashSet<>(effects.getToggles()));
     }
 
-    public void handle(Supplier<NetworkEvent.Context> supplier) {
+    public void handle(PlayPayloadContext ctx) {
         TrinketItem.toggles = toggles;
     }
 }

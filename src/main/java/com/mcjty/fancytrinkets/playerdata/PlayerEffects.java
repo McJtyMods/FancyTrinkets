@@ -65,7 +65,7 @@ public class PlayerEffects {
         } else {
             toggles.add(toggle);
         }
-        Messages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new PacketSyncPlayerEffects(this));
+        Messages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), PacketSyncPlayerEffects.create(this));
         return isToggleOn(toggle);
     }
 

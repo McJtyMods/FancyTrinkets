@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
+import mcjty.lib.setup.DeferredItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -22,6 +23,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.tab;
 import static com.mcjty.fancytrinkets.setup.Registration.ITEMS;
@@ -32,20 +34,20 @@ public class LootModule implements IModule {
     public static final Map<String, Essence> ESSENCE_ITEMS = new HashMap<>();
     public static final Map<String, EssenceGLM> ESSENCE_GLMS = new HashMap<>();
 
-    public static final RegistryObject<Item> ZOMBIE_ESSENCE = createBasicItem("zombie_essence", "item/essence/zombie_essence", "Zombie Essence");
-    public static final RegistryObject<Item> WITHER_SKELETON_ESSENCE = createBasicItem("wither_skeleton_essence", "item/essence/wither_skeleton_essence", "Wither Skeleton Essence");
-    public static final RegistryObject<Item> WITHER_ESSENCE = createBasicItem("wither_essence", "item/essence/wither_essence", "Wither Essence");
-    public static final RegistryObject<Item> SKELETON_ESSENCE = createBasicItem("skeleton_essence", "item/essence/skeleton_essence", "Skeleton Essence");
-    public static final RegistryObject<Item> DRAGON_ESSENCE = createBasicItem("dragon_essence", "item/essence/dragon_essence", "Enderdragon Essence");
-    public static final RegistryObject<Item> ENDERMAN_ESSENCE = createBasicItem("enderman_essence", "item/essence/enderman_essence", "Enderman Essence");
-    public static final RegistryObject<Item> GHAST_ESSENCE = createBasicItem("ghast_essence", "item/essence/ghast_essence", "Ghast Essence");
-    public static final RegistryObject<Item> SPIDER_ESSENCE = createBasicItem("spider_essence", "item/essence/spider_essence", "Spider Essence");
-    public static final RegistryObject<Item> CHICKEN_ESSENCE = createBasicItem("chicken_essence", "item/essence/chicken_essence", "Chicken Essence");
-    public static final RegistryObject<Item> IRON_GOLEM_ESSENCE = createBasicItem("iron_golem_essence", "item/essence/iron_golem_essence", "Iron Golem Essence");
-    public static final RegistryObject<Item> BLAZE_ESSENCE = createBasicItem("blaze_essence", "item/essence/blaze_essence", "Blaze Essence");
+    public static final DeferredItem<Item> ZOMBIE_ESSENCE = createBasicItem("zombie_essence", "item/essence/zombie_essence", "Zombie Essence");
+    public static final DeferredItem<Item> WITHER_SKELETON_ESSENCE = createBasicItem("wither_skeleton_essence", "item/essence/wither_skeleton_essence", "Wither Skeleton Essence");
+    public static final DeferredItem<Item> WITHER_ESSENCE = createBasicItem("wither_essence", "item/essence/wither_essence", "Wither Essence");
+    public static final DeferredItem<Item> SKELETON_ESSENCE = createBasicItem("skeleton_essence", "item/essence/skeleton_essence", "Skeleton Essence");
+    public static final DeferredItem<Item> DRAGON_ESSENCE = createBasicItem("dragon_essence", "item/essence/dragon_essence", "Enderdragon Essence");
+    public static final DeferredItem<Item> ENDERMAN_ESSENCE = createBasicItem("enderman_essence", "item/essence/enderman_essence", "Enderman Essence");
+    public static final DeferredItem<Item> GHAST_ESSENCE = createBasicItem("ghast_essence", "item/essence/ghast_essence", "Ghast Essence");
+    public static final DeferredItem<Item> SPIDER_ESSENCE = createBasicItem("spider_essence", "item/essence/spider_essence", "Spider Essence");
+    public static final DeferredItem<Item> CHICKEN_ESSENCE = createBasicItem("chicken_essence", "item/essence/chicken_essence", "Chicken Essence");
+    public static final DeferredItem<Item> IRON_GOLEM_ESSENCE = createBasicItem("iron_golem_essence", "item/essence/iron_golem_essence", "Iron Golem Essence");
+    public static final DeferredItem<Item> BLAZE_ESSENCE = createBasicItem("blaze_essence", "item/essence/blaze_essence", "Blaze Essence");
 
-    public static final RegistryObject<Codec<? extends IGlobalLootModifier>> ESSENCE_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("essence_loot", () -> EssenceLootModifier.CODEC);
-    public static final RegistryObject<Codec<? extends IGlobalLootModifier>> TRINKET_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("trinket_loot", () -> TrinketLootModifier.CODEC);
+    public static final Supplier<Codec<? extends IGlobalLootModifier>> ESSENCE_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("essence_loot", () -> EssenceLootModifier.CODEC);
+    public static final Supplier<Codec<? extends IGlobalLootModifier>> TRINKET_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("trinket_loot", () -> TrinketLootModifier.CODEC);
 
     public static final EssenceGLM ZOMBIE_LOOT_MODIFIER = createGlm("zombie_essence", EntityType.ZOMBIE, 0.1f, 1, 2, .3f);
     public static final EssenceGLM WITHER_SKELETON_LOOT_MODIFIER = createGlm("wither_skeleton_essence", EntityType.WITHER_SKELETON, 0.1f, 1, 2, .3f);
@@ -162,7 +164,7 @@ public class LootModule implements IModule {
         }
     }
 
-    public static record Essence(RegistryObject<Item> item, String texture, String description) {
+    public static record Essence(DeferredItem<Item> item, String texture, String description) {
     }
 
     public static record EssenceGLM(ResourceLocation itemId, ResourceLocation lootTable, float chance, int min, int max,
@@ -170,8 +172,8 @@ public class LootModule implements IModule {
     }
 
     @Nonnull
-    private static RegistryObject<Item> createBasicItem(String id, String texture, String description) {
-        RegistryObject<Item> object = ITEMS.register(id, tab(() -> new Item(FancyTrinkets.setup.defaultProperties().stacksTo(64))));
+    private static DeferredItem<Item> createBasicItem(String id, String texture, String description) {
+        DeferredItem<Item> object = ITEMS.register(id, tab(() -> new Item(FancyTrinkets.setup.defaultProperties().stacksTo(64))));
         ESSENCE_ITEMS.put(id, new Essence(object, texture, description));
         return object;
     }
