@@ -4,13 +4,13 @@ import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.effects.imp.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import mcjty.lib.varia.Tools;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -107,7 +107,7 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
     private static MobEffectEffect getMobEffectEffect(IEffectParameters params, Integer hotkey, String toggle) {
         MobEffectEffect.Params p = MobEffectEffect.Params.cast(params);
         String effName = p.effect();
-        MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(effName));
+        MobEffect effect = Tools.getEffect(new ResourceLocation(effName));
         if (effect == null) {
             throw new RuntimeException("Can't find effectId '" + effName + "'!");
         }
@@ -118,7 +118,7 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
     private static PotionResistanceEffect getPotionResistanceEffect(IEffectParameters params, Integer hotkey, String toggle) {
         PotionResistanceEffect.Params p = PotionResistanceEffect.Params.cast(params);
         String effName = p.effect();
-        MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(effName));
+        MobEffect effect = Tools.getEffect(new ResourceLocation(effName));
         if (effect == null) {
             throw new RuntimeException("Can't find effectId '" + effName + "'!");
         }
