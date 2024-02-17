@@ -6,7 +6,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -30,8 +29,7 @@ public class CustomRegistries {
     public static final DeferredRegister<TrinketSet> TRINKET_SET_DEFERRED_REGISTER = DeferredRegister.create(TRINKET_SET_REGISTRY_KEY, FancyTrinkets.MODID);
     public static final Supplier<IForgeRegistry<TrinketSet>> TRINKET_SET_REGISTRY = Tools.makeCustomRegistry(TRINKET_SET_DEFERRED_REGISTER, TrinketSet.CODEC);
 
-    public static void init() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+    public static void init(IEventBus bus) {
         TRINKET_DEFERRED_REGISTER.register(bus);
         EFFECT_DEFERRED_REGISTER.register(bus);
         BONUS_TABLE_DEFERRED_REGISTER.register(bus);

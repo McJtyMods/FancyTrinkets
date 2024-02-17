@@ -18,7 +18,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -46,8 +45,8 @@ public class FancyTrinkets {
         instance = this;
         Config.register();
         setupModules();
-        Registration.register();
-        CustomRegistries.init();
+        Registration.register(bus);
+        CustomRegistries.init(bus);
 
         bus.addListener(setup::init);
         bus.addListener(modules::init);
