@@ -32,7 +32,6 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -123,7 +122,7 @@ public class TrinketsModule implements IModule {
         for (ResourceLocation trinket : Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_SET_REGISTRY_KEY).get(new ResourceLocation(MODID, "standard")).trinkets()) {
             TrinketDescription description = registry.get(trinket);
             ResourceLocation itemId = description.item();
-            Item item = ForgeRegistries.ITEMS.getValue(itemId);
+            Item item = Tools.getItem(itemId);
             if (item == null || item == Items.AIR) {
                 throw new RuntimeException("Can't find item '" + itemId.toString() + "'!");
             }

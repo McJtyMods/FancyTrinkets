@@ -32,7 +32,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -161,7 +160,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     @NotNull
     public static ItemStack createTrinketStack(TrinketDescription description, ResourceLocation id) {
         ResourceLocation itemId = description.item();
-        Item item = ForgeRegistries.ITEMS.getValue(itemId);
+        Item item = Tools.getItem(itemId);
         if (item == null) {
             throw new RuntimeException("Cannot find item for trinket '" + id.toString() + "'!");
         }

@@ -15,11 +15,9 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TrinketLootModifier extends LootModifier {
 
@@ -77,7 +75,7 @@ public class TrinketLootModifier extends LootModifier {
             return generatedLoot;
         }
 
-        Item it = ForgeRegistries.ITEMS.getValue(trinket.item());
+        Item it = Tools.getItem(trinket.item());
         if (it == null) {
             return generatedLoot;
         }
