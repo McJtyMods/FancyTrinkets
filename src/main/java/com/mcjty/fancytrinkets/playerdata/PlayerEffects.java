@@ -12,7 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.network.PacketDistributor;
 
 import java.util.*;
 
@@ -65,7 +64,7 @@ public class PlayerEffects {
         } else {
             toggles.add(toggle);
         }
-        Messages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), PacketSyncPlayerEffects.create(this));
+        Messages.sendToPlayer(PacketSyncPlayerEffects.create(this), player);
         return isToggleOn(toggle);
     }
 

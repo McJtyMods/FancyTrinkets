@@ -4,8 +4,6 @@ import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.blocks.ExperienceCrafterBE;
 import com.mcjty.fancytrinkets.setup.Config;
-import com.mcjty.fancytrinkets.setup.Messages;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcjty.lib.container.GenericContainer;
 import mcjty.lib.gui.GenericGuiContainer;
 import mcjty.lib.gui.Window;
@@ -66,8 +64,8 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
 
         window = new Window(this, toplevel);
 
-        window.action(Messages.INSTANCE, "fillxp", tileEntity, ExperienceCrafterBE.CMD_FILLXP);
-        window.action(Messages.INSTANCE, "craft", tileEntity, ExperienceCrafterBE.CMD_CRAFT);
+        window.action("fillxp", tileEntity, ExperienceCrafterBE.CMD_FILLXP);
+        window.action("craft", tileEntity, ExperienceCrafterBE.CMD_CRAFT);
     }
 
 
