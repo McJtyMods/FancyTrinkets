@@ -1,17 +1,14 @@
 package com.mcjty.fancytrinkets.setup;
 
-import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.compat.XpRecipeCategory;
 import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.DefaultEffects;
 import com.mcjty.fancytrinkets.modules.trinkets.DefaultTrinkets;
-import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.setup.DefaultModSetup;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
@@ -24,7 +21,7 @@ public class ModSetup extends DefaultModSetup {
         super.init(e);
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
-        Messages.registerMessages("fancytrinkets");
+        Messages.registerMessages();
     }
 
     public void datagen(DataGen dataGen) {
