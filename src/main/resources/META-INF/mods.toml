@@ -2,6 +2,9 @@ modLoader="javafml"
 loaderVersion="[47,)"
 license="MIT License https://github.com/McJty/YouTubeModding14/blob/1.16/LICENCE"
 
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
 [[mods]]
 modId="fancytrinkets"
 version="${file.jarVersion}"

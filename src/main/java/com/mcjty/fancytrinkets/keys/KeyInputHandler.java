@@ -2,8 +2,8 @@ package com.mcjty.fancytrinkets.keys;
 
 import com.mcjty.fancytrinkets.setup.Messages;
 import mcjty.lib.typed.TypedMap;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.eventbus.api.SubscribeEvent;
 
 public class KeyInputHandler {
 

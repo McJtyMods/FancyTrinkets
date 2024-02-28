@@ -1,7 +1,7 @@
 package com.mcjty.fancytrinkets.setup;
 
 import com.mcjty.fancytrinkets.keys.KeyBindings;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
 public class ClientEventHandlers {
 
