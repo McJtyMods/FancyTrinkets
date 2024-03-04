@@ -1,19 +1,19 @@
 package com.mcjty.fancytrinkets.setup;
 
 
-import net.neoforged.neoforge.common.ForgeConfigSpec;
-import net.neoforged.neoforge.common.ForgeConfigSpec.Builder;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.Builder;
 import net.neoforged.neoforge.fml.ModLoadingContext;
 import net.neoforged.neoforge.fml.config.ModConfig;
 
 public class Config {
 
-    public static ForgeConfigSpec.IntValue MAXEXPERIENCE;
-    public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT1;
-    public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT2;
-    public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT3;
-    public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT4;
-    public static ForgeConfigSpec.IntValue EXPERIENCE_OFFSET;
+    public static ModConfigSpec.IntValue MAXEXPERIENCE;
+    public static ModConfigSpec.DoubleValue CHANCE_BONUS_EFFECT1;
+    public static ModConfigSpec.DoubleValue CHANCE_BONUS_EFFECT2;
+    public static ModConfigSpec.DoubleValue CHANCE_BONUS_EFFECT3;
+    public static ModConfigSpec.DoubleValue CHANCE_BONUS_EFFECT4;
+    public static ModConfigSpec.IntValue EXPERIENCE_OFFSET;
 
     public static void register() {
         Builder builder = new Builder();

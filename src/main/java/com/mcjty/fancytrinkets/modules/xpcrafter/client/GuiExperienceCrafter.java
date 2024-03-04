@@ -71,7 +71,7 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
 
     @Override
     protected void renderBg(@Nonnull GuiGraphics graphics, float partialTicks, int x, int y) {
-        drawWindow(graphics);
+        drawWindow(graphics, xxx, xxx, yyy);
         xpbar.value(tileEntity.getExperience());
         craftButton.enabled(!tileEntity.getPreviewOutput().isEmpty());
     }

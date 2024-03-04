@@ -15,9 +15,9 @@ import mcjty.lib.datagen.DataGen;
 import mcjty.lib.modules.Modules;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.api.distmarker.Dist;
-import net.neoforged.neoforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import net.neoforged.neoforge.eventbus.api.IEventBus;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.fml.common.Mod;
 import net.neoforged.neoforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.neoforged.neoforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -56,7 +56,7 @@ public class FancyTrinkets {
         if (dist.isClient()) {
             bus.addListener(modules::initClient);
             bus.addListener(ClientEventHandlers::onRegisterKeyMappings);
-            MinecraftForge.EVENT_BUS.register(new KeyInputHandler());
+            NeoForge.EVENT_BUS.register(new KeyInputHandler());
         }
     }
 
