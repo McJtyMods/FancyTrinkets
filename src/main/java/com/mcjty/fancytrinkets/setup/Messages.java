@@ -3,7 +3,6 @@ package com.mcjty.fancytrinkets.setup;
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.keys.PacketSendKey;
 import com.mcjty.fancytrinkets.playerdata.PacketSyncPlayerEffects;
-import mcjty.lib.network.IPayloadRegistrar;
 import mcjty.lib.network.Networking;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
