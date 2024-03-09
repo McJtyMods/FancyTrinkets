@@ -1,6 +1,6 @@
 package com.mcjty.fancytrinkets.curios;
 
-import net.neoforged.neoforge.fml.InterModComms;
+import net.neoforged.fml.InterModComms;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.SlotTypePreset;

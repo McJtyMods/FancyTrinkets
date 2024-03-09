@@ -6,7 +6,6 @@ import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.blocks.ExperienceCrafterBE;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
 import mcjty.lib.container.GenericContainer;
-import mcjty.lib.setup.DeferredItem;
 import mcjty.lib.varia.SafeClientTools;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
