@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 public interface ITrinketItem {
@@ -19,4 +20,6 @@ public interface ITrinketItem {
     void forAllEffects(Level level, ItemStack stack, BiConsumer<IEffect, Integer> consumer);
 
     void addEffects(ItemStack stack, List<ResourceLocation> effects);
+
+    Set<String> getActiveToggles();
 }

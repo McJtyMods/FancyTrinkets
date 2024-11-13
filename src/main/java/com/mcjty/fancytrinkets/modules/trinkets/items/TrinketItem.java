@@ -58,6 +58,11 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
                 .stacksTo(1));
     }
 
+    @Override
+    public Set<String> getActiveToggles() {
+        return toggles;
+    }
+
     public static boolean addBonusEffects(Level level, ITrinketItem trinket, ItemStack stack, float targetQuality) {
         ResourceLocation id = trinket.getTrinketId(stack);
         TrinketDescription description = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).get(id);

@@ -51,7 +51,8 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
         WARP(() -> WarpEffect.CODEC),
         CURE(() -> CureEffect.CODEC),
         ATTRIBUTE(() -> AttributeModifierEffect.CODEC),
-        GROWTICK(() -> GrowTickEffect.CODEC)
+        GROWTICK(() -> GrowTickEffect.CODEC),
+        TRINKETLOOT(() -> TrinketLootEffect.CODEC)
         ;
         private final Supplier<Codec<IEffectParameters>> codecSupplier;
 
@@ -74,6 +75,7 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
             case CURE -> new CureEffect(hotkey, toggle);
             case ATTRIBUTE -> getAttributeEffect(params, hotkey, toggle);
             case GROWTICK -> getGrowTickEffect(params, hotkey, toggle);
+            case TRINKETLOOT -> new TrinketLootEffect(hotkey, toggle, TrinketLootEffect.Params.cast(params).tags(), TrinketLootEffect.Params.cast(params).loot());
         };
     }
 
