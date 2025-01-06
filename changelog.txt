@@ -1,3 +1,6 @@
+Upcoming:
+- Fixed a bug in the trinket loot effect
+
 1.20-3.0.2:
 - New trinket effect called 'trinketloot'. This effect allows adding extra loot for chests and mobs when the player is wearing a trinket with that effect. It works in combination with the 'trinket_loot' loot pool entry that you have to use on the chest or entity loot table for this feature to work
 

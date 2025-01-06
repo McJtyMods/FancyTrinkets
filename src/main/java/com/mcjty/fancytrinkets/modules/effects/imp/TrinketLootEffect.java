@@ -31,7 +31,7 @@ public class TrinketLootEffect extends EffectImp {
     public record Params(Set<String> tags, List<Loot> loot) implements IEffectParameters {
         @Override
         public EffectDescription.EffectType getType() {
-            return EffectDescription.EffectType.GROWTICK;
+            return EffectDescription.EffectType.TRINKETLOOT;
         }
 
         public static TrinketLootEffect.Params cast(IEffectParameters params) {
