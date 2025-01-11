@@ -1,10 +1,18 @@
 package com.mcjty.fancytrinkets.setup;
 
 
+import mcjty.lib.varia.Tools;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Config {
 
@@ -14,6 +22,22 @@ public class Config {
     public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT3;
     public static ForgeConfigSpec.DoubleValue CHANCE_BONUS_EFFECT4;
     public static ForgeConfigSpec.IntValue EXPERIENCE_OFFSET;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> ADDITIONAL_TRINKET_ITEMS;
+
+    private static Set<Item> TRINKET_ITEM_SET;
+
+    public static boolean isAdditionalTrinketItem(Item item) {
+        if (TRINKET_ITEM_SET == null) {
+            TRINKET_ITEM_SET = new HashSet<>();
+            ADDITIONAL_TRINKET_ITEMS.get().forEach(s -> {
+                Item it = Tools.getItem(new ResourceLocation(s));
+                if (it != null) {
+                    TRINKET_ITEM_SET.add(it);
+                }
+            });
+        }
+        return TRINKET_ITEM_SET.contains(item);
+    }
 
     public static void register() {
         Builder builder = new Builder();
@@ -38,7 +62,8 @@ public class Config {
         EXPERIENCE_OFFSET = builder
                 .comment("This is added to the experience that you get from the input experience. This way even a craft with 0 experience can get some reasonable things")
                 .defineInRange("qualityOffset", 150, 0, Integer.MAX_VALUE);
-
+        ADDITIONAL_TRINKET_ITEMS = builder.comment("Item id's that will also be considered as trinket items (in addition to the standard items)")
+                .defineList("additionalTrinketItems", Collections.emptyList(), s -> s instanceof String);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, builder.build());
     }

@@ -18,7 +18,7 @@ public record TrinketDescription(
         String descriptionKey,
         List<EffectRef> effects) {
 
-    public static record EffectRef(ResourceLocation effectId, boolean hidden) {
+    public record EffectRef(ResourceLocation effectId, boolean hidden) {
 
         public static final Codec<EffectRef> EFFECTREF_CODEC = RecordCodecBuilder.create(instance ->
                 instance.group(

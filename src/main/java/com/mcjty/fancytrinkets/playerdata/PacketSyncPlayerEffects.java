@@ -1,7 +1,7 @@
 package com.mcjty.fancytrinkets.playerdata;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
-import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItemData;
 import mcjty.lib.network.CustomPacketPayload;
 import mcjty.lib.network.PlayPayloadContext;
 import net.minecraft.network.FriendlyByteBuf;
@@ -41,6 +41,6 @@ public record PacketSyncPlayerEffects(Set<String> toggles) implements CustomPack
     }
 
     public void handle(PlayPayloadContext ctx) {
-        TrinketItem.toggles = toggles;
+        TrinketItemData.toggles = toggles;
     }
 }

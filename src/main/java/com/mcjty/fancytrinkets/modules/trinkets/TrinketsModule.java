@@ -8,7 +8,9 @@ import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.datapack.TrinketSet;
 import com.mcjty.fancytrinkets.modules.loot.LootModule;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItemData;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipeBuilder;
+import com.mcjty.fancytrinkets.setup.Config;
 import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
@@ -28,6 +30,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -126,10 +129,14 @@ public class TrinketsModule implements IModule {
             if (item == null || item == Items.AIR) {
                 throw new RuntimeException("Can't find item '" + itemId.toString() + "'!");
             }
-            if (item instanceof ITrinketItem trinketItem) {
+            ItemStack stack = new ItemStack(item);
+            LazyOptional<ITrinketItem> capability = stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY);
+            if (capability.isPresent()) {
+                ITrinketItem trinketItem = capability.orElseThrow(RuntimeException::new);
                 trinketItem.registerTrinketInstance(level, trinket, description);
-            } else {
-                throw new RuntimeException("Item '" + itemId.toString() + "' is not an ITrinketItem!");
+            } else if (Config.isAdditionalTrinketItem(item)){
+                ITrinketItem trinketItem = new TrinketItemData();
+                trinketItem.registerTrinketInstance(level, trinket, description);
             }
         }
     }
@@ -523,7 +530,7 @@ public class TrinketsModule implements IModule {
 
     private ItemStack createTrinketStack(String id) {
         ResourceLocation trinkedId = trinket(id);
-        return TrinketItem.createTrinketStack(DefaultTrinkets.DEFAULT_TRINKETS.get(trinkedId).trinketDescription(),
+        return TrinketItemData.createTrinketStack(DefaultTrinkets.DEFAULT_TRINKETS.get(trinkedId).trinketDescription(),
                 trinkedId);
     }
 

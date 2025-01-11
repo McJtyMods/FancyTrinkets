@@ -1,7 +1,7 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.blocks;
 
 import com.mcjty.fancytrinkets.api.ITrinketItem;
-import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItemData;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
 import com.mcjty.fancytrinkets.setup.Config;
@@ -30,7 +30,6 @@ import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -112,7 +111,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
 
     private void addBonusEffects(ITrinketItem trinket, ItemStack stack) {
         float targetQuality = 100.0f * (experience + Config.EXPERIENCE_OFFSET.get()) / (float) (Config.MAXEXPERIENCE.get() + Config.EXPERIENCE_OFFSET.get());
-        if (TrinketItem.addBonusEffects(level, trinket, stack, targetQuality)) {
+        if (TrinketItemData.addBonusEffects(level, trinket, stack, targetQuality)) {
             experience = 0;
             setChanged();
         }

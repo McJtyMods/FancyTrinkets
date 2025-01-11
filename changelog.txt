@@ -1,3 +1,6 @@
+Upcoming:
+- New server config 'additionalTrinketItems' that allows adding extra items to be considered as trinket items
+
 1.20-3.0.3:
 - Fixed a bug in the trinket loot effect
 

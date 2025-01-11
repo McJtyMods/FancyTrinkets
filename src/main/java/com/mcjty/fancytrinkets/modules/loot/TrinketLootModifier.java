@@ -2,7 +2,7 @@ package com.mcjty.fancytrinkets.modules.loot;
 
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
-import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItemData;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -88,7 +88,7 @@ public class TrinketLootModifier extends LootModifier {
             }
             cnt += random.nextInt(context.getLootingModifier()+1);
             while (cnt > 0) {
-                ItemStack stack = TrinketItem.createTrinketStack(context.getLevel(), trinket, id, random.nextFloat() * (maxQuality - minQuality) + minQuality);
+                ItemStack stack = TrinketItemData.createTrinketStack(context.getLevel(), trinket, id, random.nextFloat() * (maxQuality - minQuality) + minQuality);
                 generatedLoot.add(stack);
                 cnt--;
             }

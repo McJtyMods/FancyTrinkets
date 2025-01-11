@@ -15,23 +15,24 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
 public class TrinketItemCapabilityProvider implements ICapabilityProvider {
 
     private final ItemStack itemStack;
-    private final TrinketItem trinketItem;
+    private final Supplier<ITrinketItem> trinketItem;
 
     private final LazyOptional<ICurio> curio = LazyOptional.of(this::createCurio);
     private final LazyOptional<ITrinketItem> trinket = LazyOptional.of(this::getTrinket);
 
-    public TrinketItemCapabilityProvider(ItemStack itemStack, TrinketItem trinketItem) {
+    public TrinketItemCapabilityProvider(ItemStack itemStack, Supplier<ITrinketItem> trinketItem) {
         this.itemStack = itemStack;
         this.trinketItem = trinketItem;
     }
 
     @Nonnull
     private ITrinketItem getTrinket() {
-        return trinketItem;
+        return trinketItem.get();
     }
 
     @Nonnull
@@ -46,7 +47,7 @@ public class TrinketItemCapabilityProvider implements ICapabilityProvider {
             public void curioTick(SlotContext slotContext) {
                 if (slotContext.entity() instanceof ServerPlayer player) {
                     String slotId = slotContext.identifier() + slotContext.index() + "_";
-                    trinketItem.forAllEffects(player.level(), itemStack, (effect, idx) -> effect.tick(itemStack, player, slotId + idx));
+                    trinketItem.get().forAllEffects(player.level(), itemStack, (effect, idx) -> effect.tick(itemStack, player, slotId + idx));
                 }
             }
 
@@ -54,7 +55,7 @@ public class TrinketItemCapabilityProvider implements ICapabilityProvider {
             public void onEquip(SlotContext slotContext, ItemStack prevStack) {
                 if (slotContext.entity() instanceof ServerPlayer player) {
                     String slotId = slotContext.identifier() + slotContext.index() + "_";
-                    trinketItem.forAllEffects(player.level(), itemStack, (effect, idx) -> effect.onEquip(itemStack, player, slotId + idx));
+                    trinketItem.get().forAllEffects(player.level(), itemStack, (effect, idx) -> effect.onEquip(itemStack, player, slotId + idx));
                 }
             }
 
@@ -62,7 +63,7 @@ public class TrinketItemCapabilityProvider implements ICapabilityProvider {
             public void onUnequip(SlotContext slotContext, ItemStack newStack) {
                 if (slotContext.entity() instanceof ServerPlayer player) {
                     String slotId = slotContext.identifier() + slotContext.index() + "_";
-                    trinketItem.forAllEffects(player.level(), itemStack, (effect, idx) -> effect.onUnequip(itemStack, player, slotId + idx));
+                    trinketItem.get().forAllEffects(player.level(), itemStack, (effect, idx) -> effect.onUnequip(itemStack, player, slotId + idx));
                 }
             }
         };

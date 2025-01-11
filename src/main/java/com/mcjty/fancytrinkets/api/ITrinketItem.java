@@ -2,10 +2,12 @@ package com.mcjty.fancytrinkets.api;
 
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
+import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -14,6 +16,9 @@ public interface ITrinketItem {
 
     // Get the id of the trinket that this item represents
     ResourceLocation getTrinketId(ItemStack stack);
+
+    @Nullable
+    TrinketInstance getTrinketInstance(Level level, ResourceLocation id);
 
     void registerTrinketInstance(Level level, ResourceLocation id, TrinketDescription description);
 

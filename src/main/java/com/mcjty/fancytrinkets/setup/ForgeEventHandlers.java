@@ -1,12 +1,17 @@
 package com.mcjty.fancytrinkets.setup;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.api.ITrinketItem;
+import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItemCapabilityProvider;
+import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItemData;
 import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
 import com.mcjty.fancytrinkets.playerdata.PropertiesDispatcher;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -28,6 +33,14 @@ public class ForgeEventHandlers {
                     event.setCanceled(true);
                 }
             });
+        }
+    }
+
+    @SubscribeEvent
+    public void onItemConstructing(AttachCapabilitiesEvent<ItemStack> event) {
+        if (Config.isAdditionalTrinketItem(event.getObject().getItem())) {
+            ITrinketItem trinketItem = new TrinketItemData();
+            event.addCapability(new ResourceLocation(FancyTrinkets.MODID, "trinketitem"), new TrinketItemCapabilityProvider(event.getObject(), () -> trinketItem));
         }
     }
 

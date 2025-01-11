@@ -4,7 +4,7 @@ import com.mcjty.fancytrinkets.compat.XpRecipeCategory;
 import com.mcjty.fancytrinkets.keys.KeyBindings;
 import com.mcjty.fancytrinkets.modules.effects.DefaultEffects;
 import com.mcjty.fancytrinkets.modules.trinkets.DefaultTrinkets;
-import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItemData;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.setup.DefaultModSetup;
@@ -28,8 +28,8 @@ public class ModSetup extends DefaultModSetup {
         dataGen.add(
                 Dob.builder()
                         .message("itemGroup.fancytrinkets", "Fancy Trinkets")
-                        .message(TrinketItem.MESSAGE_FANCYTRINKETS_SHIFTMESSAGE, "<Press Shift>")
-                        .message(TrinketItem.MESSAGE_FANCYTRINKETS_BONUS, "Bonus effects:")
+                        .message(TrinketItemData.MESSAGE_FANCYTRINKETS_SHIFTMESSAGE, "<Press Shift>")
+                        .message(TrinketItemData.MESSAGE_FANCYTRINKETS_BONUS, "Bonus effects:")
                         .message(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_1, "Fancy Trinkets Toggle 1")
                         .message(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_2, "Fancy Trinkets Toggle 2")
                         .message(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_3, "Fancy Trinkets Toggle 3")

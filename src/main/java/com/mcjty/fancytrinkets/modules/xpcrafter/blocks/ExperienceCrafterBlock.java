@@ -1,6 +1,6 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.blocks;
 
-import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
+import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItemData;
 import mcjty.lib.blocks.BaseBlock;
 import mcjty.lib.builder.BlockBuilder;
 
@@ -12,7 +12,7 @@ public class ExperienceCrafterBlock extends BaseBlock {
     public ExperienceCrafterBlock() {
         super(new BlockBuilder()
 //                .topDriver(RFToolsUtilityTOPDriver.DRIVER)
-                .info(key(TrinketItem.MESSAGE_FANCYTRINKETS_SHIFTMESSAGE))
+                .info(key(TrinketItemData.MESSAGE_FANCYTRINKETS_SHIFTMESSAGE))
                 .infoShift(header())
                 .tileEntitySupplier(ExperienceCrafterBE::new));
     }

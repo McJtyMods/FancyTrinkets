@@ -57,6 +57,7 @@ public class FancyTrinkets {
             bus.addListener(modules::initClient);
             bus.addListener(ClientEventHandlers::onRegisterKeyMappings);
             MinecraftForge.EVENT_BUS.register(new KeyInputHandler());
+            MinecraftForge.EVENT_BUS.addListener(ClientEventHandlers::onTooltip);
         }
     }
 
