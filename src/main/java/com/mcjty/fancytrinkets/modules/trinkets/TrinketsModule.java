@@ -519,6 +519,24 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
                                     .build(consumer, trinket("warp_pearl_reforge"));
+                            XpRecipeBuilder.shapedRecipe(createTrinketStack("shiny"))
+                                    .define('o', Tags.Items.STORAGE_BLOCKS_DIAMOND)
+                                    .define('g', Tags.Items.GEMS_DIAMOND)
+                                    .patternLine(" ooo ")
+                                    .patternLine("ogggo")
+                                    .patternLine("ogggo")
+                                    .patternLine("ogggo")
+                                    .patternLine(" ooo ")
+                                    .build(consumer, trinket("shiny"));
+                            XpRecipeBuilder.shapedRecipe(createTrinketStack("shiny"))
+                                    .define('g', Tags.Items.GEMS_DIAMOND)
+                                    .define('S', createTrinketIngredient("shiny"))
+                                    .patternLine("     ")
+                                    .patternLine(" ggg ")
+                                    .patternLine(" gSg ")
+                                    .patternLine(" ggg ")
+                                    .patternLine("     ")
+                                    .build(consumer, trinket("shiny_reforge"));
                         })
 
         );

@@ -12,5 +12,8 @@
   "maxquality": 70.0,
   "min": 1,
   "minquality": 20.0,
+  "tags": [
+    "shiny"
+  ],
   "trinkets": []
 }

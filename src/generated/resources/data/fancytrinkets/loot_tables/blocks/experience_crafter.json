@@ -49,5 +49,6 @@
       "name": "experience_crafter",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "fancytrinkets:blocks/experience_crafter"
 }

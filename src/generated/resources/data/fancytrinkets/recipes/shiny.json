@@ -1,0 +1,24 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "key": {
+    "g": {
+      "tag": "forge:gems/diamond"
+    },
+    "o": {
+      "tag": "forge:storage_blocks/diamond"
+    }
+  },
+  "pattern": [
+    " ooo ",
+    "ogggo",
+    "ogggo",
+    "ogggo",
+    " ooo "
+  ],
+  "result": {
+    "item": "fancytrinkets:silver_ring_diamond",
+    "nbt": {
+      "id": "fancytrinkets:shiny"
+    }
+  }
+}

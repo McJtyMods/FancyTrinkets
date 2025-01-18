@@ -22,10 +22,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import javax.annotation.Nonnull;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.tab;
@@ -115,14 +112,16 @@ public class LootModule implements IModule {
                 Dob.builder()
                         .glm("wither_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
                                 LootTableIdCondition.builder(EntityType.WITHER.getDefaultLootTable()).build()
-                        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70))
+                        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70, Optional.empty()))
                         .glm("dragon_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
                                 LootTableIdCondition.builder(EntityType.ENDER_DRAGON.getDefaultLootTable()).build()
-                        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100))
+                        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100, Optional.empty()))
                         .glm("enderman_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
                                 LootTableIdCondition.builder(EntityType.ENDERMAN.getDefaultLootTable()).build()
-                        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100))
+                        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100, Optional.empty()))
         );
+
+        Optional<List<String>> shinyTags = Optional.of(List.of("shiny"));
 
         ResourceLocation[] goodChests = new ResourceLocation[]{
                 BuiltInLootTables.END_CITY_TREASURE,
@@ -137,7 +136,7 @@ public class LootModule implements IModule {
                     Dob.builder()
                             .glm(chest.getPath() + "_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
                                     LootTableIdCondition.builder(chest).build()
-                            }, Collections.emptyList(), 0.1f, 1, 1, 0, 20, 70))
+                            }, Collections.emptyList(), 0.1f, 1, 1, 0, 20, 70, shinyTags))
             );
         }
 
@@ -168,10 +167,9 @@ public class LootModule implements IModule {
         for (ResourceLocation chest : otherChests) {
             dataGen.add(
                     Dob.builder()
-
                             .glm(chest.getPath() + "_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
                                     LootTableIdCondition.builder(chest).build()
-                            }, Collections.emptyList(), 0.02f, 1, 1, 0, 5, 10))
+                            }, Collections.emptyList(), 0.02f, 1, 1, 0, 5, 10, shinyTags))
             );
         }
     }

@@ -7,6 +7,7 @@ import com.google.gson.JsonSerializationContext;
 import com.mcjty.fancytrinkets.modules.effects.imp.TrinketLootEffect;
 import com.mcjty.fancytrinkets.setup.Registration;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 
@@ -37,26 +39,30 @@ public class TrinketLootEntry extends LootPoolSingletonContainer {
     protected void createItemStack(@Nonnull Consumer<ItemStack> stackConsumer, @Nonnull LootContext context) {
         Entity entity = context.getParam(LootContextParams.THIS_ENTITY);
         if (entity instanceof ServerPlayer player) {
-            for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(player, stack -> stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).isPresent())) {
-                ItemStack stack = slot.stack();
-                // Check if the stack is a trinket
-                stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
-                    Set<String> activeToggles = trinket.getActiveToggles();
-                    // For all effects that are active and are a TrinketLootEffect
-                    trinket.forAllEffects(player.level(), stack, (effect, idx) -> {
-                        if (effect instanceof TrinketLootEffect trinketLootEffect) {
-                            String toggle = effect.getToggle();
-                            if (toggle == null || activeToggles.contains(toggle)) {
-                                Set<String> trinketTags = trinketLootEffect.getTags();
-                                // Test if any tag in 'tags' matches a tag in 'trinketTags'
-                                if (!Collections.disjoint(tags, trinketTags)) {
-                                    trinketLootEffect.generateLoot(stackConsumer, context.getRandom());
-                                }
+            generateTrinketLootEffect(stackConsumer, context.getRandom(), player, tags);
+        }
+    }
+
+    public static void generateTrinketLootEffect(@NotNull Consumer<ItemStack> stackConsumer, @NotNull RandomSource random, ServerPlayer player, Set<String> tags) {
+        for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(player, stack -> stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).isPresent())) {
+            ItemStack stack = slot.stack();
+            // Check if the stack is a trinket
+            stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
+                Set<String> activeToggles = trinket.getActiveToggles();
+                // For all effects that are active and are a TrinketLootEffect
+                trinket.forAllEffects(player.level(), stack, (effect, idx) -> {
+                    if (effect instanceof TrinketLootEffect trinketLootEffect) {
+                        String toggle = effect.getToggle();
+                        if (toggle == null || activeToggles.contains(toggle)) {
+                            Set<String> trinketTags = trinketLootEffect.getTags();
+                            // Test if any tag in 'tags' matches a tag in 'trinketTags'
+                            if (!Collections.disjoint(tags, trinketTags)) {
+                                trinketLootEffect.generateLoot(stackConsumer, random);
                             }
                         }
-                    });
+                    }
                 });
-            }
+            });
         }
     }
 

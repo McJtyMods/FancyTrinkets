@@ -5,9 +5,13 @@ import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.modules.effects.imp.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DefaultEffects {
 
@@ -179,6 +183,8 @@ public class DefaultEffects {
         register("attack_speed", attributeEffect("attack_speed", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Attack Speed");
         register("attack_damage", attributeEffect("attack_damage", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Attack Damage");
         register("luck", attributeEffect("luck", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Luck");
+
+        register("shiny", lootBuffEffect(Set.of("shiny"), List.of(new TrinketLootEffect.Loot(new ItemStack(Items.DIAMOND, 1), 0.9f, 3, 8))), "Shiny stuff!");
     }
 
     private static void register(String id, EffectDescription effect, String description) {
@@ -199,6 +205,10 @@ public class DefaultEffects {
 
     private static EffectDescription mobEffect(String effect, int level, Integer hotkey, String toggle) {
         return EffectDescription.create(hotkey, toggle, false, new MobEffectEffect.Params(effect, level));
+    }
+
+    private static EffectDescription lootBuffEffect(Set<String> tags, List<TrinketLootEffect.Loot> loot) {
+        return EffectDescription.create(null, null, false, new TrinketLootEffect.Params(tags, loot));
     }
 
     private static EffectDescription attributeEffect(String effect, AttributeModifier.Operation operation, double amount) {

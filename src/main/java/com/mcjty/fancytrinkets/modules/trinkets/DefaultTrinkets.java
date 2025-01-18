@@ -53,6 +53,8 @@ public class DefaultTrinkets {
                 effect("strength")), "Strength Ring", "Your attacks seem to have more effect");
 
         register("warp_pearl", trinket("warp_pearl", "blue_pearl", effect("warp")), "Warp Pearl", "Warp Pearl");
+
+        register("shiny", trinket("shiny", "silver_ring_diamond", effect("shiny")), "Shiny", "Diamonds are so shiny!");
     }
 
     private static TrinketDescription.EffectRef effect(String id) {

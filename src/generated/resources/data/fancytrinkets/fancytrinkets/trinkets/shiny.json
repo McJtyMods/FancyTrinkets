@@ -1,0 +1,12 @@
+{
+  "bonustable": "fancytrinkets:standard",
+  "description": "trinket.fancytrinkets.shiny.description",
+  "effects": [
+    {
+      "hidden": false,
+      "id": "fancytrinkets:shiny"
+    }
+  ],
+  "item": "fancytrinkets:silver_ring_diamond",
+  "name": "trinket.fancytrinkets.shiny.name"
+}

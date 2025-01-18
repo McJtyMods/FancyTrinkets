@@ -12,6 +12,7 @@
   "maxquality": 100.0,
   "min": 1,
   "minquality": 90.0,
+  "tags": [],
   "trinkets": [
     "fancytrinkets:warp_pearl"
   ]

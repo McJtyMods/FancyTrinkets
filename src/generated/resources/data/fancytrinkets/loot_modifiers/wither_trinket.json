@@ -12,6 +12,7 @@
   "maxquality": 70.0,
   "min": 1,
   "minquality": 60.0,
+  "tags": [],
   "trinkets": [
     "fancytrinkets:regeneration_ring"
   ]

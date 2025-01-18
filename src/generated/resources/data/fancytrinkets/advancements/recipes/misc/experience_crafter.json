@@ -30,5 +30,6 @@
     "recipes": [
       "fancytrinkets:experience_crafter"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
