@@ -6,8 +6,6 @@ import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
 import mcjty.lib.setup.DeferredItem;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -26,8 +24,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.tab;
-import static com.mcjty.fancytrinkets.setup.Registration.ITEMS;
-import static com.mcjty.fancytrinkets.setup.Registration.LOOT_MODIFIER_SERIALIZERS;
+import static com.mcjty.fancytrinkets.setup.Registration.*;
 
 public class LootModule implements IModule {
 
@@ -61,16 +58,14 @@ public class LootModule implements IModule {
     public static final EssenceGLM IRON_GOLEM_LOOT_MODIFIER = createGlm("iron_golem_essence", EntityType.IRON_GOLEM, 0.3f, 1, 2, .3f);
     public static final EssenceGLM BLAZE_LOOT_MODIFIER = createGlm("blaze_essence", EntityType.BLAZE, 0.3f, 1, 2, .3f);
 
-    public static LootPoolEntryType TRINKET_LOOT_ENTRY;
+//    public static LootPoolEntryType TRINKET_LOOT_ENTRY;
+    public static final Supplier<LootPoolEntryType> TRINKET_LOOT_ENTRY = LOOT_POOL_ENTRIES.register("trinket_loot", () -> new LootPoolEntryType(new TrinketLootEntry.Serializer()));
 
     public LootModule() {
     }
 
     @Override
     public void init(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            registerLootHelpers();
-        });
     }
 
     @Override
@@ -80,11 +75,6 @@ public class LootModule implements IModule {
     @Override
     public void initConfig(IEventBus bus) {
     }
-
-    public static void registerLootHelpers() {
-        TRINKET_LOOT_ENTRY = Registry.register(BuiltInRegistries.LOOT_POOL_ENTRY_TYPE, new ResourceLocation(FancyTrinkets.MODID, "trinket_loot"), new LootPoolEntryType(new TrinketLootEntry.Serializer()));
-    }
-
 
     @Override
     public void initDatagen(DataGen dataGen) {

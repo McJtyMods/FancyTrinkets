@@ -69,7 +69,7 @@ public class TrinketLootEntry extends LootPoolSingletonContainer {
     @Override
     @Nonnull
     public LootPoolEntryType getType() {
-        return LootModule.TRINKET_LOOT_ENTRY;
+        return LootModule.TRINKET_LOOT_ENTRY.get();
     }
 
     public static Builder<?> builder(Set<String> tags) {

@@ -7,6 +7,7 @@ import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mojang.serialization.Codec;
 import mcjty.lib.setup.DeferredBlocks;
 import mcjty.lib.setup.DeferredItems;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.MenuType;
@@ -17,6 +18,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntry;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -40,6 +43,7 @@ public class Registration {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
     public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> LOOT_MODIFIER_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MODID);
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    public static final DeferredRegister<LootPoolEntryType> LOOT_POOL_ENTRIES = DeferredRegister.create(BuiltInRegistries.LOOT_POOL_ENTRY_TYPE.key(), MODID);
 
     public static Capability<ITrinketItem> TRINKET_ITEM_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
@@ -51,6 +55,7 @@ public class Registration {
         RECIPE_TYPES.register(bus);
         RECIPE_SERIALIZERS.register(bus);
         LOOT_MODIFIER_SERIALIZERS.register(bus);
+        LOOT_POOL_ENTRIES.register(bus);
         TABS.register(bus);
     }
 
