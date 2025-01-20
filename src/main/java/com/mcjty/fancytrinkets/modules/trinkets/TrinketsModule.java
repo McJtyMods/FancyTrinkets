@@ -122,7 +122,8 @@ public class TrinketsModule implements IModule {
 
     public static void registerTrinkets(Level level) {
         Registry<TrinketDescription> registry = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY);
-        for (ResourceLocation trinket : Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_SET_REGISTRY_KEY).get(new ResourceLocation(MODID, "standard")).trinkets()) {
+        TrinketSet trinketSet = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_SET_REGISTRY_KEY).get(new ResourceLocation(MODID, "standard"));
+        for (ResourceLocation trinket : trinketSet.trinkets()) {
             TrinketDescription description = registry.get(trinket);
             ResourceLocation itemId = description.item();
             Item item = Tools.getItem(itemId);
@@ -133,9 +134,6 @@ public class TrinketsModule implements IModule {
             LazyOptional<ITrinketItem> capability = stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY);
             if (capability.isPresent()) {
                 ITrinketItem trinketItem = capability.orElseThrow(RuntimeException::new);
-                trinketItem.registerTrinketInstance(level, trinket, description);
-            } else if (Config.isAdditionalTrinketItem(item)){
-                ITrinketItem trinketItem = new TrinketItemData();
                 trinketItem.registerTrinketInstance(level, trinket, description);
             }
         }

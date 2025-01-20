@@ -19,7 +19,12 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ForgeEventHandlers {
+
+    private final Map<Item, TrinketItemData> dataForAdditionalTrinkets = new HashMap<>();
 
     @SubscribeEvent
     public void onLivingDamageEvent(LivingDamageEvent event) {
@@ -39,7 +44,7 @@ public class ForgeEventHandlers {
     @SubscribeEvent
     public void onItemConstructing(AttachCapabilitiesEvent<ItemStack> event) {
         if (Config.isAdditionalTrinketItem(event.getObject().getItem())) {
-            ITrinketItem trinketItem = new TrinketItemData();
+            ITrinketItem trinketItem = dataForAdditionalTrinkets.computeIfAbsent(event.getObject().getItem(), k -> new TrinketItemData());
             event.addCapability(new ResourceLocation(FancyTrinkets.MODID, "trinketitem"), new TrinketItemCapabilityProvider(event.getObject(), () -> trinketItem));
         }
     }
