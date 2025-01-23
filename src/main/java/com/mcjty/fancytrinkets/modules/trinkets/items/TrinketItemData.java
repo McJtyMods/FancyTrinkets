@@ -63,21 +63,23 @@ public class TrinketItemData implements ITrinketItem {
                 if (bonusTable != null) {
                     List<ResourceLocation> effects = new ArrayList<>();
                     // Find a good set of effects for the desired quality
-                    List<BonusTable.EffectRef> list = Collections.emptyList();
-                    float maxDiff = 10.0f;
-                    while (list.size() < 9) {
-                        list = findSuitableEffects(bonusTable.effects(), targetQuality, maxDiff);
-                        maxDiff += 5;
-                    }
+                    if (!bonusTable.effects().isEmpty()) {
+                        List<BonusTable.EffectRef> list = Collections.emptyList();
+                        float maxDiff = 10.0f;
+                        while (list.size() < 9) {
+                            list = findSuitableEffects(bonusTable.effects(), targetQuality, maxDiff);
+                            maxDiff += 5;
+                        }
 
-                    if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT1.get()) {
-                        addEffect(targetQuality, effects, list);
-                        if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT2.get()) {
+                        if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT1.get()) {
                             addEffect(targetQuality, effects, list);
-                            if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT3.get()) {
+                            if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT2.get()) {
                                 addEffect(targetQuality, effects, list);
-                                if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT4.get()) {
+                                if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT3.get()) {
                                     addEffect(targetQuality, effects, list);
+                                    if (random.nextDouble(100.0) <= Config.CHANCE_BONUS_EFFECT4.get()) {
+                                        addEffect(targetQuality, effects, list);
+                                    }
                                 }
                             }
                         }

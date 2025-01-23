@@ -2,6 +2,7 @@ Upcoming:
 - New server config 'additionalTrinketItems' that allows adding extra items to be considered as trinket items
 - The 'trinketloot' global loot modifier now also supports 'tags' which can be used in combination with the trinket_loot effect
 - New 'shiny' ring that gives a chance to get extra diamonds when opening certain chests
+- Fixed problem with empty bonus tables
 
 1.20-3.0.3:
 - Fixed a bug in the trinket loot effect
