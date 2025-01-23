@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.effects.imp.TrinketLootEffect;
 import com.mcjty.fancytrinkets.setup.Registration;
 import net.minecraft.server.level.ServerPlayer;
@@ -44,19 +45,25 @@ public class TrinketLootEntry extends LootPoolSingletonContainer {
     }
 
     public static void generateTrinketLootEffect(@NotNull Consumer<ItemStack> stackConsumer, @NotNull RandomSource random, ServerPlayer player, Set<String> tags) {
+        FancyTrinkets.setup.getLogger().info("Generating trinket loot effect");
         for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(player, stack -> stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).isPresent())) {
             ItemStack stack = slot.stack();
+            FancyTrinkets.setup.getLogger().info("    Found trinket: " + stack);
             // Check if the stack is a trinket
             stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
+                FancyTrinkets.setup.getLogger().info("    Trinket: " + trinket);
                 Set<String> activeToggles = trinket.getActiveToggles();
                 // For all effects that are active and are a TrinketLootEffect
                 trinket.forAllEffects(player.level(), stack, (effect, idx) -> {
+                    FancyTrinkets.setup.getLogger().info("    Effect: " + effect);
                     if (effect instanceof TrinketLootEffect trinketLootEffect) {
                         String toggle = effect.getToggle();
+                        FancyTrinkets.setup.getLogger().info("    Toggle: " + toggle);
                         if (toggle == null || activeToggles.contains(toggle)) {
                             Set<String> trinketTags = trinketLootEffect.getTags();
                             // Test if any tag in 'tags' matches a tag in 'trinketTags'
                             if (!Collections.disjoint(tags, trinketTags)) {
+                                FancyTrinkets.setup.getLogger().info("    Generating loot effect");
                                 trinketLootEffect.generateLoot(stackConsumer, random);
                             }
                         }
