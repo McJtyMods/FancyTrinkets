@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.effects.imp.TrinketLootEffect;
 import com.mcjty.fancytrinkets.setup.Registration;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,7 +37,6 @@ public class TrinketLootEntry extends LootPoolSingletonContainer {
 
     @Override
     protected void createItemStack(@Nonnull Consumer<ItemStack> stackConsumer, @Nonnull LootContext context) {
-        FancyTrinkets.setup.getLogger().info("### TrinketLootEntry.createItemStack ###");
         Entity entity = context.getParam(LootContextParams.THIS_ENTITY);
         if (entity instanceof ServerPlayer player) {
             generateTrinketLootEffect(stackConsumer, context.getRandom(), player, tags);
@@ -59,7 +57,6 @@ public class TrinketLootEntry extends LootPoolSingletonContainer {
                             Set<String> trinketTags = trinketLootEffect.getTags();
                             // Test if any tag in 'tags' matches a tag in 'trinketTags'
                             if (!Collections.disjoint(tags, trinketTags)) {
-                                FancyTrinkets.setup.getLogger().info("    Found trinket loot effect");
                                 trinketLootEffect.generateLoot(stackConsumer, random);
                             }
                         }

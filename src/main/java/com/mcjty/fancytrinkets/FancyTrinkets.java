@@ -52,6 +52,8 @@ public class FancyTrinkets {
         bus.addListener(modules::init);
         bus.addListener(this::onInterModEnqueueEvent);
         bus.addListener(this::onDataGen);
+        bus.addListener(Config::onConfigLoading);
+        bus.addListener(Config::onConfigReloading);
 
         if (dist.isClient()) {
             bus.addListener(modules::initClient);

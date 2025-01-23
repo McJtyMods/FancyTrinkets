@@ -1,6 +1,7 @@
 package com.mcjty.fancytrinkets.setup;
 
 
+import com.mcjty.fancytrinkets.FancyTrinkets;
 import mcjty.lib.varia.Tools;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -8,6 +9,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -66,5 +68,15 @@ public class Config {
                 .defineList("additionalTrinketItems", Collections.emptyList(), s -> s instanceof String);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, builder.build());
+    }
+
+    public static void onConfigLoading(ModConfigEvent.Loading event) {
+        FancyTrinkets.setup.getLogger().info("Loading fancytrinkets config");
+        TRINKET_ITEM_SET = null;
+    }
+
+    public static void onConfigReloading(ModConfigEvent.Reloading event) {
+        FancyTrinkets.setup.getLogger().info("Reloading fancytrinkets config");
+        TRINKET_ITEM_SET = null;
     }
 }

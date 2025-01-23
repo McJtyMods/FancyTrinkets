@@ -1,6 +1,5 @@
 package com.mcjty.fancytrinkets.modules.loot;
 
-import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItemData;
@@ -66,15 +65,12 @@ public class TrinketLootModifier extends LootModifier {
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         RandomSource random = context.getRandom();
-        FancyTrinkets.setup.getLogger().info("### TrinketLootModifier.doApply:" + generatedLoot.size() + " ###");
 
         // First check tags for the trinket loot effect
         if (!tags.isEmpty()) {
             Entity entity = context.getParam(LootContextParams.THIS_ENTITY);
             if (entity instanceof ServerPlayer player) {
-                FancyTrinkets.setup.getLogger().info("    Handle tags");
                 TrinketLootEntry.generateTrinketLootEffect(generatedLoot::add, random, player, tags);
-                FancyTrinkets.setup.getLogger().info("    Handle tags (added " + generatedLoot.size() + " items)");
 
             }
         }
@@ -82,7 +78,6 @@ public class TrinketLootModifier extends LootModifier {
         ResourceLocation id;
         if (trinketIds.isEmpty()) {
             // Pick a totally random trinket
-            FancyTrinkets.setup.getLogger().info("    Handle trinkets");
             List<ResourceLocation> keys = Tools.getRegistryAccess(context.getLevel()).registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).entrySet()
                     .stream().map(p -> p.getKey().location()).toList();
             if (keys.isEmpty()) {
@@ -117,7 +112,6 @@ public class TrinketLootModifier extends LootModifier {
                 cnt--;
             }
         }
-        FancyTrinkets.setup.getLogger().info("    Handle trinkets (added " + generatedLoot.size() + " items)");
         return generatedLoot;
     }
 
