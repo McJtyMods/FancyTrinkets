@@ -68,7 +68,7 @@ public class TrinketLootModifier extends LootModifier {
 
         // First check tags for the trinket loot effect
         if (!tags.isEmpty()) {
-            Entity entity = context.getParam(LootContextParams.THIS_ENTITY);
+            Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
             if (entity instanceof ServerPlayer player) {
                 TrinketLootEntry.generateTrinketLootEffect(generatedLoot::add, random, player, tags);
 

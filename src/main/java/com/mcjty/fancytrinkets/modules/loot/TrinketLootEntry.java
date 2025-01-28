@@ -37,7 +37,7 @@ public class TrinketLootEntry extends LootPoolSingletonContainer {
 
     @Override
     protected void createItemStack(@Nonnull Consumer<ItemStack> stackConsumer, @Nonnull LootContext context) {
-        Entity entity = context.getParam(LootContextParams.THIS_ENTITY);
+        Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
         if (entity instanceof ServerPlayer player) {
             generateTrinketLootEffect(stackConsumer, context.getRandom(), player, tags);
         }
