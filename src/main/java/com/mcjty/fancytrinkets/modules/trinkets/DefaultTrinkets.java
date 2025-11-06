@@ -56,20 +56,20 @@ public class DefaultTrinkets {
     }
 
     private static TrinketDescription.EffectRef effect(String id) {
-        return new TrinketDescription.EffectRef(new ResourceLocation(FancyTrinkets.MODID, id), false);
+        return new TrinketDescription.EffectRef(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), false);
     }
 
     private static TrinketDescription.EffectRef hidden(String id) {
-        return new TrinketDescription.EffectRef(new ResourceLocation(FancyTrinkets.MODID, id), true);
+        return new TrinketDescription.EffectRef(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), true);
     }
 
     private static void register(String id, TrinketDescription trinket, String name, String description) {
-        DEFAULT_TRINKETS.put(new ResourceLocation(FancyTrinkets.MODID, id), new TrinketInfo(trinket, name, description));
+        DEFAULT_TRINKETS.put(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), new TrinketInfo(trinket, name, description));
     }
 
     private static TrinketDescription trinket(String id, String itemId, TrinketDescription.EffectRef... effects) {
-        return new TrinketDescription(new ResourceLocation(FancyTrinkets.MODID, itemId),
-                new ResourceLocation(FancyTrinkets.MODID, "standard"),
+        return new TrinketDescription(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, itemId),
+                ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "standard"),
                 "trinket.fancytrinkets." + id + ".name",
                 "trinket.fancytrinkets." + id + ".description",
                 List.of(effects));

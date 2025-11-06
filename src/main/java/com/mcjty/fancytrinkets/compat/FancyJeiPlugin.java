@@ -17,14 +17,14 @@ import mezz.jei.api.registration.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.List;
 
 @JeiPlugin
 public class FancyJeiPlugin implements IModPlugin {
 
-    private static final ResourceLocation ID = new ResourceLocation(FancyTrinkets.MODID, "jeiplugin");
+    private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "jeiplugin");
 
     public static final RecipeType<XpRecipe> XP_RECIPE_TYPE = RecipeType.create(FancyTrinkets.MODID, "xp_recipe", XpRecipe.class);
 

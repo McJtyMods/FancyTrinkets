@@ -74,11 +74,11 @@ public class DefaultBonusTables {
     }
 
     private static BonusTable.EffectRef effect(String id, float quality) {
-        return new BonusTable.EffectRef(new ResourceLocation(FancyTrinkets.MODID, id), quality);
+        return new BonusTable.EffectRef(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), quality);
     }
 
     private static void register(String id, BonusTable bonusTable, String name) {
-        DEFAULT_BONUS_TABLES.put(new ResourceLocation(FancyTrinkets.MODID, id), new BonusTableInfo(bonusTable, name));
+        DEFAULT_BONUS_TABLES.put(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), new BonusTableInfo(bonusTable, name));
     }
 
     private static BonusTable bonusTable(BonusTable.EffectRef... effects) {

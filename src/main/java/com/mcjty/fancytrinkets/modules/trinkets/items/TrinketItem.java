@@ -144,7 +144,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
         CompoundTag tag = stack.getTag();
         if (tag != null) {
             ListTag effects = tag.getList("effects", Tag.TAG_STRING);
-            return effects.stream().map(s -> new ResourceLocation(s.getAsString()));
+            return effects.stream().map(s -> ResourceLocation.parse(s.getAsString()));
         }
         return Stream.empty();
     }
@@ -173,7 +173,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     public ResourceLocation getTrinketId(ItemStack stack) {
         CompoundTag tag = stack.getTag();
         if (tag != null && tag.contains("id")) {
-            return new ResourceLocation(tag.getString("id"));
+            return ResourceLocation.parse(tag.getString("id"));
         } else {
             return null;
         }

@@ -102,13 +102,13 @@ public class LootModule implements IModule {
                 Dob.builder()
                         .glm("wither_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
                                 LootTableIdCondition.builder(EntityType.WITHER.getDefaultLootTable()).build()
-                        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70))
+                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70))
                         .glm("dragon_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
                                 LootTableIdCondition.builder(EntityType.ENDER_DRAGON.getDefaultLootTable()).build()
-                        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100))
+                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100))
                         .glm("enderman_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
                                 LootTableIdCondition.builder(EntityType.ENDERMAN.getDefaultLootTable()).build()
-                        }, List.of(new ResourceLocation(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100))
+                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100))
         );
 
         ResourceLocation[] goodChests = new ResourceLocation[]{

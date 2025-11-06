@@ -13,16 +13,16 @@ import java.util.function.Supplier;
 
 public class CustomRegistries {
 
-    public static final ResourceKey<Registry<TrinketDescription>> TRINKET_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(FancyTrinkets.MODID, "trinkets"));
+    public static final ResourceKey<Registry<TrinketDescription>> TRINKET_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "trinkets"));
     public static final DeferredRegister<TrinketDescription> TRINKET_DEFERRED_REGISTER = DeferredRegister.create(TRINKET_REGISTRY_KEY, FancyTrinkets.MODID);
 
-    public static final ResourceKey<Registry<EffectDescription>> EFFECT_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(FancyTrinkets.MODID, "effects"));
+    public static final ResourceKey<Registry<EffectDescription>> EFFECT_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "effects"));
     public static final DeferredRegister<EffectDescription> EFFECT_DEFERRED_REGISTER = DeferredRegister.create(EFFECT_REGISTRY_KEY, FancyTrinkets.MODID);
 
-    public static final ResourceKey<Registry<BonusTable>> BONUS_TABLE_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(FancyTrinkets.MODID, "bonustables"));
+    public static final ResourceKey<Registry<BonusTable>> BONUS_TABLE_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "bonustables"));
     public static final DeferredRegister<BonusTable> BONUS_TABLE_DEFERRED_REGISTER = DeferredRegister.create(BONUS_TABLE_REGISTRY_KEY, FancyTrinkets.MODID);
 
-    public static final ResourceKey<Registry<TrinketSet>> TRINKET_SET_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(FancyTrinkets.MODID, "trinketsets"));
+    public static final ResourceKey<Registry<TrinketSet>> TRINKET_SET_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "trinketsets"));
     public static final DeferredRegister<TrinketSet> TRINKET_SET_DEFERRED_REGISTER = DeferredRegister.create(TRINKET_SET_REGISTRY_KEY, FancyTrinkets.MODID);
 
     public static void init(IEventBus bus) {

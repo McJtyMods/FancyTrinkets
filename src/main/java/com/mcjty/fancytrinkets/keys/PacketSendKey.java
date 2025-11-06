@@ -12,7 +12,7 @@ import top.theillusivec4.curios.api.SlotResult;
 
 public record PacketSendKey(Integer key) implements CustomPacketPayload {
 
-    public static final ResourceLocation ID = new ResourceLocation(FancyTrinkets.MODID, "send_key");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "send_key");
 
     public static PacketSendKey create(int key) {
         return new PacketSendKey(key);

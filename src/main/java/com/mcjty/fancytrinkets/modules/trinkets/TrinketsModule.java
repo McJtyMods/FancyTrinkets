@@ -50,13 +50,13 @@ public class TrinketsModule implements IModule {
 
     public static final Map<ResourceLocation, TrinketInfo> TRINKET_ITEMS = new HashMap<>();
 
-    public static final TagKey<Item> RING_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.RING.getIdentifier()));
-    public static final TagKey<Item> BELT_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BELT.getIdentifier()));
-    public static final TagKey<Item> BRACELET_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BRACELET.getIdentifier()));
-    public static final TagKey<Item> CHARM_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.CHARM.getIdentifier()));
-    public static final TagKey<Item> NECKLACE_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.NECKLACE.getIdentifier()));
-    public static final TagKey<Item> HEAD_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.HEAD.getIdentifier()));
-    public static final TagKey<Item> BODY_TAG = TagTools.createItemTagKey(new ResourceLocation(CuriosApi.MODID, SlotTypePreset.BODY.getIdentifier()));
+    public static final TagKey<Item> RING_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.RING.getIdentifier()));
+    public static final TagKey<Item> BELT_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.BELT.getIdentifier()));
+    public static final TagKey<Item> BRACELET_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.BRACELET.getIdentifier()));
+    public static final TagKey<Item> CHARM_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.CHARM.getIdentifier()));
+    public static final TagKey<Item> NECKLACE_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.NECKLACE.getIdentifier()));
+    public static final TagKey<Item> HEAD_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.HEAD.getIdentifier()));
+    public static final TagKey<Item> BODY_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.BODY.getIdentifier()));
 
     public static final DeferredItem<TrinketItem> GOLD_RING = trinket("gold_ring", "item/gold_ring", "Base golden ring item", RING_TAG);
     public static final DeferredItem<TrinketItem> GOLD_RING_BLUE = trinket("gold_ring_blue", "item/gold_ring_blue", "Base golden ring item", RING_TAG);
@@ -103,7 +103,7 @@ public class TrinketsModule implements IModule {
 
     public static DeferredItem<TrinketItem> trinket(String id, String texture, String description, TagKey... tags) {
         DeferredItem<TrinketItem> object = Registration.ITEMS.register(id, tab(TrinketItem::new));
-        TRINKET_ITEMS.put(object.getId(), new TrinketInfo(new ResourceLocation(MODID, id), texture, description, object, tags));
+        TRINKET_ITEMS.put(object.getId(), new TrinketInfo(ResourceLocation.fromNamespaceAndPath(MODID, id), texture, description, object, tags));
         return object;
     }
 
@@ -117,7 +117,7 @@ public class TrinketsModule implements IModule {
 
     public static void registerTrinkets(Level level) {
         Registry<TrinketDescription> registry = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY);
-        for (ResourceLocation trinket : Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_SET_REGISTRY_KEY).get(new ResourceLocation(MODID, "standard")).trinkets()) {
+        for (ResourceLocation trinket : Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_SET_REGISTRY_KEY).get(ResourceLocation.fromNamespaceAndPath(MODID, "standard")).trinkets()) {
             TrinketDescription description = registry.get(trinket);
             ResourceLocation itemId = description.item();
             Item item = Tools.getItem(itemId);
@@ -158,7 +158,7 @@ public class TrinketsModule implements IModule {
                 Dob.builder()
                         .codecObjectSupplier("trinketsets", () -> {
                             List<ResourceLocation> trinkets = new ArrayList<>(DefaultTrinkets.DEFAULT_TRINKETS.keySet());
-                            return Map.of(new ResourceLocation(FancyTrinkets.MODID, "standard"), new TrinketSet(trinkets));
+                            return Map.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "standard"), new TrinketSet(trinkets));
                         })
         );
 
@@ -516,7 +516,7 @@ public class TrinketsModule implements IModule {
     }
 
     private ResourceLocation trinket(String id) {
-        return new ResourceLocation(FancyTrinkets.MODID, id);
+        return ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id);
     }
 
     private ItemStack createTrinketStack(String id) {

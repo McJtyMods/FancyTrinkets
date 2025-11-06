@@ -107,7 +107,7 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
     private static MobEffectEffect getMobEffectEffect(IEffectParameters params, Integer hotkey, String toggle) {
         MobEffectEffect.Params p = MobEffectEffect.Params.cast(params);
         String effName = p.effect();
-        MobEffect effect = Tools.getEffect(new ResourceLocation(effName));
+        MobEffect effect = Tools.getEffect(ResourceLocation.parse(effName));
         if (effect == null) {
             throw new RuntimeException("Can't find effectId '" + effName + "'!");
         }
@@ -118,7 +118,7 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
     private static PotionResistanceEffect getPotionResistanceEffect(IEffectParameters params, Integer hotkey, String toggle) {
         PotionResistanceEffect.Params p = PotionResistanceEffect.Params.cast(params);
         String effName = p.effect();
-        MobEffect effect = Tools.getEffect(new ResourceLocation(effName));
+        MobEffect effect = Tools.getEffect(ResourceLocation.parse(effName));
         if (effect == null) {
             throw new RuntimeException("Can't find effectId '" + effName + "'!");
         }

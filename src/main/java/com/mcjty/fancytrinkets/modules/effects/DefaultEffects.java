@@ -182,7 +182,7 @@ public class DefaultEffects {
     }
 
     private static void register(String id, EffectDescription effect, String description) {
-        DEFAULT_EFFECTS.put(new ResourceLocation(FancyTrinkets.MODID, id), new EffectInfo(effect, description));
+        DEFAULT_EFFECTS.put(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), new EffectInfo(effect, description));
     }
 
     private static EffectDescription damageModificationEffect(String dmgId, float factor) {
