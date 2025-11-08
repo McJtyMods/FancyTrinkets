@@ -4,6 +4,7 @@ import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
 import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -20,7 +21,7 @@ public class FlightEffect extends EffectImp {
         }
     }
 
-    public static final Codec<IEffectParameters> CODEC = Codec.unit(Params.EMPTY);
+    public static final MapCodec<IEffectParameters> CODEC = MapCodec.unit(Params.EMPTY);
 
     public FlightEffect(Integer hotkey, String toggle) {
         super(hotkey, toggle);

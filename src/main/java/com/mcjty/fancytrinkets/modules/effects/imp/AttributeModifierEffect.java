@@ -3,6 +3,7 @@ package com.mcjty.fancytrinkets.modules.effects.imp;
 import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -33,7 +34,7 @@ public class AttributeModifierEffect extends EffectImp {
         }
     }
 
-    public static final Codec<IEffectParameters> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<IEffectParameters> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     Codec.STRING.fieldOf("effectId").forGetter(l -> ((Params)l).effect),
                     Codec.STRING.fieldOf("operation").forGetter(l -> ((Params)l).operation.name().toLowerCase()),

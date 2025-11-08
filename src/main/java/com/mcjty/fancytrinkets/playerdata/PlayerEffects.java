@@ -9,17 +9,15 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.CapabilityManager;
-import net.neoforged.neoforge.common.capabilities.CapabilityToken;
 
 import java.util.*;
 
 public class PlayerEffects {
 
-    public static final Capability<PlayerEffects> PLAYER_EFFECTS = CapabilityManager.get(new CapabilityToken<>(){});
+    // @todo 1.21
+//    public static final Capability<PlayerEffects> PLAYER_EFFECTS = CapabilityManager.get(new CapabilityToken<>(){});
 
-    public static record EffectHolder(IEffect effect, long endTime) {
+    public record EffectHolder(IEffect effect, long endTime) {
     }
 
     // Indexed on curios slot index

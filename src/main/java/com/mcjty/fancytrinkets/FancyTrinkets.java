@@ -14,14 +14,13 @@ import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.modules.Modules;
 import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.api.distmarker.Dist;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.fml.common.Mod;
-import net.neoforged.neoforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.neoforged.neoforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.neoforged.neoforge.fml.loading.FMLEnvironment;
 
 import java.util.function.Supplier;
 
@@ -38,10 +37,7 @@ public class FancyTrinkets {
     public static ModSetup setup = new ModSetup();
     private final Modules modules = new Modules();
 
-    public FancyTrinkets() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        Dist dist = FMLEnvironment.dist;
-
+    public FancyTrinkets(ModContainer mod, IEventBus bus, Dist dist) {
         instance = this;
         Config.register();
         setupModules();
@@ -66,7 +62,7 @@ public class FancyTrinkets {
 
     private void onDataGen(GatherDataEvent event) {
         DataGen datagen = new DataGen(MODID, event);
-        modules.datagen(datagen);
+        modules.datagen(datagen, event.getLookupProvider());
         setup.datagen(datagen);
         datagen.generate();
     }

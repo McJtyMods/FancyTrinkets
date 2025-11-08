@@ -3,12 +3,12 @@ package com.mcjty.fancytrinkets.modules.effects.imp;
 import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import mcjty.lib.varia.SoundTools;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -36,7 +36,7 @@ public class WarpEffect extends EffectImp {
         }
     }
 
-    public static final Codec<IEffectParameters> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<IEffectParameters> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     Codec.INT.fieldOf("maxdist").forGetter(l -> ((WarpEffect.Params)l).maxdist)
             ).apply(instance, WarpEffect.Params::new));

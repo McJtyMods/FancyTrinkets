@@ -31,7 +31,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -126,34 +125,38 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     }
 
     public static void toNBT(ItemStack stack, TrinketInstance trinket) {
-        CompoundTag tag = stack.getOrCreateTag();
-        tag.putString("id", trinket.id().toString());
+        // @todo 1.21 data
+//        CompoundTag tag = stack.getOrCreateTag();
+//        tag.putString("id", trinket.id().toString());
     }
 
     @Override
     public void addEffects(ItemStack stack, List<ResourceLocation> effects) {
-        CompoundTag tag = stack.getOrCreateTag();
-        ListTag list = new ListTag();
-        for (ResourceLocation location : effects) {
-            list.add(StringTag.valueOf(location.toString()));
-        }
-        tag.put("effects", list);
+        // @todo 1.21 data
+//        CompoundTag tag = stack.getOrCreateTag();
+//        ListTag list = new ListTag();
+//        for (ResourceLocation location : effects) {
+//            list.add(StringTag.valueOf(location.toString()));
+//        }
+//        tag.put("effects", list);
     }
 
     public static Stream<ResourceLocation> getEffects(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
-        if (tag != null) {
-            ListTag effects = tag.getList("effects", Tag.TAG_STRING);
-            return effects.stream().map(s -> ResourceLocation.parse(s.getAsString()));
-        }
+        // @todo 1.21
+//        CompoundTag tag = stack.getTag();
+//        if (tag != null) {
+//            ListTag effects = tag.getList("effects", Tag.TAG_STRING);
+//            return effects.stream().map(s -> ResourceLocation.parse(s.getAsString()));
+//        }
         return Stream.empty();
     }
 
     public static ItemStack createTrinketStack(Level level, TrinketDescription description, ResourceLocation id, float quality) {
         ItemStack stack = createTrinketStack(description, id);
-        stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
-            addBonusEffects(level, trinket, stack, quality);
-        });
+        // @todo 1.21
+//        stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
+//            addBonusEffects(level, trinket, stack, quality);
+//        });
         return stack;
     }
 
@@ -165,18 +168,20 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
             throw new RuntimeException("Cannot find item for trinket '" + id.toString() + "'!");
         }
         ItemStack result = new ItemStack(item);
-        result.getOrCreateTag().putString("id", id.toString());
+        // @todo 1.21
+//        result.getOrCreateTag().putString("id", id.toString());
         return result;
     }
 
     @Override
     public ResourceLocation getTrinketId(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
-        if (tag != null && tag.contains("id")) {
-            return ResourceLocation.parse(tag.getString("id"));
-        } else {
+        // @todo 1.21
+//        CompoundTag tag = stack.getTag();
+//        if (tag != null && tag.contains("id")) {
+//            return ResourceLocation.parse(tag.getString("id"));
+//        } else {
             return null;
-        }
+//        }
     }
 
     @Override
@@ -214,10 +219,10 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level world, List<Component> list, TooltipFlag flags) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> list, TooltipFlag flags) {
         ResourceLocation trinketId = getTrinketId(stack);
         if (trinketId != null) {
-            TrinketInstance instance = getTrinkets(world).get(trinketId);
+            TrinketInstance instance = getTrinkets(context.level()).get(trinketId);
             if (instance != null) {
                 MutableComponent name = ComponentFactory.translatable(instance.nameKey()).withStyle(ChatFormatting.AQUA);
                 if (list.isEmpty()) {
@@ -268,8 +273,9 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
         }
     }
 
-    @Override
-    public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new TrinketItemCapabilityProvider(stack, this);
-    }
+    // @todo 1.21
+//    @Override
+//    public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+//        return new TrinketItemCapabilityProvider(stack, this);
+//    }
 }

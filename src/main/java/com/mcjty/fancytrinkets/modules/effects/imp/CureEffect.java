@@ -3,6 +3,7 @@ package com.mcjty.fancytrinkets.modules.effects.imp;
 import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +22,7 @@ public class CureEffect extends EffectImp {
         }
     }
 
-    public static final Codec<IEffectParameters> CODEC = Codec.unit(Params.EMPTY);
+    public static final MapCodec<IEffectParameters> CODEC = MapCodec.unit(Params.EMPTY);
 
     public CureEffect(Integer hotkey, String toggle) {
         super(hotkey, toggle);

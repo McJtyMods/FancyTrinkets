@@ -3,14 +3,13 @@ package com.mcjty.fancytrinkets.datapack;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.effects.imp.*;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import mcjty.lib.varia.Tools;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.neoforged.neoforge.common.ForgeMod;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -18,7 +17,7 @@ import java.util.function.Supplier;
 
 public record EffectDescription(Integer hotkey, String toggle, boolean harmful, IEffectParameters params, IEffect effect) {
 
-    public static final Codec<IEffectParameters> PARAMS_CODEC = ExtraCodecs.lazyInitializedCodec(() -> Codec.STRING.dispatch("type",
+    public static final Codec<IEffectParameters> PARAMS_CODEC = Codec.lazyInitialized(() -> Codec.STRING.<IEffectParameters>dispatch("type",
             s -> s.getType().name().toLowerCase(),
             EffectDescription::getParameterCodec));
 
@@ -38,7 +37,7 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
         return new EffectDescription(hotkey, toggle, harmful, params, buildEffect(params, hotkey, toggle));
     }
 
-    private static Codec<IEffectParameters> getParameterCodec(String stype) {
+    private static MapCodec<IEffectParameters> getParameterCodec(String stype) {
         EffectType type = EffectType.valueOf(stype.toUpperCase());
         return type.getCodecSupplier().get();
     }
@@ -53,13 +52,13 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
         ATTRIBUTE(() -> AttributeModifierEffect.CODEC),
         GROWTICK(() -> GrowTickEffect.CODEC)
         ;
-        private final Supplier<Codec<IEffectParameters>> codecSupplier;
+        private final Supplier<MapCodec<IEffectParameters>> codecSupplier;
 
-        EffectType(Supplier<Codec<IEffectParameters>> codecSupplier) {
+        EffectType(Supplier<MapCodec<IEffectParameters>> codecSupplier) {
             this.codecSupplier = codecSupplier;
         }
 
-        public Supplier<Codec<IEffectParameters>> getCodecSupplier() {
+        public Supplier<MapCodec<IEffectParameters>> getCodecSupplier() {
             return codecSupplier;
         }
     }

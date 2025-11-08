@@ -4,6 +4,7 @@ import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
 import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +28,7 @@ public class DamageReductionEffect extends EffectImp {
         }
     }
 
-    public static final Codec<IEffectParameters> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<IEffectParameters> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     Codec.STRING.fieldOf("damage").forGetter(l -> ((Params)l).dmgId),
                     Codec.FLOAT.fieldOf("factor").forGetter(l -> ((Params)l).factor)

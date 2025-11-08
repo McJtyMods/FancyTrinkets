@@ -1,16 +1,14 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.recipe;
 
-import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import mcjty.lib.crafting.BaseShapedRecipe;
-import mcjty.lib.varia.ItemStackTools;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+
+import javax.annotation.Nonnull;
 
 public class XpRecipe extends BaseShapedRecipe {
 
@@ -20,27 +18,17 @@ public class XpRecipe extends BaseShapedRecipe {
 
     public static final int RECIPE_DIMENSION = 5;
 
-    public XpRecipe(ResourceLocation id, NonNullList<Ingredient> ingredients, ItemStack result) {
-        super(id, FancyTrinkets.MODID, RECIPE_DIMENSION, RECIPE_DIMENSION, ingredients, result);
+    public XpRecipe(String group, ResourceLocation id, NonNullList<Ingredient> ingredients, ShapedRecipePattern pattern, ItemStack result) {
+        super(group, CraftingBookCategory.MISC, pattern, result);
         this.id = id;
         this.ingredients = ingredients;
         this.result = result;
     }
 
     @Override
-    public int getRecipeWidth() {
-        return RECIPE_DIMENSION;
-    }
-
-    @Override
-    public int getRecipeHeight() {
-        return RECIPE_DIMENSION;
-    }
-
-    @Override
-    public boolean matches(CraftingContainer container, Level level) {
+    public boolean matches(@Nonnull CraftingInput inv, @Nonnull Level level) {
         for (int i = 0 ; i < RECIPE_DIMENSION * RECIPE_DIMENSION ; i++) {
-            if (!ingredients.get(i).test(container.getItem(i))) {
+            if (!ingredients.get(i).test(inv.getItem(i))) {
                 return false;
             }
         }
@@ -54,14 +42,6 @@ public class XpRecipe extends BaseShapedRecipe {
 
 
     @Override
-    public ItemStack assemble(CraftingContainer pContainer, RegistryAccess access) {
-        if (matches(pContainer, null)) {
-            return result.copy();
-        }
-        return ItemStack.EMPTY;
-    }
-
-    @Override
     public boolean canCraftInDimensions(int pWidth, int pHeight) {
         return pWidth == RECIPE_DIMENSION && pHeight == RECIPE_DIMENSION;
     }
@@ -73,11 +53,6 @@ public class XpRecipe extends BaseShapedRecipe {
 
     public ItemStack getResultItem() {
         return result;
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return id;
     }
 
     @Override

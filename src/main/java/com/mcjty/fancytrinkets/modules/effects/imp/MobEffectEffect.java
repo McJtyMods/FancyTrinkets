@@ -4,6 +4,7 @@ import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
 import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
@@ -17,7 +18,7 @@ public class MobEffectEffect extends EffectImp {
     private final MobEffect effect;
     private final int strengthModifier;
 
-    public static record Params(String effect, int strength) implements IEffectParameters {
+    public record Params(String effect, int strength) implements IEffectParameters {
         @Override
         public EffectDescription.EffectType getType() {
             return EffectDescription.EffectType.MOBEFFECT;
@@ -31,7 +32,7 @@ public class MobEffectEffect extends EffectImp {
         }
     }
 
-    public static final Codec<IEffectParameters> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<IEffectParameters> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     Codec.STRING.fieldOf("effectId").forGetter(l -> ((Params)l).effect),
                     Codec.INT.fieldOf("strength").forGetter(l -> ((Params)l).strength)

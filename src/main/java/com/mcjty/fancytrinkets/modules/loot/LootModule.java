@@ -16,6 +16,7 @@ import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -129,28 +130,28 @@ public class LootModule implements IModule {
         }
 
         ResourceLocation[] otherChests = new ResourceLocation[]{
-                BuiltInLootTables.SIMPLE_DUNGEON,
-                BuiltInLootTables.VILLAGE_CARTOGRAPHER,
-                BuiltInLootTables.VILLAGE_TEMPLE,
-                BuiltInLootTables.ABANDONED_MINESHAFT,
-                BuiltInLootTables.NETHER_BRIDGE,
-                BuiltInLootTables.STRONGHOLD_CROSSING,
-                BuiltInLootTables.STRONGHOLD_CORRIDOR,
-                BuiltInLootTables.JUNGLE_TEMPLE,
-                BuiltInLootTables.JUNGLE_TEMPLE_DISPENSER,
-                BuiltInLootTables.IGLOO_CHEST,
-                BuiltInLootTables.UNDERWATER_RUIN_SMALL,
-                BuiltInLootTables.UNDERWATER_RUIN_BIG,
-                BuiltInLootTables.BURIED_TREASURE,
-                BuiltInLootTables.SHIPWRECK_MAP,
-                BuiltInLootTables.SHIPWRECK_SUPPLY,
-                BuiltInLootTables.SHIPWRECK_TREASURE,
-                BuiltInLootTables.PILLAGER_OUTPOST,
-                BuiltInLootTables.BASTION_OTHER,
-                BuiltInLootTables.BASTION_BRIDGE,
-                BuiltInLootTables.BASTION_HOGLIN_STABLE,
-                BuiltInLootTables.ANCIENT_CITY_ICE_BOX,
-                BuiltInLootTables.RUINED_PORTAL
+                BuiltInLootTables.SIMPLE_DUNGEON.location(),
+                BuiltInLootTables.VILLAGE_CARTOGRAPHER.location(),
+                BuiltInLootTables.VILLAGE_TEMPLE.location(),
+                BuiltInLootTables.ABANDONED_MINESHAFT.location(),
+                BuiltInLootTables.NETHER_BRIDGE.location(),
+                BuiltInLootTables.STRONGHOLD_CROSSING.location(),
+                BuiltInLootTables.STRONGHOLD_CORRIDOR.location(),
+                BuiltInLootTables.JUNGLE_TEMPLE.location(),
+                BuiltInLootTables.JUNGLE_TEMPLE_DISPENSER.location(),
+                BuiltInLootTables.IGLOO_CHEST.location(),
+                BuiltInLootTables.UNDERWATER_RUIN_SMALL.location(),
+                BuiltInLootTables.UNDERWATER_RUIN_BIG.location(),
+                BuiltInLootTables.BURIED_TREASURE.location(),
+                BuiltInLootTables.SHIPWRECK_MAP.location(),
+                BuiltInLootTables.SHIPWRECK_SUPPLY.location(),
+                BuiltInLootTables.SHIPWRECK_TREASURE.location(),
+                BuiltInLootTables.PILLAGER_OUTPOST.location(),
+                BuiltInLootTables.BASTION_OTHER.location(),
+                BuiltInLootTables.BASTION_BRIDGE.location(),
+                BuiltInLootTables.BASTION_HOGLIN_STABLE.location(),
+                BuiltInLootTables.ANCIENT_CITY_ICE_BOX.location(),
+                BuiltInLootTables.RUINED_PORTAL.location()
         };
         for (ResourceLocation chest : otherChests) {
             dataGen.add(

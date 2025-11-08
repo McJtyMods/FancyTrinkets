@@ -30,6 +30,7 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.registries.DeferredItem;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -92,10 +93,11 @@ public class TrinketsModule implements IModule {
     public static final DeferredItem<TrinketItem> CHARM1 = trinket("charm1", "item/charm1", "Charm", CHARM_TAG);
     public static final DeferredItem<TrinketItem> CHARM2 = trinket("charm2", "item/charm2", "Charm", CHARM_TAG);
 
-    public static final Capability<ICurio> CURIOS_CAPABILITY = CuriosCapability.ITEM;
+    // @todo 1.21
+//    public static final Capability<ICurio> CURIOS_CAPABILITY = CuriosCapability.ITEM;
 
-    public TrinketsModule() {
-        MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
+    public TrinketsModule(IEventBus bus) {
+        bus.addListener(this::onServerStarting);
 
         DefaultTrinkets.init();
         DefaultBonusTables.init();

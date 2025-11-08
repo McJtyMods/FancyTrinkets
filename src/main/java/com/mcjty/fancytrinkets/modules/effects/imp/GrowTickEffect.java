@@ -3,6 +3,7 @@ package com.mcjty.fancytrinkets.modules.effects.imp;
 import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.datapack.IEffectParameters;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -30,7 +31,7 @@ public class GrowTickEffect extends EffectImp {
         }
     }
 
-    public static final Codec<IEffectParameters> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<IEffectParameters> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     Codec.INT.fieldOf("maxdist").forGetter(l -> ((GrowTickEffect.Params)l).maxdist),
                     Codec.INT.fieldOf("blocks").forGetter(l -> ((GrowTickEffect.Params)l).blocks)
