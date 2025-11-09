@@ -10,6 +10,7 @@ import mcjty.lib.container.GenericContainer;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Items;
@@ -19,6 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.function.Supplier;
 
@@ -53,14 +56,14 @@ public class XpCrafterModule implements IModule {
     }
 
     @Override
-    public void initDatagen(DataGen dataGen) {
+    public void initDatagen(DataGen dataGen, HolderLookup.Provider lookupProvider) {
         dataGen.add(
                 Dob.blockBuilder(EXPERIENCE_CRAFTER)
                         .name("Experience Crafter")
                         .keyedMessage("header", "Craft trinkets using experience. With low experience you'll potentially get low quality trinkets")
                         .ironPickaxeTags()
                         .parentedItem("block/experience_crafter")
-                        .standardLoot(TYPE_EXPERIENCE_CRAFTER)
+                        .standardLoot() // @todo 1.21 data
                         .shaped(builder -> builder
                                 .define('C', Items.CRAFTING_TABLE)
                                 .define('g', Items.GLOWSTONE_DUST)

@@ -3,12 +3,16 @@ package com.mcjty.fancytrinkets.playerdata;
 
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.setup.Messages;
+import com.mcjty.fancytrinkets.setup.Registration;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import mcjty.lib.varia.Counter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.*;
 
@@ -16,6 +20,20 @@ public class PlayerEffects {
 
     // @todo 1.21
 //    public static final Capability<PlayerEffects> PLAYER_EFFECTS = CapabilityManager.get(new CapabilityToken<>(){});
+
+    private static final Codec<Set<String>> TOGGLE_CODEC = Codec.list(Codec.STRING)
+            .xmap(HashSet::new, ArrayList::new);
+    private static final Codec<Map<String, Float>> DAMAGE_REDUCTION_CODEC = Codec.unboundedMap(Codec.STRING, Codec.FLOAT)
+            .xmap(HashMap::new, map -> map);
+    public static final Codec<PlayerEffects> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            TOGGLE_CODEC.optionalFieldOf("toggles", Set.of()).forGetter(playerEffects -> playerEffects.toggles),
+            DAMAGE_REDUCTION_CODEC.optionalFieldOf("damageReduction", Map.of()).forGetter(playerEffects -> playerEffects.damageReduction)
+    ).apply(instance, (toggles, damageReduction) -> {
+        PlayerEffects effects = new PlayerEffects();
+        effects.toggles.addAll(toggles);
+        effects.damageReduction.putAll(damageReduction);
+        return effects;
+    }));
 
     public record EffectHolder(IEffect effect, long endTime) {
     }
@@ -124,4 +142,13 @@ public class PlayerEffects {
             }
         }
     }
+
+    public static PlayerEffects getPlayerEffects(Player player) {
+        return player.getData(Registration.PLAYER_EFFECTS);
+    }
+
+    public static void setPlayerEffects(Player player, PlayerEffects properties) {
+        player.setData(Registration.PLAYER_EFFECTS, properties);
+    }
+
 }

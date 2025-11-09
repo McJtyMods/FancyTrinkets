@@ -2,13 +2,16 @@ package com.mcjty.fancytrinkets.setup;
 
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
+import com.mcjty.fancytrinkets.api.ITrinketItem;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
+import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
 import com.mojang.serialization.MapCodec;
 import mcjty.lib.setup.DeferredBlocks;
 import mcjty.lib.setup.DeferredItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -18,6 +21,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.capabilities.ItemCapability;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -36,9 +41,14 @@ public class Registration {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MODID);
     public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> LOOT_MODIFIER_SERIALIZERS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MODID);
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MODID);
 
-    // @todo 1.21
-//    public static Capability<ITrinketItem> TRINKET_ITEM_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final ItemCapability<ITrinketItem, Void> TRINKET_ITEM_CAPABILITY = ItemCapability.createVoid(ResourceLocation.fromNamespaceAndPath(MODID, "trinket_item"), ITrinketItem.class);
+
+    public static final Supplier<AttachmentType<PlayerEffects>> PLAYER_EFFECTS = ATTACHMENT_TYPES.register(
+            "preferences_properties", () -> AttachmentType.builder(PlayerEffects::new)
+                    .serialize(PlayerEffects.CODEC)
+                    .build());
 
     public static void register(IEventBus bus) {
         BLOCKS.register(bus);
@@ -49,6 +59,7 @@ public class Registration {
         RECIPE_SERIALIZERS.register(bus);
         LOOT_MODIFIER_SERIALIZERS.register(bus);
         TABS.register(bus);
+        ATTACHMENT_TYPES.register(bus);
     }
 
     public static Item.Properties createStandardProperties() {

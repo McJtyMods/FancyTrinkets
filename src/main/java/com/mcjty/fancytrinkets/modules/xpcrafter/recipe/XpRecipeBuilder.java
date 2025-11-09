@@ -10,7 +10,7 @@ import com.mojang.serialization.JsonOps;
 import mcjty.lib.crafting.IRecipeBuilder;
 import mcjty.lib.varia.Tools;
 import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -83,19 +83,20 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
     }
 
     @Override
-    public void build(Consumer<FinishedRecipe> consumer) {
+    public void build(RecipeOutput consumer) {
         this.build(consumer, Tools.getId(this.result.getItem()));
     }
 
     @Override
-    public void build(Consumer<FinishedRecipe> consumer, String save) {
-        this.build(consumer, new ResourceLocation(save));
+    public void build(RecipeOutput consumer, String save) {
+        this.build(consumer, ResourceLocation.parse(save));
     }
 
     @Override
-    public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
+    public void build(RecipeOutput consumer, ResourceLocation id) {
         this.validate(id);
         consumer.accept(new Result(id, this.result, this.pattern, this.key));
+
     }
 
     private void validate(ResourceLocation id) {

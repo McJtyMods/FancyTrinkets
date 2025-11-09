@@ -30,7 +30,6 @@ import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.Lazy;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -95,9 +94,10 @@ public class ExperienceCrafterBE extends GenericTileEntity {
             if (outputSlot.isEmpty()) {
                 stack = stack.copy();
                 ItemStack finalStack = stack;
-                stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
+                ITrinketItem trinket = stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY);
+                if (trinket != null) {
                     addBonusEffects(trinket, finalStack);
-                });
+                }
                 items.setStackInSlot(SLOT_OUTPUT, stack);
                 for (int i = 0; i < RECIPE_DIMENSION * RECIPE_DIMENSION; i++) {
                     ItemStack in = items.getStackInSlot(SLOT_GRID + i);

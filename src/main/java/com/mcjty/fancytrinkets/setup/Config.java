@@ -1,10 +1,10 @@
 package com.mcjty.fancytrinkets.setup;
 
 
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.ModConfigSpec.Builder;
-import net.neoforged.neoforge.fml.ModLoadingContext;
-import net.neoforged.neoforge.fml.config.ModConfig;
 
 public class Config {
 
@@ -15,7 +15,7 @@ public class Config {
     public static ModConfigSpec.DoubleValue CHANCE_BONUS_EFFECT4;
     public static ModConfigSpec.IntValue EXPERIENCE_OFFSET;
 
-    public static void register() {
+    public static void register(ModContainer container) {
         Builder builder = new Builder();
 
         builder.comment("General settings").push("general");
@@ -40,6 +40,6 @@ public class Config {
                 .defineInRange("qualityOffset", 150, 0, Integer.MAX_VALUE);
 
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, builder.build());
+        container.registerConfig(ModConfig.Type.SERVER, builder.build());
     }
 }

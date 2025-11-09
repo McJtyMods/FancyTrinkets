@@ -39,7 +39,7 @@ public class FancyTrinkets {
 
     public FancyTrinkets(ModContainer mod, IEventBus bus, Dist dist) {
         instance = this;
-        Config.register();
+        Config.register(mod);
         setupModules();
         Registration.register(bus);
         CustomRegistries.init(bus);
