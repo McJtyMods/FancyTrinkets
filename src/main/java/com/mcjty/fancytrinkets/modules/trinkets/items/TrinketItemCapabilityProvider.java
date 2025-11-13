@@ -19,8 +19,9 @@ public class TrinketItemCapabilityProvider implements ICapabilityProvider {
     private final ItemStack itemStack;
     private final TrinketItem trinketItem;
 
-    private final LazyOptional<ICurio> curio = LazyOptional.of(this::createCurio);
-    private final LazyOptional<ITrinketItem> trinket = LazyOptional.of(this::getTrinket);
+    // @todo 1.21
+//    private final LazyOptional<ICurio> curio = LazyOptional.of(this::createCurio);
+//    private final LazyOptional<ITrinketItem> trinket = LazyOptional.of(this::getTrinket);
 
     public TrinketItemCapabilityProvider(ItemStack itemStack, TrinketItem trinketItem) {
         this.itemStack = itemStack;
@@ -67,14 +68,21 @@ public class TrinketItemCapabilityProvider implements ICapabilityProvider {
     }
 
     @Override
-    @Nonnull
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == TrinketsModule.CURIOS_CAPABILITY) {
-            return curio.cast();
-        }
-        if (cap == Registration.TRINKET_ITEM_CAPABILITY) {
-            return trinket.cast();
-        }
-        return LazyOptional.empty();
+    public @Nullable Object getCapability(Object o, Object o2) {
+        // @todo 1.21
+        return null;
     }
+
+    // @todo 1.21
+//    @Override
+//    @Nonnull
+//    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+//        if (cap == TrinketsModule.CURIOS_CAPABILITY) {
+//            return curio.cast();
+//        }
+//        if (cap == Registration.TRINKET_ITEM_CAPABILITY) {
+//            return trinket.cast();
+//        }
+//        return LazyOptional.empty();
+//    }
 }

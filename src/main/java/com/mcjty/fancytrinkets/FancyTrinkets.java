@@ -7,20 +7,17 @@ import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
 import com.mcjty.fancytrinkets.modules.loot.LootModule;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
-import com.mcjty.fancytrinkets.setup.ClientEventHandlers;
-import com.mcjty.fancytrinkets.setup.Config;
-import com.mcjty.fancytrinkets.setup.ModSetup;
-import com.mcjty.fancytrinkets.setup.Registration;
+import com.mcjty.fancytrinkets.setup.*;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.modules.Modules;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import net.neoforged.bus.api.IEventBus;
 
 import java.util.function.Supplier;
 
@@ -40,7 +37,7 @@ public class FancyTrinkets {
     public FancyTrinkets(ModContainer mod, IEventBus bus, Dist dist) {
         instance = this;
         Config.register(mod);
-        setupModules();
+        setupModules(bus);
         Registration.register(bus);
         CustomRegistries.init(bus);
 
@@ -48,6 +45,7 @@ public class FancyTrinkets {
         bus.addListener(modules::init);
         bus.addListener(this::onInterModEnqueueEvent);
         bus.addListener(this::onDataGen);
+        bus.addListener(Messages::registerMessages);
 
         if (dist.isClient()) {
             bus.addListener(modules::initClient);
@@ -67,10 +65,10 @@ public class FancyTrinkets {
         datagen.generate();
     }
 
-    private void setupModules() {
+    private void setupModules(IEventBus bus) {
         modules.register(new EffectsModule());
-        modules.register(new TrinketsModule());
-        modules.register(new XpCrafterModule());
+        modules.register(new TrinketsModule(bus));
+        modules.register(new XpCrafterModule(bus));
         modules.register(new LootModule());
     }
 

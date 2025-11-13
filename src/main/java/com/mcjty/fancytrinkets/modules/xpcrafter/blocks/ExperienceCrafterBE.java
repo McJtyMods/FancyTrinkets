@@ -28,6 +28,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.Lazy;
 import org.jetbrains.annotations.NotNull;
@@ -87,9 +89,11 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     }
 
     private void craft() {
-        Optional<XpRecipe> result = findRecipe();
+        Optional<RecipeHolder<XpRecipe>> result = findRecipe();
         result.ifPresent(recipe -> {
-            ItemStack stack = recipe.assemble(inv, Tools.getRegistryAccess(level));
+            // @todo 1.21 is this right?
+            CraftingInput input = CraftingInput.of(3, 3, inv.getItems());
+            ItemStack stack = recipe.value().assemble(input, Tools.getRegistryAccess(level));
             ItemStack outputSlot = items.getStackInSlot(SLOT_OUTPUT);
             if (outputSlot.isEmpty()) {
                 stack = stack.copy();
@@ -102,7 +106,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
                 for (int i = 0; i < RECIPE_DIMENSION * RECIPE_DIMENSION; i++) {
                     ItemStack in = items.getStackInSlot(SLOT_GRID + i);
                     if (!in.isEmpty()) {
-                        in.setCount(in.getCount() - recipe.getIngredients().get(i).getItems()[0].getCount());
+                        in.setCount(in.getCount() - recipe.value().getIngredients().get(i).getItems()[0].getCount());
                         items.setStackInSlot(SLOT_GRID + i, in);
                     }
                 }
@@ -125,18 +129,20 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     }
 
     private void updatePreview() {
-        Optional<XpRecipe> result = findRecipe();
-        ItemStack output = result.map(XpRecipe::getResultItem).orElse(ItemStack.EMPTY);
+        Optional<RecipeHolder<XpRecipe>> result = findRecipe();
+        ItemStack output = result.map(p -> p.value().getResultItem()).orElse(ItemStack.EMPTY);
         items.setStackInSlot(SLOT_PREVIEW, output);
         setChanged();
     }
 
     @NotNull
-    private Optional<XpRecipe> findRecipe() {
+    private Optional<RecipeHolder<XpRecipe>> findRecipe() {
         for (int i = SLOT_GRID; i < SLOT_GRID + RECIPE_DIMENSION * RECIPE_DIMENSION; i++) {
             inv.setItem(i - SLOT_GRID, items.getStackInSlot(i));
         }
-        return level.getRecipeManager().getRecipeFor(XpCrafterModule.XP_RECIPE_TYPE.get(), inv, level);
+        // @todo 1.21 is this correct?
+        CraftingInput input = CraftingInput.of(RECIPE_DIMENSION, RECIPE_DIMENSION, inv.getItems());
+        return level.getRecipeManager().getRecipeFor(XpCrafterModule.XP_RECIPE_TYPE.get(), input, level);
     }
 
     private void fillExperience(ServerPlayer player) {
@@ -166,19 +172,20 @@ public class ExperienceCrafterBE extends GenericTileEntity {
         return items.getStackInSlot(SLOT_PREVIEW);
     }
 
-    @Override
-    protected void loadInfo(CompoundTag tagCompound) {
-        super.loadInfo(tagCompound);
-        if (tagCompound.contains("Info")) {
-            CompoundTag info = tagCompound.getCompound("Info");
-            experience = info.getInt("experience");
-        }
-    }
-
-    @Override
-    protected void saveInfo(CompoundTag tagCompound) {
-        super.saveInfo(tagCompound);
-        CompoundTag infoTag = getOrCreateInfo(tagCompound);
-        infoTag.putInt("experience", experience);
-    }
+    // @todo 1.21 data
+//    @Override
+//    protected void loadInfo(CompoundTag tagCompound) {
+//        super.loadInfo(tagCompound);
+//        if (tagCompound.contains("Info")) {
+//            CompoundTag info = tagCompound.getCompound("Info");
+//            experience = info.getInt("experience");
+//        }
+//    }
+//
+//    @Override
+//    protected void saveInfo(CompoundTag tagCompound) {
+//        super.saveInfo(tagCompound);
+//        CompoundTag infoTag = getOrCreateInfo(tagCompound);
+//        infoTag.putInt("experience", experience);
+//    }
 }

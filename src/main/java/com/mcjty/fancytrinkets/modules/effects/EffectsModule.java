@@ -4,6 +4,7 @@ import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
+import net.minecraft.core.HolderLookup;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -30,13 +31,14 @@ public class EffectsModule implements IModule {
     }
 
     @Override
-    public void initDatagen(DataGen dataGen) {
+    public void initDatagen(DataGen dataGen, HolderLookup.Provider lookupProvider) {
         dataGen.addCodecProvider("effects", "fancytrinkets/effects", EffectDescription.CODEC);
-        dataGen.add(
-                Dob.builder()
-                        .codecObjectSupplier("effects", () -> DefaultEffects.DEFAULT_EFFECTS.entrySet().stream()
-                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().effect()))
-                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight)))
-        );
+        // @todo 1.21
+//        dataGen.add(
+//                Dob.builder()
+//                        .codecObjectSupplier("effects", () -> DefaultEffects.DEFAULT_EFFECTS.entrySet().stream()
+//                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().effect()))
+//                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight)))
+//        );
     }
 }

@@ -6,6 +6,7 @@ import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -15,7 +16,7 @@ import java.util.Objects;
 
 public class MobEffectEffect extends EffectImp {
 
-    private final MobEffect effect;
+    private final Holder<MobEffect> effect;
     private final int strengthModifier;
 
     public record Params(String effect, int strength) implements IEffectParameters {
@@ -38,7 +39,7 @@ public class MobEffectEffect extends EffectImp {
                     Codec.INT.fieldOf("strength").forGetter(l -> ((Params)l).strength)
             ).apply(instance, Params::new));
 
-    public MobEffectEffect(Integer hotkey, String toggle, MobEffect effect, int strengthModifier) {
+    public MobEffectEffect(Integer hotkey, String toggle, Holder<MobEffect> effect, int strengthModifier) {
         super(hotkey, toggle);
         this.effect = effect;
         this.strengthModifier = strengthModifier;
@@ -54,21 +55,23 @@ public class MobEffectEffect extends EffectImp {
 
     @Override
     public void onUnequip(ItemStack stack, ServerPlayer player, String slotId) {
-        player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-            playerEffects.unregisterEffect(slotId);
-        });
+        // @todo 1.21
+//        player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
+//            playerEffects.unregisterEffect(slotId);
+//        });
         turnOff(player);
     }
 
     @Override
     public void onHotkey(ItemStack stack, ServerPlayer player, String slotId, int key) {
         if (toggle != null && Objects.equals(key, hotkey)) {
-            player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-                if (!playerEffects.toggle(player, toggle)) {
-                    playerEffects.unregisterEffect(slotId);
-                    turnOff(player);
-                }
-            });
+            // @todo 1.21
+//            player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
+//                if (!playerEffects.toggle(player, toggle)) {
+//                    playerEffects.unregisterEffect(slotId);
+//                    turnOff(player);
+//                }
+//            });
         }
     }
 

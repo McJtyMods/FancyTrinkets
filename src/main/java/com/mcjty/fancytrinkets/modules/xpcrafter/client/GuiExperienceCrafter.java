@@ -10,9 +10,12 @@ import mcjty.lib.gui.Window;
 import mcjty.lib.gui.widgets.Button;
 import mcjty.lib.gui.widgets.EnergyBar;
 import mcjty.lib.gui.widgets.Panel;
+import mcjty.lib.tileentity.GenericTileEntity;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 import javax.annotation.Nonnull;
 
@@ -23,20 +26,20 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
     public static final int CONTROLLER_WIDTH = 180;
     public static final int CONTROLLER_HEIGHT = 192;
 
-    private static final ResourceLocation BACKGROUND = new ResourceLocation(FancyTrinkets.MODID, "textures/gui/experience_crafter.png");
+    private static final ResourceLocation BACKGROUND = ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "textures/gui/experience_crafter.png");
 
     private EnergyBar xpbar;
     private Button craftButton;
 
-    public GuiExperienceCrafter(ExperienceCrafterBE screenControllerTileEntity, GenericContainer container, Inventory inventory) {
-        super(screenControllerTileEntity, container, inventory, XpCrafterModule.EXPERIENCE_CRAFTER.get().getManualEntry());
+    public GuiExperienceCrafter(GenericContainer container, Inventory inventory, Component title) {
+        super(container, inventory, title, XpCrafterModule.EXPERIENCE_CRAFTER.get().getManualEntry());
 
         imageWidth = CONTROLLER_WIDTH;
         imageHeight = CONTROLLER_HEIGHT;
     }
 
-    public static void register() {
-        register(XpCrafterModule.CONTAINER_EXPERIENCE_CRAFTER.get(), GuiExperienceCrafter::new);
+    public static void register(RegisterMenuScreensEvent event) {
+        event.register(XpCrafterModule.CONTAINER_EXPERIENCE_CRAFTER.get(), GuiExperienceCrafter::new);
     }
 
     @Override
@@ -64,15 +67,17 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
 
         window = new Window(this, toplevel);
 
-        window.action("fillxp", tileEntity, ExperienceCrafterBE.CMD_FILLXP);
-        window.action("craft", tileEntity, ExperienceCrafterBE.CMD_CRAFT);
+        ExperienceCrafterBE be = getBE();
+        window.action("fillxp", be, ExperienceCrafterBE.CMD_FILLXP);
+        window.action("craft", be, ExperienceCrafterBE.CMD_CRAFT);
     }
 
 
     @Override
     protected void renderBg(@Nonnull GuiGraphics graphics, float partialTicks, int x, int y) {
-        drawWindow(graphics, xxx, xxx, yyy);
-        xpbar.value(tileEntity.getExperience());
-        craftButton.enabled(!tileEntity.getPreviewOutput().isEmpty());
+        drawWindow(graphics, partialTicks, x, y);
+        ExperienceCrafterBE be = getBE();
+        xpbar.value(be.getExperience());
+        craftButton.enabled(!be.getPreviewOutput().isEmpty());
     }
 }

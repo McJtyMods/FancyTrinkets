@@ -42,11 +42,12 @@ public class FlightEffect extends EffectImp {
     @Override
     public void onHotkey(ItemStack stack, ServerPlayer player, String slotId, int key) {
         if (toggle != null && Objects.equals(key, hotkey)) {
-            player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-                if (!playerEffects.toggle(player, toggle)) {
-                    turnOff(player);
-                }
-            });
+            // @todo 1.21
+//            player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
+//                if (!playerEffects.toggle(player, toggle)) {
+//                    turnOff(player);
+//                }
+//            });
         }
     }
 

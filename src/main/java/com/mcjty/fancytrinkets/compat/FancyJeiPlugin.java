@@ -16,6 +16,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.DeferredItem;
 
@@ -60,8 +61,8 @@ public class FancyJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         Level level = SafeClientTools.getWorld();
-        List<XpRecipe> recipes = level.getRecipeManager().getAllRecipesFor(XpCrafterModule.XP_RECIPE_TYPE.get());
-        registration.addRecipes(XP_RECIPE_TYPE, recipes);
+        List<RecipeHolder<XpRecipe>> recipes = level.getRecipeManager().getAllRecipesFor(XpCrafterModule.XP_RECIPE_TYPE.get());
+        registration.addRecipes(XP_RECIPE_TYPE, recipes.stream().map(RecipeHolder::value).toList());
     }
 
     @Override

@@ -9,8 +9,8 @@ import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.setup.DefaultModSetup;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.Map;
 
@@ -21,7 +21,6 @@ public class ModSetup extends DefaultModSetup {
         super.init(e);
 
         NeoForge.EVENT_BUS.register(new ForgeEventHandlers());
-        Messages.registerMessages();
     }
 
     public void datagen(DataGen dataGen) {

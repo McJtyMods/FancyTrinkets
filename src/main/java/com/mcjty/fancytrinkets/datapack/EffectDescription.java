@@ -6,6 +6,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import mcjty.lib.varia.Tools;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -86,42 +88,42 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
     private static AttributeModifierEffect getAttributeEffect(IEffectParameters params, Integer hotkey, String toggle) {
         AttributeModifierEffect.Params p = AttributeModifierEffect.Params.cast(params);
         String effName = p.effect();
-        Supplier<Attribute> attributeSupplier = switch (effName) {
-            case "step_assist" -> ForgeMod.STEP_HEIGHT_ADDITION;
-            case "swim_speed" -> ForgeMod.SWIM_SPEED;
-            case "attack_range" -> ForgeMod.ENTITY_REACH;
-            case "reach_distance" -> ForgeMod.BLOCK_REACH;
-            case "max_health" -> () -> Attributes.MAX_HEALTH;
-            case "knockback_resistance" -> () -> Attributes.KNOCKBACK_RESISTANCE;
-            case "movement_speed" -> () -> Attributes.MOVEMENT_SPEED;
-            case "attack_speed" -> () -> Attributes.ATTACK_SPEED;
-            case "attack_damage" -> () -> Attributes.ATTACK_DAMAGE;
-            case "luck" -> () -> Attributes.LUCK;
+        Holder<Attribute> attributeSupplier = switch (effName) {
+            case "step_assist" -> Attributes.STEP_HEIGHT;
+//            case "swim_speed" -> ForgeMod.SWIM_SPEED; // @todo 1.21
+            case "attack_range" -> Attributes.ENTITY_INTERACTION_RANGE;
+            case "reach_distance" -> Attributes.BLOCK_INTERACTION_RANGE;
+            case "max_health" -> Attributes.MAX_HEALTH;
+            case "knockback_resistance" -> Attributes.KNOCKBACK_RESISTANCE;
+            case "movement_speed" -> Attributes.MOVEMENT_SPEED;
+            case "attack_speed" -> Attributes.ATTACK_SPEED;
+            case "attack_damage" -> Attributes.ATTACK_DAMAGE;
+            case "luck" -> Attributes.LUCK;
             default -> throw new RuntimeException("Bad attribute effectId '" + effName + "'!");
         };
-        return new AttributeModifierEffect(hotkey, toggle, effName, attributeSupplier, p.operation(), p.amount());
+        return new AttributeModifierEffect(hotkey, toggle, effName, attributeSupplier::value, p.operation(), p.amount());
     }
 
     @Nonnull
     private static MobEffectEffect getMobEffectEffect(IEffectParameters params, Integer hotkey, String toggle) {
         MobEffectEffect.Params p = MobEffectEffect.Params.cast(params);
         String effName = p.effect();
-        MobEffect effect = Tools.getEffect(ResourceLocation.parse(effName));
-        if (effect == null) {
+        Optional<Holder.Reference<MobEffect>> effect = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceLocation.parse(effName));
+        if (effect.isEmpty()) {
             throw new RuntimeException("Can't find effectId '" + effName + "'!");
         }
-        return new MobEffectEffect(hotkey, toggle, effect, p.strength() - 1);
+        return new MobEffectEffect(hotkey, toggle, effect.get(), p.strength() - 1);
     }
 
     @Nonnull
     private static PotionResistanceEffect getPotionResistanceEffect(IEffectParameters params, Integer hotkey, String toggle) {
         PotionResistanceEffect.Params p = PotionResistanceEffect.Params.cast(params);
         String effName = p.effect();
-        MobEffect effect = Tools.getEffect(ResourceLocation.parse(effName));
-        if (effect == null) {
+        Optional<Holder.Reference<MobEffect>> effect = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceLocation.parse(effName));
+        if (effect.isEmpty()) {
             throw new RuntimeException("Can't find effectId '" + effName + "'!");
         }
-        return new PotionResistanceEffect(hotkey, toggle, effect);
+        return new PotionResistanceEffect(hotkey, toggle, effect.get());
     }
 
     @Nonnull

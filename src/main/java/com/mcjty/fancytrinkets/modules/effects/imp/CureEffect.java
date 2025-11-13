@@ -33,9 +33,10 @@ public class CureEffect extends EffectImp {
         executeIfEnabled(player, () -> {
             Collection<MobEffectInstance> activeEffects = new ArrayList<>(player.getActiveEffects());
             for (MobEffectInstance effect : activeEffects) {
-                if (!effect.getEffect().isBeneficial()) {
-                    player.removeEffect(effect.getEffect());
-                }
+                // @todo 1.21
+//                if (!effect.getEffect().isBeneficial()) {
+//                    player.removeEffect(effect.getEffect());
+//                }
             }
         });
     }

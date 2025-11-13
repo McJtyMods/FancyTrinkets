@@ -49,8 +49,9 @@ public class DamageReductionEffect extends EffectImp {
 
     @Override
     protected void turnOff(ServerPlayer player) {
-        player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-            playerEffects.unregisterDamageReduction(dmgId);
-        });
+        // @todo 1.21
+//        player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
+//            playerEffects.unregisterDamageReduction(dmgId);
+//        });
     }
 }

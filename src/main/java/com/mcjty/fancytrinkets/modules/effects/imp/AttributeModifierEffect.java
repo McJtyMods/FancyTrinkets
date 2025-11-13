@@ -7,7 +7,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 
@@ -46,17 +45,20 @@ public class AttributeModifierEffect extends EffectImp {
         super(hotkey, toggle);
         this.attribute = attibute;
         this.uuid = UUID.randomUUID();
-        modifier = new AttributeModifier(uuid, name, amount, operation);
+        // @todo 1.21
+//        modifier = new AttributeModifier(uuid, name, amount, operation);
+        modifier = null;
     }
 
     @Override
     public void tick(ItemStack stack, ServerPlayer player, String slotId) {
         if (!player.isCreative()) {
             executeIfEnabled(player, () -> {
-                AttributeInstance instance = player.getAttribute(attribute.get());
-                if (instance != null && instance.getModifier(uuid) == null) {
-                    instance.addTransientModifier(modifier);
-                }
+                // @todo 1.21
+//                AttributeInstance instance = player.getAttribute(attribute.get());
+//                if (instance != null && instance.getModifier(uuid) == null) {
+//                    instance.addTransientModifier(modifier);
+//                }
             });
         }
     }
@@ -65,10 +67,11 @@ public class AttributeModifierEffect extends EffectImp {
     @Override
     protected void turnOff(ServerPlayer player) {
         if (!player.isCreative()) {
-            AttributeInstance instance = player.getAttribute(attribute.get());
-            if (instance != null) {
-                instance.removeModifier(uuid);
-            }
+            // @todo 1.21
+//            AttributeInstance instance = player.getAttribute(attribute.get());
+//            if (instance != null) {
+//                instance.removeModifier(uuid);
+//            }
         }
     }
 }

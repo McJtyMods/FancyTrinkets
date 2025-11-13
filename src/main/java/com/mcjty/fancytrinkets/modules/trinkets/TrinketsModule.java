@@ -15,6 +15,7 @@ import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
 import mcjty.lib.varia.TagTools;
 import mcjty.lib.varia.Tools;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -22,10 +23,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.crafting.PartialNBTIngredient;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -144,25 +144,26 @@ public class TrinketsModule implements IModule {
     }
 
     @Override
-    public void initDatagen(DataGen dataGen) {
+    public void initDatagen(DataGen dataGen, HolderLookup.Provider lookupProvider) {
         dataGen.addCodecProvider("bonus", "fancytrinkets/bonustables", BonusTable.CODEC);
         dataGen.addCodecProvider("trinkets", "fancytrinkets/trinkets", TrinketDescription.CODEC);
         dataGen.addCodecProvider("trinketsets", "fancytrinkets/trinketsets", TrinketSet.CODEC);
-        dataGen.add(
-                Dob.builder()
-                        .codecObjectSupplier("bonus", () -> DefaultBonusTables.DEFAULT_BONUS_TABLES.entrySet().stream()
-                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().bonusTable()))
-                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight))),
-                Dob.builder()
-                        .codecObjectSupplier("trinkets", () -> DefaultTrinkets.DEFAULT_TRINKETS.entrySet().stream()
-                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().trinketDescription()))
-                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight))),
-                Dob.builder()
-                        .codecObjectSupplier("trinketsets", () -> {
-                            List<ResourceLocation> trinkets = new ArrayList<>(DefaultTrinkets.DEFAULT_TRINKETS.keySet());
-                            return Map.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "standard"), new TrinketSet(trinkets));
-                        })
-        );
+        // @todo 1.21
+//        dataGen.add(
+//                Dob.builder()
+//                        .codecObjectSupplier("bonus", () -> DefaultBonusTables.DEFAULT_BONUS_TABLES.entrySet().stream()
+//                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().bonusTable()))
+//                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight))),
+//                Dob.builder()
+//                        .codecObjectSupplier("trinkets", () -> DefaultTrinkets.DEFAULT_TRINKETS.entrySet().stream()
+//                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().trinketDescription()))
+//                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight))),
+//                Dob.builder()
+//                        .codecObjectSupplier("trinketsets", () -> {
+//                            List<ResourceLocation> trinkets = new ArrayList<>(DefaultTrinkets.DEFAULT_TRINKETS.keySet());
+//                            return Map.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "standard"), new TrinketSet(trinkets));
+//                        })
+//        );
 
         for (Map.Entry<ResourceLocation, TrinketsModule.TrinketInfo> entry : TrinketsModule.TRINKET_ITEMS.entrySet()) {
             TrinketsModule.TrinketInfo trinket = entry.getValue();
@@ -178,7 +179,7 @@ public class TrinketsModule implements IModule {
                 Dob.builder()
                         .recipeConsumer(() -> consumer -> {
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("base_star"))
-                                    .define('g', Tags.Items.DUSTS_PRISMARINE)
+                                    .define('g', Tags.Items.GEMS_PRISMARINE)
                                     .patternLine("g g g")
                                     .patternLine("  g  ")
                                     .patternLine("ggggg")
@@ -527,10 +528,12 @@ public class TrinketsModule implements IModule {
                 trinkedId);
     }
 
-    @NotNull
-    private PartialNBTIngredient createTrinketIngredient(String id) {
+    // @todo 1.21
+//    @NotNull
+    private Ingredient createTrinketIngredient(String id) {
         ItemStack stack = createTrinketStack(id);
-        return PartialNBTIngredient.of(stack.getItem(), stack.getTag());
+//        return PartialNBTIngredient.of(stack.getItem(), stack.getTag());
+        return null;
     }
 
     public static record TrinketInfo(ResourceLocation id, String texture,

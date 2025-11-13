@@ -4,6 +4,7 @@ import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcjty.lib.varia.Tools;
@@ -29,7 +30,7 @@ public class TrinketLootModifier extends LootModifier {
     private final float minQuality;
     private final float maxQuality;
 
-    public static final Codec<TrinketLootModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<TrinketLootModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(l -> l.conditions),
             Codec.list(ResourceLocation.CODEC).fieldOf("trinkets").forGetter(l -> l.trinketIds),
             Codec.FLOAT.fieldOf("chance").forGetter(l -> l.chance),
@@ -79,14 +80,15 @@ public class TrinketLootModifier extends LootModifier {
         if (it == null) {
             return generatedLoot;
         }
-        if (random.nextFloat() < chance + context.getLootingModifier() * lootingFactor) {
+        // @todo 1.21 is getLuck correct for looting level?
+        if (random.nextFloat() < chance + context.getLuck() * lootingFactor) {
             int cnt;
             if (max <= min) {
                 cnt = min;
             } else {
                 cnt = random.nextInt(max - min + 1) + min;
             }
-            cnt += random.nextInt(context.getLootingModifier()+1);
+            cnt += random.nextInt((int) (context.getLuck()+1));
             while (cnt > 0) {
                 ItemStack stack = TrinketItem.createTrinketStack(context.getLevel(), trinket, id, random.nextFloat() * (maxQuality - minQuality) + minQuality);
                 generatedLoot.add(stack);
@@ -97,7 +99,7 @@ public class TrinketLootModifier extends LootModifier {
     }
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
+    public MapCodec<? extends IGlobalLootModifier> codec() {
         return CODEC;
     }
 }

@@ -1,8 +1,11 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.recipe;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
@@ -14,34 +17,44 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 public class XpRecipeSerializer implements RecipeSerializer<XpRecipe> {
-
+    // @todo 1.21
     @Override
-    @Nonnull
-    public XpRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
-        Map<String, Ingredient> map = RecipeJsonTools.parseKeys(GsonHelper.getAsJsonObject(json, "key"));
-        String[] pattern = RecipeJsonTools.patternFromJson(GsonHelper.getAsJsonArray(json, "pattern"));
-        NonNullList<Ingredient> ingredients = RecipeJsonTools.patternToIngredients(pattern, map);
-        ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-        return new XpRecipe(recipeId, ingredients, result);
+    public MapCodec<XpRecipe> codec() {
+        return null;
     }
 
     @Override
-    public XpRecipe fromNetwork(@Nonnull ResourceLocation recipeId, @Nonnull FriendlyByteBuf buffer) {
-        NonNullList<Ingredient> ingredients = NonNullList.withSize(XpRecipe.RECIPE_DIMENSION * XpRecipe.RECIPE_DIMENSION, Ingredient.EMPTY);
-
-        for(int i = 0; i < ingredients.size(); ++i) {
-            ingredients.set(i, Ingredient.fromNetwork(buffer));
-        }
-
-        ItemStack result = buffer.readItem();
-        return new XpRecipe(recipeId, ingredients, result);
+    public StreamCodec<RegistryFriendlyByteBuf, XpRecipe> streamCodec() {
+        return null;
     }
 
-    @Override
-    public void toNetwork(@Nonnull FriendlyByteBuf buffer, XpRecipe recipe) {
-        for(Ingredient ingredient : recipe.getIngredients()) {
-            ingredient.toNetwork(buffer);
-        }
-        buffer.writeItem(recipe.getResultItem());
-    }
+    //    @Override
+//    @Nonnull
+//    public XpRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
+//        Map<String, Ingredient> map = RecipeJsonTools.parseKeys(GsonHelper.getAsJsonObject(json, "key"));
+//        String[] pattern = RecipeJsonTools.patternFromJson(GsonHelper.getAsJsonArray(json, "pattern"));
+//        NonNullList<Ingredient> ingredients = RecipeJsonTools.patternToIngredients(pattern, map);
+//        ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
+//        return new XpRecipe(recipeId, ingredients, result);
+//    }
+//
+//    @Override
+//    public XpRecipe fromNetwork(@Nonnull ResourceLocation recipeId, @Nonnull FriendlyByteBuf buffer) {
+//        NonNullList<Ingredient> ingredients = NonNullList.withSize(XpRecipe.RECIPE_DIMENSION * XpRecipe.RECIPE_DIMENSION, Ingredient.EMPTY);
+//
+//        for(int i = 0; i < ingredients.size(); ++i) {
+//            ingredients.set(i, Ingredient.fromNetwork(buffer));
+//        }
+//
+//        ItemStack result = buffer.readItem();
+//        return new XpRecipe(recipeId, ingredients, result);
+//    }
+//
+//    @Override
+//    public void toNetwork(@Nonnull FriendlyByteBuf buffer, XpRecipe recipe) {
+//        for(Ingredient ingredient : recipe.getIngredients()) {
+//            ingredient.toNetwork(buffer);
+//        }
+//        buffer.writeItem(recipe.getResultItem());
+//    }
 }

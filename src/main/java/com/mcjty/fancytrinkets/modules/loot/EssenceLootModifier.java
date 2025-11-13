@@ -1,6 +1,7 @@
 package com.mcjty.fancytrinkets.modules.loot;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcjty.lib.varia.Tools;
@@ -22,7 +23,7 @@ public class EssenceLootModifier extends LootModifier {
     private final int max;
     private final float lootingFactor;
 
-    public static final Codec<EssenceLootModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<EssenceLootModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(l -> l.conditions),
             ResourceLocation.CODEC.fieldOf("item").forGetter(l -> l.item),
             Codec.FLOAT.fieldOf("chance").forGetter(l -> l.chance),
@@ -48,14 +49,15 @@ public class EssenceLootModifier extends LootModifier {
             return generatedLoot;
         }
         RandomSource random = context.getRandom();
-        if (random.nextFloat() < chance + context.getLootingModifier() * lootingFactor) {
+        // @todo 1.21 is context.GetLuck() correct for loot modifiers?
+        if (random.nextFloat() < chance + context.getLuck() * lootingFactor) {
             int cnt;
             if (max <= min) {
                 cnt = min;
             } else {
                 cnt = random.nextInt(max - min + 1) + min;
             }
-            cnt += random.nextInt(context.getLootingModifier()+1);
+            cnt += random.nextInt((int) (context.getLuck()+1));
             while (cnt > 0) {
                 generatedLoot.add(new ItemStack(it));
                 cnt--;
@@ -65,7 +67,7 @@ public class EssenceLootModifier extends LootModifier {
     }
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
+    public MapCodec<? extends IGlobalLootModifier> codec() {
         return CODEC;
     }
 }

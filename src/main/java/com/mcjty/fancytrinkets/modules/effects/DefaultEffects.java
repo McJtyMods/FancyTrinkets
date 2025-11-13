@@ -52,13 +52,13 @@ public class DefaultEffects {
         register("dmg_fallingstalactite_debuff", damageModificationEffect("fallingStalactite", 1.25f), "Falling Stalactite Damage Weakness (+25%)");
         register("dmg_stalagmite_debuff", damageModificationEffect("stalagmite", 1.25f), "Stalagmite Damage Weakness (+25%)");
 
-        register("swim_speed_debuff", attributeEffect("swim_speed", AttributeModifier.Operation.MULTIPLY_TOTAL, .9), "Swim Speed Reduction (-10%)");
-        register("attack_range_debuff", attributeEffect("attack_range", AttributeModifier.Operation.ADDITION, -.5), "Attack Range Reduction (-.5)");
-        register("reach_distance_debuff", attributeEffect("reach_distance", AttributeModifier.Operation.ADDITION, -.5), "Reach Distance Reduction (-.5)");
-        register("max_health_debuff", attributeEffect("max_health", AttributeModifier.Operation.ADDITION, -1), "Max Health Reduction (-1)");
-        register("movement_speed_debuff", attributeEffect("movement_speed", AttributeModifier.Operation.MULTIPLY_TOTAL, .9), "Movement Speed Reduction (-10%)");
-        register("attack_speed_debuff", attributeEffect("attack_speed", AttributeModifier.Operation.MULTIPLY_TOTAL, .8), "Attack Speed Reduction (-20%)");
-        register("attack_damage_debuff", attributeEffect("attack_damage", AttributeModifier.Operation.MULTIPLY_TOTAL, .75), "Attack Damage Reduction (-25%)");
+        register("swim_speed_debuff", attributeEffect("swim_speed", AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, .9), "Swim Speed Reduction (-10%)");
+        register("attack_range_debuff", attributeEffect("attack_range", AttributeModifier.Operation.ADD_VALUE, -.5), "Attack Range Reduction (-.5)");
+        register("reach_distance_debuff", attributeEffect("reach_distance", AttributeModifier.Operation.ADD_VALUE, -.5), "Reach Distance Reduction (-.5)");
+        register("max_health_debuff", attributeEffect("max_health", AttributeModifier.Operation.ADD_VALUE, -1), "Max Health Reduction (-1)");
+        register("movement_speed_debuff", attributeEffect("movement_speed", AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, .9), "Movement Speed Reduction (-10%)");
+        register("attack_speed_debuff", attributeEffect("attack_speed", AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, .8), "Attack Speed Reduction (-20%)");
+        register("attack_damage_debuff", attributeEffect("attack_damage", AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, .75), "Attack Damage Reduction (-25%)");
 
         // Positive effects
         register("regeneration", mobEffect("minecraft:regeneration", 1, false), "Regeneration");
@@ -167,18 +167,18 @@ public class DefaultEffects {
         register("dmg_fallingstalactite_50", damageModificationEffect("fallingStalactite", 0.5f), "Falling Stalactite Damage Reduction (50%)");
         register("dmg_stalagmite_50", damageModificationEffect("stalagmite", 0.5f), "Stalagmite Damage Reduction (50%)");
 
-        register("step_assist", attributeEffect("step_assist", AttributeModifier.Operation.ADDITION, .5), "Step assist");
-        register("swim_speed", attributeEffect("swim_speed", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Swim speed");
-        register("attack_range", attributeEffect("attack_range", AttributeModifier.Operation.ADDITION, 1), "Attack Range");
-        register("reach_distance", attributeEffect("reach_distance", AttributeModifier.Operation.ADDITION, 2), "Reach Distance");
-        register("minor_max_health", attributeEffect("max_health", AttributeModifier.Operation.ADDITION, 2), "Minor Max Health");
-        register("max_health", attributeEffect("max_health", AttributeModifier.Operation.ADDITION, 4), "Max Health");
-        register("major_max_health", attributeEffect("max_health", AttributeModifier.Operation.ADDITION, 8), "Major Max Health");
-        register("knockback_resistance", attributeEffect("knockback_resistance", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Knockback Resistance");
-        register("movement_speed", attributeEffect("movement_speed", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Movement Speed");
-        register("attack_speed", attributeEffect("attack_speed", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Attack Speed");
-        register("attack_damage", attributeEffect("attack_damage", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Attack Damage");
-        register("luck", attributeEffect("luck", AttributeModifier.Operation.MULTIPLY_TOTAL, 2), "Luck");
+        register("step_assist", attributeEffect("step_assist", AttributeModifier.Operation.ADD_VALUE, .5), "Step assist");
+        register("swim_speed", attributeEffect("swim_speed", AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, 2), "Swim speed");
+        register("attack_range", attributeEffect("attack_range", AttributeModifier.Operation.ADD_VALUE, 1), "Attack Range");
+        register("reach_distance", attributeEffect("reach_distance", AttributeModifier.Operation.ADD_VALUE, 2), "Reach Distance");
+        register("minor_max_health", attributeEffect("max_health", AttributeModifier.Operation.ADD_VALUE, 2), "Minor Max Health");
+        register("max_health", attributeEffect("max_health", AttributeModifier.Operation.ADD_VALUE, 4), "Max Health");
+        register("major_max_health", attributeEffect("max_health", AttributeModifier.Operation.ADD_VALUE, 8), "Major Max Health");
+        register("knockback_resistance", attributeEffect("knockback_resistance", AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, 2), "Knockback Resistance");
+        register("movement_speed", attributeEffect("movement_speed", AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, 2), "Movement Speed");
+        register("attack_speed", attributeEffect("attack_speed", AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, 2), "Attack Speed");
+        register("attack_damage", attributeEffect("attack_damage", AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, 2), "Attack Damage");
+        register("luck", attributeEffect("luck", AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, 2), "Luck");
     }
 
     private static void register(String id, EffectDescription effect, String description) {
@@ -203,9 +203,9 @@ public class DefaultEffects {
 
     private static EffectDescription attributeEffect(String effect, AttributeModifier.Operation operation, double amount) {
         boolean harmful = false;
-        if (operation == AttributeModifier.Operation.MULTIPLY_TOTAL && amount < 1) {
+        if (operation == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL && amount < 1) {
             harmful = true;
-        } else if (operation == AttributeModifier.Operation.ADDITION && amount < 0) {
+        } else if (operation == AttributeModifier.Operation.ADD_VALUE && amount < 0) {
             harmful = true;
         }
         return EffectDescription.create(null, null, harmful, new AttributeModifierEffect.Params(effect, operation, amount));

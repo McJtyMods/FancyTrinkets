@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
@@ -39,7 +40,8 @@ public class XpCrafterModule implements IModule {
     public static final Supplier<BlockEntityType<?>> TYPE_EXPERIENCE_CRAFTER = TILES.register("experience_crafter", () -> BlockEntityType.Builder.of(ExperienceCrafterBE::new, EXPERIENCE_CRAFTER.get()).build(null));
     public static final Supplier<MenuType<GenericContainer>> CONTAINER_EXPERIENCE_CRAFTER = CONTAINERS.register("experience_crafter", GenericContainer::createContainerType);
 
-    public XpCrafterModule() {
+    public XpCrafterModule(IEventBus bus) {
+        bus.addListener(this::registerMenuScreens);
     }
 
     @Override
@@ -48,7 +50,10 @@ public class XpCrafterModule implements IModule {
 
     @Override
     public void initClient(FMLClientSetupEvent event) {
-        GuiExperienceCrafter.register();
+    }
+
+    public void registerMenuScreens(RegisterMenuScreensEvent event) {
+        GuiExperienceCrafter.register(event);
     }
 
     @Override

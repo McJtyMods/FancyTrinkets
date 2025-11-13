@@ -23,7 +23,8 @@ public class RecipeJsonTools {
             if (key.length() != 1 || " ".equals(key)) {
                 throw new JsonSyntaxException("Invalid key entry: '" + key + "'!");
             }
-            map.put(key, Ingredient.fromJson(entry.getValue()));
+            // @todo 1.21
+//            map.put(key, Ingredient.fromJson(entry.getValue()));
         }
 
         map.put(" ", Ingredient.EMPTY);

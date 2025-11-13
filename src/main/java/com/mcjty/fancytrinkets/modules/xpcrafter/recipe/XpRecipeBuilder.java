@@ -95,7 +95,8 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
     @Override
     public void build(RecipeOutput consumer, ResourceLocation id) {
         this.validate(id);
-        consumer.accept(new Result(id, this.result, this.pattern, this.key));
+        // @todo 1.21
+//        consumer.accept(new Result(id, this.result, this.pattern, this.key));
 
     }
 
@@ -125,69 +126,70 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
         }
     }
 
-    public static class Result implements FinishedRecipe {
-        private final ResourceLocation id;
-        private final ItemStack result;
-        private final List<String> pattern;
-        private final Map<Character, Ingredient> key;
-
-        public Result(ResourceLocation id, ItemStack result, List<String> pattern, Map<Character, Ingredient> ingredients) {
-            this.id = id;
-            this.result = result;
-            this.pattern = pattern;
-            this.key = ingredients;
-        }
-
-        @Override
-        public void serializeRecipeData(@Nonnull JsonObject json) {
-            JsonArray jsonarray = new JsonArray();
-            for(String s : this.pattern) {
-                jsonarray.add(s);
-            }
-
-            json.add("pattern", jsonarray);
-            JsonObject jsonobject = new JsonObject();
-
-            for(Map.Entry<Character, Ingredient> entry : this.key.entrySet()) {
-                jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
-            }
-
-            json.add("key", jsonobject);
-            JsonObject itemObject = new JsonObject();
-            itemObject.addProperty("item", Tools.getId(this.result.getItem()).toString());
-            if (this.result.getCount() > 1) {
-                itemObject.addProperty("count", this.result.getCount());
-            }
-            if (this.result.hasTag()) {
-                CompoundTag.CODEC.encodeStart(JsonOps.INSTANCE, this.result.getTag()).result().ifPresent(
-                        result -> itemObject.add("nbt", result)
-                );
-            }
-
-            json.add("result", itemObject);
-        }
-        @Override
-        @Nonnull
-        public RecipeSerializer<?> getType() {
-            return XpCrafterModule.XP_RECIPE_SERIALIZER.get();
-        }
-
-        @Override
-        @Nonnull
-        public ResourceLocation getId() {
-            return this.id;
-        }
-
-        @Override
-        @Nullable
-        public JsonObject serializeAdvancement() {
-            return null;
-        }
-
-        @Override
-        @Nullable
-        public ResourceLocation getAdvancementId() {
-            return null;
-        }
-    }
+    // @todo 1.21
+//    public static class Result implements FinishedRecipe {
+//        private final ResourceLocation id;
+//        private final ItemStack result;
+//        private final List<String> pattern;
+//        private final Map<Character, Ingredient> key;
+//
+//        public Result(ResourceLocation id, ItemStack result, List<String> pattern, Map<Character, Ingredient> ingredients) {
+//            this.id = id;
+//            this.result = result;
+//            this.pattern = pattern;
+//            this.key = ingredients;
+//        }
+//
+//        @Override
+//        public void serializeRecipeData(@Nonnull JsonObject json) {
+//            JsonArray jsonarray = new JsonArray();
+//            for(String s : this.pattern) {
+//                jsonarray.add(s);
+//            }
+//
+//            json.add("pattern", jsonarray);
+//            JsonObject jsonobject = new JsonObject();
+//
+//            for(Map.Entry<Character, Ingredient> entry : this.key.entrySet()) {
+//                jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
+//            }
+//
+//            json.add("key", jsonobject);
+//            JsonObject itemObject = new JsonObject();
+//            itemObject.addProperty("item", Tools.getId(this.result.getItem()).toString());
+//            if (this.result.getCount() > 1) {
+//                itemObject.addProperty("count", this.result.getCount());
+//            }
+//            if (this.result.hasTag()) {
+//                CompoundTag.CODEC.encodeStart(JsonOps.INSTANCE, this.result.getTag()).result().ifPresent(
+//                        result -> itemObject.add("nbt", result)
+//                );
+//            }
+//
+//            json.add("result", itemObject);
+//        }
+//        @Override
+//        @Nonnull
+//        public RecipeSerializer<?> getType() {
+//            return XpCrafterModule.XP_RECIPE_SERIALIZER.get();
+//        }
+//
+//        @Override
+//        @Nonnull
+//        public ResourceLocation getId() {
+//            return this.id;
+//        }
+//
+//        @Override
+//        @Nullable
+//        public JsonObject serializeAdvancement() {
+//            return null;
+//        }
+//
+//        @Override
+//        @Nullable
+//        public ResourceLocation getAdvancementId() {
+//            return null;
+//        }
+//    }
 }

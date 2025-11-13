@@ -1,5 +1,6 @@
 package com.mcjty.fancytrinkets.compat;
 
+import com.mcjty.fancytrinkets.api.ITrinketItem;
 import com.mcjty.fancytrinkets.setup.Registration;
 import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
@@ -15,12 +16,13 @@ public class TrinketItemSubtypeInterpreter implements IIngredientSubtypeInterpre
 
     @Override
     public String apply(ItemStack ingredient, UidContext context) {
-        return ingredient.getCapability(Registration.TRINKET_ITEM_CAPABILITY).map(trinket -> {
+        ITrinketItem trinket = ingredient.getCapability(Registration.TRINKET_ITEM_CAPABILITY);
+        if (trinket != null) {
             ResourceLocation trinketId = trinket.getTrinketId(ingredient);
             if (trinketId != null) {
                 return trinketId.toString();
             }
-            return IIngredientSubtypeInterpreter.NONE;
-        }).orElse(IIngredientSubtypeInterpreter.NONE);
+        }
+        return IIngredientSubtypeInterpreter.NONE;
     }
 }
