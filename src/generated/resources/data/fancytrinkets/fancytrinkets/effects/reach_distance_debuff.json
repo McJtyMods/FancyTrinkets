@@ -4,6 +4,6 @@
     "type": "attribute",
     "amount": -0.5,
     "effectId": "reach_distance",
-    "operation": "addition"
+    "operation": "add_value"
   }
 }

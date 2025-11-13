@@ -41,10 +41,10 @@ public class XpRecipeCategory implements IRecipeCategory<XpRecipe> {
         return ComponentFactory.translatable(KEY_XP_RECIPE_CATEGORY);
     }
 
-    @Override
-    public IDrawable getBackground() {
-        return background;
-    }
+//    @Override
+//    public IDrawable getBackground() {
+//        return background;
+//    }
 
     @Override
     public IDrawable getIcon() {
@@ -53,6 +53,7 @@ public class XpRecipeCategory implements IRecipeCategory<XpRecipe> {
 
     @Override
     public void draw(XpRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+        background.draw(graphics);  // @todo 1.21 check
         for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
             for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
                 slot.draw(graphics, 4 + x*18, 4 + y*18);

@@ -4,6 +4,6 @@
     "type": "attribute",
     "amount": 0.9,
     "effectId": "swim_speed",
-    "operation": "multiply_total"
+    "operation": "add_multiplied_total"
   }
 }

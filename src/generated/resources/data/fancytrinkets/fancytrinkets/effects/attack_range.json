@@ -3,6 +3,6 @@
     "type": "attribute",
     "amount": 1.0,
     "effectId": "attack_range",
-    "operation": "addition"
+    "operation": "add_value"
   }
 }

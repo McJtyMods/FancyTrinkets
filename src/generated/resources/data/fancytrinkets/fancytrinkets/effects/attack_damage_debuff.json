@@ -4,6 +4,6 @@
     "type": "attribute",
     "amount": 0.75,
     "effectId": "attack_damage",
-    "operation": "multiply_total"
+    "operation": "add_multiplied_total"
   }
 }

@@ -3,6 +3,6 @@
     "type": "attribute",
     "amount": 2.0,
     "effectId": "attack_speed",
-    "operation": "multiply_total"
+    "operation": "add_multiplied_total"
   }
 }

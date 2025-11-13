@@ -4,6 +4,6 @@
     "type": "attribute",
     "amount": -1.0,
     "effectId": "max_health",
-    "operation": "addition"
+    "operation": "add_value"
   }
 }

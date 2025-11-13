@@ -25,24 +25,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
-import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotTypePreset;
-import top.theillusivec4.curios.api.type.capability.ICurio;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
 import static com.mcjty.fancytrinkets.FancyTrinkets.tab;
@@ -97,7 +92,8 @@ public class TrinketsModule implements IModule {
 //    public static final Capability<ICurio> CURIOS_CAPABILITY = CuriosCapability.ITEM;
 
     public TrinketsModule(IEventBus bus) {
-        bus.addListener(this::onServerStarting);
+        NeoForge.EVENT_BUS.addListener(this::onServerStarting);
+
 
         DefaultTrinkets.init();
         DefaultBonusTables.init();
