@@ -13,7 +13,6 @@ import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
-import mcjty.lib.varia.TagTools;
 import mcjty.lib.varia.Tools;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
@@ -32,12 +31,14 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotTypePreset;
+import org.apache.commons.lang3.tuple.Pair;
+import top.theillusivec4.curios.api.CuriosTags;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
 import static com.mcjty.fancytrinkets.FancyTrinkets.tab;
@@ -46,47 +47,39 @@ public class TrinketsModule implements IModule {
 
     public static final Map<ResourceLocation, TrinketInfo> TRINKET_ITEMS = new HashMap<>();
 
-    public static final TagKey<Item> RING_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.RING.getIdentifier()));
-    public static final TagKey<Item> BELT_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.BELT.getIdentifier()));
-    public static final TagKey<Item> BRACELET_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.BRACELET.getIdentifier()));
-    public static final TagKey<Item> CHARM_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.CHARM.getIdentifier()));
-    public static final TagKey<Item> NECKLACE_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.NECKLACE.getIdentifier()));
-    public static final TagKey<Item> HEAD_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.HEAD.getIdentifier()));
-    public static final TagKey<Item> BODY_TAG = TagTools.createItemTagKey(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, SlotTypePreset.BODY.getIdentifier()));
-
-    public static final DeferredItem<TrinketItem> GOLD_RING = trinket("gold_ring", "item/gold_ring", "Base golden ring item", RING_TAG);
-    public static final DeferredItem<TrinketItem> GOLD_RING_BLUE = trinket("gold_ring_blue", "item/gold_ring_blue", "Base golden ring item", RING_TAG);
-    public static final DeferredItem<TrinketItem> GOLD_RING_GREEN = trinket("gold_ring_green", "item/gold_ring_green", "Base golden ring item", RING_TAG);
-    public static final DeferredItem<TrinketItem> GOLD_RING_RED = trinket("gold_ring_red", "item/gold_ring_red", "Base golden ring item", RING_TAG);
-    public static final DeferredItem<TrinketItem> GOLD_RING_DIAMOND = trinket("gold_ring_diamond", "item/gold_ring_diamond", "Base golden ring item", RING_TAG);
-    public static final DeferredItem<TrinketItem> SILVER_RING = trinket("silver_ring", "item/silver_ring", "Base silver ring item", RING_TAG);
-    public static final DeferredItem<TrinketItem> SILVER_RING_BLUE = trinket("silver_ring_blue", "item/silver_ring_blue", "Base silver ring item", RING_TAG);
-    public static final DeferredItem<TrinketItem> SILVER_RING_GREEN = trinket("silver_ring_green", "item/silver_ring_green", "Base silver ring item", RING_TAG);
-    public static final DeferredItem<TrinketItem> SILVER_RING_RED = trinket("silver_ring_red", "item/silver_ring_red", "Base silver ring item", RING_TAG);
-    public static final DeferredItem<TrinketItem> SILVER_RING_DIAMOND = trinket("silver_ring_diamond", "item/silver_ring_diamond", "Base silver ring item", RING_TAG);
-    public static final DeferredItem<TrinketItem> OBSIDIAN_RING = trinket("obsidian_ring", "item/obsidian_ring", "Base obsidian ring item", RING_TAG);
-    public static final DeferredItem<TrinketItem> OBSIDIAN_RING_DIAMOND = trinket("obsidian_ring_diamond", "item/obsidian_ring_diamond", "Base obsidian ring item", RING_TAG);
+    public static final DeferredItem<TrinketItem> GOLD_RING = trinket("gold_ring", "item/gold_ring", "Base golden ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> GOLD_RING_BLUE = trinket("gold_ring_blue", "item/gold_ring_blue", "Base golden ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> GOLD_RING_GREEN = trinket("gold_ring_green", "item/gold_ring_green", "Base golden ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> GOLD_RING_RED = trinket("gold_ring_red", "item/gold_ring_red", "Base golden ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> GOLD_RING_DIAMOND = trinket("gold_ring_diamond", "item/gold_ring_diamond", "Base golden ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> SILVER_RING = trinket("silver_ring", "item/silver_ring", "Base silver ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> SILVER_RING_BLUE = trinket("silver_ring_blue", "item/silver_ring_blue", "Base silver ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> SILVER_RING_GREEN = trinket("silver_ring_green", "item/silver_ring_green", "Base silver ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> SILVER_RING_RED = trinket("silver_ring_red", "item/silver_ring_red", "Base silver ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> SILVER_RING_DIAMOND = trinket("silver_ring_diamond", "item/silver_ring_diamond", "Base silver ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> OBSIDIAN_RING = trinket("obsidian_ring", "item/obsidian_ring", "Base obsidian ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> OBSIDIAN_RING_DIAMOND = trinket("obsidian_ring_diamond", "item/obsidian_ring_diamond", "Base obsidian ring item", CuriosTags.RING);
 
     public static final DeferredItem<TrinketItem> STAR = trinket("star", "item/star", "Base star item",
-            RING_TAG, BELT_TAG, BRACELET_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
+            CuriosTags.RING, CuriosTags.BELT, CuriosTags.BRACELET, CuriosTags.CHARM, CuriosTags.NECKLACE, CuriosTags.HEAD, CuriosTags.BODY);
     public static final DeferredItem<TrinketItem> HEART = trinket("heart", "item/heart", "Base heart item",
-            RING_TAG, BELT_TAG, BRACELET_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
-    public static final DeferredItem<TrinketItem> HEART_BODY = trinket("heart_body", "item/heart", "Base heart item (body)", BODY_TAG);
+            CuriosTags.RING, CuriosTags.BELT, CuriosTags.BRACELET, CuriosTags.CHARM, CuriosTags.NECKLACE, CuriosTags.HEAD, CuriosTags.BODY);
+    public static final DeferredItem<TrinketItem> HEART_BODY = trinket("heart_body", "item/heart", "Base heart item (body)", CuriosTags.BODY);
 
     public static final DeferredItem<TrinketItem> FEATHER = trinket("feather", "item/feather", "Feather star item",
-            BELT_TAG, CHARM_TAG, NECKLACE_TAG, HEAD_TAG, BODY_TAG);
+            CuriosTags.BELT, CuriosTags.CHARM, CuriosTags.NECKLACE, CuriosTags.HEAD, CuriosTags.BODY);
 
-    public static final DeferredItem<TrinketItem> BLACK_PEARL = trinket("black_pearl", "item/black_pearl", "Black pearl", CHARM_TAG);
-    public static final DeferredItem<TrinketItem> BLUE_PEARL = trinket("blue_pearl", "item/blue_pearl", "Blue pearl", CHARM_TAG);
-    public static final DeferredItem<TrinketItem> YELLOW_PEARL = trinket("yellow_pearl", "item/yellow_pearl", "Yellow pearl", CHARM_TAG);
-    public static final DeferredItem<TrinketItem> PURPLE_PEARL = trinket("purple_pearl", "item/purple_pearl", "Purple pearl", CHARM_TAG);
-    public static final DeferredItem<TrinketItem> SHINY_PEARL = trinket("shiny_pearl", "item/shiny_pearl", "Shiny pearl", CHARM_TAG);
+    public static final DeferredItem<TrinketItem> BLACK_PEARL = trinket("black_pearl", "item/black_pearl", "Black pearl", CuriosTags.CHARM);
+    public static final DeferredItem<TrinketItem> BLUE_PEARL = trinket("blue_pearl", "item/blue_pearl", "Blue pearl", CuriosTags.CHARM);
+    public static final DeferredItem<TrinketItem> YELLOW_PEARL = trinket("yellow_pearl", "item/yellow_pearl", "Yellow pearl", CuriosTags.CHARM);
+    public static final DeferredItem<TrinketItem> PURPLE_PEARL = trinket("purple_pearl", "item/purple_pearl", "Purple pearl", CuriosTags.CHARM);
+    public static final DeferredItem<TrinketItem> SHINY_PEARL = trinket("shiny_pearl", "item/shiny_pearl", "Shiny pearl", CuriosTags.CHARM);
 
-    public static final DeferredItem<TrinketItem> LEATHER_BELT = trinket("leather_belt", "item/leather_belt", "Leather Belt", BELT_TAG);
-    public static final DeferredItem<TrinketItem> BLUE_BELT = trinket("blue_belt", "item/blue_belt", "Blue Belt", BELT_TAG);
+    public static final DeferredItem<TrinketItem> LEATHER_BELT = trinket("leather_belt", "item/leather_belt", "Leather Belt", CuriosTags.BELT);
+    public static final DeferredItem<TrinketItem> BLUE_BELT = trinket("blue_belt", "item/blue_belt", "Blue Belt", CuriosTags.BELT);
 
-    public static final DeferredItem<TrinketItem> CHARM1 = trinket("charm1", "item/charm1", "Charm", CHARM_TAG);
-    public static final DeferredItem<TrinketItem> CHARM2 = trinket("charm2", "item/charm2", "Charm", CHARM_TAG);
+    public static final DeferredItem<TrinketItem> CHARM1 = trinket("charm1", "item/charm1", "Charm", CuriosTags.CHARM);
+    public static final DeferredItem<TrinketItem> CHARM2 = trinket("charm2", "item/charm2", "Charm", CuriosTags.CHARM);
 
     // @todo 1.21
 //    public static final Capability<ICurio> CURIOS_CAPABILITY = CuriosCapability.ITEM;
@@ -144,22 +137,24 @@ public class TrinketsModule implements IModule {
         dataGen.addCodecProvider("bonus", "fancytrinkets/bonustables", BonusTable.CODEC);
         dataGen.addCodecProvider("trinkets", "fancytrinkets/trinkets", TrinketDescription.CODEC);
         dataGen.addCodecProvider("trinketsets", "fancytrinkets/trinketsets", TrinketSet.CODEC);
-        // @todo 1.21
-//        dataGen.add(
-//                Dob.builder()
-//                        .codecObjectSupplier("bonus", () -> DefaultBonusTables.DEFAULT_BONUS_TABLES.entrySet().stream()
-//                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().bonusTable()))
-//                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight))),
-//                Dob.builder()
-//                        .codecObjectSupplier("trinkets", () -> DefaultTrinkets.DEFAULT_TRINKETS.entrySet().stream()
-//                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().trinketDescription()))
-//                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight))),
-//                Dob.builder()
-//                        .codecObjectSupplier("trinketsets", () -> {
-//                            List<ResourceLocation> trinkets = new ArrayList<>(DefaultTrinkets.DEFAULT_TRINKETS.keySet());
-//                            return Map.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "standard"), new TrinketSet(trinkets));
-//                        })
-//        );
+        dataGen.add(
+                Dob.builder()
+                        .holderLookup("bonus", lookupProvider)
+                        .codecObjectSupplier("bonus", () -> DefaultBonusTables.DEFAULT_BONUS_TABLES.entrySet().stream()
+                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().bonusTable()))
+                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight))),
+                Dob.builder()
+                        .holderLookup("trinkets", lookupProvider)
+                        .codecObjectSupplier("trinkets", () -> DefaultTrinkets.DEFAULT_TRINKETS.entrySet().stream()
+                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().trinketDescription()))
+                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight))),
+                Dob.builder()
+                        .holderLookup("trinketsets", lookupProvider)
+                        .codecObjectSupplier("trinketsets", () -> {
+                            List<ResourceLocation> trinkets = new ArrayList<>(DefaultTrinkets.DEFAULT_TRINKETS.keySet());
+                            return Map.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "standard"), new TrinketSet(trinkets));
+                        })
+        );
 
         for (Map.Entry<ResourceLocation, TrinketsModule.TrinketInfo> entry : TrinketsModule.TRINKET_ITEMS.entrySet()) {
             TrinketsModule.TrinketInfo trinket = entry.getValue();

@@ -1,5 +1,6 @@
 package com.mcjty.fancytrinkets.datapack;
 
+import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.effects.imp.*;
 import com.mojang.serialization.Codec;
@@ -102,7 +103,8 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
             case "luck" -> Attributes.LUCK;
             default -> throw new RuntimeException("Bad attribute effectId '" + effName + "'!");
         };
-        return new AttributeModifierEffect(hotkey, toggle, effName, attributeSupplier::value, p.operation(), p.amount());
+        // @todo 1.21 chec if this is the correct way
+        return new AttributeModifierEffect(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, effName), hotkey, toggle, effName, attributeSupplier, p.operation(), p.amount());
     }
 
     @Nonnull

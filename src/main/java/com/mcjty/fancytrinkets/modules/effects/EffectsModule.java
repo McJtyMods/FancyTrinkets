@@ -33,12 +33,12 @@ public class EffectsModule implements IModule {
     @Override
     public void initDatagen(DataGen dataGen, HolderLookup.Provider lookupProvider) {
         dataGen.addCodecProvider("effects", "fancytrinkets/effects", EffectDescription.CODEC);
-        // @todo 1.21
-//        dataGen.add(
-//                Dob.builder()
-//                        .codecObjectSupplier("effects", () -> DefaultEffects.DEFAULT_EFFECTS.entrySet().stream()
-//                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().effect()))
-//                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight)))
-//        );
+        dataGen.add(
+                Dob.builder()
+                        .holderLookup("effects", lookupProvider)
+                        .codecObjectSupplier("effects", () -> DefaultEffects.DEFAULT_EFFECTS.entrySet().stream()
+                                .map(entry -> Pair.of(entry.getKey(), entry.getValue().effect()))
+                                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight)))
+        );
     }
 }
