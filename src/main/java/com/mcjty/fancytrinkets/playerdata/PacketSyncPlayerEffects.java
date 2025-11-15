@@ -27,8 +27,8 @@ public record PacketSyncPlayerEffects(Set<String> toggles) implements CustomPack
         return TYPE;
     }
 
-    public static PacketSyncPlayerEffects create(PlayerEffects effects) {
-        return new PacketSyncPlayerEffects(new HashSet<>(effects.getToggles()));
+    public static PacketSyncPlayerEffects create(PlayerEffectData effects) {
+        return new PacketSyncPlayerEffects(new HashSet<>(effects.toggles()));
     }
 
     public void handle(IPayloadContext ctx) {

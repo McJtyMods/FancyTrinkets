@@ -18,39 +18,19 @@ import java.util.*;
 
 public class PlayerEffects {
 
-    // @todo 1.21
-//    public static final Capability<PlayerEffects> PLAYER_EFFECTS = CapabilityManager.get(new CapabilityToken<>(){});
-
-    private static final Codec<Set<String>> TOGGLE_CODEC = Codec.list(Codec.STRING)
-            .xmap(HashSet::new, ArrayList::new);
-    private static final Codec<Map<String, Float>> DAMAGE_REDUCTION_CODEC = Codec.unboundedMap(Codec.STRING, Codec.FLOAT)
-            .xmap(HashMap::new, map -> map);
-    public static final Codec<PlayerEffects> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            TOGGLE_CODEC.optionalFieldOf("toggles", Set.of()).forGetter(playerEffects -> playerEffects.toggles),
-            DAMAGE_REDUCTION_CODEC.optionalFieldOf("damageReduction", Map.of()).forGetter(playerEffects -> playerEffects.damageReduction)
-    ).apply(instance, (toggles, damageReduction) -> {
-        PlayerEffects effects = new PlayerEffects();
-        effects.toggles.addAll(toggles);
-        effects.damageReduction.putAll(damageReduction);
-        return effects;
-    }));
-
     public record EffectHolder(IEffect effect, long endTime) {
+    }
+
+    private static final Map<UUID, PlayerEffects> PLAYER_EFFECTS_MAP = new HashMap<>();
+
+    public static void cleanup() {
+        PLAYER_EFFECTS_MAP.clear();
     }
 
     // Indexed on curios slot index
     private final Map<String, EffectHolder> effectMap = new HashMap<>();
 
-    // All active toggles
-    private final Set<String> toggles = new HashSet<>();
-    // All damage reductions
-    private final Map<String, Float> damageReduction = new HashMap<>();
-
     public PlayerEffects() {
-    }
-
-    public Set<String> getToggles() {
-        return toggles;
     }
 
     public void tick(ServerPlayer player) {
@@ -75,17 +55,16 @@ public class PlayerEffects {
 
     // Toggle and return the new value
     public boolean toggle(ServerPlayer player, String toggle) {
-        if (toggles.contains(toggle)) {
-            toggles.remove(toggle);
-        } else {
-            toggles.add(toggle);
-        }
-        Messages.sendToPlayer(PacketSyncPlayerEffects.create(this), player);
-        return isToggleOn(toggle);
+        PlayerEffectData data = player.getData(Registration.PLAYER_EFFECTS);
+        data = data.toggle(toggle);
+        player.setData(Registration.PLAYER_EFFECTS, data);
+        Messages.sendToPlayer(PacketSyncPlayerEffects.create(data), player);
+        return data.isToggleOn(toggle);
     }
 
-    public boolean isToggleOn(String toggle) {
-        return toggles.contains(toggle);
+    public boolean isToggleOn(ServerPlayer player, String toggle) {
+        PlayerEffectData data = player.getData(Registration.PLAYER_EFFECTS);
+        return data.isToggleOn(toggle);
     }
 
     public void registerEffect(String slotId, IEffect effect, long endTime) {
@@ -96,59 +75,36 @@ public class PlayerEffects {
         effectMap.remove(slotId);
     }
 
-    public void registerDamageReduction(String dmgId, float factor) {
-        damageReduction.put(dmgId, factor);
+    public void registerDamageReduction(ServerPlayer player, String dmgId, float factor) {
+        PlayerEffectData data = player.getData(Registration.PLAYER_EFFECTS);
+        data = data.registerDamageReduction(dmgId, factor);
+        player.setData(Registration.PLAYER_EFFECTS, data);
     }
 
-    public void unregisterDamageReduction(String dmgId) {
-        damageReduction.remove(dmgId);
+    public void unregisterDamageReduction(ServerPlayer player, String dmgId) {
+        PlayerEffectData data = player.getData(Registration.PLAYER_EFFECTS);
+        data = data.unregisterDamageReduction(dmgId);
+        player.setData(Registration.PLAYER_EFFECTS, data);
     }
 
-    public float getDamageReduction(String dmgId) {
-        return damageReduction.getOrDefault(dmgId, 1.0f);
+    public float getDamageReduction(ServerPlayer player, String dmgId) {
+        PlayerEffectData data = player.getData(Registration.PLAYER_EFFECTS);
+        return data.getDamageReduction(dmgId);
     }
 
+    // @todo 1.21 don't we need this? Double check
     public void copyFrom(PlayerEffects source) {
         effectMap.clear();
         effectMap.putAll(source.effectMap);
     }
 
-    public void saveNBTData(CompoundTag tag) {
-        ListTag toggleList = new ListTag();
-        for (String toggle : toggles) {
-            toggleList.add(StringTag.valueOf(toggle));
-        }
-        tag.put("toggles", toggleList);
-
-        ListTag damageReductionList = new ListTag();
-        for (Map.Entry<String, Float> entry : damageReduction.entrySet()) {
-            CompoundTag cmp = new CompoundTag();
-            cmp.putString("dmgId", entry.getKey());
-            cmp.putFloat("factor", entry.getValue());
-        }
-        tag.put("damageReduction", damageReductionList);
-    }
-
-    public void loadNBTData(CompoundTag tag) {
-        ListTag toggleList = tag.getList("toggles", Tag.TAG_STRING);
-        for (Tag toggleTag : toggleList) {
-            toggles.add(toggleTag.getAsString());
-        }
-
-        ListTag damageReductionList = tag.getList("damageReduction", Tag.TAG_COMPOUND);
-        for (Tag cmp : damageReductionList) {
-            if (cmp instanceof CompoundTag comp) {
-                damageReduction.put(comp.getString("dmgId"), comp.getFloat("factor"));
-            }
-        }
-    }
 
     public static PlayerEffects getPlayerEffects(Player player) {
-        return player.getData(Registration.PLAYER_EFFECTS);
+        return PLAYER_EFFECTS_MAP.computeIfAbsent(player.getUUID(), (uuid) -> new PlayerEffects());
     }
 
-    public static void setPlayerEffects(Player player, PlayerEffects properties) {
-        player.setData(Registration.PLAYER_EFFECTS, properties);
+    public static void setPlayerEffects(Player player, PlayerEffects effects) {
+        PLAYER_EFFECTS_MAP.put(player.getUUID(), effects);
     }
 
 }

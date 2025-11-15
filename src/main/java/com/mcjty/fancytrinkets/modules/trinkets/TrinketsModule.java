@@ -81,12 +81,8 @@ public class TrinketsModule implements IModule {
     public static final DeferredItem<TrinketItem> CHARM1 = trinket("charm1", "item/charm1", "Charm", CuriosTags.CHARM);
     public static final DeferredItem<TrinketItem> CHARM2 = trinket("charm2", "item/charm2", "Charm", CuriosTags.CHARM);
 
-    // @todo 1.21
-//    public static final Capability<ICurio> CURIOS_CAPABILITY = CuriosCapability.ITEM;
-
     public TrinketsModule(IEventBus bus) {
         NeoForge.EVENT_BUS.addListener(this::onServerStarting);
-
 
         DefaultTrinkets.init();
         DefaultBonusTables.init();

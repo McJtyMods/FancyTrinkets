@@ -55,23 +55,19 @@ public class MobEffectEffect extends EffectImp {
 
     @Override
     public void onUnequip(ItemStack stack, ServerPlayer player, String slotId) {
-        // @todo 1.21
-//        player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-//            playerEffects.unregisterEffect(slotId);
-//        });
+        PlayerEffects playerEffects = PlayerEffects.getPlayerEffects(player);
+        playerEffects.unregisterEffect(slotId);
         turnOff(player);
     }
 
     @Override
     public void onHotkey(ItemStack stack, ServerPlayer player, String slotId, int key) {
         if (toggle != null && Objects.equals(key, hotkey)) {
-            // @todo 1.21
-//            player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-//                if (!playerEffects.toggle(player, toggle)) {
-//                    playerEffects.unregisterEffect(slotId);
-//                    turnOff(player);
-//                }
-//            });
+            PlayerEffects playerEffects = PlayerEffects.getPlayerEffects(player);
+            if (!playerEffects.toggle(player, toggle)) {
+                playerEffects.unregisterEffect(slotId);
+                turnOff(player);
+            }
         }
     }
 

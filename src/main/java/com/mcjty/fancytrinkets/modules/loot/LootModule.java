@@ -22,6 +22,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -99,19 +100,18 @@ public class LootModule implements IModule {
             );
         }
 
-        // @todo 1.21
-//        dataGen.add(
-//                Dob.builder()
-//                        .glm("wither_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
-//                                LootTableIdCondition.builder(EntityType.WITHER.getDefaultLootTable()).build()
-//                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70))
-//                        .glm("dragon_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
-//                                LootTableIdCondition.builder(EntityType.ENDER_DRAGON.getDefaultLootTable()).build()
-//                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100))
-//                        .glm("enderman_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
-//                                LootTableIdCondition.builder(EntityType.ENDERMAN.getDefaultLootTable()).build()
-//                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100))
-//        );
+        dataGen.add(
+                Dob.builder()
+                        .glm("wither_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
+                                LootTableIdCondition.builder(EntityType.WITHER.getDefaultLootTable().location()).build()
+                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70))
+                        .glm("dragon_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
+                                LootTableIdCondition.builder(EntityType.ENDER_DRAGON.getDefaultLootTable().location()).build()
+                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100))
+                        .glm("enderman_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
+                                LootTableIdCondition.builder(EntityType.ENDERMAN.getDefaultLootTable().location()).build()
+                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100))
+        );
 
         ResourceLocation[] goodChests = new ResourceLocation[]{
                 BuiltInLootTables.END_CITY_TREASURE.location(),

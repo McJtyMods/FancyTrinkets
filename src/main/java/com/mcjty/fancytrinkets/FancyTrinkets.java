@@ -1,6 +1,5 @@
 package com.mcjty.fancytrinkets;
 
-import com.mcjty.fancytrinkets.curios.CuriosSetup;
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.keys.KeyInputHandler;
 import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
@@ -15,7 +14,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
@@ -43,9 +41,9 @@ public class FancyTrinkets {
 
         bus.addListener(setup::init);
         bus.addListener(modules::init);
-        bus.addListener(this::onInterModEnqueueEvent);
         bus.addListener(this::onDataGen);
         bus.addListener(Messages::registerMessages);
+        bus.addListener(Registration::onRegisterCapabilities);
 
         if (dist.isClient()) {
             bus.addListener(modules::initClient);
@@ -70,9 +68,5 @@ public class FancyTrinkets {
         modules.register(new TrinketsModule(bus));
         modules.register(new XpCrafterModule(bus));
         modules.register(new LootModule());
-    }
-
-    private void onInterModEnqueueEvent(InterModEnqueueEvent event) {
-        CuriosSetup.setupCurios();
     }
 }

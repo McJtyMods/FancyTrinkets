@@ -19,29 +19,25 @@ public class EffectImp implements IEffect {
     }
 
     protected void executeIfEnabled(ServerPlayer player, Consumer<PlayerEffects> runnable) {
-        // @todo 1.21
-//        player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-//            if (toggle != null) {
-//                if (!playerEffects.isToggleOn(toggle)) {
-//                    return;
-//                }
-//            }
-//            runnable.accept(playerEffects);
-//        });
+        PlayerEffects playerEffects = PlayerEffects.getPlayerEffects(player);
+        if (toggle != null) {
+            if (!playerEffects.isToggleOn(player, toggle)) {
+                return;
+            }
+        }
+        runnable.accept(playerEffects);
     }
 
     protected void executeIfEnabled(ServerPlayer player, Runnable runnable) {
-        // @todo 1.21
-//        if (toggle != null) {
-//            player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-//                if (!playerEffects.isToggleOn(toggle)) {
-//                    return;
-//                }
-//                runnable.run();
-//            });
-//        } else {
-//            runnable.run();
-//        }
+        if (toggle != null) {
+            PlayerEffects playerEffects = PlayerEffects.getPlayerEffects(player);
+            if (!playerEffects.isToggleOn(player, toggle)) {
+                return;
+            }
+            runnable.run();
+        } else {
+            runnable.run();
+        }
     }
 
     @Override
@@ -51,14 +47,12 @@ public class EffectImp implements IEffect {
 
     @Override
     public void onHotkey(ItemStack stack, ServerPlayer player, String slotId, int key) {
-        // @todo 1.21
-//        if (toggle != null && Objects.equals(key, hotkey)) {
-//            player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-//                if (!playerEffects.toggle(player, toggle)) {
-//                    turnOff(player);
-//                }
-//            });
-//        }
+        if (toggle != null && Objects.equals(key, hotkey)) {
+            PlayerEffects playerEffects = PlayerEffects.getPlayerEffects(player);
+            if (!playerEffects.toggle(player, toggle)) {
+                turnOff(player);
+            }
+        }
     }
 
     protected void turnOff(ServerPlayer player) {

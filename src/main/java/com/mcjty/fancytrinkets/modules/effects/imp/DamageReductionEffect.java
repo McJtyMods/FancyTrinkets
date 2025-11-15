@@ -43,15 +43,13 @@ public class DamageReductionEffect extends EffectImp {
     @Override
     public void tick(ItemStack stack, ServerPlayer player, String slotId) {
         executeIfEnabled(player, (playerEffects) -> {
-            playerEffects.registerDamageReduction(dmgId, factor);
+            playerEffects.registerDamageReduction(player, dmgId, factor);
         });
     }
 
     @Override
     protected void turnOff(ServerPlayer player) {
-        // @todo 1.21
-//        player.getCapability(PlayerEffects.PLAYER_EFFECTS).ifPresent(playerEffects -> {
-//            playerEffects.unregisterDamageReduction(dmgId);
-//        });
+        PlayerEffects effects = PlayerEffects.getPlayerEffects(player);
+        effects.unregisterDamageReduction(player, dmgId);
     }
 }

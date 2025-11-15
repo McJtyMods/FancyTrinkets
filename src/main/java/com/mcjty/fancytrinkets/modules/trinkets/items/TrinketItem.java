@@ -12,7 +12,6 @@ import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.setup.Config;
-import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.items.BaseItem;
 import mcjty.lib.tooltips.ITooltipSettings;
 import mcjty.lib.varia.ComponentFactory;
@@ -20,20 +19,19 @@ import mcjty.lib.varia.SafeClientTools;
 import mcjty.lib.varia.Tools;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.type.capability.ICurio;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -273,9 +271,37 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
         }
     }
 
-    // @todo 1.21
-//    @Override
-//    public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-//        return new TrinketItemCapabilityProvider(stack, this);
-//    }
+    @Nonnull
+    public ICurio createCurio(ItemStack itemStack) {
+        return new ICurio() {
+            @Override
+            public ItemStack getStack() {
+                return itemStack;
+            }
+
+            @Override
+            public void curioTick(SlotContext slotContext) {
+                if (slotContext.entity() instanceof ServerPlayer player) {
+                    String slotId = slotContext.identifier() + slotContext.index() + "_";
+                    TrinketItem.this.forAllEffects(player.level(), itemStack, (effect, idx) -> effect.tick(itemStack, player, slotId + idx));
+                }
+            }
+
+            @Override
+            public void onEquip(SlotContext slotContext, ItemStack prevStack) {
+                if (slotContext.entity() instanceof ServerPlayer player) {
+                    String slotId = slotContext.identifier() + slotContext.index() + "_";
+                    TrinketItem.this.forAllEffects(player.level(), itemStack, (effect, idx) -> effect.onEquip(itemStack, player, slotId + idx));
+                }
+            }
+
+            @Override
+            public void onUnequip(SlotContext slotContext, ItemStack newStack) {
+                if (slotContext.entity() instanceof ServerPlayer player) {
+                    String slotId = slotContext.identifier() + slotContext.index() + "_";
+                    TrinketItem.this.forAllEffects(player.level(), itemStack, (effect, idx) -> effect.onUnequip(itemStack, player, slotId + idx));
+                }
+            }
+        };
+    }
 }
