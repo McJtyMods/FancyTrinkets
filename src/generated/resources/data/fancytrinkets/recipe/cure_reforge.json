@@ -1,0 +1,32 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:cure_reforge",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:heart"
+      },
+      "g": {
+        "item": "fancytrinkets:iron_golem_essence"
+      }
+    },
+    "pattern": [
+      "     ",
+      " ggg ",
+      " gSg ",
+      " ggg ",
+      "     "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:cure"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:heart"
+  }
+}

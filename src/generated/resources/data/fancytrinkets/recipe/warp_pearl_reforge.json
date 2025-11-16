@@ -1,0 +1,32 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:warp_pearl_reforge",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:blue_pearl"
+      },
+      "g": {
+        "item": "fancytrinkets:enderman_essence"
+      }
+    },
+    "pattern": [
+      "     ",
+      " ggg ",
+      " gSg ",
+      " ggg ",
+      "     "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:warp_pearl"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:blue_pearl"
+  }
+}

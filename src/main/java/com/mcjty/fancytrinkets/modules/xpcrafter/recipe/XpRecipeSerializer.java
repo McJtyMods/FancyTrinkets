@@ -1,60 +1,42 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.recipe;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-
-import javax.annotation.Nonnull;
-import java.util.Map;
+import net.minecraft.world.item.crafting.ShapedRecipePattern;
 
 public class XpRecipeSerializer implements RecipeSerializer<XpRecipe> {
-    // @todo 1.21
+
+    public static final MapCodec<XpRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.STRING.fieldOf("group").forGetter(ShapedRecipe::getGroup),
+            ResourceLocation.CODEC.fieldOf("mob").forGetter(XpRecipe::getId),
+            ShapedRecipePattern.MAP_CODEC.fieldOf("pattern").forGetter(r -> r.pattern),
+            ItemStack.CODEC.fieldOf("result").forGetter(XpRecipe::getResultItem)
+    ).apply(instance, XpRecipe::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, XpRecipe> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8, XpRecipe::getGroup,
+            ResourceLocation.STREAM_CODEC, XpRecipe::getId,
+            ShapedRecipePattern.STREAM_CODEC, r -> r.pattern,
+            ItemStack.STREAM_CODEC, XpRecipe::getResultItem,
+            XpRecipe::new
+    );
+
+
     @Override
     public MapCodec<XpRecipe> codec() {
-        return null;
+        return CODEC;
     }
 
     @Override
     public StreamCodec<RegistryFriendlyByteBuf, XpRecipe> streamCodec() {
-        return null;
+        return STREAM_CODEC;
     }
-
-    //    @Override
-//    @Nonnull
-//    public XpRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
-//        Map<String, Ingredient> map = RecipeJsonTools.parseKeys(GsonHelper.getAsJsonObject(json, "key"));
-//        String[] pattern = RecipeJsonTools.patternFromJson(GsonHelper.getAsJsonArray(json, "pattern"));
-//        NonNullList<Ingredient> ingredients = RecipeJsonTools.patternToIngredients(pattern, map);
-//        ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-//        return new XpRecipe(recipeId, ingredients, result);
-//    }
-//
-//    @Override
-//    public XpRecipe fromNetwork(@Nonnull ResourceLocation recipeId, @Nonnull FriendlyByteBuf buffer) {
-//        NonNullList<Ingredient> ingredients = NonNullList.withSize(XpRecipe.RECIPE_DIMENSION * XpRecipe.RECIPE_DIMENSION, Ingredient.EMPTY);
-//
-//        for(int i = 0; i < ingredients.size(); ++i) {
-//            ingredients.set(i, Ingredient.fromNetwork(buffer));
-//        }
-//
-//        ItemStack result = buffer.readItem();
-//        return new XpRecipe(recipeId, ingredients, result);
-//    }
-//
-//    @Override
-//    public void toNetwork(@Nonnull FriendlyByteBuf buffer, XpRecipe recipe) {
-//        for(Ingredient ingredient : recipe.getIngredients()) {
-//            ingredient.toNetwork(buffer);
-//        }
-//        buffer.writeItem(recipe.getResultItem());
-//    }
 }

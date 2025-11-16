@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "minecraft:crafting_table"
+    },
+    "g": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "i": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    "iii",
+    "gCg",
+    "iii"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fancytrinkets:experience_crafter"
+  }
+}

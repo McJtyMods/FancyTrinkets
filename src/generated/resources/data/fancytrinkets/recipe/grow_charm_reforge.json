@@ -1,0 +1,32 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:grow_charm_reforge",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:charm1"
+      },
+      "g": {
+        "item": "fancytrinkets:skeleton_essence"
+      }
+    },
+    "pattern": [
+      "     ",
+      " ggg ",
+      " gSg ",
+      " ggg ",
+      "     "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:grow_charm"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:charm1"
+  }
+}

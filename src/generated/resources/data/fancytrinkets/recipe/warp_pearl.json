@@ -1,0 +1,32 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:warp_pearl",
+  "pattern": {
+    "key": {
+      "g": {
+        "item": "fancytrinkets:enderman_essence"
+      },
+      "o": {
+        "tag": "c:ender_pearls"
+      }
+    },
+    "pattern": [
+      " ooo ",
+      "ogggo",
+      "ogggo",
+      "ogggo",
+      " ooo "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:warp_pearl"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:blue_pearl"
+  }
+}

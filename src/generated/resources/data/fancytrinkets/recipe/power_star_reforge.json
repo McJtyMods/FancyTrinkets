@@ -1,0 +1,32 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:power_star_reforge",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:star"
+      },
+      "g": {
+        "item": "fancytrinkets:wither_essence"
+      }
+    },
+    "pattern": [
+      "     ",
+      " ggg ",
+      " gSg ",
+      " ggg ",
+      "     "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:power_star"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:star"
+  }
+}

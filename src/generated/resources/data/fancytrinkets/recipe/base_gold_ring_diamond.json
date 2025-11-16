@@ -1,0 +1,32 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:base_gold_ring_diamond",
+  "pattern": {
+    "key": {
+      "d": {
+        "item": "minecraft:diamond"
+      },
+      "g": {
+        "tag": "c:ingots/gold"
+      }
+    },
+    "pattern": [
+      " gdg ",
+      "g   g",
+      "g   g",
+      "g   g",
+      " ggg "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:base_gold_ring_diamond"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:gold_ring_diamond"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:flight_star",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:star"
+      },
+      "f": {
+        "tag": "c:feathers"
+      },
+      "g": {
+        "item": "fancytrinkets:ghast_essence"
+      },
+      "t": {
+        "item": "minecraft:ghast_tear"
+      }
+    },
+    "pattern": [
+      "gfgfg",
+      "fgtgf",
+      "gtStg",
+      "fgtgf",
+      "gfgfg"
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:flight_star"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:star"
+  }
+}

@@ -7,6 +7,7 @@ import com.mcjty.fancytrinkets.datapack.CustomRegistries;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
 import com.mcjty.fancytrinkets.datapack.TrinketSet;
 import com.mcjty.fancytrinkets.modules.loot.LootModule;
+import com.mcjty.fancytrinkets.modules.trinkets.data.TrinketData;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipeBuilder;
 import com.mcjty.fancytrinkets.setup.Registration;
@@ -16,6 +17,7 @@ import mcjty.lib.modules.IModule;
 import mcjty.lib.varia.Tools;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -30,8 +32,10 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosTags;
 
 import java.util.ArrayList;
@@ -42,6 +46,8 @@ import java.util.stream.Collectors;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
 import static com.mcjty.fancytrinkets.FancyTrinkets.tab;
+import static com.mcjty.fancytrinkets.setup.Registration.COMPONENTS;
+import static mcjty.lib.datagen.Dob.has;
 
 public class TrinketsModule implements IModule {
 
@@ -80,6 +86,12 @@ public class TrinketsModule implements IModule {
 
     public static final DeferredItem<TrinketItem> CHARM1 = trinket("charm1", "item/charm1", "Charm", CuriosTags.CHARM);
     public static final DeferredItem<TrinketItem> CHARM2 = trinket("charm2", "item/charm2", "Charm", CuriosTags.CHARM);
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<TrinketData>> TRINKET_DATA = COMPONENTS.registerComponentType(
+            "trinket_data",
+            builder -> builder
+                    .persistent(TrinketData.CODEC)
+                    .networkSynchronized(TrinketData.STREAM_CODEC));
 
     public TrinketsModule(IEventBus bus) {
         NeoForge.EVENT_BUS.addListener(this::onServerStarting);
@@ -172,6 +184,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("ggggg")
                                     .patternLine("  g  ")
                                     .patternLine("g g g")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("base_star"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("flight_star"))
                                     .define('f', Tags.Items.FEATHERS)
@@ -183,6 +196,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("gtStg")
                                     .patternLine("fgtgf")
                                     .patternLine("gfgfg")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("flight_star"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("flight_star"))
                                     .define('g', LootModule.GHAST_ESSENCE.get())
@@ -192,6 +206,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("flight_star_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("power_star"))
                                     .define('i', Tags.Items.INGOTS_IRON)
@@ -204,6 +219,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("igSgi")
                                     .patternLine("iwgwi")
                                     .patternLine(" iii ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("power_star"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("power_star"))
                                     .define('g', LootModule.WITHER_ESSENCE.get())
@@ -213,6 +229,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("power_star_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("swift_star"))
                                     .define('t', Tags.Items.GEMS_QUARTZ)
@@ -223,6 +240,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("ggSgg")
                                     .patternLine("tgggt")
                                     .patternLine("ttgtt")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("swift_star"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("swift_star"))
                                     .define('g', LootModule.SPIDER_ESSENCE.get())
@@ -232,6 +250,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("swift_star_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("grow_charm"))
                                     .define('f', Tags.Items.BONES)
@@ -243,6 +262,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("tgggt")
                                     .patternLine("fgggf")
                                     .patternLine(" fwf ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("grow_charm"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("grow_charm"))
                                     .define('g', LootModule.SKELETON_ESSENCE.get())
@@ -252,6 +272,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("grow_charm_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("slowfalling_feather"))
                                     .define('o', Tags.Items.ENDER_PEARLS)
@@ -262,6 +283,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("ogggo")
                                     .patternLine("fggoo")
                                     .patternLine("gfooo")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("slowfalling_feather"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("slowfalling_feather"))
                                     .define('g', LootModule.CHICKEN_ESSENCE.get())
@@ -271,6 +293,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("slowfalling_feather_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("base_gold_ring"))
                                     .define('g', Tags.Items.INGOTS_GOLD)
@@ -279,6 +302,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("g   g")
                                     .patternLine("g   g")
                                     .patternLine(" ggg ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("base_gold_ring"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("lightness_ring"))
                                     .define('t', Items.DIAMOND_BLOCK)
@@ -291,6 +315,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("tgSgt")
                                     .patternLine("wfgfw")
                                     .patternLine(" wtw ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("lightness_ring"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("lightness_ring"))
                                     .define('g', LootModule.CHICKEN_ESSENCE.get())
@@ -300,6 +325,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("lightness_ring_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("fireresist_ring"))
                                     .define('t', Items.GHAST_TEAR)
@@ -311,6 +337,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("ggSgg")
                                     .patternLine("ftgtf")
                                     .patternLine("gfgfg")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("fireresist_ring"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("fireresist_ring"))
                                     .define('g', LootModule.BLAZE_ESSENCE.get())
@@ -320,6 +347,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("fireresist_ring_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("nightvision_ring"))
                                     .define('t', Items.SPIDER_EYE)
@@ -332,6 +360,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("wgSgt")
                                     .patternLine("fwgtf")
                                     .patternLine("twfwf")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("nightvision_ring"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("nightvision_ring"))
                                     .define('g', LootModule.SPIDER_ESSENCE.get())
@@ -341,6 +370,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("nightvision_ring_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("stepassist_ring"))
                                     .define('t', ItemTags.STAIRS)
@@ -352,6 +382,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("tgSgt")
                                     .patternLine("wtgtw")
                                     .patternLine("twtwt")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("stepassist_ring"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("stepassist_ring"))
                                     .define('g', LootModule.SPIDER_ESSENCE.get())
@@ -361,6 +392,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("stepassist_ring_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("base_heart"))
                                     .define('g', Items.REDSTONE_BLOCK)
@@ -369,6 +401,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("ggggg")
                                     .patternLine(" ggg ")
                                     .patternLine("  g  ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("base_heart"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("super_health"))
                                     .define('t', Items.GHAST_TEAR)
@@ -381,6 +414,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("fgSgf")
                                     .patternLine("fgwgf")
                                     .patternLine("tffft")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("super_health"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("super_health"))
                                     .define('g', LootModule.IRON_GOLEM_ESSENCE.get())
@@ -390,6 +424,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("super_health_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("cure"))
                                     .define('t', Items.END_CRYSTAL)
@@ -402,6 +437,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("fgSgf")
                                     .patternLine("fgwgf")
                                     .patternLine("tffft")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("cure"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("cure"))
                                     .define('g', LootModule.IRON_GOLEM_ESSENCE.get())
@@ -411,6 +447,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("cure_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("base_gold_ring_diamond"))
                                     .define('d', Items.DIAMOND)
@@ -420,6 +457,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("g   g")
                                     .patternLine("g   g")
                                     .patternLine(" ggg ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("base_gold_ring_diamond"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("absorption_ring"))
                                     .define('t', Items.GHAST_TEAR)
@@ -431,6 +469,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("ggSgg")
                                     .patternLine("ftgtf")
                                     .patternLine("gfgfg")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("absorption_ring"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("absorption_ring"))
                                     .define('g', LootModule.WITHER_ESSENCE.get())
@@ -440,6 +479,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("absorption_ring_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("regeneration_ring"))
                                     .define('t', Items.GHAST_TEAR)
@@ -451,6 +491,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("gtStg")
                                     .patternLine("gwtwg")
                                     .patternLine("ggggg")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("regeneration_ring"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("regeneration_ring"))
                                     .define('g', LootModule.WITHER_ESSENCE.get())
@@ -460,6 +501,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("regeneration_ring_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("strength_ring"))
                                     .define('t', Items.NETHER_STAR)
@@ -472,6 +514,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("gtStg")
                                     .patternLine("gwtwg")
                                     .patternLine("IgggI")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("strength_ring"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("strength_ring"))
                                     .define('g', LootModule.IRON_GOLEM_ESSENCE.get())
@@ -481,6 +524,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("strength_ring_reforge"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("warp_pearl"))
                                     .define('o', Tags.Items.ENDER_PEARLS)
@@ -490,6 +534,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine("ogggo")
                                     .patternLine("ogggo")
                                     .patternLine(" ooo ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("warp_pearl"));
                             XpRecipeBuilder.shapedRecipe(createTrinketStack("warp_pearl"))
                                     .define('g', LootModule.ENDERMAN_ESSENCE.get())
@@ -499,6 +544,7 @@ public class TrinketsModule implements IModule {
                                     .patternLine(" gSg ")
                                     .patternLine(" ggg ")
                                     .patternLine("     ")
+                                    .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("warp_pearl_reforge"));
                         })
 
@@ -515,12 +561,10 @@ public class TrinketsModule implements IModule {
                 trinkedId);
     }
 
-    // @todo 1.21
-//    @NotNull
+    @NotNull
     private Ingredient createTrinketIngredient(String id) {
         ItemStack stack = createTrinketStack(id);
-//        return PartialNBTIngredient.of(stack.getItem(), stack.getTag());
-        return null;
+        return Ingredient.of(stack);
     }
 
     public static record TrinketInfo(ResourceLocation id, String texture,

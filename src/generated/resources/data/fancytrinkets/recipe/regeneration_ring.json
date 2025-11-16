@@ -1,0 +1,38 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:regeneration_ring",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:gold_ring_diamond"
+      },
+      "g": {
+        "item": "fancytrinkets:zombie_essence"
+      },
+      "t": {
+        "item": "minecraft:ghast_tear"
+      },
+      "w": {
+        "item": "fancytrinkets:wither_essence"
+      }
+    },
+    "pattern": [
+      "ggggg",
+      "gwtwg",
+      "gtStg",
+      "gwtwg",
+      "ggggg"
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:regeneration_ring"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:gold_ring_diamond"
+  }
+}

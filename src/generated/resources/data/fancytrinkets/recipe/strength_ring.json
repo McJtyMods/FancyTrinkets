@@ -1,0 +1,41 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:strength_ring",
+  "pattern": {
+    "key": {
+      "I": {
+        "item": "minecraft:iron_block"
+      },
+      "S": {
+        "item": "fancytrinkets:gold_ring_diamond"
+      },
+      "g": {
+        "item": "fancytrinkets:iron_golem_essence"
+      },
+      "t": {
+        "item": "minecraft:nether_star"
+      },
+      "w": {
+        "item": "fancytrinkets:wither_essence"
+      }
+    },
+    "pattern": [
+      "IgggI",
+      "gwtwg",
+      "gtStg",
+      "gwtwg",
+      "IgggI"
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:strength_ring"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:gold_ring_diamond"
+  }
+}

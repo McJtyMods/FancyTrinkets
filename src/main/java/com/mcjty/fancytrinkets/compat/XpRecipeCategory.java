@@ -27,7 +27,7 @@ public class XpRecipeCategory implements IRecipeCategory<XpRecipe> {
 
     public XpRecipeCategory(IGuiHelper guiHelper) {
         slot = guiHelper.getSlotDrawable();
-        icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(XpCrafterModule.EXPERIENCE_CRAFTER.get()));
+        icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(XpCrafterModule.EXPERIENCE_CRAFTER.block()));
         background = guiHelper.createBlankDrawable(140, 120);
     }
 

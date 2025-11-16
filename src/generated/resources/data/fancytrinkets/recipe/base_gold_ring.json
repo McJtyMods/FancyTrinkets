@@ -1,0 +1,29 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:base_gold_ring",
+  "pattern": {
+    "key": {
+      "g": {
+        "tag": "c:ingots/gold"
+      }
+    },
+    "pattern": [
+      " ggg ",
+      "g   g",
+      "g   g",
+      "g   g",
+      " ggg "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:base_gold_ring"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:gold_ring"
+  }
+}

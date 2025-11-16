@@ -11,7 +11,9 @@ import com.mcjty.fancytrinkets.modules.effects.EffectInstance;
 import com.mcjty.fancytrinkets.modules.effects.IEffect;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketInstance;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
+import com.mcjty.fancytrinkets.modules.trinkets.data.TrinketData;
 import com.mcjty.fancytrinkets.setup.Config;
+import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.items.BaseItem;
 import mcjty.lib.tooltips.ITooltipSettings;
 import mcjty.lib.varia.ComponentFactory;
@@ -116,45 +118,30 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
         List<ItemStack> list = new ArrayList<>();
         for (TrinketInstance trinket : getTrinkets(SafeClientTools.getClientWorld()).values()) {
             ItemStack stack = new ItemStack(this);
-            toNBT(stack, trinket);
+            stack.set(TrinketsModule.TRINKET_DATA, new TrinketData(trinket.id(), Collections.emptyList()));
             list.add(stack);
         }
         return list;
     }
 
-    public static void toNBT(ItemStack stack, TrinketInstance trinket) {
-        // @todo 1.21 data
-//        CompoundTag tag = stack.getOrCreateTag();
-//        tag.putString("id", trinket.id().toString());
-    }
-
     @Override
     public void addEffects(ItemStack stack, List<ResourceLocation> effects) {
-        // @todo 1.21 data
-//        CompoundTag tag = stack.getOrCreateTag();
-//        ListTag list = new ListTag();
-//        for (ResourceLocation location : effects) {
-//            list.add(StringTag.valueOf(location.toString()));
-//        }
-//        tag.put("effects", list);
+        TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA, TrinketData.DEFAULT);
+        data = data.withEffects(effects);
+        stack.set(TrinketsModule.TRINKET_DATA, data);
     }
 
     public static Stream<ResourceLocation> getEffects(ItemStack stack) {
-        // @todo 1.21
-//        CompoundTag tag = stack.getTag();
-//        if (tag != null) {
-//            ListTag effects = tag.getList("effects", Tag.TAG_STRING);
-//            return effects.stream().map(s -> ResourceLocation.parse(s.getAsString()));
-//        }
-        return Stream.empty();
+        TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA, TrinketData.DEFAULT);
+        return data.effects().stream();
     }
 
     public static ItemStack createTrinketStack(Level level, TrinketDescription description, ResourceLocation id, float quality) {
         ItemStack stack = createTrinketStack(description, id);
-        // @todo 1.21
-//        stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY).ifPresent(trinket -> {
-//            addBonusEffects(level, trinket, stack, quality);
-//        });
+        ITrinketItem trinket = stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY);
+        if (trinket != null) {
+            addBonusEffects(level, trinket, stack, quality);
+        }
         return stack;
     }
 
@@ -166,20 +153,14 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
             throw new RuntimeException("Cannot find item for trinket '" + id.toString() + "'!");
         }
         ItemStack result = new ItemStack(item);
-        // @todo 1.21
-//        result.getOrCreateTag().putString("id", id.toString());
+        result.set(TrinketsModule.TRINKET_DATA, new TrinketData(id, Collections.emptyList()));
         return result;
     }
 
     @Override
     public ResourceLocation getTrinketId(ItemStack stack) {
-        // @todo 1.21
-//        CompoundTag tag = stack.getTag();
-//        if (tag != null && tag.contains("id")) {
-//            return ResourceLocation.parse(tag.getString("id"));
-//        } else {
-            return null;
-//        }
+        TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA, TrinketData.DEFAULT);
+        return data.trinketId();
     }
 
     @Override

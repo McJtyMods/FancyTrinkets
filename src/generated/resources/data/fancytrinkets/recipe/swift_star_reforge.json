@@ -1,0 +1,32 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:swift_star_reforge",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:star"
+      },
+      "g": {
+        "item": "fancytrinkets:spider_essence"
+      }
+    },
+    "pattern": [
+      "     ",
+      " ggg ",
+      " gSg ",
+      " ggg ",
+      "     "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:swift_star"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:star"
+  }
+}

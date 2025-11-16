@@ -1,0 +1,41 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:power_star",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:star"
+      },
+      "g": {
+        "item": "fancytrinkets:dragon_essence"
+      },
+      "i": {
+        "tag": "c:ingots/iron"
+      },
+      "t": {
+        "item": "minecraft:dragon_head"
+      },
+      "w": {
+        "item": "fancytrinkets:wither_essence"
+      }
+    },
+    "pattern": [
+      " iii ",
+      "iwtwi",
+      "igSgi",
+      "iwgwi",
+      " iii "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:power_star"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:star"
+  }
+}

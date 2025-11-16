@@ -1,0 +1,29 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:base_heart",
+  "pattern": {
+    "key": {
+      "g": {
+        "item": "minecraft:redstone_block"
+      }
+    },
+    "pattern": [
+      " ggg ",
+      "ggggg",
+      "ggggg",
+      " ggg ",
+      "  g  "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:base_heart"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:heart"
+  }
+}

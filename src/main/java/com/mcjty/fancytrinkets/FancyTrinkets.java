@@ -6,10 +6,12 @@ import com.mcjty.fancytrinkets.modules.effects.EffectsModule;
 import com.mcjty.fancytrinkets.modules.loot.LootModule;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
+import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
 import com.mcjty.fancytrinkets.setup.*;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.modules.Modules;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -39,11 +41,14 @@ public class FancyTrinkets {
         Registration.register(bus);
         CustomRegistries.init(bus);
 
+        ShapedRecipePattern.setCraftingSize(XpRecipe.RECIPE_DIMENSION, XpRecipe.RECIPE_DIMENSION);
+
         bus.addListener(setup::init);
         bus.addListener(modules::init);
         bus.addListener(this::onDataGen);
         bus.addListener(Messages::registerMessages);
         bus.addListener(Registration::onRegisterCapabilities);
+        bus.addListener(setup.getBlockCapabilityRegistrar(Registration.RBLOCKS));
 
         if (dist.isClient()) {
             bus.addListener(modules::initClient);

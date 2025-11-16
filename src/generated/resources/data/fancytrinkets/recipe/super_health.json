@@ -1,0 +1,41 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:super_health",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:heart"
+      },
+      "f": {
+        "item": "fancytrinkets:enderman_essence"
+      },
+      "g": {
+        "item": "fancytrinkets:iron_golem_essence"
+      },
+      "t": {
+        "item": "minecraft:ghast_tear"
+      },
+      "w": {
+        "item": "minecraft:nether_star"
+      }
+    },
+    "pattern": [
+      "tffft",
+      "fgwgf",
+      "fgSgf",
+      "fgwgf",
+      "tffft"
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:super_health"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:heart_body"
+  }
+}

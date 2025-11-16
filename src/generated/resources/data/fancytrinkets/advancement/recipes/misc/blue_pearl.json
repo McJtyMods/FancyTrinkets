@@ -1,0 +1,32 @@
+{
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fancytrinkets:blue_pearl"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "trinket": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:gold_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "trinket"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fancytrinkets:blue_pearl"
+    ]
+  },
+  "sends_telemetry_event": true
+}

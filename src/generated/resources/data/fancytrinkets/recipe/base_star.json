@@ -1,0 +1,29 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:base_star",
+  "pattern": {
+    "key": {
+      "g": {
+        "tag": "c:gems/prismarine"
+      }
+    },
+    "pattern": [
+      "g g g",
+      "  g  ",
+      "ggggg",
+      "  g  ",
+      "g g g"
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:base_star"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:star"
+  }
+}

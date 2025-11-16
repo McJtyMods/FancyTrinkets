@@ -32,7 +32,7 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
     private Button craftButton;
 
     public GuiExperienceCrafter(GenericContainer container, Inventory inventory, Component title) {
-        super(container, inventory, title, XpCrafterModule.EXPERIENCE_CRAFTER.get().getManualEntry());
+        super(container, inventory, title, XpCrafterModule.EXPERIENCE_CRAFTER.block().get().getManualEntry());
 
         imageWidth = CONTROLLER_WIDTH;
         imageHeight = CONTROLLER_HEIGHT;

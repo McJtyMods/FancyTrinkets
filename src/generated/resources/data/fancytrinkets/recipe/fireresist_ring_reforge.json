@@ -1,0 +1,32 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:fireresist_ring_reforge",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:gold_ring"
+      },
+      "g": {
+        "item": "fancytrinkets:blaze_essence"
+      }
+    },
+    "pattern": [
+      "     ",
+      " ggg ",
+      " gSg ",
+      " ggg ",
+      "     "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:fireresist_ring"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:gold_ring"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:super_health_reforge",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:heart_body"
+      },
+      "g": {
+        "item": "fancytrinkets:iron_golem_essence"
+      }
+    },
+    "pattern": [
+      "     ",
+      " ggg ",
+      " gSg ",
+      " ggg ",
+      "     "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:super_health"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:heart_body"
+  }
+}

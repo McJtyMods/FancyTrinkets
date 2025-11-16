@@ -1,0 +1,41 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:nightvision_ring",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:gold_ring"
+      },
+      "f": {
+        "item": "minecraft:fermented_spider_eye"
+      },
+      "g": {
+        "item": "fancytrinkets:spider_essence"
+      },
+      "t": {
+        "item": "minecraft:spider_eye"
+      },
+      "w": {
+        "item": "minecraft:ender_eye"
+      }
+    },
+    "pattern": [
+      "tfwft",
+      "wtgfw",
+      "wgSgt",
+      "fwgtf",
+      "twfwf"
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:nightvision_ring"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:gold_ring"
+  }
+}

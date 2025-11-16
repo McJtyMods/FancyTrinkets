@@ -3,11 +3,13 @@ package com.mcjty.fancytrinkets.modules.xpcrafter.blocks;
 import com.mcjty.fancytrinkets.api.ITrinketItem;
 import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
+import com.mcjty.fancytrinkets.modules.xpcrafter.data.ExperienceCrafterData;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
 import com.mcjty.fancytrinkets.setup.Config;
 import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.api.container.DefaultContainerProvider;
 import mcjty.lib.bindings.GuiValue;
+import mcjty.lib.bindings.Value;
 import mcjty.lib.blockcommands.Command;
 import mcjty.lib.blockcommands.ServerCommand;
 import mcjty.lib.container.ContainerFactory;
@@ -17,9 +19,9 @@ import mcjty.lib.container.SlotDefinition;
 import mcjty.lib.tileentity.Cap;
 import mcjty.lib.tileentity.CapType;
 import mcjty.lib.tileentity.GenericTileEntity;
+import mcjty.lib.typed.Type;
 import mcjty.lib.varia.Tools;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
@@ -32,10 +34,12 @@ import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.Lazy;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe.RECIPE_DIMENSION;
 import static mcjty.lib.api.container.DefaultContainerProvider.container;
@@ -53,18 +57,19 @@ public class ExperienceCrafterBE extends GenericTileEntity {
             .playerSlots(10, 110));
 
     @GuiValue
-    private int experience = 0;
+    public static final Value<?, Integer> VALUE_EXPERIENCE = Value.<ExperienceCrafterBE, Integer>create("experience", Type.INTEGER, ExperienceCrafterBE::getExperience, ExperienceCrafterBE::setExperience);
 
-    @Cap(type = CapType.ITEMS_AUTOMATION)
     private final GenericItemHandler items = GenericItemHandler.create(this, CONTAINER_FACTORY)
             .onUpdate(this::onUpdate)
             .build();
+    @Cap(type = CapType.ITEMS_AUTOMATION)
+    private static final Function<ExperienceCrafterBE, IItemHandler> ITEM_CAP = tile -> tile.items;
 
     @Cap(type = CapType.CONTAINER)
-    private final Lazy<MenuProvider> screenHandler = Lazy.of(() -> new DefaultContainerProvider<GenericContainer>("Experience Crafter")
-            .containerSupplier(container(XpCrafterModule.CONTAINER_EXPERIENCE_CRAFTER, CONTAINER_FACTORY,this))
-            .itemHandler(() -> items)
-            .setupSync(this));
+    private static final Function<ExperienceCrafterBE, MenuProvider> screenHandler = tile -> new DefaultContainerProvider<GenericContainer>("Experience Crafter")
+            .containerSupplier(container(XpCrafterModule.CONTAINER_EXPERIENCE_CRAFTER, CONTAINER_FACTORY, tile))
+            .itemHandler(() -> tile.items)
+            .setupSync(tile);
 
     @ServerCommand
     public static final Command<?> CMD_FILLXP = Command.<ExperienceCrafterBE>create("fillxp", (te, player, params) -> te.fillExperience((ServerPlayer) player));
@@ -85,7 +90,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     }, RECIPE_DIMENSION, RECIPE_DIMENSION);
 
     public ExperienceCrafterBE(BlockPos pos, BlockState state) {
-        super(XpCrafterModule.TYPE_EXPERIENCE_CRAFTER.get(), pos, state);
+        super(XpCrafterModule.EXPERIENCE_CRAFTER.be().get(), pos, state);
     }
 
     private void craft() {
@@ -115,9 +120,9 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     }
 
     private void addBonusEffects(ITrinketItem trinket, ItemStack stack) {
-        float targetQuality = 100.0f * (experience + Config.EXPERIENCE_OFFSET.get()) / (float) (Config.MAXEXPERIENCE.get() + Config.EXPERIENCE_OFFSET.get());
+        float targetQuality = 100.0f * (getExperience() + Config.EXPERIENCE_OFFSET.get()) / (float) (Config.MAXEXPERIENCE.get() + Config.EXPERIENCE_OFFSET.get());
         if (TrinketItem.addBonusEffects(level, trinket, stack, targetQuality)) {
-            experience = 0;
+            setData(XpCrafterModule.EXPERIENCE_CRAFTER_DATA, ExperienceCrafterData.DEFAULT);
             setChanged();
         }
     }
@@ -150,8 +155,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
         int maxXp = (int) (player.experienceProgress * player.getXpNeededForNextLevel() + getTotalXpForLevel(level));
         int toExtract = Math.min(maxXp, Config.MAXEXPERIENCE.get());
         player.giveExperiencePoints(-toExtract);
-        experience += toExtract;
-        setChanged();
+        setExperience(getExperience() + toExtract);
     }
 
     public static int getTotalXpForLevel(int level) {
@@ -165,27 +169,15 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     }
 
     public int getExperience() {
-        return experience;
+        ExperienceCrafterData data = getData(XpCrafterModule.EXPERIENCE_CRAFTER_DATA);
+        return data.experience();
+    }
+
+    public void setExperience(int exp) {
+        setData(XpCrafterModule.EXPERIENCE_CRAFTER_DATA, new ExperienceCrafterData(exp));
     }
 
     public ItemStack getPreviewOutput() {
         return items.getStackInSlot(SLOT_PREVIEW);
     }
-
-    // @todo 1.21 data
-//    @Override
-//    protected void loadInfo(CompoundTag tagCompound) {
-//        super.loadInfo(tagCompound);
-//        if (tagCompound.contains("Info")) {
-//            CompoundTag info = tagCompound.getCompound("Info");
-//            experience = info.getInt("experience");
-//        }
-//    }
-//
-//    @Override
-//    protected void saveInfo(CompoundTag tagCompound) {
-//        super.saveInfo(tagCompound);
-//        CompoundTag infoTag = getOrCreateInfo(tagCompound);
-//        infoTag.putInt("experience", experience);
-//    }
 }

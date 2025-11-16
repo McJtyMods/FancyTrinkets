@@ -1,0 +1,38 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:fireresist_ring",
+  "pattern": {
+    "key": {
+      "S": {
+        "item": "fancytrinkets:gold_ring"
+      },
+      "f": {
+        "item": "fancytrinkets:iron_golem_essence"
+      },
+      "g": {
+        "item": "fancytrinkets:blaze_essence"
+      },
+      "t": {
+        "item": "minecraft:ghast_tear"
+      }
+    },
+    "pattern": [
+      "gfgfg",
+      "ftgtf",
+      "ggSgg",
+      "ftgtf",
+      "gfgfg"
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:fireresist_ring"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:gold_ring"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "type": "fancytrinkets:xprecipe",
+  "group": "",
+  "mob": "fancytrinkets:grow_charm",
+  "pattern": {
+    "key": {
+      "f": {
+        "tag": "c:bones"
+      },
+      "g": {
+        "item": "fancytrinkets:skeleton_essence"
+      },
+      "t": {
+        "item": "minecraft:bone_meal"
+      },
+      "w": {
+        "item": "minecraft:diamond_block"
+      }
+    },
+    "pattern": [
+      " fwf ",
+      "fgggf",
+      "tgggt",
+      "fgggf",
+      " fwf "
+    ]
+  },
+  "result": {
+    "components": {
+      "fancytrinkets:trinket_data": {
+        "effects": [],
+        "id": "fancytrinkets:grow_charm"
+      }
+    },
+    "count": 1,
+    "id": "fancytrinkets:charm1"
+  }
+}
