@@ -47,6 +47,11 @@ public class FancyJeiPlugin implements IModPlugin {
     }
 
     @Override
+    public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
+        registration.getCraftingCategory().addExtension(XpRecipe.class, new XpRecipeExtension());
+    }
+
+    @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(new ItemStack(XpCrafterModule.EXPERIENCE_CRAFTER.block()), XP_RECIPE_TYPE);
     }
