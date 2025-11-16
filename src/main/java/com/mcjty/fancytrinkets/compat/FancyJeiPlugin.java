@@ -9,20 +9,22 @@ import mcjty.lib.container.GenericContainer;
 import mcjty.lib.varia.SafeClientTools;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.DeferredItem;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @JeiPlugin
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class FancyJeiPlugin implements IModPlugin {
 
     private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "jeiplugin");
@@ -42,18 +44,13 @@ public class FancyJeiPlugin implements IModPlugin {
             .map(DeferredItem::get)
             .distinct()
             .forEach(item -> {
-                registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, item, TrinketItemSubtypeInterpreter.INSTANCE);
+                registration.registerSubtypeInterpreter(item, TrinketItemSubtypeInterpreter.INSTANCE);
             });
     }
 
     @Override
-    public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
-        registration.getCraftingCategory().addExtension(XpRecipe.class, new XpRecipeExtension());
-    }
-
-    @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(XpCrafterModule.EXPERIENCE_CRAFTER.block()), XP_RECIPE_TYPE);
+        registration.addRecipeCatalyst(XpCrafterModule.EXPERIENCE_CRAFTER.block(), XP_RECIPE_TYPE);
     }
 
     @Override
