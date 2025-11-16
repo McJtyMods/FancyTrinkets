@@ -29,10 +29,11 @@ public class XpRecipeCategory extends AbstractRecipeCategory<XpRecipe> {
     public void setRecipe(IRecipeLayoutBuilder builder, XpRecipe recipe, IFocusGroup focuses) {
         for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
             for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
-                builder.addSlot(RecipeIngredientRole.INPUT, 5 + x*18, 5 + y*18)
-                        .addIngredients(recipe.getIngredients().get(y*XpRecipe.RECIPE_DIMENSION + x))
-                        .setStandardSlotBackground();
-
+                if (x < recipe.getWidth() && y < recipe.getHeight()) {
+                    builder.addSlot(RecipeIngredientRole.INPUT, 5 + x * 18, 5 + y * 18)
+                            .addIngredients(recipe.getIngredients().get(y * recipe.getWidth() + x))
+                            .setStandardSlotBackground();
+                }
             }
         }
         builder.addSlot(RecipeIngredientRole.OUTPUT, 3 + 6*18,  9)

@@ -25,7 +25,7 @@ public class XpRecipe extends BaseShapedRecipe {
 
     @Override
     public boolean matches(@Nonnull CraftingInput inv, @Nonnull Level level) {
-        for (int i = 0 ; i < RECIPE_DIMENSION * RECIPE_DIMENSION ; i++) {
+        for (int i = 0 ; i < inv.width() * inv.height() ; i++) {
             if (!pattern.ingredients().get(i).test(inv.getItem(i))) {
                 return false;
             }

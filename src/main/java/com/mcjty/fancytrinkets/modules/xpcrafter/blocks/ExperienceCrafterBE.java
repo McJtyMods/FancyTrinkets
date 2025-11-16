@@ -108,11 +108,15 @@ public class ExperienceCrafterBE extends GenericTileEntity {
                     addBonusEffects(trinket, finalStack);
                 }
                 items.setStackInSlot(SLOT_OUTPUT, stack);
-                for (int i = 0; i < RECIPE_DIMENSION * RECIPE_DIMENSION; i++) {
-                    ItemStack in = items.getStackInSlot(SLOT_GRID + i);
-                    if (!in.isEmpty()) {
-                        in.setCount(in.getCount() - recipe.value().getIngredients().get(i).getItems()[0].getCount());
-                        items.setStackInSlot(SLOT_GRID + i, in);
+                for (int x = 0 ; x < RECIPE_DIMENSION ; x++) {
+                    for (int y = 0 ; y < RECIPE_DIMENSION ; y++) {
+                        int i = y * RECIPE_DIMENSION + x;
+                        ItemStack in = items.getStackInSlot(SLOT_GRID + i);
+                        if (!in.isEmpty()) {
+                            int index = y * recipe.value().getWidth() + x;
+                            in.setCount(in.getCount() - recipe.value().getIngredients().get(index).getItems()[0].getCount());
+                            items.setStackInSlot(SLOT_GRID + i, in);
+                        }
                     }
                 }
             }
