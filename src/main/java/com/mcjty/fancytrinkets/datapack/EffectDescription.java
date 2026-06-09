@@ -6,7 +6,7 @@ import com.mcjty.fancytrinkets.modules.effects.imp.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import mcjty.lib.varia.Tools;
+import net.minecraft.ResourceLocationException;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -101,9 +101,22 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
             case "attack_speed" -> Attributes.ATTACK_SPEED;
             case "attack_damage" -> Attributes.ATTACK_DAMAGE;
             case "luck" -> Attributes.LUCK;
-            default -> throw new RuntimeException("Bad attribute effectId '" + effName + "'!");
+            default -> null;
         };
-        // @todo 1.21 chec if this is the correct way
+        if (attributeSupplier == null) {
+            ResourceLocation attributeId;
+            try {
+                attributeId = ResourceLocation.parse(effName);
+            } catch (ResourceLocationException e) {
+                throw new RuntimeException("Bad attribute effectId '" + effName + "'!", e);
+            }
+
+            if (!BuiltInRegistries.ATTRIBUTE.containsKey(attributeId)) {
+                throw new RuntimeException("Bad attribute effectId '" + effName + "'!");
+            }
+            Attribute attribute = BuiltInRegistries.ATTRIBUTE.get(attributeId);
+            attributeSupplier = Holder.direct(attribute);
+        }
         return new AttributeModifierEffect(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, effName), hotkey, toggle, effName, attributeSupplier, p.operation(), p.amount());
     }
 
