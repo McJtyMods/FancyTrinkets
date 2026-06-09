@@ -1,3 +1,6 @@
+1.20-3.0.6:
+- Attributes now also support modded attributes
+
 1.20-3.0.5:
 - Fixed a bug when a container was broken without a player involved
 
