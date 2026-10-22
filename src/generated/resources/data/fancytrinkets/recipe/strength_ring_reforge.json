@@ -4,12 +4,8 @@
   "mob": "fancytrinkets:strength_ring_reforge",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:gold_ring_diamond"
-      },
-      "g": {
-        "item": "fancytrinkets:iron_golem_essence"
-      }
+      "S": "fancytrinkets:gold_ring_diamond",
+      "g": "fancytrinkets:iron_golem_essence"
     },
     "pattern": [
       "     ",
@@ -26,7 +22,6 @@
         "id": "fancytrinkets:strength_ring"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:gold_ring_diamond"
   }
 }

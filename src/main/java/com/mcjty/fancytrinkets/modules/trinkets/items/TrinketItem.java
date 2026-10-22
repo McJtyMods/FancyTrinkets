@@ -1,6 +1,5 @@
 package com.mcjty.fancytrinkets.modules.trinkets.items;
 
-import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.api.ITrinketItem;
 import com.mcjty.fancytrinkets.datapack.BonusTable;
 import com.mcjty.fancytrinkets.datapack.CustomRegistries;
@@ -23,11 +22,13 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
@@ -47,25 +48,25 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     public static final String MESSAGE_FANCYTRINKETS_BONUS = "message.fancytrinkets.bonus";
     private static final Random random = new Random();
 
-    private final Map<ResourceLocation, TrinketInstance> trinkets = new HashMap<>();
+    private final Map<Identifier, TrinketInstance> trinkets = new HashMap<>();
 
     // Synced from server, all active toggles
     public static Set<String> toggles = new HashSet<>();
 
-    public TrinketItem() {
-        super(FancyTrinkets.setup.defaultProperties()
+    public TrinketItem(Item.Properties properties) {
+        super(properties
                 .stacksTo(1));
     }
 
     public static boolean addBonusEffects(Level level, ITrinketItem trinket, ItemStack stack, float targetQuality) {
-        ResourceLocation id = trinket.getTrinketId(stack);
-        TrinketDescription description = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).get(id);
+        Identifier id = trinket.getTrinketId(stack);
+        TrinketDescription description = Tools.getRegistryAccess(level).lookupOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).getValue(id);
         if (description != null) {
-            ResourceLocation bonusTableId = description.bonusTableId();
+            Identifier bonusTableId = description.bonusTableId();
             if (bonusTableId != null) {
-                BonusTable bonusTable = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.BONUS_TABLE_REGISTRY_KEY).get(bonusTableId);
+                BonusTable bonusTable = Tools.getRegistryAccess(level).lookupOrThrow(CustomRegistries.BONUS_TABLE_REGISTRY_KEY).getValue(bonusTableId);
                 if (bonusTable != null) {
-                    List<ResourceLocation> effects = new ArrayList<>();
+                    List<Identifier> effects = new ArrayList<>();
                     // Find a good set of effects for the desired quality
                     List<BonusTable.EffectRef> list = Collections.emptyList();
                     float maxDiff = 10.0f;
@@ -98,7 +99,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
         return list.stream().filter(ref -> Math.abs(ref.quality() - desiredQuality) <= maxDiff).collect(Collectors.toList());
     }
 
-    private static void addEffect(float targetQuality, List<ResourceLocation> effects, List<BonusTable.EffectRef> list) {
+    private static void addEffect(float targetQuality, List<Identifier> effects, List<BonusTable.EffectRef> list) {
         int bestIndex = -1;
         float bestDiff = Float.MAX_VALUE;
         for (int i = 0 ; i < 5 ; i++) {
@@ -109,7 +110,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
                 bestIndex = i;
             }
         }
-        ResourceLocation id = list.remove(bestIndex).effect();
+        Identifier id = list.remove(bestIndex).effect();
         effects.add(id);
     }
 
@@ -125,18 +126,18 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     }
 
     @Override
-    public void addEffects(ItemStack stack, List<ResourceLocation> effects) {
+    public void addEffects(ItemStack stack, List<Identifier> effects) {
         TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA, TrinketData.DEFAULT);
         data = data.withEffects(effects);
         stack.set(TrinketsModule.TRINKET_DATA, data);
     }
 
-    public static Stream<ResourceLocation> getEffects(ItemStack stack) {
+    public static Stream<Identifier> getEffects(ItemStack stack) {
         TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA, TrinketData.DEFAULT);
         return data.effects().stream();
     }
 
-    public static ItemStack createTrinketStack(Level level, TrinketDescription description, ResourceLocation id, float quality) {
+    public static ItemStack createTrinketStack(Level level, TrinketDescription description, Identifier id, float quality) {
         ItemStack stack = createTrinketStack(description, id);
         ITrinketItem trinket = stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY);
         if (trinket != null) {
@@ -146,8 +147,8 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     }
 
     @NotNull
-    public static ItemStack createTrinketStack(TrinketDescription description, ResourceLocation id) {
-        ResourceLocation itemId = description.item();
+    public static ItemStack createTrinketStack(TrinketDescription description, Identifier id) {
+        Identifier itemId = description.item();
         Item item = Tools.getItem(itemId);
         if (item == null) {
             throw new RuntimeException("Cannot find item for trinket '" + id.toString() + "'!");
@@ -158,18 +159,18 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     }
 
     @Override
-    public ResourceLocation getTrinketId(ItemStack stack) {
+    public Identifier getTrinketId(ItemStack stack) {
         TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA, TrinketData.DEFAULT);
         return data.trinketId();
     }
 
     @Override
-    public void registerTrinketInstance(Level level, ResourceLocation id, TrinketDescription description) {
+    public void registerTrinketInstance(Level level, Identifier id, TrinketDescription description) {
         trinkets.put(id, description.build(id, level));
     }
 
     // Get and create trinket map
-    private Map<ResourceLocation, TrinketInstance> getTrinkets(Level level) {
+    private Map<Identifier, TrinketInstance> getTrinkets(Level level) {
         if (trinkets.isEmpty()) {
             TrinketsModule.registerTrinkets(level);
         }
@@ -178,7 +179,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
 
     @Override
     public void forAllEffects(Level level, ItemStack stack, BiConsumer<IEffect, Integer> consumer) {
-        ResourceLocation trinketId = getTrinketId(stack);
+        Identifier trinketId = getTrinketId(stack);
         if (trinketId != null) {
             AtomicInteger idx = new AtomicInteger(0);
             TrinketInstance instance = getTrinkets(level).get(trinketId);
@@ -187,9 +188,9 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
                     consumer.accept(effect.effect(), idx.incrementAndGet());
                 }
             }
-            Registry<EffectDescription> registry = Tools.getRegistryAccess(level).registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY);
+            Registry<EffectDescription> registry = Tools.getRegistryAccess(level).lookupOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY);
             getEffects(stack).forEach(effect -> {
-                EffectDescription description = registry.get(effect);
+                EffectDescription description = registry.getValue(effect);
                 if (description != null) {
                     consumer.accept(description.effect(), idx.incrementAndGet());
                 }
@@ -198,17 +199,20 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> list, TooltipFlag flags) {
-        ResourceLocation trinketId = getTrinketId(stack);
+    public Component getName(ItemStack stack) {
+        Identifier id = getTrinketId(stack);
+        var trinket = trinkets.get(id);
+        return trinket == null ? super.getName(stack)
+                : Component.translatable(trinket.nameKey()).withStyle(ChatFormatting.AQUA);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flags) {
+        List<Component> list = new ArrayList<>();
+        Identifier trinketId = getTrinketId(stack);
         if (trinketId != null) {
             TrinketInstance instance = getTrinkets(context.level()).get(trinketId);
             if (instance != null) {
-                MutableComponent name = ComponentFactory.translatable(instance.nameKey()).withStyle(ChatFormatting.AQUA);
-                if (list.isEmpty()) {
-                    list.add(name);
-                } else {
-                    list.set(0, name);
-                }
                 list.add(ComponentFactory.translatable(instance.descriptionKey()));
                 for (EffectInstance effectInstance : instance.effects()) {
                     IEffect effect  = effectInstance.effect();
@@ -242,7 +246,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
                     }
                     MutableComponent translatable = ComponentFactory.translatable("effectId." + effect.getNamespace() + "." + effect.getPath());
                     ChatFormatting color = ChatFormatting.GREEN;
-                    EffectDescription description = Tools.getRegistryAccess(SafeClientTools.getClientWorld()).registryOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).get(effect);
+                    EffectDescription description = Tools.getRegistryAccess(SafeClientTools.getClientWorld()).lookupOrThrow(CustomRegistries.EFFECT_REGISTRY_KEY).getValue(effect);
                     if (description != null && description.harmful()) {
                         color = ChatFormatting.RED;
                     }
@@ -250,6 +254,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
                 });
             }
         }
+        list.forEach(tooltip);
     }
 
     @Nonnull

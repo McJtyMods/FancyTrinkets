@@ -4,21 +4,11 @@
   "mob": "fancytrinkets:power_star",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:star"
-      },
-      "g": {
-        "item": "fancytrinkets:dragon_essence"
-      },
-      "i": {
-        "tag": "c:ingots/iron"
-      },
-      "t": {
-        "item": "minecraft:dragon_head"
-      },
-      "w": {
-        "item": "fancytrinkets:wither_essence"
-      }
+      "S": "fancytrinkets:star",
+      "g": "fancytrinkets:dragon_essence",
+      "i": "#c:ingots/iron",
+      "t": "minecraft:dragon_head",
+      "w": "fancytrinkets:wither_essence"
     },
     "pattern": [
       " iii ",
@@ -35,7 +25,6 @@
         "id": "fancytrinkets:power_star"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:star"
   }
 }

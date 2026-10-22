@@ -1,6 +1,8 @@
 package com.mcjty.fancytrinkets.setup;
 
 import com.mcjty.fancytrinkets.playerdata.PlayerEffects;
+import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -9,6 +11,11 @@ import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 public class ForgeEventHandlers {
+
+    @SubscribeEvent
+    public void onDatapackSync(OnDatapackSyncEvent event) {
+        event.sendRecipes(XpCrafterModule.XP_RECIPE_TYPE.get());
+    }
 
     @SubscribeEvent
     public void onLivingDamageEvent(LivingDamageEvent.Pre event) {

@@ -1,7 +1,7 @@
 package com.mcjty.fancytrinkets.playerdata;
 
-
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.*;
@@ -14,10 +14,12 @@ public record PlayerEffectData(Set<String> toggles, Map<String, Float> damageRed
             .xmap(HashSet::new, ArrayList::new);
     private static final Codec<Map<String, Float>> DAMAGE_REDUCTION_CODEC = Codec.unboundedMap(Codec.STRING, Codec.FLOAT)
             .xmap(HashMap::new, map -> map);
-    public static final Codec<PlayerEffectData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<PlayerEffectData> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             TOGGLE_CODEC.optionalFieldOf("toggles", Set.of()).forGetter(playerEffects -> playerEffects.toggles),
             DAMAGE_REDUCTION_CODEC.optionalFieldOf("damageReduction", Map.of()).forGetter(playerEffects -> playerEffects.damageReduction)
     ).apply(instance, PlayerEffectData::new));
+
+    public static final Codec<PlayerEffectData> CODEC = MAP_CODEC.codec();
 
     public PlayerEffectData toggle(String toggle) {
         Set<String> newToggles = new HashSet<>(toggles);

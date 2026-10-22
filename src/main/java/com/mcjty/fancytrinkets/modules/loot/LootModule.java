@@ -6,9 +6,11 @@ import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
@@ -26,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static com.mcjty.fancytrinkets.FancyTrinkets.tab;
 import static com.mcjty.fancytrinkets.setup.Registration.ITEMS;
 import static com.mcjty.fancytrinkets.setup.Registration.LOOT_MODIFIER_SERIALIZERS;
 
@@ -50,17 +51,17 @@ public class LootModule implements IModule {
     public static final Supplier<MapCodec<? extends IGlobalLootModifier>> ESSENCE_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("essence_loot", () -> EssenceLootModifier.CODEC);
     public static final Supplier<MapCodec<? extends IGlobalLootModifier>> TRINKET_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("trinket_loot", () -> TrinketLootModifier.CODEC);
 
-    public static final EssenceGLM ZOMBIE_LOOT_MODIFIER = createGlm("zombie_essence", EntityType.ZOMBIE, 0.1f, 1, 2, .3f);
-    public static final EssenceGLM WITHER_SKELETON_LOOT_MODIFIER = createGlm("wither_skeleton_essence", EntityType.WITHER_SKELETON, 0.1f, 1, 2, .3f);
-    public static final EssenceGLM WITHER_LOOT_MODIFIER = createGlm("wither_essence", EntityType.WITHER, 1.0f, 1, 2, .3f);
-    public static final EssenceGLM SKELETON_LOOT_MODIFIER = createGlm("skeleton_essence", EntityType.SKELETON, 0.1f, 1, 2, .3f);
-    public static final EssenceGLM DRAGON_LOOT_MODIFIER = createGlm("dragon_essence", EntityType.ENDER_DRAGON, 1.0f, 4, 7, .3f);
-    public static final EssenceGLM ENDERMAN_LOOT_MODIFIER = createGlm("enderman_essence", EntityType.ENDERMAN, 0.1f, 1, 2, .3f);
-    public static final EssenceGLM GHAST_LOOT_MODIFIER = createGlm("ghast_essence", EntityType.GHAST, 0.4f, 1, 2, .3f);
-    public static final EssenceGLM SPIDER_LOOT_MODIFIER = createGlm("spider_essence", EntityType.SPIDER, 0.1f, 1, 1, .3f);
-    public static final EssenceGLM CHICKEN_LOOT_MODIFIER = createGlm("chicken_essence", EntityType.CHICKEN, 0.1f, 1, 1, .3f);
-    public static final EssenceGLM IRON_GOLEM_LOOT_MODIFIER = createGlm("iron_golem_essence", EntityType.IRON_GOLEM, 0.3f, 1, 2, .3f);
-    public static final EssenceGLM BLAZE_LOOT_MODIFIER = createGlm("blaze_essence", EntityType.BLAZE, 0.3f, 1, 2, .3f);
+    public static final EssenceGLM ZOMBIE_LOOT_MODIFIER = createGlm("zombie_essence", EntityTypes.ZOMBIE, 0.1f, 1, 2, .3f);
+    public static final EssenceGLM WITHER_SKELETON_LOOT_MODIFIER = createGlm("wither_skeleton_essence", EntityTypes.WITHER_SKELETON, 0.1f, 1, 2, .3f);
+    public static final EssenceGLM WITHER_LOOT_MODIFIER = createGlm("wither_essence", EntityTypes.WITHER, 1.0f, 1, 2, .3f);
+    public static final EssenceGLM SKELETON_LOOT_MODIFIER = createGlm("skeleton_essence", EntityTypes.SKELETON, 0.1f, 1, 2, .3f);
+    public static final EssenceGLM DRAGON_LOOT_MODIFIER = createGlm("dragon_essence", EntityTypes.ENDER_DRAGON, 1.0f, 4, 7, .3f);
+    public static final EssenceGLM ENDERMAN_LOOT_MODIFIER = createGlm("enderman_essence", EntityTypes.ENDERMAN, 0.1f, 1, 2, .3f);
+    public static final EssenceGLM GHAST_LOOT_MODIFIER = createGlm("ghast_essence", EntityTypes.GHAST, 0.4f, 1, 2, .3f);
+    public static final EssenceGLM SPIDER_LOOT_MODIFIER = createGlm("spider_essence", EntityTypes.SPIDER, 0.1f, 1, 1, .3f);
+    public static final EssenceGLM CHICKEN_LOOT_MODIFIER = createGlm("chicken_essence", EntityTypes.CHICKEN, 0.1f, 1, 1, .3f);
+    public static final EssenceGLM IRON_GOLEM_LOOT_MODIFIER = createGlm("iron_golem_essence", EntityTypes.IRON_GOLEM, 0.3f, 1, 2, .3f);
+    public static final EssenceGLM BLAZE_LOOT_MODIFIER = createGlm("blaze_essence", EntityTypes.BLAZE, 0.3f, 1, 2, .3f);
 
     public LootModule() {
     }
@@ -85,7 +86,7 @@ public class LootModule implements IModule {
             dataGen.add(
                     Dob.itemBuilder(essence.item())
                             .name(essence.description())
-                            .generatedItem(essence.texture())
+                            .generatedItem(FancyTrinkets.MODID + ":" + essence.texture())
             );
         }
 
@@ -96,71 +97,71 @@ public class LootModule implements IModule {
                             .glm(entry.getKey(), () -> new EssenceLootModifier(new LootItemCondition[]{
                                     LootTableIdCondition.builder(glm.lootTable()).build(),
                                     LootItemKilledByPlayerCondition.killedByPlayer().build()
-                            }, glm.itemId(), glm.chance(), glm.min(), glm.max(), glm.looting()))
+                            }, IGlobalLootModifier.DEFAULT_PRIORITY, glm.itemId(), glm.chance(), glm.min(), glm.max(), glm.looting()))
             );
         }
 
         dataGen.add(
                 Dob.builder()
                         .glm("wither_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
-                                LootTableIdCondition.builder(EntityType.WITHER.getDefaultLootTable().location()).build()
-                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70))
+                                LootTableIdCondition.builder(EntityTypes.WITHER.getDefaultLootTable().orElseThrow().identifier()).build()
+                        }, IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70))
                         .glm("dragon_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
-                                LootTableIdCondition.builder(EntityType.ENDER_DRAGON.getDefaultLootTable().location()).build()
-                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100))
+                                LootTableIdCondition.builder(EntityTypes.ENDER_DRAGON.getDefaultLootTable().orElseThrow().identifier()).build()
+                        }, IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100))
                         .glm("enderman_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
-                                LootTableIdCondition.builder(EntityType.ENDERMAN.getDefaultLootTable().location()).build()
-                        }, List.of(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100))
+                                LootTableIdCondition.builder(EntityTypes.ENDERMAN.getDefaultLootTable().orElseThrow().identifier()).build()
+                        }, IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100))
         );
 
-        ResourceLocation[] goodChests = new ResourceLocation[]{
-                BuiltInLootTables.END_CITY_TREASURE.location(),
-                BuiltInLootTables.STRONGHOLD_LIBRARY.location(),
-                BuiltInLootTables.DESERT_PYRAMID.location(),
-                BuiltInLootTables.WOODLAND_MANSION.location(),
-                BuiltInLootTables.BASTION_TREASURE.location(),
-                BuiltInLootTables.ANCIENT_CITY.location()
+        Identifier[] goodChests = new Identifier[]{
+                BuiltInLootTables.END_CITY_TREASURE.identifier(),
+                BuiltInLootTables.STRONGHOLD_LIBRARY.identifier(),
+                BuiltInLootTables.DESERT_PYRAMID.identifier(),
+                BuiltInLootTables.WOODLAND_MANSION.identifier(),
+                BuiltInLootTables.BASTION_TREASURE.identifier(),
+                BuiltInLootTables.ANCIENT_CITY.identifier()
         };
-        for (ResourceLocation chest : goodChests) {
+        for (Identifier chest : goodChests) {
             dataGen.add(
                     Dob.builder()
                             .glm(chest.getPath() + "_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
                                     LootTableIdCondition.builder(chest).build()
-                            }, Collections.emptyList(), 0.1f, 1, 1, 0, 20, 70))
+                            }, IGlobalLootModifier.DEFAULT_PRIORITY, Collections.emptyList(), 0.1f, 1, 1, 0, 20, 70))
             );
         }
 
-        ResourceLocation[] otherChests = new ResourceLocation[]{
-                BuiltInLootTables.SIMPLE_DUNGEON.location(),
-                BuiltInLootTables.VILLAGE_CARTOGRAPHER.location(),
-                BuiltInLootTables.VILLAGE_TEMPLE.location(),
-                BuiltInLootTables.ABANDONED_MINESHAFT.location(),
-                BuiltInLootTables.NETHER_BRIDGE.location(),
-                BuiltInLootTables.STRONGHOLD_CROSSING.location(),
-                BuiltInLootTables.STRONGHOLD_CORRIDOR.location(),
-                BuiltInLootTables.JUNGLE_TEMPLE.location(),
-                BuiltInLootTables.JUNGLE_TEMPLE_DISPENSER.location(),
-                BuiltInLootTables.IGLOO_CHEST.location(),
-                BuiltInLootTables.UNDERWATER_RUIN_SMALL.location(),
-                BuiltInLootTables.UNDERWATER_RUIN_BIG.location(),
-                BuiltInLootTables.BURIED_TREASURE.location(),
-                BuiltInLootTables.SHIPWRECK_MAP.location(),
-                BuiltInLootTables.SHIPWRECK_SUPPLY.location(),
-                BuiltInLootTables.SHIPWRECK_TREASURE.location(),
-                BuiltInLootTables.PILLAGER_OUTPOST.location(),
-                BuiltInLootTables.BASTION_OTHER.location(),
-                BuiltInLootTables.BASTION_BRIDGE.location(),
-                BuiltInLootTables.BASTION_HOGLIN_STABLE.location(),
-                BuiltInLootTables.ANCIENT_CITY_ICE_BOX.location(),
-                BuiltInLootTables.RUINED_PORTAL.location()
+        Identifier[] otherChests = new Identifier[]{
+                BuiltInLootTables.SIMPLE_DUNGEON.identifier(),
+                BuiltInLootTables.VILLAGE_CARTOGRAPHER.identifier(),
+                BuiltInLootTables.VILLAGE_TEMPLE.identifier(),
+                BuiltInLootTables.ABANDONED_MINESHAFT.identifier(),
+                BuiltInLootTables.NETHER_BRIDGE.identifier(),
+                BuiltInLootTables.STRONGHOLD_CROSSING.identifier(),
+                BuiltInLootTables.STRONGHOLD_CORRIDOR.identifier(),
+                BuiltInLootTables.JUNGLE_TEMPLE.identifier(),
+                BuiltInLootTables.JUNGLE_TEMPLE_DISPENSER.identifier(),
+                BuiltInLootTables.IGLOO_CHEST.identifier(),
+                BuiltInLootTables.UNDERWATER_RUIN_SMALL.identifier(),
+                BuiltInLootTables.UNDERWATER_RUIN_BIG.identifier(),
+                BuiltInLootTables.BURIED_TREASURE.identifier(),
+                BuiltInLootTables.SHIPWRECK_MAP.identifier(),
+                BuiltInLootTables.SHIPWRECK_SUPPLY.identifier(),
+                BuiltInLootTables.SHIPWRECK_TREASURE.identifier(),
+                BuiltInLootTables.PILLAGER_OUTPOST.identifier(),
+                BuiltInLootTables.BASTION_OTHER.identifier(),
+                BuiltInLootTables.BASTION_BRIDGE.identifier(),
+                BuiltInLootTables.BASTION_HOGLIN_STABLE.identifier(),
+                BuiltInLootTables.ANCIENT_CITY_ICE_BOX.identifier(),
+                BuiltInLootTables.RUINED_PORTAL.identifier()
         };
-        for (ResourceLocation chest : otherChests) {
+        for (Identifier chest : otherChests) {
             dataGen.add(
                     Dob.builder()
 
                             .glm(chest.getPath() + "_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
                                     LootTableIdCondition.builder(chest).build()
-                            }, Collections.emptyList(), 0.02f, 1, 1, 0, 5, 10))
+                            }, IGlobalLootModifier.DEFAULT_PRIORITY, Collections.emptyList(), 0.02f, 1, 1, 0, 5, 10))
             );
         }
     }
@@ -168,20 +169,21 @@ public class LootModule implements IModule {
     public static record Essence(DeferredItem<Item> item, String texture, String description) {
     }
 
-    public static record EssenceGLM(ResourceLocation itemId, ResourceLocation lootTable, float chance, int min, int max,
+    public static record EssenceGLM(Identifier itemId, Identifier lootTable, float chance, int min, int max,
                                     float looting) {
     }
 
     @Nonnull
     private static DeferredItem<Item> createBasicItem(String id, String texture, String description) {
-        DeferredItem<Item> object = ITEMS.register(id, tab(() -> new Item(FancyTrinkets.setup.defaultProperties().stacksTo(64))));
+        DeferredItem<Item> object = ITEMS.register(id, properties -> new Item(properties.stacksTo(64)));
+        FancyTrinkets.setup.addTabItem(() -> new ItemStack(object.get()));
         ESSENCE_ITEMS.put(id, new Essence(object, texture, description));
         return object;
     }
 
     private static EssenceGLM createGlm(String id, EntityType<?> type, float chance, int min, int max, float looting) {
-        EssenceGLM glm = new EssenceGLM(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id),
-                type.getDefaultLootTable().location(), chance, min, max, looting);
+        EssenceGLM glm = new EssenceGLM(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, id),
+                type.getDefaultLootTable().orElseThrow().identifier(), chance, min, max, looting);
         ESSENCE_GLMS.put(id, glm);
         return glm;
     }

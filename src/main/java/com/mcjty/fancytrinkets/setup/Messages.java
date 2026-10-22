@@ -18,7 +18,7 @@ public class Messages {
                 .optional();
 
         registrar.playToServer(PacketSendKey.TYPE, PacketSendKey.STREAM_CODEC, PacketSendKey::handle);
-        registrar.playToServer(PacketSyncPlayerEffects.TYPE, PacketSyncPlayerEffects.STREAM_CODEC, PacketSyncPlayerEffects::handle);
+        registrar.playToClient(PacketSyncPlayerEffects.TYPE, PacketSyncPlayerEffects.STREAM_CODEC, PacketSyncPlayerEffects::handle);
     }
 
     public static <T extends CustomPacketPayload> void sendToPlayer(T packet, Player player) {
@@ -26,6 +26,6 @@ public class Messages {
     }
 
     public static <T extends CustomPacketPayload> void sendToServer(T packet) {
-        PacketDistributor.sendToServer(packet);
+        net.neoforged.neoforge.client.network.ClientPacketDistributor.sendToServer(packet);
     }
 }

@@ -1,6 +1,21 @@
 {
   "variants": {
-    "": {
+    "facing=down": {
+      "model": "fancytrinkets:block/experience_crafter"
+    },
+    "facing=east": {
+      "model": "fancytrinkets:block/experience_crafter"
+    },
+    "facing=north": {
+      "model": "fancytrinkets:block/experience_crafter"
+    },
+    "facing=south": {
+      "model": "fancytrinkets:block/experience_crafter"
+    },
+    "facing=up": {
+      "model": "fancytrinkets:block/experience_crafter"
+    },
+    "facing=west": {
       "model": "fancytrinkets:block/experience_crafter"
     }
   }

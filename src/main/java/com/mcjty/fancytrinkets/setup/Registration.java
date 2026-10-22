@@ -1,6 +1,5 @@
 package com.mcjty.fancytrinkets.setup;
 
-
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.api.ITrinketItem;
 import com.mcjty.fancytrinkets.modules.trinkets.TrinketsModule;
@@ -12,7 +11,7 @@ import mcjty.lib.setup.DeferredItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -36,7 +35,6 @@ import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
 
 public class Registration {
 
-
     public static final RBlockRegistry RBLOCKS = new RBlockRegistry(MODID, FancyTrinkets.setup::addTabItem);
     public static final DeferredItems ITEMS = DeferredItems.create(MODID);
     public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, MODID);
@@ -48,11 +46,11 @@ public class Registration {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MODID);
     public static final DeferredRegister.DataComponents COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, MODID);
 
-    public static final ItemCapability<ITrinketItem, Void> TRINKET_ITEM_CAPABILITY = ItemCapability.createVoid(ResourceLocation.fromNamespaceAndPath(MODID, "trinket_item"), ITrinketItem.class);
+    public static final ItemCapability<ITrinketItem, Void> TRINKET_ITEM_CAPABILITY = ItemCapability.createVoid(Identifier.fromNamespaceAndPath(MODID, "trinket_item"), ITrinketItem.class);
 
     public static final Supplier<AttachmentType<PlayerEffectData>> PLAYER_EFFECTS = ATTACHMENT_TYPES.register(
             "player_effects", () -> AttachmentType.builder(() -> PlayerEffectData.DEFAULT)
-                    .serialize(PlayerEffectData.CODEC)
+                    .serialize(PlayerEffectData.MAP_CODEC)
                     .build());
 
     public static void register(IEventBus bus) {

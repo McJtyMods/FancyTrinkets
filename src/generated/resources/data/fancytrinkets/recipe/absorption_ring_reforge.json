@@ -4,12 +4,8 @@
   "mob": "fancytrinkets:absorption_ring_reforge",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:gold_ring_diamond"
-      },
-      "g": {
-        "item": "fancytrinkets:wither_essence"
-      }
+      "S": "fancytrinkets:gold_ring_diamond",
+      "g": "fancytrinkets:wither_essence"
     },
     "pattern": [
       "     ",
@@ -26,7 +22,6 @@
         "id": "fancytrinkets:absorption_ring"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:gold_ring_diamond"
   }
 }

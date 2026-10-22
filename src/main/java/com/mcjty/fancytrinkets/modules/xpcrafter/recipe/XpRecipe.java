@@ -1,69 +1,53 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.recipe;
 
 import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
-import mcjty.lib.crafting.BaseShapedRecipe;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Optional;
 
-public class XpRecipe extends BaseShapedRecipe {
-
-    private final ResourceLocation id;
-    private final ItemStack result;
-
+/** The crafter's recipes use their own type, separate from vanilla crafting recipes. */
+public class XpRecipe implements Recipe<CraftingInput> {
     public static final int RECIPE_DIMENSION = 5;
 
-    public XpRecipe(String group, ResourceLocation id, ShapedRecipePattern pattern, ItemStack result) {
-        super(group, CraftingBookCategory.MISC, pattern, result);
+    private final String group;
+    private final Identifier id;
+    public final ShapedRecipePattern pattern;
+    private final ItemStackTemplate result;
+
+    public XpRecipe(String group, Identifier id, ShapedRecipePattern pattern, ItemStackTemplate result) {
+        this.group = group;
         this.id = id;
+        this.pattern = pattern;
         this.result = result;
     }
 
     @Override
-    public boolean matches(@Nonnull CraftingInput inv, @Nonnull Level level) {
-        for (int i = 0 ; i < inv.width() * inv.height() ; i++) {
-            if (!pattern.ingredients().get(i).test(inv.getItem(i))) {
-                return false;
-            }
+    public boolean matches(CraftingInput input, Level level) {
+        if (input.width() != getWidth() || input.height() != getHeight()) return false;
+        for (int i = 0; i < input.size(); i++) {
+            if (!Ingredient.testOptionalIngredient(pattern.ingredients().get(i), input.getItem(i))) return false;
         }
         return true;
     }
 
-    public ResourceLocation getId() {
-        return id;
-    }
-
-    @Override
-    public NonNullList<Ingredient> getIngredients() {
-        return pattern.ingredients();
-    }
-
-
-    @Override
-    public boolean canCraftInDimensions(int pWidth, int pHeight) {
-        return pWidth == RECIPE_DIMENSION && pHeight == RECIPE_DIMENSION;
-    }
-
-    @Override
-    public boolean isSpecial() {
-        return true;
-    }
-
-    public ItemStack getResultItem() {
-        return result;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
-        return XpCrafterModule.XP_RECIPE_SERIALIZER.get();
-    }
-
-    @Override
-    public RecipeType<?> getType() {
-        return XpCrafterModule.XP_RECIPE_TYPE.get();
-    }
+    public Identifier getId() { return id; }
+    public String getGroup() { return group; }
+    @Override public String group() { return group; }
+    public int getWidth() { return pattern.width(); }
+    public int getHeight() { return pattern.height(); }
+    public List<Optional<Ingredient>> getIngredients() { return pattern.ingredients(); }
+    public ItemStackTemplate getResultTemplate() { return result; }
+    public ItemStack getResultItem() { return result.create(); }
+    @Override public ItemStack assemble(CraftingInput input) { return result.create(); }
+    @Override public boolean isSpecial() { return true; }
+    @Override public boolean showNotification() { return true; }
+    @Override public PlacementInfo placementInfo() { return PlacementInfo.createFromOptionals(pattern.ingredients()); }
+    @Override public RecipeBookCategory recipeBookCategory() { return RecipeBookCategories.CRAFTING_MISC; }
+    @Override public RecipeSerializer<XpRecipe> getSerializer() { return XpCrafterModule.XP_RECIPE_SERIALIZER.get(); }
+    @Override public RecipeType<XpRecipe> getType() { return XpCrafterModule.XP_RECIPE_TYPE.get(); }
 }

@@ -10,10 +10,10 @@ import mcjty.lib.gui.Window;
 import mcjty.lib.gui.widgets.Button;
 import mcjty.lib.gui.widgets.EnergyBar;
 import mcjty.lib.gui.widgets.Panel;
-import mcjty.lib.tileentity.GenericTileEntity;
-import net.minecraft.client.gui.GuiGraphics;
+
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
@@ -26,7 +26,7 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
     public static final int CONTROLLER_WIDTH = 180;
     public static final int CONTROLLER_HEIGHT = 192;
 
-    private static final ResourceLocation BACKGROUND = ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "textures/gui/experience_crafter.png");
+    private static final Identifier BACKGROUND = Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "textures/gui/experience_crafter.png");
 
     private EnergyBar xpbar;
     private Button craftButton;
@@ -34,8 +34,7 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
     public GuiExperienceCrafter(GenericContainer container, Inventory inventory, Component title) {
         super(container, inventory, title, XpCrafterModule.EXPERIENCE_CRAFTER.block().get().getManualEntry());
 
-        imageWidth = CONTROLLER_WIDTH;
-        imageHeight = CONTROLLER_HEIGHT;
+        setWindowDimensions(CONTROLLER_WIDTH, CONTROLLER_HEIGHT);
     }
 
     public static void register(RegisterMenuScreensEvent event) {
@@ -72,9 +71,8 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
         window.action("craft", be, ExperienceCrafterBE.CMD_CRAFT);
     }
 
-
     @Override
-    protected void renderBg(@Nonnull GuiGraphics graphics, float partialTicks, int x, int y) {
+    protected void renderBg(@Nonnull GuiGraphicsExtractor graphics, float partialTicks, int x, int y) {
         drawWindow(graphics, partialTicks, x, y);
         ExperienceCrafterBE be = getBE();
         xpbar.value(be.getExperience());

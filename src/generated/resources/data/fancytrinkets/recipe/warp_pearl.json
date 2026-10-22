@@ -4,12 +4,8 @@
   "mob": "fancytrinkets:warp_pearl",
   "pattern": {
     "key": {
-      "g": {
-        "item": "fancytrinkets:enderman_essence"
-      },
-      "o": {
-        "tag": "c:ender_pearls"
-      }
+      "g": "fancytrinkets:enderman_essence",
+      "o": "#c:ender_pearls"
     },
     "pattern": [
       " ooo ",
@@ -26,7 +22,6 @@
         "id": "fancytrinkets:warp_pearl"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:blue_pearl"
   }
 }

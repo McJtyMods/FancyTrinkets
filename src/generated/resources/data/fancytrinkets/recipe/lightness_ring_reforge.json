@@ -4,12 +4,8 @@
   "mob": "fancytrinkets:lightness_ring_reforge",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:gold_ring"
-      },
-      "g": {
-        "item": "fancytrinkets:chicken_essence"
-      }
+      "S": "fancytrinkets:gold_ring",
+      "g": "fancytrinkets:chicken_essence"
     },
     "pattern": [
       "     ",
@@ -26,7 +22,6 @@
         "id": "fancytrinkets:lightness_ring"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:gold_ring"
   }
 }

@@ -4,12 +4,8 @@
   "mob": "fancytrinkets:cure_reforge",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:heart"
-      },
-      "g": {
-        "item": "fancytrinkets:iron_golem_essence"
-      }
+      "S": "fancytrinkets:heart",
+      "g": "fancytrinkets:iron_golem_essence"
     },
     "pattern": [
       "     ",
@@ -26,7 +22,6 @@
         "id": "fancytrinkets:cure"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:heart"
   }
 }

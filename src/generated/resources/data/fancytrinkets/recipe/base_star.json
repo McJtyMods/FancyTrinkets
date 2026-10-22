@@ -4,9 +4,7 @@
   "mob": "fancytrinkets:base_star",
   "pattern": {
     "key": {
-      "g": {
-        "tag": "c:gems/prismarine"
-      }
+      "g": "#c:gems/prismarine"
     },
     "pattern": [
       "g g g",
@@ -23,7 +21,6 @@
         "id": "fancytrinkets:base_star"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:star"
   }
 }

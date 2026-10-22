@@ -4,15 +4,9 @@
   "mob": "fancytrinkets:slowfalling_feather",
   "pattern": {
     "key": {
-      "f": {
-        "tag": "c:feathers"
-      },
-      "g": {
-        "item": "fancytrinkets:chicken_essence"
-      },
-      "o": {
-        "tag": "c:ender_pearls"
-      }
+      "f": "#c:feathers",
+      "g": "fancytrinkets:chicken_essence",
+      "o": "#c:ender_pearls"
     },
     "pattern": [
       "ooofg",
@@ -29,7 +23,6 @@
         "id": "fancytrinkets:slowfalling_feather"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:feather"
   }
 }

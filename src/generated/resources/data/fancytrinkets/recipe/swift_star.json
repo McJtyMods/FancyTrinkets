@@ -4,15 +4,9 @@
   "mob": "fancytrinkets:swift_star",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:star"
-      },
-      "g": {
-        "item": "fancytrinkets:spider_essence"
-      },
-      "t": {
-        "tag": "c:gems/quartz"
-      }
+      "S": "fancytrinkets:star",
+      "g": "fancytrinkets:spider_essence",
+      "t": "#c:gems/quartz"
     },
     "pattern": [
       "ttgtt",
@@ -29,7 +23,6 @@
         "id": "fancytrinkets:swift_star"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:star"
   }
 }

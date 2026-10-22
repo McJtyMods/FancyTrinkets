@@ -4,21 +4,11 @@
   "mob": "fancytrinkets:cure",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:heart"
-      },
-      "f": {
-        "item": "fancytrinkets:iron_golem_essence"
-      },
-      "g": {
-        "item": "fancytrinkets:enderman_essence"
-      },
-      "t": {
-        "item": "minecraft:end_crystal"
-      },
-      "w": {
-        "item": "minecraft:nether_star"
-      }
+      "S": "fancytrinkets:heart",
+      "f": "fancytrinkets:iron_golem_essence",
+      "g": "fancytrinkets:enderman_essence",
+      "t": "minecraft:end_crystal",
+      "w": "minecraft:nether_star"
     },
     "pattern": [
       "tffft",
@@ -35,7 +25,6 @@
         "id": "fancytrinkets:cure"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:heart"
   }
 }

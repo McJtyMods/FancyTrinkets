@@ -6,7 +6,6 @@ import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.data.ExperienceCrafterData;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
 import com.mcjty.fancytrinkets.setup.Config;
-import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.api.container.DefaultContainerProvider;
 import mcjty.lib.bindings.GuiValue;
 import mcjty.lib.bindings.Value;
@@ -20,9 +19,9 @@ import mcjty.lib.tileentity.Cap;
 import mcjty.lib.tileentity.CapType;
 import mcjty.lib.tileentity.GenericTileEntity;
 import mcjty.lib.typed.Type;
-import mcjty.lib.varia.Tools;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -34,7 +33,8 @@ import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.Lazy;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -42,6 +42,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import static com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe.RECIPE_DIMENSION;
+import static com.mcjty.fancytrinkets.setup.Registration.TRINKET_ITEM_CAPABILITY;
 import static mcjty.lib.api.container.DefaultContainerProvider.container;
 
 public class ExperienceCrafterBE extends GenericTileEntity {
@@ -63,7 +64,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
             .onUpdate(this::onUpdate)
             .build();
     @Cap(type = CapType.ITEMS_AUTOMATION)
-    private static final Function<ExperienceCrafterBE, IItemHandler> ITEM_CAP = tile -> tile.items;
+    private static final Function<ExperienceCrafterBE, ResourceHandler<ItemResource>> ITEM_CAP = tile -> tile.items;
 
     @Cap(type = CapType.CONTAINER)
     private static final Function<ExperienceCrafterBE, MenuProvider> screenHandler = tile -> new DefaultContainerProvider<GenericContainer>("Experience Crafter")
@@ -96,14 +97,13 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     private void craft() {
         Optional<RecipeHolder<XpRecipe>> result = findRecipe();
         result.ifPresent(recipe -> {
-            // @todo 1.21 is this right?
-            CraftingInput input = CraftingInput.of(3, 3, inv.getItems());
-            ItemStack stack = recipe.value().assemble(input, Tools.getRegistryAccess(level));
+            CraftingInput input = CraftingInput.of(RECIPE_DIMENSION, RECIPE_DIMENSION, inv.getItems());
+            ItemStack stack = recipe.value().assemble(input);
             ItemStack outputSlot = items.getStackInSlot(SLOT_OUTPUT);
             if (outputSlot.isEmpty()) {
                 stack = stack.copy();
                 ItemStack finalStack = stack;
-                ITrinketItem trinket = stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY);
+                ITrinketItem trinket = stack.getCapability(TRINKET_ITEM_CAPABILITY);
                 if (trinket != null) {
                     addBonusEffects(trinket, finalStack);
                 }
@@ -113,8 +113,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
                         int i = y * RECIPE_DIMENSION + x;
                         ItemStack in = items.getStackInSlot(SLOT_GRID + i);
                         if (!in.isEmpty()) {
-                            int index = y * recipe.value().getWidth() + x;
-                            in.setCount(in.getCount() - recipe.value().getIngredients().get(index).getItems()[0].getCount());
+                            in.shrink(1);
                             items.setStackInSlot(SLOT_GRID + i, in);
                         }
                     }
@@ -132,7 +131,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     }
 
     private void onUpdate(int slot, ItemStack stack) {
-        if (slot >= SLOT_GRID) {
+        if (slot >= SLOT_GRID && level instanceof ServerLevel) {
             updatePreview();
         }
     }
@@ -149,9 +148,8 @@ public class ExperienceCrafterBE extends GenericTileEntity {
         for (int i = SLOT_GRID; i < SLOT_GRID + RECIPE_DIMENSION * RECIPE_DIMENSION; i++) {
             inv.setItem(i - SLOT_GRID, items.getStackInSlot(i));
         }
-        // @todo 1.21 is this correct?
         CraftingInput input = CraftingInput.of(RECIPE_DIMENSION, RECIPE_DIMENSION, inv.getItems());
-        return level.getRecipeManager().getRecipeFor(XpCrafterModule.XP_RECIPE_TYPE.get(), input, level);
+        return ((ServerLevel) level).recipeAccess().getRecipeFor(XpCrafterModule.XP_RECIPE_TYPE.get(), input, level);
     }
 
     private void fillExperience(ServerPlayer player) {

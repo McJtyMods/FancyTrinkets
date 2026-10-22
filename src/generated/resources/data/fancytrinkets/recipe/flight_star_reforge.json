@@ -4,12 +4,8 @@
   "mob": "fancytrinkets:flight_star_reforge",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:star"
-      },
-      "g": {
-        "item": "fancytrinkets:ghast_essence"
-      }
+      "S": "fancytrinkets:star",
+      "g": "fancytrinkets:ghast_essence"
     },
     "pattern": [
       "     ",
@@ -26,7 +22,6 @@
         "id": "fancytrinkets:flight_star"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:star"
   }
 }

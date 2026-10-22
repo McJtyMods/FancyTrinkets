@@ -4,15 +4,19 @@ import mcjty.lib.crafting.IRecipeBuilder;
 import mcjty.lib.varia.Tools;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
-import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.CriterionTriggerInstance;
+import net.minecraft.advancements.triggers.Criterion;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStackTemplate;
+
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapedRecipe;
@@ -22,22 +26,23 @@ import org.jetbrains.annotations.Nullable;
 
 public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
 
-    private final ItemStack result;
+    private final ItemStackTemplate result;
     private ShapedRecipeBuilder builder;
     private final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
 
-    public XpRecipeBuilder(ItemStack result) {
+    public XpRecipeBuilder(HolderLookup.Provider lookupProvider, ItemStackTemplate result) {
         this.result = result;
-        builder = new ShapedRecipeBuilder(RecipeCategory.MISC, this.result);
+        builder = ShapedRecipeBuilder.shaped(lookupProvider.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, this.result);
     }
 
-    public static XpRecipeBuilder shapedRecipe(ItemStack result) {
-        return new XpRecipeBuilder(result);
+    public static XpRecipeBuilder shapedRecipe(HolderLookup.Provider lookupProvider, ItemStackTemplate result) {
+        return new XpRecipeBuilder(lookupProvider, result);
     }
 
     @Override
     public XpRecipeBuilder define(Character symbol, TagKey<Item> tagKey) {
-        return this.define(symbol, Ingredient.of(tagKey));
+        builder = builder.define(symbol, tagKey);
+        return this;
     }
 
     @Override
@@ -57,11 +62,10 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
         return this;
     }
 
-    public XpRecipeBuilder unlockedBy(String name, Criterion<? extends CriterionTriggerInstance> criterionIn) {
+    public XpRecipeBuilder unlockedBy(String name, Criterion<?> criterionIn) {
         builder = builder.unlockedBy(name, criterionIn);
         return this;
     }
-
 
     @Override
     public XpRecipeBuilder setGroup(String groupIn) {
@@ -70,16 +74,16 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
 
     @Override
     public void build(RecipeOutput consumer) {
-        this.build(consumer, Tools.getId(this.result.getItem()));
+        this.build(consumer, Tools.getId(this.result.item().value()));
     }
 
     @Override
     public void build(RecipeOutput consumer, String save) {
-        this.build(consumer, ResourceLocation.parse(save));
+        this.build(consumer, Identifier.parse(save));
     }
 
     @Override
-    public void build(RecipeOutput consumer, ResourceLocation id) {
+    public void build(RecipeOutput consumer, Identifier id) {
         builder.save(new RecipeOutput() {
             @Override
             public Advancement.Builder advancement() {
@@ -87,11 +91,13 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
             }
 
             @Override
-            public void accept(ResourceLocation resourceLocation, Recipe<?> recipe, @Nullable AdvancementHolder advancementHolder, ICondition... iConditions) {
-                consumer.accept(id, new XpRecipe(recipe.getGroup(), id, ((ShapedRecipe) recipe).pattern, recipe.getResultItem(null)),
+            public void accept(ResourceKey<Recipe<?>> resourceLocation, Recipe<?> recipe, @Nullable AdvancementHolder advancementHolder, ICondition... iConditions) {
+                consumer.accept(ResourceKey.create(Registries.RECIPE, id), new XpRecipe(recipe.group(), id, ((ShapedRecipe) recipe).pattern, result),
                         advancementHolder, iConditions);
             }
-        });
+            @Override
+            public void includeRootAdvancement() { }
+        }, ResourceKey.create(Registries.RECIPE, Tools.getId(result.item().value())));
 
     }
 }

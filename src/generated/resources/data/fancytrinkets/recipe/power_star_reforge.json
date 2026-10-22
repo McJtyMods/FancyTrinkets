@@ -4,12 +4,8 @@
   "mob": "fancytrinkets:power_star_reforge",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:star"
-      },
-      "g": {
-        "item": "fancytrinkets:wither_essence"
-      }
+      "S": "fancytrinkets:star",
+      "g": "fancytrinkets:wither_essence"
     },
     "pattern": [
       "     ",
@@ -26,7 +22,6 @@
         "id": "fancytrinkets:power_star"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:star"
   }
 }

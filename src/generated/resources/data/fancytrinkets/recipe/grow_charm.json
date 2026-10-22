@@ -4,18 +4,10 @@
   "mob": "fancytrinkets:grow_charm",
   "pattern": {
     "key": {
-      "f": {
-        "tag": "c:bones"
-      },
-      "g": {
-        "item": "fancytrinkets:skeleton_essence"
-      },
-      "t": {
-        "item": "minecraft:bone_meal"
-      },
-      "w": {
-        "item": "minecraft:diamond_block"
-      }
+      "f": "#c:bones",
+      "g": "fancytrinkets:skeleton_essence",
+      "t": "minecraft:bone_meal",
+      "w": "minecraft:diamond_block"
     },
     "pattern": [
       " fwf ",
@@ -32,7 +24,6 @@
         "id": "fancytrinkets:grow_charm"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:charm1"
   }
 }

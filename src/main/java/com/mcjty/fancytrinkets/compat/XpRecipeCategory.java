@@ -30,14 +30,14 @@ public class XpRecipeCategory extends AbstractRecipeCategory<XpRecipe> {
         for (int y = 0 ; y < XpRecipe.RECIPE_DIMENSION ; y++) {
             for (int x = 0 ; x < XpRecipe.RECIPE_DIMENSION ; x++) {
                 if (x < recipe.getWidth() && y < recipe.getHeight()) {
-                    builder.addSlot(RecipeIngredientRole.INPUT, 5 + x * 18, 5 + y * 18)
-                            .addIngredients(recipe.getIngredients().get(y * recipe.getWidth() + x))
+                    var slot = builder.addSlot(RecipeIngredientRole.INPUT, 5 + x * 18, 5 + y * 18)
                             .setStandardSlotBackground();
+                    recipe.getIngredients().get(y * recipe.getWidth() + x).ifPresent(slot::add);
                 }
             }
         }
         builder.addSlot(RecipeIngredientRole.OUTPUT, 3 + 6*18,  9)
-                .addItemStack(recipe.getResultItem())
+                .add(recipe.getResultItem())
                 .setOutputSlotBackground();
 
     }

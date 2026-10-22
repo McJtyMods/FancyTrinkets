@@ -4,9 +4,7 @@
   "mob": "fancytrinkets:base_heart",
   "pattern": {
     "key": {
-      "g": {
-        "item": "minecraft:redstone_block"
-      }
+      "g": "minecraft:redstone_block"
     },
     "pattern": [
       " ggg ",
@@ -23,7 +21,6 @@
         "id": "fancytrinkets:base_heart"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:heart"
   }
 }

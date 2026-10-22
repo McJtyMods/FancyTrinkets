@@ -6,10 +6,10 @@ import com.mcjty.fancytrinkets.modules.effects.imp.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.ResourceLocationException;
+import net.minecraft.IdentifierException;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -104,27 +104,27 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
             default -> null;
         };
         if (attributeSupplier == null) {
-            ResourceLocation attributeId;
+            Identifier attributeId;
             try {
-                attributeId = ResourceLocation.parse(effName);
-            } catch (ResourceLocationException e) {
+                attributeId = Identifier.parse(effName);
+            } catch (IdentifierException e) {
                 throw new RuntimeException("Bad attribute effectId '" + effName + "'!", e);
             }
 
             if (!BuiltInRegistries.ATTRIBUTE.containsKey(attributeId)) {
                 throw new RuntimeException("Bad attribute effectId '" + effName + "'!");
             }
-            Attribute attribute = BuiltInRegistries.ATTRIBUTE.get(attributeId);
+            Attribute attribute = BuiltInRegistries.ATTRIBUTE.getValue(attributeId);
             attributeSupplier = Holder.direct(attribute);
         }
-        return new AttributeModifierEffect(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, effName), hotkey, toggle, effName, attributeSupplier, p.operation(), p.amount());
+        return new AttributeModifierEffect(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, effName), hotkey, toggle, effName, attributeSupplier, p.operation(), p.amount());
     }
 
     @Nonnull
     private static MobEffectEffect getMobEffectEffect(IEffectParameters params, Integer hotkey, String toggle) {
         MobEffectEffect.Params p = MobEffectEffect.Params.cast(params);
         String effName = p.effect();
-        Optional<Holder.Reference<MobEffect>> effect = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceLocation.parse(effName));
+        Optional<Holder.Reference<MobEffect>> effect = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(effName));
         if (effect.isEmpty()) {
             throw new RuntimeException("Can't find effectId '" + effName + "'!");
         }
@@ -135,7 +135,7 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
     private static PotionResistanceEffect getPotionResistanceEffect(IEffectParameters params, Integer hotkey, String toggle) {
         PotionResistanceEffect.Params p = PotionResistanceEffect.Params.cast(params);
         String effName = p.effect();
-        Optional<Holder.Reference<MobEffect>> effect = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceLocation.parse(effName));
+        Optional<Holder.Reference<MobEffect>> effect = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(effName));
         if (effect.isEmpty()) {
             throw new RuntimeException("Can't find effectId '" + effName + "'!");
         }

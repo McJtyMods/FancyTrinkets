@@ -4,12 +4,8 @@
   "mob": "fancytrinkets:swift_star_reforge",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:star"
-      },
-      "g": {
-        "item": "fancytrinkets:spider_essence"
-      }
+      "S": "fancytrinkets:star",
+      "g": "fancytrinkets:spider_essence"
     },
     "pattern": [
       "     ",
@@ -26,7 +22,6 @@
         "id": "fancytrinkets:swift_star"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:star"
   }
 }

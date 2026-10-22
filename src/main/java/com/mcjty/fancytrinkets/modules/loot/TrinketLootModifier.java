@@ -8,7 +8,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcjty.lib.varia.Tools;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class TrinketLootModifier extends LootModifier {
 
-    private final List<ResourceLocation> trinketIds;
+    private final List<Identifier> trinketIds;
     private final float chance;
     private final int min;
     private final int max;
@@ -32,7 +32,8 @@ public class TrinketLootModifier extends LootModifier {
 
     public static final MapCodec<TrinketLootModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(l -> l.conditions),
-            Codec.list(ResourceLocation.CODEC).fieldOf("trinkets").forGetter(l -> l.trinketIds),
+            Codec.INT.optionalFieldOf("priority", IGlobalLootModifier.DEFAULT_PRIORITY).forGetter(l -> l.priority),
+            Codec.list(Identifier.CODEC).fieldOf("trinkets").forGetter(l -> l.trinketIds),
             Codec.FLOAT.fieldOf("chance").forGetter(l -> l.chance),
             Codec.INT.fieldOf("min").forGetter(l -> l.min),
             Codec.INT.fieldOf("max").forGetter(l -> l.max),
@@ -41,10 +42,9 @@ public class TrinketLootModifier extends LootModifier {
             Codec.FLOAT.fieldOf("maxquality").forGetter(l -> l.maxQuality)
     ).apply(instance, TrinketLootModifier::new));
 
-
-    public TrinketLootModifier(LootItemCondition[] conditionsIn, List<ResourceLocation> trinketIds, float chance, int min, int max, float looting,
+    public TrinketLootModifier(LootItemCondition[] conditionsIn, int priority, List<Identifier> trinketIds, float chance, int min, int max, float looting,
                                float minQuality, float maxQuality) {
-        super(conditionsIn);
+        super(conditionsIn, priority);
         this.trinketIds = trinketIds;
         this.chance = chance;
         this.min = min;
@@ -57,11 +57,11 @@ public class TrinketLootModifier extends LootModifier {
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         RandomSource random = context.getRandom();
-        ResourceLocation id;
+        Identifier id;
         if (trinketIds.isEmpty()) {
             // Pick a totally random trinket
-            List<ResourceLocation> keys = Tools.getRegistryAccess(context.getLevel()).registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).entrySet()
-                    .stream().map(p -> p.getKey().location()).toList();
+            List<Identifier> keys = Tools.getRegistryAccess(context.getLevel()).lookupOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).entrySet()
+                    .stream().map(p -> p.getKey().identifier()).toList();
             if (keys.isEmpty()) {
                 // Weird
                 return generatedLoot;
@@ -71,7 +71,7 @@ public class TrinketLootModifier extends LootModifier {
             id = trinketIds.get(random.nextInt(trinketIds.size()));
         }
 
-        TrinketDescription trinket = Tools.getRegistryAccess(context.getLevel()).registryOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).get(id);
+        TrinketDescription trinket = Tools.getRegistryAccess(context.getLevel()).lookupOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).getValue(id);
         if (trinket == null) {
             return generatedLoot;
         }

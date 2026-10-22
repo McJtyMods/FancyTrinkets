@@ -13,6 +13,7 @@ import mcjty.lib.container.GenericContainer;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
+import mcjty.lib.items.BaseBlockItem;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.inventory.MenuType;
@@ -35,19 +36,19 @@ import static mcjty.lib.datagen.DataGen.has;
 public class XpCrafterModule implements IModule {
 
     public static final Supplier<RecipeType<XpRecipe>> XP_RECIPE_TYPE = RECIPE_TYPES.register("xprecipe", XpRecipeType::new);
-    public static final Supplier<RecipeSerializer<XpRecipe>> XP_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("xprecipe", XpRecipeSerializer::new);
+    public static final Supplier<RecipeSerializer<XpRecipe>> XP_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("xprecipe", () -> XpRecipeSerializer.SERIALIZER);
 
     public static final RBlock<BaseBlock, BlockItem, ExperienceCrafterBE> EXPERIENCE_CRAFTER = RBLOCKS.registerBlock("experience_crafter",
             ExperienceCrafterBE.class,
             ExperienceCrafterBlock::new,
-            block -> new BlockItem(block.get(), createStandardProperties()),
+            (block, properties) -> new BaseBlockItem(block.get(), properties),
             ExperienceCrafterBE::new
     );
     public static final Supplier<MenuType<GenericContainer>> CONTAINER_EXPERIENCE_CRAFTER = CONTAINERS.register("experience_crafter", GenericContainer::createContainerType);
 
     public static final Supplier<AttachmentType<ExperienceCrafterData>> EXPERIENCE_CRAFTER_DATA = ATTACHMENT_TYPES.register(
             "experience_crafter_data", () -> AttachmentType.builder(() -> ExperienceCrafterData.DEFAULT)
-                    .serialize(ExperienceCrafterData.CODEC)
+                    .serialize(ExperienceCrafterData.MAP_CODEC)
                     .build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ExperienceCrafterData>> ITEM_EXPERIENCE_CRAFTER_DATA = COMPONENTS.registerComponentType(
             "experience_crafter_data",

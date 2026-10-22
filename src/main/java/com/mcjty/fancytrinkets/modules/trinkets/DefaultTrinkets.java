@@ -2,14 +2,14 @@ package com.mcjty.fancytrinkets.modules.trinkets;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.datapack.TrinketDescription;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class DefaultTrinkets {
-    public static final Map<ResourceLocation, TrinketInfo> DEFAULT_TRINKETS = new HashMap<>();
+    public static final Map<Identifier, TrinketInfo> DEFAULT_TRINKETS = new HashMap<>();
 
     static void init() {
         DEFAULT_TRINKETS.clear();
@@ -56,20 +56,20 @@ public class DefaultTrinkets {
     }
 
     private static TrinketDescription.EffectRef effect(String id) {
-        return new TrinketDescription.EffectRef(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), false);
+        return new TrinketDescription.EffectRef(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, id), false);
     }
 
     private static TrinketDescription.EffectRef hidden(String id) {
-        return new TrinketDescription.EffectRef(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), true);
+        return new TrinketDescription.EffectRef(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, id), true);
     }
 
     private static void register(String id, TrinketDescription trinket, String name, String description) {
-        DEFAULT_TRINKETS.put(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), new TrinketInfo(trinket, name, description));
+        DEFAULT_TRINKETS.put(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, id), new TrinketInfo(trinket, name, description));
     }
 
     private static TrinketDescription trinket(String id, String itemId, TrinketDescription.EffectRef... effects) {
-        return new TrinketDescription(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, itemId),
-                ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "standard"),
+        return new TrinketDescription(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, itemId),
+                Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "standard"),
                 "trinket.fancytrinkets." + id + ".name",
                 "trinket.fancytrinkets." + id + ".description",
                 List.of(effects));

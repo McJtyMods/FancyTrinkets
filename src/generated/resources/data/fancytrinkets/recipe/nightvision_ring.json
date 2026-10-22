@@ -4,21 +4,11 @@
   "mob": "fancytrinkets:nightvision_ring",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:gold_ring"
-      },
-      "f": {
-        "item": "minecraft:fermented_spider_eye"
-      },
-      "g": {
-        "item": "fancytrinkets:spider_essence"
-      },
-      "t": {
-        "item": "minecraft:spider_eye"
-      },
-      "w": {
-        "item": "minecraft:ender_eye"
-      }
+      "S": "fancytrinkets:gold_ring",
+      "f": "minecraft:fermented_spider_eye",
+      "g": "fancytrinkets:spider_essence",
+      "t": "minecraft:spider_eye",
+      "w": "minecraft:ender_eye"
     },
     "pattern": [
       "tfwft",
@@ -35,7 +25,6 @@
         "id": "fancytrinkets:nightvision_ring"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:gold_ring"
   }
 }

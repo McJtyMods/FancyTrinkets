@@ -4,18 +4,10 @@
   "mob": "fancytrinkets:flight_star",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:star"
-      },
-      "f": {
-        "tag": "c:feathers"
-      },
-      "g": {
-        "item": "fancytrinkets:ghast_essence"
-      },
-      "t": {
-        "item": "minecraft:ghast_tear"
-      }
+      "S": "fancytrinkets:star",
+      "f": "#c:feathers",
+      "g": "fancytrinkets:ghast_essence",
+      "t": "minecraft:ghast_tear"
     },
     "pattern": [
       "gfgfg",
@@ -32,7 +24,6 @@
         "id": "fancytrinkets:flight_star"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:star"
   }
 }

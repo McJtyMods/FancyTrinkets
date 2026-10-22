@@ -53,6 +53,8 @@ public class FancyTrinkets {
         if (dist.isClient()) {
             bus.addListener(modules::initClient);
             bus.addListener(ClientEventHandlers::onRegisterKeyMappings);
+            NeoForge.EVENT_BUS.addListener(ClientEventHandlers::onRecipesReceived);
+            NeoForge.EVENT_BUS.addListener(ClientEventHandlers::onLoggingOut);
             NeoForge.EVENT_BUS.register(new KeyInputHandler());
         }
     }
@@ -61,7 +63,7 @@ public class FancyTrinkets {
         return instance.setup.tab(supplier);
     }
 
-    private void onDataGen(GatherDataEvent event) {
+    private void onDataGen(GatherDataEvent.Client event) {
         DataGen datagen = new DataGen(MODID, event);
         modules.datagen(datagen, event.getLookupProvider());
         setup.datagen(datagen);

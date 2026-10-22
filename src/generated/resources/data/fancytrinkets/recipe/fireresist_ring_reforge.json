@@ -4,12 +4,8 @@
   "mob": "fancytrinkets:fireresist_ring_reforge",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:gold_ring"
-      },
-      "g": {
-        "item": "fancytrinkets:blaze_essence"
-      }
+      "S": "fancytrinkets:gold_ring",
+      "g": "fancytrinkets:blaze_essence"
     },
     "pattern": [
       "     ",
@@ -26,7 +22,6 @@
         "id": "fancytrinkets:fireresist_ring"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:gold_ring"
   }
 }

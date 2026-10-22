@@ -2,14 +2,14 @@ package com.mcjty.fancytrinkets.modules.trinkets;
 
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.datapack.BonusTable;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class DefaultBonusTables {
-    public static final Map<ResourceLocation, BonusTableInfo> DEFAULT_BONUS_TABLES = new HashMap<>();
+    public static final Map<Identifier, BonusTableInfo> DEFAULT_BONUS_TABLES = new HashMap<>();
 
     static void init() {
         DEFAULT_BONUS_TABLES.clear();
@@ -74,11 +74,11 @@ public class DefaultBonusTables {
     }
 
     private static BonusTable.EffectRef effect(String id, float quality) {
-        return new BonusTable.EffectRef(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), quality);
+        return new BonusTable.EffectRef(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, id), quality);
     }
 
     private static void register(String id, BonusTable bonusTable, String name) {
-        DEFAULT_BONUS_TABLES.put(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), new BonusTableInfo(bonusTable, name));
+        DEFAULT_BONUS_TABLES.put(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, id), new BonusTableInfo(bonusTable, name));
     }
 
     private static BonusTable bonusTable(BonusTable.EffectRef... effects) {

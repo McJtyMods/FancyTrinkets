@@ -6,33 +6,29 @@ import com.mcjty.fancytrinkets.modules.xpcrafter.XpCrafterModule;
 import com.mcjty.fancytrinkets.modules.xpcrafter.blocks.ExperienceCrafterBE;
 import com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe;
 import mcjty.lib.container.GenericContainer;
-import mcjty.lib.varia.SafeClientTools;
+
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.registration.*;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.Level;
+import net.minecraft.resources.Identifier;
+
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
 
 @JeiPlugin
 @ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class FancyJeiPlugin implements IModPlugin {
 
-    private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "jeiplugin");
+    private static final Identifier ID = Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "jeiplugin");
 
-    public static final RecipeType<XpRecipe> XP_RECIPE_TYPE = RecipeType.create(FancyTrinkets.MODID, "xp_recipe", XpRecipe.class);
+    public static final IRecipeType<XpRecipe> XP_RECIPE_TYPE = IRecipeType.create(FancyTrinkets.MODID, "xp_recipe", XpRecipe.class);
 
     @Override
-    public ResourceLocation getPluginUid() {
+    public Identifier getPluginUid() {
         return ID;
     }
 
@@ -50,7 +46,7 @@ public class FancyJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(XpCrafterModule.EXPERIENCE_CRAFTER.block(), XP_RECIPE_TYPE);
+        registration.addCraftingStation(XP_RECIPE_TYPE, XpCrafterModule.EXPERIENCE_CRAFTER.block());
     }
 
     @Override
@@ -62,9 +58,7 @@ public class FancyJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        Level level = SafeClientTools.getWorld();
-        List<RecipeHolder<XpRecipe>> recipes = level.getRecipeManager().getAllRecipesFor(XpCrafterModule.XP_RECIPE_TYPE.get());
-        registration.addRecipes(XP_RECIPE_TYPE, recipes.stream().map(RecipeHolder::value).toList());
+        registration.addRecipes(XP_RECIPE_TYPE, com.mcjty.fancytrinkets.setup.ClientEventHandlers.getXpRecipes());
     }
 
     @Override

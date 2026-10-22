@@ -198,7 +198,7 @@
   "item.fancytrinkets.yellow_pearl": "Yellow pearl",
   "item.fancytrinkets.zombie_essence": "Zombie Essence",
   "itemGroup.fancytrinkets": "Fancy Trinkets",
-  "key.categories.fancytrinkets": "Fancy Trinkets",
+  "key.category.fancytrinkets.main": "Fancy Trinkets",
   "message.fancytrinkets.bonus": "Bonus effects:",
   "message.fancytrinkets.experience_crafter.header": "Craft trinkets using experience. With low experience you'll potentially get low quality trinkets",
   "message.fancytrinkets.shiftmessage": "<Press Shift>",

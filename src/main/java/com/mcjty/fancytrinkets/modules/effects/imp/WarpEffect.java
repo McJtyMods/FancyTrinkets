@@ -41,12 +41,10 @@ public class WarpEffect extends EffectImp {
                     Codec.INT.fieldOf("maxdist").forGetter(l -> ((WarpEffect.Params)l).maxdist)
             ).apply(instance, WarpEffect.Params::new));
 
-
     public WarpEffect(Integer hotkey, String toggle, int maxdist) {
         super(hotkey, toggle);
         this.maxdist = maxdist;
     }
-
 
     @Override
     public void onHotkey(ItemStack stack, ServerPlayer player, String slotId, int key) {
@@ -88,6 +86,6 @@ public class WarpEffect extends EffectImp {
                 case EAST -> player.teleportTo(x + 1 + .5, y, z + .5);
             }
         }
-        SoundTools.playSound(player.getCommandSenderWorld(), SoundEvents.ENDER_PEARL_THROW, player.getX(), player.getY(), player.getZ(), 1.0f, 1.0f);
+        SoundTools.playSound(player.level(), SoundEvents.ENDER_PEARL_THROW, player.getX(), player.getY(), player.getZ(), 1.0f, 1.0f);
     }
 }

@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcjty.lib.varia.Tools;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class EssenceLootModifier extends LootModifier {
 
-    private final ResourceLocation item;
+    private final Identifier item;
     private final float chance;
     private final int min;
     private final int max;
@@ -25,16 +25,16 @@ public class EssenceLootModifier extends LootModifier {
 
     public static final MapCodec<EssenceLootModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(l -> l.conditions),
-            ResourceLocation.CODEC.fieldOf("item").forGetter(l -> l.item),
+            Codec.INT.optionalFieldOf("priority", IGlobalLootModifier.DEFAULT_PRIORITY).forGetter(l -> l.priority),
+            Identifier.CODEC.fieldOf("item").forGetter(l -> l.item),
             Codec.FLOAT.fieldOf("chance").forGetter(l -> l.chance),
             Codec.INT.fieldOf("min").forGetter(l -> l.min),
             Codec.INT.fieldOf("max").forGetter(l -> l.max),
             Codec.FLOAT.fieldOf("looting").forGetter(l -> l.lootingFactor)
     ).apply(instance, EssenceLootModifier::new));
 
-
-    public EssenceLootModifier(LootItemCondition[] conditionsIn, ResourceLocation item, float chance, int min, int max, float looting) {
-        super(conditionsIn);
+    public EssenceLootModifier(LootItemCondition[] conditionsIn, int priority, Identifier item, float chance, int min, int max, float looting) {
+        super(conditionsIn, priority);
         this.item = item;
         this.chance = chance;
         this.min = min;

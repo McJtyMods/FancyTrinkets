@@ -4,21 +4,11 @@
   "mob": "fancytrinkets:strength_ring",
   "pattern": {
     "key": {
-      "I": {
-        "item": "minecraft:iron_block"
-      },
-      "S": {
-        "item": "fancytrinkets:gold_ring_diamond"
-      },
-      "g": {
-        "item": "fancytrinkets:iron_golem_essence"
-      },
-      "t": {
-        "item": "minecraft:nether_star"
-      },
-      "w": {
-        "item": "fancytrinkets:wither_essence"
-      }
+      "I": "minecraft:iron_block",
+      "S": "fancytrinkets:gold_ring_diamond",
+      "g": "fancytrinkets:iron_golem_essence",
+      "t": "minecraft:nether_star",
+      "w": "fancytrinkets:wither_essence"
     },
     "pattern": [
       "IgggI",
@@ -35,7 +25,6 @@
         "id": "fancytrinkets:strength_ring"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:gold_ring_diamond"
   }
 }

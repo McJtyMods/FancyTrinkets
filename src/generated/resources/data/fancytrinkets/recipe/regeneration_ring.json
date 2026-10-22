@@ -4,18 +4,10 @@
   "mob": "fancytrinkets:regeneration_ring",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:gold_ring_diamond"
-      },
-      "g": {
-        "item": "fancytrinkets:zombie_essence"
-      },
-      "t": {
-        "item": "minecraft:ghast_tear"
-      },
-      "w": {
-        "item": "fancytrinkets:wither_essence"
-      }
+      "S": "fancytrinkets:gold_ring_diamond",
+      "g": "fancytrinkets:zombie_essence",
+      "t": "minecraft:ghast_tear",
+      "w": "fancytrinkets:wither_essence"
     },
     "pattern": [
       "ggggg",
@@ -32,7 +24,6 @@
         "id": "fancytrinkets:regeneration_ring"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:gold_ring_diamond"
   }
 }

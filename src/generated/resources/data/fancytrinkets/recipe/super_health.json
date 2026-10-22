@@ -4,21 +4,11 @@
   "mob": "fancytrinkets:super_health",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:heart"
-      },
-      "f": {
-        "item": "fancytrinkets:enderman_essence"
-      },
-      "g": {
-        "item": "fancytrinkets:iron_golem_essence"
-      },
-      "t": {
-        "item": "minecraft:ghast_tear"
-      },
-      "w": {
-        "item": "minecraft:nether_star"
-      }
+      "S": "fancytrinkets:heart",
+      "f": "fancytrinkets:enderman_essence",
+      "g": "fancytrinkets:iron_golem_essence",
+      "t": "minecraft:ghast_tear",
+      "w": "minecraft:nether_star"
     },
     "pattern": [
       "tffft",
@@ -35,7 +25,6 @@
         "id": "fancytrinkets:super_health"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:heart_body"
   }
 }

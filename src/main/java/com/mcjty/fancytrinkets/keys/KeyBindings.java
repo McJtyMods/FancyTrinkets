@@ -14,7 +14,7 @@ public class KeyBindings {
     public static final String FANCYTRINKETS_KEY_TOGGLE_6 = "fancytrinkets.key.toggle6";
     public static final String FANCYTRINKETS_KEY_TOGGLE_7 = "fancytrinkets.key.toggle7";
     public static final String FANCYTRINKETS_KEY_TOGGLE_8 = "fancytrinkets.key.toggle8";
-    public static final String KEY_CATEGORIES_FANCYTRINKETS = "key.categories.fancytrinkets";
+    public static final KeyMapping.Category KEY_CATEGORIES_FANCYTRINKETS = KeyMapping.Category.register(net.minecraft.resources.Identifier.parse("fancytrinkets:main"));
 
     public static KeyMapping toggle1;
     public static KeyMapping toggle2;

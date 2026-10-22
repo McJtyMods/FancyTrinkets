@@ -3,7 +3,7 @@ package com.mcjty.fancytrinkets.modules.effects;
 import com.mcjty.fancytrinkets.FancyTrinkets;
 import com.mcjty.fancytrinkets.datapack.EffectDescription;
 import com.mcjty.fancytrinkets.modules.effects.imp.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class DefaultEffects {
 
-    public static final Map<ResourceLocation, EffectInfo> DEFAULT_EFFECTS = new HashMap<>();
+    public static final Map<Identifier, EffectInfo> DEFAULT_EFFECTS = new HashMap<>();
 
     static void init() {
         DEFAULT_EFFECTS.clear();
@@ -182,7 +182,7 @@ public class DefaultEffects {
     }
 
     private static void register(String id, EffectDescription effect, String description) {
-        DEFAULT_EFFECTS.put(ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, id), new EffectInfo(effect, description));
+        DEFAULT_EFFECTS.put(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, id), new EffectInfo(effect, description));
     }
 
     private static EffectDescription damageModificationEffect(String dmgId, float factor) {

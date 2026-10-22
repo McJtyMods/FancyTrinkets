@@ -14,20 +14,23 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.1.4'
+    id 'net.neoforged.gradle.userdev' version '7.1.38'
 }
 
 apply plugin: 'com.hypherionmc.modutils.modpublisher'
 
-if (project.file('../gradletools.gradle').exists()) {
+def sharedTools = rootProject.file('gradletools.gradle')
+if (sharedTools.isFile()) {
+    apply from: sharedTools
+} else if (project.file('../gradletools.gradle').isFile()) {
     apply from: '../gradletools.gradle'
 } else {
-    apply from: 'https://raw.githubusercontent.com/McJtyMods/MultiWorkspace/1.21_neo/gradletools.gradle'
+    apply from: 'https://raw.githubusercontent.com/McJtyMods/MultiWorkspace/26.2_neo/gradletools.gradle'
 }
 
 group = "com.github.mcjty"
-archivesBaseName = 'fancytrinkets'
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+base { archivesName = 'fancytrinkets' }
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 repos()
 at()
@@ -49,3 +52,18 @@ dependencies {
 publish()
 
 modpublisher(['the-one-probe'], ['mcjtylib', 'curios'], ['the-one-probe'], ['mcjtylib', 'curios'], [])
+
+// In-world port checks are opt-in and excluded from release builds.
+if (project.hasProperty('portTests')) {
+    sourceSets.main.java.srcDir 'src/portTest/java'
+    extensions.getByName('runs').named('gameTestServer') {
+        arguments.addAll '--test', 'fancytrinkets:*'
+    }
+}
+if (project.hasProperty('clientSmoke')) {
+    if (!project.hasProperty('portTests')) throw new GradleException('clientSmoke requires -PportTests')
+    extensions.getByName('runs').named('client') {
+        systemProperty 'fancytrinkets.clientSmoke', 'true'
+        arguments.addAll '--quickPlaySingleplayer', 'fancytrinkets-port-smoke'
+    }
+}

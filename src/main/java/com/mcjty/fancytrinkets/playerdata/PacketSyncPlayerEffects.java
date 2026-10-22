@@ -6,7 +6,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.HashSet;
@@ -14,7 +14,7 @@ import java.util.Set;
 
 public record PacketSyncPlayerEffects(Set<String> toggles) implements CustomPacketPayload {
 
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "sync_player_effects");
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "sync_player_effects");
     public static final CustomPacketPayload.Type<PacketSyncPlayerEffects> TYPE = new Type<>(ID);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, PacketSyncPlayerEffects> STREAM_CODEC = StreamCodec.composite(

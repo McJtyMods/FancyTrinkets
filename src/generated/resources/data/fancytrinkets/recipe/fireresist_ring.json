@@ -4,18 +4,10 @@
   "mob": "fancytrinkets:fireresist_ring",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:gold_ring"
-      },
-      "f": {
-        "item": "fancytrinkets:iron_golem_essence"
-      },
-      "g": {
-        "item": "fancytrinkets:blaze_essence"
-      },
-      "t": {
-        "item": "minecraft:ghast_tear"
-      }
+      "S": "fancytrinkets:gold_ring",
+      "f": "fancytrinkets:iron_golem_essence",
+      "g": "fancytrinkets:blaze_essence",
+      "t": "minecraft:ghast_tear"
     },
     "pattern": [
       "gfgfg",
@@ -32,7 +24,6 @@
         "id": "fancytrinkets:fireresist_ring"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:gold_ring"
   }
 }

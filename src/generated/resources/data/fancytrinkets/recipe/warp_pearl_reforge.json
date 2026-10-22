@@ -4,12 +4,8 @@
   "mob": "fancytrinkets:warp_pearl_reforge",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:blue_pearl"
-      },
-      "g": {
-        "item": "fancytrinkets:enderman_essence"
-      }
+      "S": "fancytrinkets:blue_pearl",
+      "g": "fancytrinkets:enderman_essence"
     },
     "pattern": [
       "     ",
@@ -26,7 +22,6 @@
         "id": "fancytrinkets:warp_pearl"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:blue_pearl"
   }
 }

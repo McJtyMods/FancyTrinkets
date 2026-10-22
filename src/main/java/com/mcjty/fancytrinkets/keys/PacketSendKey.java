@@ -8,7 +8,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +19,7 @@ import top.theillusivec4.curios.api.SlotResult;
 
 public record PacketSendKey(Integer key) implements CustomPacketPayload {
 
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(FancyTrinkets.MODID, "send_key");
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "send_key");
     public static final CustomPacketPayload.Type<PacketSendKey> TYPE = new Type<>(ID);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, PacketSendKey> STREAM_CODEC = StreamCodec.composite(
@@ -42,7 +42,7 @@ public record PacketSendKey(Integer key) implements CustomPacketPayload {
     public void handle(IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             Player player = ctx.player();
-            for (SlotResult slot : CuriosApi.getCuriosHelper().findCurios(player, stack -> stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY) != null)) {
+            for (SlotResult slot : CuriosApi.getCuriosInventory(player).map(inventory -> inventory.findCurios(stack -> stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY) != null)).orElse(java.util.List.of())) {
                 ItemStack stack = slot.stack();
                 ITrinketItem trinket = stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY);
                 if (trinket != null) {

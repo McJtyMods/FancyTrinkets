@@ -4,12 +4,8 @@
   "mob": "fancytrinkets:slowfalling_feather_reforge",
   "pattern": {
     "key": {
-      "S": {
-        "item": "fancytrinkets:feather"
-      },
-      "g": {
-        "item": "fancytrinkets:chicken_essence"
-      }
+      "S": "fancytrinkets:feather",
+      "g": "fancytrinkets:chicken_essence"
     },
     "pattern": [
       "     ",
@@ -26,7 +22,6 @@
         "id": "fancytrinkets:slowfalling_feather"
       }
     },
-    "count": 1,
     "id": "fancytrinkets:feather"
   }
 }

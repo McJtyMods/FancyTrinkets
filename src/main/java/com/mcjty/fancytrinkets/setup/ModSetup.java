@@ -8,7 +8,7 @@ import com.mcjty.fancytrinkets.modules.trinkets.items.TrinketItem;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.setup.DefaultModSetup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -37,18 +37,18 @@ public class ModSetup extends DefaultModSetup {
                         .message(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_6, "Fancy Trinkets Toggle 6")
                         .message(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_7, "Fancy Trinkets Toggle 7")
                         .message(KeyBindings.FANCYTRINKETS_KEY_TOGGLE_8, "Fancy Trinkets Toggle 8")
-                        .message(KeyBindings.KEY_CATEGORIES_FANCYTRINKETS, "Fancy Trinkets")
+                        .message("key.category.fancytrinkets.main", "Fancy Trinkets")
                         .message(XpRecipeCategory.KEY_XP_RECIPE_CATEGORY, "Experience Crafter")
         );
-        for (Map.Entry<ResourceLocation, DefaultTrinkets.TrinketInfo> entry : DefaultTrinkets.DEFAULT_TRINKETS.entrySet()) {
-            ResourceLocation key = entry.getKey();
+        for (Map.Entry<Identifier, DefaultTrinkets.TrinketInfo> entry : DefaultTrinkets.DEFAULT_TRINKETS.entrySet()) {
+            Identifier key = entry.getKey();
             dataGen.add(
                     Dob.builder()
                             .message("trinket." + key.getNamespace() + "." + key.getPath() + ".name", entry.getValue().name())
                             .message("trinket." + key.getNamespace() + "." + key.getPath() + ".description", entry.getValue().description())
             );
         }
-        for (Map.Entry<ResourceLocation, DefaultEffects.EffectInfo> entry : DefaultEffects.DEFAULT_EFFECTS.entrySet()) {
+        for (Map.Entry<Identifier, DefaultEffects.EffectInfo> entry : DefaultEffects.DEFAULT_EFFECTS.entrySet()) {
             dataGen.add(
                     Dob.builder()
                             .message("effectId.fancytrinkets." + entry.getKey().getPath(), entry.getValue().description())
