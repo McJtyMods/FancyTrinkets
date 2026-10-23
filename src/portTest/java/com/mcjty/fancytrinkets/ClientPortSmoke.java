@@ -128,8 +128,8 @@ public final class ClientPortSmoke implements IModPlugin, net.fabricmc.api.Clien
 
     private static void click(GuiExperienceCrafter gui, String name) {
         Button button = (Button) gui.getWindow().findChild(name);
-        button.mouseClick(0, 0, 0);
-        button.mouseRelease(0, 0, 0);
+        button.mouseClick(0, 0, com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_LEFT);
+        button.mouseRelease(0, 0, com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_LEFT);
     }
 
     private static void screenshot(Minecraft mc, String name) {

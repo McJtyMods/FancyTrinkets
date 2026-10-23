@@ -4,6 +4,9 @@ build/
 out/
 bin/
 run/
+run-fabric/
+run-server-fabric/
+run-data/
 runs/
 logs/
 crash-reports/

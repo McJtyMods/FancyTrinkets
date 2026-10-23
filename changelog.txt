@@ -1,3 +1,9 @@
+26.3-6.0.0-fabric:
+- Port to Minecraft 26.3 with Fabric and Trinkets Updated 4.2.1+26.3
+- Use shared MultiWorkSpace 26.3 Fabric build tools, McJtyLib 11.0.0, and TOP 16.0.0 from Jenkins
+- Update key mappings, generated loot tables, and recipe advancements for 26.3
+- Remove obsolete advancements referencing recipes no longer present
+
 26.2-5.0.0-fabric:
 - Port to Minecraft 26.2 with Fabric
 - Uses Trinkets Updated for equipment slots
