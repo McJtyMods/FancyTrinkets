@@ -31,8 +31,6 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import java.util.function.Consumer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.SlotContext;
-import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -42,7 +40,7 @@ import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketItem {
+public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketItem, eu.pb4.trinkets.api.callback.TrinketCallback {
 
     public static final String MESSAGE_FANCYTRINKETS_SHIFTMESSAGE = "message.fancytrinkets.shiftmessage";
     public static final String MESSAGE_FANCYTRINKETS_BONUS = "message.fancytrinkets.bonus";
@@ -117,9 +115,9 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
     @Override
     public List<ItemStack> getItemsForTab() {
         List<ItemStack> list = new ArrayList<>();
-        for (TrinketInstance trinket : getTrinkets(SafeClientTools.getClientWorld()).values()) {
+        for (TrinketInstance trinket : getTrinkets(net.fabricmc.loader.api.FabricLoader.getInstance().getEnvironmentType() == net.fabricmc.api.EnvType.CLIENT ? SafeClientTools.getClientWorld() : null).values()) {
             ItemStack stack = new ItemStack(this);
-            stack.set(TrinketsModule.TRINKET_DATA, new TrinketData(trinket.id(), Collections.emptyList()));
+            stack.set(TrinketsModule.TRINKET_DATA.get(), new TrinketData(trinket.id(), Collections.emptyList()));
             list.add(stack);
         }
         return list;
@@ -127,19 +125,19 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
 
     @Override
     public void addEffects(ItemStack stack, List<Identifier> effects) {
-        TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA, TrinketData.DEFAULT);
+        TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA.get(), TrinketData.DEFAULT);
         data = data.withEffects(effects);
-        stack.set(TrinketsModule.TRINKET_DATA, data);
+        stack.set(TrinketsModule.TRINKET_DATA.get(), data);
     }
 
     public static Stream<Identifier> getEffects(ItemStack stack) {
-        TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA, TrinketData.DEFAULT);
+        TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA.get(), TrinketData.DEFAULT);
         return data.effects().stream();
     }
 
     public static ItemStack createTrinketStack(Level level, TrinketDescription description, Identifier id, float quality) {
         ItemStack stack = createTrinketStack(description, id);
-        ITrinketItem trinket = stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY);
+        ITrinketItem trinket = Registration.TRINKET_ITEM.find(stack, null);
         if (trinket != null) {
             addBonusEffects(level, trinket, stack, quality);
         }
@@ -154,15 +152,17 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
             throw new RuntimeException("Cannot find item for trinket '" + id.toString() + "'!");
         }
         ItemStack result = new ItemStack(item);
-        result.set(TrinketsModule.TRINKET_DATA, new TrinketData(id, Collections.emptyList()));
+        result.set(TrinketsModule.TRINKET_DATA.get(), new TrinketData(id, Collections.emptyList()));
         return result;
     }
 
     @Override
     public Identifier getTrinketId(ItemStack stack) {
-        TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA, TrinketData.DEFAULT);
+        TrinketData data = stack.getOrDefault(TrinketsModule.TRINKET_DATA.get(), TrinketData.DEFAULT);
         return data.trinketId();
     }
+
+    public void clearTrinketInstances() { trinkets.clear(); }
 
     @Override
     public void registerTrinketInstance(Level level, Identifier id, TrinketDescription description) {
@@ -171,7 +171,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
 
     // Get and create trinket map
     private Map<Identifier, TrinketInstance> getTrinkets(Level level) {
-        if (trinkets.isEmpty()) {
+        if (trinkets.isEmpty() && level != null) {
             TrinketsModule.registerTrinkets(level);
         }
         return trinkets;
@@ -211,7 +211,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
         List<Component> list = new ArrayList<>();
         Identifier trinketId = getTrinketId(stack);
         if (trinketId != null) {
-            TrinketInstance instance = getTrinkets(context.level()).get(trinketId);
+            TrinketInstance instance = getTrinkets(SafeClientTools.getClientWorld()).get(trinketId);
             if (instance != null) {
                 list.add(ComponentFactory.translatable(instance.descriptionKey()));
                 for (EffectInstance effectInstance : instance.effects()) {
@@ -230,7 +230,7 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
 
                         Integer hotkey = effect.getHotkey();
                         if (hotkey != null) {
-                            Component key = KeyBindings.toggles[hotkey - 1].getKey().getDisplayName();
+                            Component key = KeyBindings.toggles[hotkey - 1].getTranslatedKeyMessage();
                             Component key2 = ComponentFactory.literal(" [Key ").withStyle(ChatFormatting.YELLOW).append(key).append("]");
                             list.add(ComponentFactory.literal("    ").append(translatable.withStyle(color).withStyle(style).append(key2)));
                         } else {
@@ -257,37 +257,19 @@ public class TrinketItem extends BaseItem implements ITooltipSettings, ITrinketI
         list.forEach(tooltip);
     }
 
-    @Nonnull
-    public ICurio createCurio(ItemStack itemStack) {
-        return new ICurio() {
-            @Override
-            public ItemStack getStack() {
-                return itemStack;
-            }
-
-            @Override
-            public void curioTick(SlotContext slotContext) {
-                if (slotContext.entity() instanceof ServerPlayer player) {
-                    String slotId = slotContext.identifier() + slotContext.index() + "_";
-                    TrinketItem.this.forAllEffects(player.level(), itemStack, (effect, idx) -> effect.tick(itemStack, player, slotId + idx));
-                }
-            }
-
-            @Override
-            public void onEquip(SlotContext slotContext, ItemStack prevStack) {
-                if (slotContext.entity() instanceof ServerPlayer player) {
-                    String slotId = slotContext.identifier() + slotContext.index() + "_";
-                    TrinketItem.this.forAllEffects(player.level(), itemStack, (effect, idx) -> effect.onEquip(itemStack, player, slotId + idx));
-                }
-            }
-
-            @Override
-            public void onUnequip(SlotContext slotContext, ItemStack newStack) {
-                if (slotContext.entity() instanceof ServerPlayer player) {
-                    String slotId = slotContext.identifier() + slotContext.index() + "_";
-                    TrinketItem.this.forAllEffects(player.level(), itemStack, (effect, idx) -> effect.onUnequip(itemStack, player, slotId + idx));
-                }
-            }
-        };
+    @Override public void tick(ItemStack stack, eu.pb4.trinkets.api.TrinketSlotAccess slot, net.minecraft.world.entity.LivingEntity entity) {
+        if (entity instanceof ServerPlayer player && slot.canApplyEffects(stack)) {
+            forAllEffects(player.level(), stack, (effect, index) -> effect.tick(stack, player, slot.getAsIdentifierPath() + "_" + index));
+        }
+    }
+    @Override public void onEquip(ItemStack stack, eu.pb4.trinkets.api.TrinketSlotAccess slot, net.minecraft.world.entity.LivingEntity entity) {
+        if (entity instanceof ServerPlayer player && slot.canApplyEffects(stack)) {
+            forAllEffects(player.level(), stack, (effect, index) -> effect.onEquip(stack, player, slot.getAsIdentifierPath() + "_" + index));
+        }
+    }
+    @Override public void onUnequip(ItemStack stack, eu.pb4.trinkets.api.TrinketSlotAccess slot, net.minecraft.world.entity.LivingEntity entity) {
+        if (entity instanceof ServerPlayer player && slot.canApplyEffects(stack)) {
+            forAllEffects(player.level(), stack, (effect, index) -> effect.onUnequip(stack, player, slot.getAsIdentifierPath() + "_" + index));
+        }
     }
 }

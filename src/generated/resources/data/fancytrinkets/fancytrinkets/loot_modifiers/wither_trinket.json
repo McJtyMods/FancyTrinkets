@@ -1,0 +1,13 @@
+{
+  "type": "fancytrinkets:trinket_loot",
+  "chance": 0.5,
+  "looting": 0.0,
+  "max": 1,
+  "maxquality": 70.0,
+  "min": 1,
+  "minquality": 60.0,
+  "table": "minecraft:entities/wither",
+  "trinkets": [
+    "fancytrinkets:regeneration_ring"
+  ]
+}

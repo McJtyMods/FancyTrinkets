@@ -14,13 +14,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
-import net.neoforged.neoforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class TrinketLootModifier extends LootModifier {
+public class TrinketLootModifier implements DropModifier {
+
+    private final Identifier table;
+    private final java.util.List<LootItemCondition> conditions;
+    @Override public Identifier table() { return table; }
+    @Override public java.util.List<LootItemCondition> conditions() { return conditions; }
 
     private final List<Identifier> trinketIds;
     private final float chance;
@@ -31,8 +34,8 @@ public class TrinketLootModifier extends LootModifier {
     private final float maxQuality;
 
     public static final MapCodec<TrinketLootModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(l -> l.conditions),
-            Codec.INT.optionalFieldOf("priority", IGlobalLootModifier.DEFAULT_PRIORITY).forGetter(l -> l.priority),
+            Identifier.CODEC.fieldOf("table").forGetter(l -> l.table),
+            net.minecraft.world.level.storage.loot.predicates.LootItemCondition.DIRECT_CODEC.listOf().optionalFieldOf("conditions", java.util.List.of()).forGetter(l -> l.conditions),
             Codec.list(Identifier.CODEC).fieldOf("trinkets").forGetter(l -> l.trinketIds),
             Codec.FLOAT.fieldOf("chance").forGetter(l -> l.chance),
             Codec.INT.fieldOf("min").forGetter(l -> l.min),
@@ -42,9 +45,10 @@ public class TrinketLootModifier extends LootModifier {
             Codec.FLOAT.fieldOf("maxquality").forGetter(l -> l.maxQuality)
     ).apply(instance, TrinketLootModifier::new));
 
-    public TrinketLootModifier(LootItemCondition[] conditionsIn, int priority, List<Identifier> trinketIds, float chance, int min, int max, float looting,
+    public TrinketLootModifier(Identifier table, java.util.List<LootItemCondition> conditions, List<Identifier> trinketIds, float chance, int min, int max, float looting,
                                float minQuality, float maxQuality) {
-        super(conditionsIn, priority);
+        this.table = table;
+        this.conditions = java.util.List.copyOf(conditions);
         this.trinketIds = trinketIds;
         this.chance = chance;
         this.min = min;
@@ -55,7 +59,7 @@ public class TrinketLootModifier extends LootModifier {
     }
 
     @Override
-    protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
+    public void addDrops(java.util.List<ItemStack> generatedLoot, LootContext context) {
         RandomSource random = context.getRandom();
         Identifier id;
         if (trinketIds.isEmpty()) {
@@ -64,7 +68,7 @@ public class TrinketLootModifier extends LootModifier {
                     .stream().map(p -> p.getKey().identifier()).toList();
             if (keys.isEmpty()) {
                 // Weird
-                return generatedLoot;
+                return;
             }
             id = keys.get(random.nextInt(keys.size()));
         } else {
@@ -73,12 +77,12 @@ public class TrinketLootModifier extends LootModifier {
 
         TrinketDescription trinket = Tools.getRegistryAccess(context.getLevel()).lookupOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY).getValue(id);
         if (trinket == null) {
-            return generatedLoot;
+            return;
         }
 
         Item it = Tools.getItem(trinket.item());
         if (it == null) {
-            return generatedLoot;
+            return;
         }
         // @todo 1.21 is getLuck correct for looting level?
         if (random.nextFloat() < chance + context.getLuck() * lootingFactor) {
@@ -88,18 +92,14 @@ public class TrinketLootModifier extends LootModifier {
             } else {
                 cnt = random.nextInt(max - min + 1) + min;
             }
-            cnt += random.nextInt((int) (context.getLuck()+1));
+            cnt += random.nextInt(Math.max(1, (int) context.getLuck() + 1));
             while (cnt > 0) {
                 ItemStack stack = TrinketItem.createTrinketStack(context.getLevel(), trinket, id, random.nextFloat() * (maxQuality - minQuality) + minQuality);
                 generatedLoot.add(stack);
                 cnt--;
             }
         }
-        return generatedLoot;
+        return;
     }
 
-    @Override
-    public MapCodec<? extends IGlobalLootModifier> codec() {
-        return CODEC;
-    }
 }

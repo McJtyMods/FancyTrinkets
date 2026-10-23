@@ -16,21 +16,24 @@ public class XpRecipe implements Recipe<CraftingInput> {
 
     private final String group;
     private final Identifier id;
-    public final ShapedRecipePattern pattern;
+    public final XpPattern pattern;
     private final ItemStackTemplate result;
+    private final XpPattern matchingPattern;
 
-    public XpRecipe(String group, Identifier id, ShapedRecipePattern pattern, ItemStackTemplate result) {
+    public XpRecipe(String group, Identifier id, XpPattern pattern, ItemStackTemplate result) {
         this.group = group;
         this.id = id;
         this.pattern = pattern;
+        this.matchingPattern = pattern.trimmed();
         this.result = result;
     }
 
+    // CraftingInput trims empty edges; retain the original grid for recipe displays and transfers.
     @Override
     public boolean matches(CraftingInput input, Level level) {
-        if (input.width() != getWidth() || input.height() != getHeight()) return false;
+        if (input.width() != matchingPattern.width() || input.height() != matchingPattern.height()) return false;
         for (int i = 0; i < input.size(); i++) {
-            if (!Ingredient.testOptionalIngredient(pattern.ingredients().get(i), input.getItem(i))) return false;
+            if (!Ingredient.testOptionalIngredient(matchingPattern.ingredients().get(i), input.getItem(i))) return false;
         }
         return true;
     }

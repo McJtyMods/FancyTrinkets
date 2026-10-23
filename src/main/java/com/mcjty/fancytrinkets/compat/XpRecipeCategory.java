@@ -19,7 +19,7 @@ public class XpRecipeCategory extends AbstractRecipeCategory<XpRecipe> {
         super(
             FancyJeiPlugin.XP_RECIPE_TYPE,
             ComponentFactory.translatable(KEY_XP_RECIPE_CATEGORY),
-            guiHelper.createDrawableItemLike(XpCrafterModule.EXPERIENCE_CRAFTER.block()),
+            guiHelper.createDrawableItemLike(XpCrafterModule.EXPERIENCE_CRAFTER.block().get()),
             140,
             98
         );

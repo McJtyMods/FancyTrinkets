@@ -1,4 +1,5 @@
 {
+  "attribute.fancytrinkets.swim_speed": "Swim Speed",
   "block.fancytrinkets.experience_crafter": "Experience Crafter",
   "effectId.fancytrinkets.absorption": "Absorption",
   "effectId.fancytrinkets.attack_damage": "Attack Damage",
@@ -239,5 +240,8 @@
   "trinket.fancytrinkets.swift_star.description": "Feel the freedom of swift and flexible movement",
   "trinket.fancytrinkets.swift_star.name": "Star of Swiftness",
   "trinket.fancytrinkets.warp_pearl.description": "Warp Pearl",
-  "trinket.fancytrinkets.warp_pearl.name": "Warp Pearl"
+  "trinket.fancytrinkets.warp_pearl.name": "Warp Pearl",
+  "trinkets.slot.chest.body": "Body",
+  "trinkets.slot.chest.charm": "Charm",
+  "trinkets.slot.hand.bracelet": "Bracelet"
 }

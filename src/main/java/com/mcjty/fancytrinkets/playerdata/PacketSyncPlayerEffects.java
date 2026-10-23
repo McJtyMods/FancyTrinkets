@@ -7,7 +7,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +30,7 @@ public record PacketSyncPlayerEffects(Set<String> toggles) implements CustomPack
         return new PacketSyncPlayerEffects(new HashSet<>(effects.toggles()));
     }
 
-    public void handle(IPayloadContext ctx) {
+    public void handle() {
         TrinketItem.toggles = toggles;
     }
 }

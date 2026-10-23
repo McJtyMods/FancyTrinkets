@@ -12,6 +12,7 @@ import com.mcjty.fancytrinkets.setup.ClientEventHandlers;
 import com.mcjty.fancytrinkets.setup.Messages;
 import com.mcjty.fancytrinkets.setup.Registration;
 import mcjty.lib.gui.widgets.Button;
+import mcjty.lib.container.IItemHandlerModifiable;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.runtime.IJeiRuntime;
@@ -24,21 +25,13 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /** Runs only in the disposable fancytrinkets-port-smoke world with -PclientSmoke. */
 @JeiPlugin
-@EventBusSubscriber(modid = FancyTrinkets.MODID, value = Dist.CLIENT)
-public final class ClientPortSmoke implements IModPlugin {
+public final class ClientPortSmoke implements IModPlugin, net.fabricmc.api.ClientModInitializer {
     private static int ticks;
     private static IJeiRuntime jei;
     private static CompletableFuture<Void> pending = CompletableFuture.completedFuture(null);
@@ -47,8 +40,9 @@ public final class ClientPortSmoke implements IModPlugin {
     @Override public Identifier getPluginUid() { return Identifier.parse("fancytrinkets:port_smoke"); }
     @Override public void onRuntimeAvailable(IJeiRuntime runtime) { jei = runtime; }
 
-    @SubscribeEvent
-    public static void tick(ClientTickEvent.Post event) {
+    @Override public void onInitializeClient() { net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK.register(client -> tick()); }
+
+    public static void tick() {
         if (!Boolean.getBoolean("fancytrinkets.clientSmoke")) return;
         var mc = Minecraft.getInstance();
         var server = mc.getSingleplayerServer();
@@ -62,7 +56,7 @@ public final class ClientPortSmoke implements IModPlugin {
                 for (int x = -1; x <= 1; x++) for (int z = -1; z <= 1; z++) server.overworld().getChunk(x, z);
                 server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), "fill -3 3 -3 9 3 9 minecraft:stone");
                 server.overworld().setBlock(CRAFTER, XpCrafterModule.EXPERIENCE_CRAFTER.block().get().defaultBlockState(), 3);
-                var items = (IItemHandlerModifiable) server.overworld().getCapability(Capabilities.Item.BLOCK, CRAFTER, null);
+                var items = (IItemHandlerModifiable) net.fabricmc.fabric.api.transfer.v1.item.ItemStorage.SIDED.find(server.overworld(), CRAFTER, null);
                 String[] pattern = {" ggg ", "g   g", "g   g", "g   g", " ggg "};
                 for (int y = 0; y < 5; y++) for (int x = 0; x < 5; x++) {
                     items.setStackInSlot(ExperienceCrafterBE.SLOT_GRID + y * 5 + x,
@@ -74,13 +68,13 @@ public final class ClientPortSmoke implements IModPlugin {
                     player.teleportTo(server.overworld(), 1, 5, 2, java.util.Set.of(), 180, 0, false);
                     var registry = server.overworld().registryAccess().lookupOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY);
                     var id = Identifier.parse("fancytrinkets:nightvision_ring");
-                    CuriosApi.getCuriosInventory(player).orElseThrow().setEquippedCurio("ring", 0,
+                    eu.pb4.trinkets.api.TrinketsApi.getAttachment(player).getSlotAccess("hand/ring", 0).set(
                             TrinketItem.createTrinketStack(registry.getValue(id), id));
                 }
             }, server);
         }
         if (tick == 80) {
-            for (var entry : Registration.ITEMS.getRegister().getEntries()) {
+            for (var entry : TrinketsModule.TRINKET_ITEMS.values().stream().map(TrinketsModule.TrinketInfo::item).toList()) {
                 var model = new net.minecraft.client.renderer.item.ItemStackRenderState();
                 mc.getItemModelResolver().updateForTopItem(model, new ItemStack(entry.get()),
                         net.minecraft.world.item.ItemDisplayContext.GUI, mc.level, mc.player, 0);
@@ -109,9 +103,9 @@ public final class ClientPortSmoke implements IModPlugin {
         if (tick == 200) {
             screenshot(mc, "fancytrinkets-crafter-crafted.png");
             pending = CompletableFuture.runAsync(() -> {
-                var items = (IItemHandlerModifiable) server.overworld().getCapability(Capabilities.Item.BLOCK, CRAFTER, null);
+                var items = (IItemHandlerModifiable) net.fabricmc.fabric.api.transfer.v1.item.ItemStorage.SIDED.find(server.overworld(), CRAFTER, null);
                 var output = items.getStackInSlot(ExperienceCrafterBE.SLOT_OUTPUT);
-                if (output.isEmpty() || !Identifier.parse("fancytrinkets:base_gold_ring").equals(output.get(TrinketsModule.TRINKET_DATA).trinketId()))
+                if (output.isEmpty() || !Identifier.parse("fancytrinkets:base_gold_ring").equals(output.get(TrinketsModule.TRINKET_DATA.get()).trinketId()))
                     throw new AssertionError("GUI craft did not reach server");
             }, server);
             mc.player.closeContainer();
@@ -121,13 +115,13 @@ public final class ClientPortSmoke implements IModPlugin {
             if (!TrinketItem.toggles.contains("night_vision")) throw new AssertionError("Toggle packet did not sync to client");
             pending = CompletableFuture.runAsync(() -> {
                 var player = server.getPlayerList().getPlayers().getFirst();
-                if (!player.hasEffect(net.minecraft.world.effect.MobEffects.NIGHT_VISION)) throw new AssertionError("Curios hotkey did not enable night vision");
+                if (!player.hasEffect(net.minecraft.world.effect.MobEffects.NIGHT_VISION)) throw new AssertionError("Trinkets hotkey did not enable night vision");
             }, server);
             jei.getRecipesGui().showTypes(List.of(FancyJeiPlugin.XP_RECIPE_TYPE));
         }
         if (tick == 300) screenshot(mc, "fancytrinkets-jei.png");
         if (tick == 320) {
-            System.out.println("FANCYTRINKETS CLIENT SMOKE PASSED: item models, 34 synced JEI recipes, crafter GUI, XP transfer, crafting, and Curios hotkey sync");
+            System.out.println("FANCYTRINKETS CLIENT SMOKE PASSED: item models, 34 synced JEI recipes, crafter GUI, XP transfer, crafting, and Trinkets hotkey sync");
             mc.stop();
         }
     }

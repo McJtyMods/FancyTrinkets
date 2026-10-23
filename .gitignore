@@ -40,3 +40,6 @@ Desktop.ini
 *~
 *.swp
 *.swo
+
+# Temporary standalone shared workspace script
+/gradletools.gradle

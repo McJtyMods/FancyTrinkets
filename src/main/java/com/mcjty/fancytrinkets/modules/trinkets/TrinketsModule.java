@@ -29,17 +29,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
+import mcjty.lib.setup.DeferredHolder;
+import mcjty.lib.setup.DeferredItem;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosTags;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,39 +49,39 @@ public class TrinketsModule implements IModule {
 
     public static final Map<Identifier, TrinketInfo> TRINKET_ITEMS = new HashMap<>();
 
-    public static final DeferredItem<TrinketItem> GOLD_RING = trinket("gold_ring", "item/gold_ring", "Base golden ring item", CuriosTags.RING);
-    public static final DeferredItem<TrinketItem> GOLD_RING_BLUE = trinket("gold_ring_blue", "item/gold_ring_blue", "Base golden ring item", CuriosTags.RING);
-    public static final DeferredItem<TrinketItem> GOLD_RING_GREEN = trinket("gold_ring_green", "item/gold_ring_green", "Base golden ring item", CuriosTags.RING);
-    public static final DeferredItem<TrinketItem> GOLD_RING_RED = trinket("gold_ring_red", "item/gold_ring_red", "Base golden ring item", CuriosTags.RING);
-    public static final DeferredItem<TrinketItem> GOLD_RING_DIAMOND = trinket("gold_ring_diamond", "item/gold_ring_diamond", "Base golden ring item", CuriosTags.RING);
-    public static final DeferredItem<TrinketItem> SILVER_RING = trinket("silver_ring", "item/silver_ring", "Base silver ring item", CuriosTags.RING);
-    public static final DeferredItem<TrinketItem> SILVER_RING_BLUE = trinket("silver_ring_blue", "item/silver_ring_blue", "Base silver ring item", CuriosTags.RING);
-    public static final DeferredItem<TrinketItem> SILVER_RING_GREEN = trinket("silver_ring_green", "item/silver_ring_green", "Base silver ring item", CuriosTags.RING);
-    public static final DeferredItem<TrinketItem> SILVER_RING_RED = trinket("silver_ring_red", "item/silver_ring_red", "Base silver ring item", CuriosTags.RING);
-    public static final DeferredItem<TrinketItem> SILVER_RING_DIAMOND = trinket("silver_ring_diamond", "item/silver_ring_diamond", "Base silver ring item", CuriosTags.RING);
-    public static final DeferredItem<TrinketItem> OBSIDIAN_RING = trinket("obsidian_ring", "item/obsidian_ring", "Base obsidian ring item", CuriosTags.RING);
-    public static final DeferredItem<TrinketItem> OBSIDIAN_RING_DIAMOND = trinket("obsidian_ring_diamond", "item/obsidian_ring_diamond", "Base obsidian ring item", CuriosTags.RING);
+    public static final DeferredItem<TrinketItem> GOLD_RING = trinket("gold_ring", "item/gold_ring", "Base golden ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
+    public static final DeferredItem<TrinketItem> GOLD_RING_BLUE = trinket("gold_ring_blue", "item/gold_ring_blue", "Base golden ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
+    public static final DeferredItem<TrinketItem> GOLD_RING_GREEN = trinket("gold_ring_green", "item/gold_ring_green", "Base golden ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
+    public static final DeferredItem<TrinketItem> GOLD_RING_RED = trinket("gold_ring_red", "item/gold_ring_red", "Base golden ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
+    public static final DeferredItem<TrinketItem> GOLD_RING_DIAMOND = trinket("gold_ring_diamond", "item/gold_ring_diamond", "Base golden ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
+    public static final DeferredItem<TrinketItem> SILVER_RING = trinket("silver_ring", "item/silver_ring", "Base silver ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
+    public static final DeferredItem<TrinketItem> SILVER_RING_BLUE = trinket("silver_ring_blue", "item/silver_ring_blue", "Base silver ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
+    public static final DeferredItem<TrinketItem> SILVER_RING_GREEN = trinket("silver_ring_green", "item/silver_ring_green", "Base silver ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
+    public static final DeferredItem<TrinketItem> SILVER_RING_RED = trinket("silver_ring_red", "item/silver_ring_red", "Base silver ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
+    public static final DeferredItem<TrinketItem> SILVER_RING_DIAMOND = trinket("silver_ring_diamond", "item/silver_ring_diamond", "Base silver ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
+    public static final DeferredItem<TrinketItem> OBSIDIAN_RING = trinket("obsidian_ring", "item/obsidian_ring", "Base obsidian ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
+    public static final DeferredItem<TrinketItem> OBSIDIAN_RING_DIAMOND = trinket("obsidian_ring_diamond", "item/obsidian_ring_diamond", "Base obsidian ring item", com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING);
 
     public static final DeferredItem<TrinketItem> STAR = trinket("star", "item/star", "Base star item",
-            CuriosTags.RING, CuriosTags.BELT, CuriosTags.BRACELET, CuriosTags.CHARM, CuriosTags.NECKLACE, CuriosTags.HEAD, CuriosTags.BODY);
+            com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING, com.mcjty.fancytrinkets.trinkets.TrinketSlots.BELT, com.mcjty.fancytrinkets.trinkets.TrinketSlots.BRACELET, com.mcjty.fancytrinkets.trinkets.TrinketSlots.CHARM, com.mcjty.fancytrinkets.trinkets.TrinketSlots.NECKLACE, com.mcjty.fancytrinkets.trinkets.TrinketSlots.HEAD, com.mcjty.fancytrinkets.trinkets.TrinketSlots.BODY);
     public static final DeferredItem<TrinketItem> HEART = trinket("heart", "item/heart", "Base heart item",
-            CuriosTags.RING, CuriosTags.BELT, CuriosTags.BRACELET, CuriosTags.CHARM, CuriosTags.NECKLACE, CuriosTags.HEAD, CuriosTags.BODY);
-    public static final DeferredItem<TrinketItem> HEART_BODY = trinket("heart_body", "item/heart", "Base heart item (body)", CuriosTags.BODY);
+            com.mcjty.fancytrinkets.trinkets.TrinketSlots.RING, com.mcjty.fancytrinkets.trinkets.TrinketSlots.BELT, com.mcjty.fancytrinkets.trinkets.TrinketSlots.BRACELET, com.mcjty.fancytrinkets.trinkets.TrinketSlots.CHARM, com.mcjty.fancytrinkets.trinkets.TrinketSlots.NECKLACE, com.mcjty.fancytrinkets.trinkets.TrinketSlots.HEAD, com.mcjty.fancytrinkets.trinkets.TrinketSlots.BODY);
+    public static final DeferredItem<TrinketItem> HEART_BODY = trinket("heart_body", "item/heart", "Base heart item (body)", com.mcjty.fancytrinkets.trinkets.TrinketSlots.BODY);
 
     public static final DeferredItem<TrinketItem> FEATHER = trinket("feather", "item/feather", "Feather star item",
-            CuriosTags.BELT, CuriosTags.CHARM, CuriosTags.NECKLACE, CuriosTags.HEAD, CuriosTags.BODY);
+            com.mcjty.fancytrinkets.trinkets.TrinketSlots.BELT, com.mcjty.fancytrinkets.trinkets.TrinketSlots.CHARM, com.mcjty.fancytrinkets.trinkets.TrinketSlots.NECKLACE, com.mcjty.fancytrinkets.trinkets.TrinketSlots.HEAD, com.mcjty.fancytrinkets.trinkets.TrinketSlots.BODY);
 
-    public static final DeferredItem<TrinketItem> BLACK_PEARL = trinket("black_pearl", "item/black_pearl", "Black pearl", CuriosTags.CHARM);
-    public static final DeferredItem<TrinketItem> BLUE_PEARL = trinket("blue_pearl", "item/blue_pearl", "Blue pearl", CuriosTags.CHARM);
-    public static final DeferredItem<TrinketItem> YELLOW_PEARL = trinket("yellow_pearl", "item/yellow_pearl", "Yellow pearl", CuriosTags.CHARM);
-    public static final DeferredItem<TrinketItem> PURPLE_PEARL = trinket("purple_pearl", "item/purple_pearl", "Purple pearl", CuriosTags.CHARM);
-    public static final DeferredItem<TrinketItem> SHINY_PEARL = trinket("shiny_pearl", "item/shiny_pearl", "Shiny pearl", CuriosTags.CHARM);
+    public static final DeferredItem<TrinketItem> BLACK_PEARL = trinket("black_pearl", "item/black_pearl", "Black pearl", com.mcjty.fancytrinkets.trinkets.TrinketSlots.CHARM);
+    public static final DeferredItem<TrinketItem> BLUE_PEARL = trinket("blue_pearl", "item/blue_pearl", "Blue pearl", com.mcjty.fancytrinkets.trinkets.TrinketSlots.CHARM);
+    public static final DeferredItem<TrinketItem> YELLOW_PEARL = trinket("yellow_pearl", "item/yellow_pearl", "Yellow pearl", com.mcjty.fancytrinkets.trinkets.TrinketSlots.CHARM);
+    public static final DeferredItem<TrinketItem> PURPLE_PEARL = trinket("purple_pearl", "item/purple_pearl", "Purple pearl", com.mcjty.fancytrinkets.trinkets.TrinketSlots.CHARM);
+    public static final DeferredItem<TrinketItem> SHINY_PEARL = trinket("shiny_pearl", "item/shiny_pearl", "Shiny pearl", com.mcjty.fancytrinkets.trinkets.TrinketSlots.CHARM);
 
-    public static final DeferredItem<TrinketItem> LEATHER_BELT = trinket("leather_belt", "item/leather_belt", "Leather Belt", CuriosTags.BELT);
-    public static final DeferredItem<TrinketItem> BLUE_BELT = trinket("blue_belt", "item/blue_belt", "Blue Belt", CuriosTags.BELT);
+    public static final DeferredItem<TrinketItem> LEATHER_BELT = trinket("leather_belt", "item/leather_belt", "Leather Belt", com.mcjty.fancytrinkets.trinkets.TrinketSlots.BELT);
+    public static final DeferredItem<TrinketItem> BLUE_BELT = trinket("blue_belt", "item/blue_belt", "Blue Belt", com.mcjty.fancytrinkets.trinkets.TrinketSlots.BELT);
 
-    public static final DeferredItem<TrinketItem> CHARM1 = trinket("charm1", "item/charm1", "Charm", CuriosTags.CHARM);
-    public static final DeferredItem<TrinketItem> CHARM2 = trinket("charm2", "item/charm2", "Charm", CuriosTags.CHARM);
+    public static final DeferredItem<TrinketItem> CHARM1 = trinket("charm1", "item/charm1", "Charm", com.mcjty.fancytrinkets.trinkets.TrinketSlots.CHARM);
+    public static final DeferredItem<TrinketItem> CHARM2 = trinket("charm2", "item/charm2", "Charm", com.mcjty.fancytrinkets.trinkets.TrinketSlots.CHARM);
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<TrinketData>> TRINKET_DATA = COMPONENTS.registerComponentType(
             "trinket_data",
@@ -96,8 +89,8 @@ public class TrinketsModule implements IModule {
                     .persistent(TrinketData.CODEC)
                     .networkSynchronized(TrinketData.STREAM_CODEC));
 
-    public TrinketsModule(IEventBus bus) {
-        NeoForge.EVENT_BUS.addListener(this::onServerStarting);
+    public TrinketsModule() {
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STARTED.register(server -> registerTrinkets(server.overworld()));
 
         DefaultTrinkets.init();
         DefaultBonusTables.init();
@@ -111,14 +104,12 @@ public class TrinketsModule implements IModule {
     }
 
     @Override
-    public void init(FMLCommonSetupEvent event) {
+    public void init() {
     }
 
-    public void onServerStarting(ServerStartingEvent event) {
-        registerTrinkets(event.getServer().overworld());
-    }
 
     public static void registerTrinkets(Level level) {
+        TRINKET_ITEMS.values().forEach(info -> info.item().get().clearTrinketInstances());
         Registry<TrinketDescription> registry = Tools.getRegistryAccess(level).lookupOrThrow(CustomRegistries.TRINKET_REGISTRY_KEY);
         for (Identifier trinket : Tools.getRegistryAccess(level).lookupOrThrow(CustomRegistries.TRINKET_SET_REGISTRY_KEY).getValue(Identifier.fromNamespaceAndPath(MODID, "standard")).trinkets()) {
             TrinketDescription description = registry.getValue(trinket);
@@ -136,11 +127,11 @@ public class TrinketsModule implements IModule {
     }
 
     @Override
-    public void initClient(FMLClientSetupEvent event) {
+    public void initClient() {
     }
 
     @Override
-    public void initConfig(IEventBus bus) {
+    public void initConfig() {
 
     }
 
@@ -182,7 +173,7 @@ public class TrinketsModule implements IModule {
                 Dob.builder()
                         .recipeConsumer(() -> consumer -> {
                             XpRecipeBuilder.shapedRecipe(lookupProvider, createTrinketTemplate("base_star"))
-                                    .define('g', Tags.Items.GEMS_PRISMARINE)
+                                    .define('g', net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.PRISMARINE_GEMS)
                                     .patternLine("g g g")
                                     .patternLine("  g  ")
                                     .patternLine("ggggg")
@@ -191,7 +182,7 @@ public class TrinketsModule implements IModule {
                                     .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("base_star"));
                             XpRecipeBuilder.shapedRecipe(lookupProvider, createTrinketTemplate("flight_star"))
-                                    .define('f', Tags.Items.FEATHERS)
+                                    .define('f', net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.FEATHERS)
                                     .define('t', Items.GHAST_TEAR)
                                     .define('g', LootModule.GHAST_ESSENCE.get())
                                     .define('S', createTrinketIngredient("base_star"))
@@ -213,7 +204,7 @@ public class TrinketsModule implements IModule {
                                     .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("flight_star_reforge"));
                             XpRecipeBuilder.shapedRecipe(lookupProvider, createTrinketTemplate("power_star"))
-                                    .define('i', Tags.Items.INGOTS_IRON)
+                                    .define('i', net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.IRON_INGOTS)
                                     .define('t', Items.DRAGON_HEAD)
                                     .define('g', LootModule.DRAGON_ESSENCE.get())
                                     .define('w', LootModule.WITHER_ESSENCE.get())
@@ -236,7 +227,7 @@ public class TrinketsModule implements IModule {
                                     .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("power_star_reforge"));
                             XpRecipeBuilder.shapedRecipe(lookupProvider, createTrinketTemplate("swift_star"))
-                                    .define('t', Tags.Items.GEMS_QUARTZ)
+                                    .define('t', net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.QUARTZ_GEMS)
                                     .define('g', LootModule.SPIDER_ESSENCE.get())
                                     .define('S', createTrinketIngredient("base_star"))
                                     .patternLine("ttgtt")
@@ -257,7 +248,7 @@ public class TrinketsModule implements IModule {
                                     .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("swift_star_reforge"));
                             XpRecipeBuilder.shapedRecipe(lookupProvider, createTrinketTemplate("grow_charm"))
-                                    .define('f', Tags.Items.BONES)
+                                    .define('f', net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.BONES)
                                     .define('t', Items.BONE_MEAL)
                                     .define('w', Items.DIAMOND_BLOCK)
                                     .define('g', LootModule.SKELETON_ESSENCE.get())
@@ -279,8 +270,8 @@ public class TrinketsModule implements IModule {
                                     .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("grow_charm_reforge"));
                             XpRecipeBuilder.shapedRecipe(lookupProvider, createTrinketTemplate("slowfalling_feather"))
-                                    .define('o', Tags.Items.ENDER_PEARLS)
-                                    .define('f', Tags.Items.FEATHERS)
+                                    .define('o', net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.ENDER_PEARLS)
+                                    .define('f', net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.FEATHERS)
                                     .define('g', LootModule.CHICKEN_ESSENCE.get())
                                     .patternLine("ooofg")
                                     .patternLine("oofgg")
@@ -300,7 +291,7 @@ public class TrinketsModule implements IModule {
                                     .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("slowfalling_feather_reforge"));
                             XpRecipeBuilder.shapedRecipe(lookupProvider, createTrinketTemplate("base_gold_ring"))
-                                    .define('g', Tags.Items.INGOTS_GOLD)
+                                    .define('g', net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.GOLD_INGOTS)
                                     .patternLine(" ggg ")
                                     .patternLine("g   g")
                                     .patternLine("g   g")
@@ -455,7 +446,7 @@ public class TrinketsModule implements IModule {
                                     .build(consumer, trinket("cure_reforge"));
                             XpRecipeBuilder.shapedRecipe(lookupProvider, createTrinketTemplate("base_gold_ring_diamond"))
                                     .define('d', Items.DIAMOND)
-                                    .define('g', Tags.Items.INGOTS_GOLD)
+                                    .define('g', net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.GOLD_INGOTS)
                                     .patternLine(" gdg ")
                                     .patternLine("g   g")
                                     .patternLine("g   g")
@@ -531,7 +522,7 @@ public class TrinketsModule implements IModule {
                                     .unlockedBy("trinket", has(Items.GOLD_INGOT))
                                     .build(consumer, trinket("strength_ring_reforge"));
                             XpRecipeBuilder.shapedRecipe(lookupProvider, createTrinketTemplate("warp_pearl"))
-                                    .define('o', Tags.Items.ENDER_PEARLS)
+                                    .define('o', net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.ENDER_PEARLS)
                                     .define('g', LootModule.ENDERMAN_ESSENCE.get())
                                     .patternLine(" ooo ")
                                     .patternLine("ogggo")

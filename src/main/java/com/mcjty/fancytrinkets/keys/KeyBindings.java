@@ -2,7 +2,6 @@ package com.mcjty.fancytrinkets.keys;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
-import net.neoforged.neoforge.client.settings.KeyConflictContext;
 
 public class KeyBindings {
 
@@ -28,14 +27,14 @@ public class KeyBindings {
     public static KeyMapping[] toggles;
 
     public static void init() {
-        toggle1 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_1, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
-        toggle2 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_2, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
-        toggle3 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_3, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
-        toggle4 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_4, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
-        toggle5 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_5, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
-        toggle6 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_6, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
-        toggle7 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_7, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
-        toggle8 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_8, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, KEY_CATEGORIES_FANCYTRINKETS);
+        toggle1 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_1, InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KEY_CATEGORIES_FANCYTRINKETS);
+        toggle2 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_2, InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KEY_CATEGORIES_FANCYTRINKETS);
+        toggle3 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_3, InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KEY_CATEGORIES_FANCYTRINKETS);
+        toggle4 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_4, InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KEY_CATEGORIES_FANCYTRINKETS);
+        toggle5 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_5, InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KEY_CATEGORIES_FANCYTRINKETS);
+        toggle6 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_6, InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KEY_CATEGORIES_FANCYTRINKETS);
+        toggle7 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_7, InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KEY_CATEGORIES_FANCYTRINKETS);
+        toggle8 = new KeyMapping(FANCYTRINKETS_KEY_TOGGLE_8, InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KEY_CATEGORIES_FANCYTRINKETS);
         toggles = new KeyMapping[] { toggle1, toggle2, toggle3, toggle4, toggle5, toggle6, toggle7, toggle8 };
     }
 }

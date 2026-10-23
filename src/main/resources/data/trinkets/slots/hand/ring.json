@@ -1,0 +1,7 @@
+{
+  "amount": 1,
+  "icon": "trinkets:container/slots/ring",
+  "validator_predicates": [
+    "trinkets:default"
+  ]
+}

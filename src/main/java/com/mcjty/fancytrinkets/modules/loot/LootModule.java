@@ -14,12 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
-import net.neoforged.neoforge.common.loot.LootTableIdCondition;
-import net.neoforged.neoforge.registries.DeferredItem;
+import mcjty.lib.setup.DeferredItem;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -29,7 +24,6 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import static com.mcjty.fancytrinkets.setup.Registration.ITEMS;
-import static com.mcjty.fancytrinkets.setup.Registration.LOOT_MODIFIER_SERIALIZERS;
 
 public class LootModule implements IModule {
 
@@ -48,8 +42,6 @@ public class LootModule implements IModule {
     public static final DeferredItem<Item> IRON_GOLEM_ESSENCE = createBasicItem("iron_golem_essence", "item/essence/iron_golem_essence", "Iron Golem Essence");
     public static final DeferredItem<Item> BLAZE_ESSENCE = createBasicItem("blaze_essence", "item/essence/blaze_essence", "Blaze Essence");
 
-    public static final Supplier<MapCodec<? extends IGlobalLootModifier>> ESSENCE_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("essence_loot", () -> EssenceLootModifier.CODEC);
-    public static final Supplier<MapCodec<? extends IGlobalLootModifier>> TRINKET_LOOT_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("trinket_loot", () -> TrinketLootModifier.CODEC);
 
     public static final EssenceGLM ZOMBIE_LOOT_MODIFIER = createGlm("zombie_essence", EntityTypes.ZOMBIE, 0.1f, 1, 2, .3f);
     public static final EssenceGLM WITHER_SKELETON_LOOT_MODIFIER = createGlm("wither_skeleton_essence", EntityTypes.WITHER_SKELETON, 0.1f, 1, 2, .3f);
@@ -67,15 +59,16 @@ public class LootModule implements IModule {
     }
 
     @Override
-    public void init(FMLCommonSetupEvent event) {
+    public void init() {
+        TrinketDrops.register();
     }
 
     @Override
-    public void initClient(FMLClientSetupEvent event) {
+    public void initClient() {
     }
 
     @Override
-    public void initConfig(IEventBus bus) {
+    public void initConfig() {
 
     }
 
@@ -90,30 +83,12 @@ public class LootModule implements IModule {
             );
         }
 
-        for (Map.Entry<String, LootModule.EssenceGLM> entry : LootModule.ESSENCE_GLMS.entrySet()) {
-            LootModule.EssenceGLM glm = entry.getValue();
-            dataGen.add(
-                    Dob.builder()
-                            .glm(entry.getKey(), () -> new EssenceLootModifier(new LootItemCondition[]{
-                                    LootTableIdCondition.builder(glm.lootTable()).build(),
-                                    LootItemKilledByPlayerCondition.killedByPlayer().build()
-                            }, IGlobalLootModifier.DEFAULT_PRIORITY, glm.itemId(), glm.chance(), glm.min(), glm.max(), glm.looting()))
-            );
-        }
-
-        dataGen.add(
-                Dob.builder()
-                        .glm("wither_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
-                                LootTableIdCondition.builder(EntityTypes.WITHER.getDefaultLootTable().orElseThrow().identifier()).build()
-                        }, IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70))
-                        .glm("dragon_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
-                                LootTableIdCondition.builder(EntityTypes.ENDER_DRAGON.getDefaultLootTable().orElseThrow().identifier()).build()
-                        }, IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100))
-                        .glm("enderman_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
-                                LootTableIdCondition.builder(EntityTypes.ENDERMAN.getDefaultLootTable().orElseThrow().identifier()).build()
-                        }, IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100))
-        );
-
+        Map<Identifier, DropModifier> modifiers = new HashMap<>();
+        ESSENCE_GLMS.forEach((id, glm) -> modifiers.put(id(id), new EssenceLootModifier(glm.lootTable(),
+                List.of(LootItemKilledByPlayerCondition.killedByPlayer().build()), glm.itemId(), glm.chance(), glm.min(), glm.max(), glm.looting())));
+        modifiers.put(id("wither_trinket"), new TrinketLootModifier(EntityTypes.WITHER.getDefaultLootTable().orElseThrow().identifier(), List.of(), List.of(id("regeneration_ring")), .5f, 1, 1, 0, 60, 70));
+        modifiers.put(id("dragon_trinket"), new TrinketLootModifier(EntityTypes.ENDER_DRAGON.getDefaultLootTable().orElseThrow().identifier(), List.of(), List.of(id("power_star")), 1, 1, 1, 0, 90, 100));
+        modifiers.put(id("enderman_trinket"), new TrinketLootModifier(EntityTypes.ENDERMAN.getDefaultLootTable().orElseThrow().identifier(), List.of(), List.of(id("warp_pearl")), .02f, 1, 1, 0, 90, 100));
         Identifier[] goodChests = new Identifier[]{
                 BuiltInLootTables.END_CITY_TREASURE.identifier(),
                 BuiltInLootTables.STRONGHOLD_LIBRARY.identifier(),
@@ -122,15 +97,7 @@ public class LootModule implements IModule {
                 BuiltInLootTables.BASTION_TREASURE.identifier(),
                 BuiltInLootTables.ANCIENT_CITY.identifier()
         };
-        for (Identifier chest : goodChests) {
-            dataGen.add(
-                    Dob.builder()
-                            .glm(chest.getPath() + "_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
-                                    LootTableIdCondition.builder(chest).build()
-                            }, IGlobalLootModifier.DEFAULT_PRIORITY, Collections.emptyList(), 0.1f, 1, 1, 0, 20, 70))
-            );
-        }
-
+        for (Identifier chest : goodChests) modifiers.put(id(chest.getPath() + "_trinket"), new TrinketLootModifier(chest, List.of(), List.of(), .1f, 1, 1, 0, 20, 70));
         Identifier[] otherChests = new Identifier[]{
                 BuiltInLootTables.SIMPLE_DUNGEON.identifier(),
                 BuiltInLootTables.VILLAGE_CARTOGRAPHER.identifier(),
@@ -155,16 +122,11 @@ public class LootModule implements IModule {
                 BuiltInLootTables.ANCIENT_CITY_ICE_BOX.identifier(),
                 BuiltInLootTables.RUINED_PORTAL.identifier()
         };
-        for (Identifier chest : otherChests) {
-            dataGen.add(
-                    Dob.builder()
-
-                            .glm(chest.getPath() + "_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
-                                    LootTableIdCondition.builder(chest).build()
-                            }, IGlobalLootModifier.DEFAULT_PRIORITY, Collections.emptyList(), 0.02f, 1, 1, 0, 5, 10))
-            );
-        }
+        for (Identifier chest : otherChests) modifiers.put(id(chest.getPath() + "_trinket"), new TrinketLootModifier(chest, List.of(), List.of(), .02f, 1, 1, 0, 5, 10));
+        dataGen.addCodecProvider("drops", "fancytrinkets/loot_modifiers", DropModifier.CODEC);
+        dataGen.add(Dob.builder().holderLookup("drops", lookupProvider).codecObjectSupplier("drops", () -> new java.util.HashMap<Identifier, Object>(modifiers)));
     }
+    private static Identifier id(String name) { return Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, name); }
 
     public static record Essence(DeferredItem<Item> item, String texture, String description) {
     }

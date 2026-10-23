@@ -5,9 +5,6 @@ import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
 import net.minecraft.core.HolderLookup;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.stream.Collectors;
@@ -19,15 +16,15 @@ public class EffectsModule implements IModule {
     }
 
     @Override
-    public void init(FMLCommonSetupEvent event) {
+    public void init() {
     }
 
     @Override
-    public void initClient(FMLClientSetupEvent event) {
+    public void initClient() {
     }
 
     @Override
-    public void initConfig(IEventBus bus) {
+    public void initConfig() {
     }
 
     @Override

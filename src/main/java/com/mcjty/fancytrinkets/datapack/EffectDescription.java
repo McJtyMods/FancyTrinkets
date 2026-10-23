@@ -13,7 +13,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.neoforged.neoforge.common.NeoForgeMod;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -92,7 +91,7 @@ public record EffectDescription(Integer hotkey, String toggle, boolean harmful, 
         String effName = p.effect();
         Holder<Attribute> attributeSupplier = switch (effName) {
             case "step_assist" -> Attributes.STEP_HEIGHT;
-            case "swim_speed" -> NeoForgeMod.SWIM_SPEED;
+            case "swim_speed" -> com.mcjty.fancytrinkets.setup.Registration.SWIM_SPEED;
             case "attack_range" -> Attributes.ENTITY_INTERACTION_RANGE;
             case "reach_distance" -> Attributes.BLOCK_INTERACTION_RANGE;
             case "max_health" -> Attributes.MAX_HEALTH;

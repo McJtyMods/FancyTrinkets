@@ -20,7 +20,7 @@ public class TrinketItemSubtypeInterpreter implements ISubtypeInterpreter<ItemSt
 
     @Override
     public @Nullable Object getSubtypeData(ItemStack ingredient, UidContext context) {
-        ITrinketItem trinket = ingredient.getCapability(Registration.TRINKET_ITEM_CAPABILITY);
+        ITrinketItem trinket = Registration.TRINKET_ITEM.find(ingredient, null);
         if (trinket != null) {
             return trinket.getTrinketId(ingredient);
         }

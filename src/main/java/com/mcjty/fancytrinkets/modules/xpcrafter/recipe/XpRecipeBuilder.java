@@ -1,103 +1,35 @@
 package com.mcjty.fancytrinkets.modules.xpcrafter.recipe;
-
 import mcjty.lib.crafting.IRecipeBuilder;
 import mcjty.lib.varia.Tools;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.ItemStackTemplate;
-
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.*;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
-
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.ItemLike;
-import net.neoforged.neoforge.common.conditions.ICondition;
-import org.jetbrains.annotations.Nullable;
-
+import java.util.*;
 public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
-
     private final ItemStackTemplate result;
-    private ShapedRecipeBuilder builder;
-    private final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
-
-    public XpRecipeBuilder(HolderLookup.Provider lookupProvider, ItemStackTemplate result) {
-        this.result = result;
-        builder = ShapedRecipeBuilder.shaped(lookupProvider.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, this.result);
-    }
-
-    public static XpRecipeBuilder shapedRecipe(HolderLookup.Provider lookupProvider, ItemStackTemplate result) {
-        return new XpRecipeBuilder(lookupProvider, result);
-    }
-
-    @Override
-    public XpRecipeBuilder define(Character symbol, TagKey<Item> tagKey) {
-        builder = builder.define(symbol, tagKey);
-        return this;
-    }
-
-    @Override
-    public XpRecipeBuilder define(Character symbol, ItemLike itemLike) {
-        return this.define(symbol, Ingredient.of(itemLike));
-    }
-
-    @Override
-    public XpRecipeBuilder define(Character symbol, Ingredient ingredient) {
-        builder = builder.define(symbol, ingredient);
-        return this;
-    }
-
-    @Override
-    public XpRecipeBuilder patternLine(String patternIn) {
-        builder = builder.pattern(patternIn);
-        return this;
-    }
-
-    public XpRecipeBuilder unlockedBy(String name, Criterion<?> criterionIn) {
-        builder = builder.unlockedBy(name, criterionIn);
-        return this;
-    }
-
-    @Override
-    public XpRecipeBuilder setGroup(String groupIn) {
-        return this;
-    }
-
-    @Override
-    public void build(RecipeOutput consumer) {
-        this.build(consumer, Tools.getId(this.result.item().value()));
-    }
-
-    @Override
-    public void build(RecipeOutput consumer, String save) {
-        this.build(consumer, Identifier.parse(save));
-    }
-
-    @Override
-    public void build(RecipeOutput consumer, Identifier id) {
-        builder.save(new RecipeOutput() {
-            @Override
-            public Advancement.Builder advancement() {
-                return advancementBuilder;
-            }
-
-            @Override
-            public void accept(ResourceKey<Recipe<?>> resourceLocation, Recipe<?> recipe, @Nullable AdvancementHolder advancementHolder, ICondition... iConditions) {
-                consumer.accept(ResourceKey.create(Registries.RECIPE, id), new XpRecipe(recipe.group(), id, ((ShapedRecipe) recipe).pattern, result),
-                        advancementHolder, iConditions);
-            }
-            @Override
-            public void includeRootAdvancement() { }
-        }, ResourceKey.create(Registries.RECIPE, Tools.getId(result.item().value())));
-
+    private final HolderLookup.Provider lookup;
+    private final Map<String, Ingredient> key = new LinkedHashMap<>();
+    private final List<String> rows = new ArrayList<>();
+    private String group = "";
+    private XpRecipeBuilder(HolderLookup.Provider lookup, ItemStackTemplate result) { this.lookup = lookup; this.result = result; }
+    public static XpRecipeBuilder shapedRecipe(HolderLookup.Provider lookup, ItemStackTemplate result) { return new XpRecipeBuilder(lookup, result); }
+    @Override public XpRecipeBuilder define(Character symbol, TagKey<Item> tag) { return define(symbol, Ingredient.of(lookup.lookupOrThrow(Registries.ITEM).getOrThrow(tag))); }
+    @Override public XpRecipeBuilder define(Character symbol, ItemLike item) { return define(symbol, Ingredient.of(item)); }
+    @Override public XpRecipeBuilder define(Character symbol, Ingredient ingredient) { key.put(symbol.toString(), ingredient); return this; }
+    @Override public XpRecipeBuilder patternLine(String row) { rows.add(row); return this; }
+    public XpRecipeBuilder unlockedBy(String name, Criterion<?> criterion) { return this; }
+    @Override public XpRecipeBuilder setGroup(String group) { this.group = group; return this; }
+    @Override public void build(RecipeOutput output) { build(output, Tools.getId(result.item().value())); }
+    @Override public void build(RecipeOutput output, String id) { build(output, Identifier.parse(id)); }
+    @Override public void build(RecipeOutput output, Identifier id) {
+        XpPattern pattern = new XpPattern(key, rows);
+        pattern.ingredients();
+        output.accept(ResourceKey.create(Registries.RECIPE, id), new XpRecipe(group, id, pattern, result), null);
     }
 }

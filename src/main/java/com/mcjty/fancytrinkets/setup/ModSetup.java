@@ -9,23 +9,19 @@ import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.setup.DefaultModSetup;
 import net.minecraft.resources.Identifier;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.Map;
 
 public class ModSetup extends DefaultModSetup {
 
-    @Override
-    public void init(FMLCommonSetupEvent e) {
-        super.init(e);
-
-        NeoForge.EVENT_BUS.register(new ForgeEventHandlers());
-    }
 
     public void datagen(DataGen dataGen) {
         dataGen.add(
                 Dob.builder()
+                        .message("trinkets.slot.hand.bracelet", "Bracelet")
+                        .message("trinkets.slot.chest.charm", "Charm")
+                        .message("trinkets.slot.chest.body", "Body")
+                        .message("attribute.fancytrinkets.swim_speed", "Swim Speed")
                         .message("itemGroup.fancytrinkets", "Fancy Trinkets")
                         .message(TrinketItem.MESSAGE_FANCYTRINKETS_SHIFTMESSAGE, "<Press Shift>")
                         .message(TrinketItem.MESSAGE_FANCYTRINKETS_BONUS, "Bonus effects:")

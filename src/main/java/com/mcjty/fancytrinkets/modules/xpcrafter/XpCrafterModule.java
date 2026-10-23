@@ -21,12 +21,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.attachment.AttachmentType;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
+import net.minecraft.resources.Identifier;
+import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
+import mcjty.lib.setup.DeferredHolder;
 
 import java.util.function.Supplier;
 
@@ -46,34 +45,26 @@ public class XpCrafterModule implements IModule {
     );
     public static final Supplier<MenuType<GenericContainer>> CONTAINER_EXPERIENCE_CRAFTER = CONTAINERS.register("experience_crafter", GenericContainer::createContainerType);
 
-    public static final Supplier<AttachmentType<ExperienceCrafterData>> EXPERIENCE_CRAFTER_DATA = ATTACHMENT_TYPES.register(
-            "experience_crafter_data", () -> AttachmentType.builder(() -> ExperienceCrafterData.DEFAULT)
-                    .serialize(ExperienceCrafterData.MAP_CODEC)
-                    .build());
+    public static final AttachmentType<ExperienceCrafterData> EXPERIENCE_CRAFTER_DATA = AttachmentRegistry.create(
+            Identifier.fromNamespaceAndPath(MODID, "experience_crafter_data"), builder -> builder.initializer(() -> ExperienceCrafterData.DEFAULT).persistent(ExperienceCrafterData.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ExperienceCrafterData>> ITEM_EXPERIENCE_CRAFTER_DATA = COMPONENTS.registerComponentType(
             "experience_crafter_data",
             builder -> builder
                     .persistent(ExperienceCrafterData.CODEC)
                     .networkSynchronized(ExperienceCrafterData.STREAM_CODEC));
 
-    public XpCrafterModule(IEventBus bus) {
-        bus.addListener(this::registerMenuScreens);
+
+    @Override
+    public void init() {
     }
 
     @Override
-    public void init(FMLCommonSetupEvent event) {
+    public void initClient() {
     }
+
 
     @Override
-    public void initClient(FMLClientSetupEvent event) {
-    }
-
-    public void registerMenuScreens(RegisterMenuScreensEvent event) {
-        GuiExperienceCrafter.register(event);
-    }
-
-    @Override
-    public void initConfig(IEventBus bus) {
+    public void initConfig() {
     }
 
     @Override

@@ -32,9 +32,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.util.Lazy;
-import net.neoforged.neoforge.transfer.ResourceHandler;
-import net.neoforged.neoforge.transfer.item.ItemResource;
+import mcjty.lib.varia.Lazy;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -42,7 +42,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import static com.mcjty.fancytrinkets.modules.xpcrafter.recipe.XpRecipe.RECIPE_DIMENSION;
-import static com.mcjty.fancytrinkets.setup.Registration.TRINKET_ITEM_CAPABILITY;
+import static com.mcjty.fancytrinkets.setup.Registration.TRINKET_ITEM;
 import static mcjty.lib.api.container.DefaultContainerProvider.container;
 
 public class ExperienceCrafterBE extends GenericTileEntity {
@@ -64,7 +64,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
             .onUpdate(this::onUpdate)
             .build();
     @Cap(type = CapType.ITEMS_AUTOMATION)
-    private static final Function<ExperienceCrafterBE, ResourceHandler<ItemResource>> ITEM_CAP = tile -> tile.items;
+    private static final Function<ExperienceCrafterBE, Storage<ItemVariant>> ITEM_CAP = tile -> tile.items;
 
     @Cap(type = CapType.CONTAINER)
     private static final Function<ExperienceCrafterBE, MenuProvider> screenHandler = tile -> new DefaultContainerProvider<GenericContainer>("Experience Crafter")
@@ -103,7 +103,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
             if (outputSlot.isEmpty()) {
                 stack = stack.copy();
                 ItemStack finalStack = stack;
-                ITrinketItem trinket = stack.getCapability(TRINKET_ITEM_CAPABILITY);
+                ITrinketItem trinket = TRINKET_ITEM.find(stack, null);
                 if (trinket != null) {
                     addBonusEffects(trinket, finalStack);
                 }
@@ -125,8 +125,7 @@ public class ExperienceCrafterBE extends GenericTileEntity {
     private void addBonusEffects(ITrinketItem trinket, ItemStack stack) {
         float targetQuality = 100.0f * (getExperience() + Config.EXPERIENCE_OFFSET.get()) / (float) (Config.MAXEXPERIENCE.get() + Config.EXPERIENCE_OFFSET.get());
         if (TrinketItem.addBonusEffects(level, trinket, stack, targetQuality)) {
-            setData(XpCrafterModule.EXPERIENCE_CRAFTER_DATA, ExperienceCrafterData.DEFAULT);
-            setChanged();
+            setExperience(0);
         }
     }
 
@@ -177,9 +176,26 @@ public class ExperienceCrafterBE extends GenericTileEntity {
 
     public void setExperience(int exp) {
         setData(XpCrafterModule.EXPERIENCE_CRAFTER_DATA, new ExperienceCrafterData(exp));
+        markDirtyClient();
     }
 
     public ItemStack getPreviewOutput() {
         return items.getStackInSlot(SLOT_PREVIEW);
     }
+    @Override protected void applyImplicitComponents(net.minecraft.core.component.DataComponentGetter input) {
+        super.applyImplicitComponents(input);
+        var data = input.get(XpCrafterModule.ITEM_EXPERIENCE_CRAFTER_DATA.get());
+        if (data != null) setData(XpCrafterModule.EXPERIENCE_CRAFTER_DATA, data);
+    }
+    @Override protected void collectImplicitComponents(net.minecraft.core.component.DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        builder.set(XpCrafterModule.ITEM_EXPERIENCE_CRAFTER_DATA.get(), getData(XpCrafterModule.EXPERIENCE_CRAFTER_DATA));
+    }
+    @Override public void saveClientDataToNBT(net.minecraft.nbt.CompoundTag tag, net.minecraft.core.HolderLookup.Provider lookup) {
+        tag.putInt("experience", getExperience());
+    }
+    @Override public void loadClientDataFromNBT(net.minecraft.nbt.CompoundTag tag, net.minecraft.core.HolderLookup.Provider lookup) {
+        setData(XpCrafterModule.EXPERIENCE_CRAFTER_DATA, new ExperienceCrafterData(tag.getIntOr("experience", 0)));
+    }
+
 }

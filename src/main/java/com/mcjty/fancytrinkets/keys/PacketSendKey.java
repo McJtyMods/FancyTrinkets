@@ -12,10 +12,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotContext;
-import top.theillusivec4.curios.api.SlotResult;
 
 public record PacketSendKey(Integer key) implements CustomPacketPayload {
 
@@ -39,19 +35,12 @@ public record PacketSendKey(Integer key) implements CustomPacketPayload {
         return new PacketSendKey(buf.readInt());
     }
 
-    public void handle(IPayloadContext ctx) {
-        ctx.enqueueWork(() -> {
-            Player player = ctx.player();
-            for (SlotResult slot : CuriosApi.getCuriosInventory(player).map(inventory -> inventory.findCurios(stack -> stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY) != null)).orElse(java.util.List.of())) {
-                ItemStack stack = slot.stack();
-                ITrinketItem trinket = stack.getCapability(Registration.TRINKET_ITEM_CAPABILITY);
-                if (trinket != null) {
-                    SlotContext context = slot.slotContext();
-                    String slotId = context.identifier() + context.index() + "_";
-                    trinket.forAllEffects(player.level(), stack, (effect, idx) -> {
-                        effect.onHotkey(stack, (ServerPlayer) player, slotId + idx, key);
-                    });
-                }
+    public void handle(ServerPlayer player) {
+        if (key < 1 || key > 8) return;
+        eu.pb4.trinkets.api.TrinketsApi.getAttachment(player).forEach((slot, stack) -> {
+            ITrinketItem trinket = Registration.TRINKET_ITEM.find(stack, null);
+            if (trinket != null && slot.canApplyEffects(stack)) {
+                trinket.forAllEffects(player.level(), stack, (effect, index) -> effect.onHotkey(stack, player, slot.getAsIdentifierPath() + "_" + index, key));
             }
         });
     }

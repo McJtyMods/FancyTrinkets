@@ -20,72 +20,55 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.attachment.AttachmentType;
-import net.neoforged.neoforge.capabilities.ItemCapability;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
-import top.theillusivec4.curios.api.CuriosCapability;
+import mcjty.lib.setup.DeferredRegister;
 
 import java.util.function.Supplier;
 
 import static com.mcjty.fancytrinkets.FancyTrinkets.MODID;
 
 public class Registration {
+    public static final net.minecraft.core.Holder<net.minecraft.world.entity.ai.attributes.Attribute> SWIM_SPEED =
+            net.minecraft.core.Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, Identifier.parse("fancytrinkets:swim_speed"),
+                    new net.minecraft.world.entity.ai.attributes.RangedAttribute("attribute.fancytrinkets.swim_speed", 1, 0, 1024).setSyncable(true));
+
+    public static final net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup<ITrinketItem, Void> TRINKET_ITEM =
+            net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup.get(Identifier.fromNamespaceAndPath(MODID, "trinket_item"), ITrinketItem.class, Void.class);
+    public static final net.fabricmc.fabric.api.attachment.v1.AttachmentType<PlayerEffectData> PLAYER_EFFECTS =
+            net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry.create(Identifier.fromNamespaceAndPath(MODID, "player_effects"),
+                    builder -> builder.initializer(() -> PlayerEffectData.DEFAULT).persistent(PlayerEffectData.CODEC).copyOnDeath());
+
 
     public static final RBlockRegistry RBLOCKS = new RBlockRegistry(MODID, FancyTrinkets.setup::addTabItem);
     public static final DeferredItems ITEMS = DeferredItems.create(MODID);
-    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, MODID);
-    public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(BuiltInRegistries.MENU, MODID);
-    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(BuiltInRegistries.RECIPE_TYPE, MODID);
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MODID);
-    public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> LOOT_MODIFIER_SERIALIZERS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MODID);
+    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MODID);
+    public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(Registries.MENU, MODID);
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, MODID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, MODID);
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
-    public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MODID);
     public static final DeferredRegister.DataComponents COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, MODID);
 
-    public static final ItemCapability<ITrinketItem, Void> TRINKET_ITEM_CAPABILITY = ItemCapability.createVoid(Identifier.fromNamespaceAndPath(MODID, "trinket_item"), ITrinketItem.class);
-
-    public static final Supplier<AttachmentType<PlayerEffectData>> PLAYER_EFFECTS = ATTACHMENT_TYPES.register(
-            "player_effects", () -> AttachmentType.builder(() -> PlayerEffectData.DEFAULT)
-                    .serialize(PlayerEffectData.MAP_CODEC)
-                    .build());
-
-    public static void register(IEventBus bus) {
-        RBLOCKS.register(bus);
-        ITEMS.register(bus);
-        TILES.register(bus);
-        CONTAINERS.register(bus);
-        RECIPE_TYPES.register(bus);
-        RECIPE_SERIALIZERS.register(bus);
-        LOOT_MODIFIER_SERIALIZERS.register(bus);
-        TABS.register(bus);
-        ATTACHMENT_TYPES.register(bus);
-        COMPONENTS.register(bus);
+    public static void register() {
+        RBLOCKS.register();
+        ITEMS.register();
+        TILES.register();
+        CONTAINERS.register();
+        RECIPE_TYPES.register();
+        RECIPE_SERIALIZERS.register();
+        TABS.register();
+        COMPONENTS.register();
+        TRINKET_ITEM.registerFallback((stack, context) -> stack.getItem() instanceof ITrinketItem trinket ? trinket : null);
     }
 
     public static Item.Properties createStandardProperties() {
         return FancyTrinkets.setup.defaultProperties();
     }
 
-    public static Supplier<CreativeModeTab> TAB = TABS.register("fancytrinkets", () -> CreativeModeTab.builder()
+    public static Supplier<CreativeModeTab> TAB = TABS.register("fancytrinkets", () -> net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab.builder()
             .title(Component.translatable("itemGroup." + MODID))
             .icon(() -> new ItemStack(TrinketsModule.GOLD_RING.get()))
-            .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
             .displayItems((featureFlags, output) -> {
                 FancyTrinkets.setup.populateTab(output);
             })
             .build());
-
-    public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-        Registration.ITEMS.getRegister().getEntries().forEach(entry -> {
-            if (entry.get() instanceof TrinketItem trinketItem) {
-                event.registerItem(CuriosCapability.ITEM, (stack, unused) -> trinketItem.createCurio(stack), trinketItem);
-                event.registerItem(TRINKET_ITEM_CAPABILITY, (stack, unused) -> trinketItem, trinketItem);
-            }
-        });
-    }
 
 }

@@ -27,7 +27,7 @@ public class PlayerEffects {
         PLAYER_EFFECTS_MAP.clear();
     }
 
-    // Indexed on curios slot index
+    // Indexed by Trinkets slot path and effect index
     private final Map<String, EffectHolder> effectMap = new HashMap<>();
 
     public PlayerEffects() {
@@ -55,15 +55,15 @@ public class PlayerEffects {
 
     // Toggle and return the new value
     public boolean toggle(ServerPlayer player, String toggle) {
-        PlayerEffectData data = player.getData(Registration.PLAYER_EFFECTS);
+        PlayerEffectData data = player.getAttachedOrCreate(Registration.PLAYER_EFFECTS);
         data = data.toggle(toggle);
-        player.setData(Registration.PLAYER_EFFECTS, data);
+        player.setAttached(Registration.PLAYER_EFFECTS, data);
         Messages.sendToPlayer(PacketSyncPlayerEffects.create(data), player);
         return data.isToggleOn(toggle);
     }
 
     public boolean isToggleOn(ServerPlayer player, String toggle) {
-        PlayerEffectData data = player.getData(Registration.PLAYER_EFFECTS);
+        PlayerEffectData data = player.getAttachedOrCreate(Registration.PLAYER_EFFECTS);
         return data.isToggleOn(toggle);
     }
 
@@ -76,19 +76,19 @@ public class PlayerEffects {
     }
 
     public void registerDamageReduction(ServerPlayer player, String dmgId, float factor) {
-        PlayerEffectData data = player.getData(Registration.PLAYER_EFFECTS);
+        PlayerEffectData data = player.getAttachedOrCreate(Registration.PLAYER_EFFECTS);
         data = data.registerDamageReduction(dmgId, factor);
-        player.setData(Registration.PLAYER_EFFECTS, data);
+        player.setAttached(Registration.PLAYER_EFFECTS, data);
     }
 
     public void unregisterDamageReduction(ServerPlayer player, String dmgId) {
-        PlayerEffectData data = player.getData(Registration.PLAYER_EFFECTS);
+        PlayerEffectData data = player.getAttachedOrCreate(Registration.PLAYER_EFFECTS);
         data = data.unregisterDamageReduction(dmgId);
-        player.setData(Registration.PLAYER_EFFECTS, data);
+        player.setAttached(Registration.PLAYER_EFFECTS, data);
     }
 
     public float getDamageReduction(ServerPlayer player, String dmgId) {
-        PlayerEffectData data = player.getData(Registration.PLAYER_EFFECTS);
+        PlayerEffectData data = player.getAttachedOrCreate(Registration.PLAYER_EFFECTS);
         return data.getDamageReduction(dmgId);
     }
 

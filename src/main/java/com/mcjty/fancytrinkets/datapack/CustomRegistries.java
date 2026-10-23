@@ -5,34 +5,22 @@ import mcjty.lib.varia.Tools;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import mcjty.lib.setup.DeferredRegister;
 
 public class CustomRegistries {
 
     public static final ResourceKey<Registry<TrinketDescription>> TRINKET_REGISTRY_KEY = ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "trinkets"));
-    public static final DeferredRegister<TrinketDescription> TRINKET_DEFERRED_REGISTER = DeferredRegister.create(TRINKET_REGISTRY_KEY, FancyTrinkets.MODID);
 
     public static final ResourceKey<Registry<EffectDescription>> EFFECT_REGISTRY_KEY = ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "effects"));
-    public static final DeferredRegister<EffectDescription> EFFECT_DEFERRED_REGISTER = DeferredRegister.create(EFFECT_REGISTRY_KEY, FancyTrinkets.MODID);
 
     public static final ResourceKey<Registry<BonusTable>> BONUS_TABLE_REGISTRY_KEY = ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "bonustables"));
-    public static final DeferredRegister<BonusTable> BONUS_TABLE_DEFERRED_REGISTER = DeferredRegister.create(BONUS_TABLE_REGISTRY_KEY, FancyTrinkets.MODID);
 
     public static final ResourceKey<Registry<TrinketSet>> TRINKET_SET_REGISTRY_KEY = ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "trinketsets"));
-    public static final DeferredRegister<TrinketSet> TRINKET_SET_DEFERRED_REGISTER = DeferredRegister.create(TRINKET_SET_REGISTRY_KEY, FancyTrinkets.MODID);
 
-    public static void init(IEventBus bus) {
-        TRINKET_DEFERRED_REGISTER.register(bus);
-        EFFECT_DEFERRED_REGISTER.register(bus);
-        BONUS_TABLE_DEFERRED_REGISTER.register(bus);
-        TRINKET_SET_DEFERRED_REGISTER.register(bus);
-        Tools.onDataPackRegistry(bus, idpRegister -> {
-            idpRegister.register(TRINKET_REGISTRY_KEY, TrinketDescription.CODEC);
-            idpRegister.register(EFFECT_REGISTRY_KEY, EffectDescription.CODEC);
-            idpRegister.register(BONUS_TABLE_REGISTRY_KEY, BonusTable.CODEC);
-            idpRegister.register(TRINKET_SET_REGISTRY_KEY, TrinketSet.CODEC);
-        });
+    public static void init() {
+        net.fabricmc.fabric.api.event.registry.DynamicRegistries.registerSynced(TRINKET_REGISTRY_KEY, TrinketDescription.CODEC);
+        net.fabricmc.fabric.api.event.registry.DynamicRegistries.registerSynced(EFFECT_REGISTRY_KEY, EffectDescription.CODEC);
+        net.fabricmc.fabric.api.event.registry.DynamicRegistries.registerSynced(BONUS_TABLE_REGISTRY_KEY, BonusTable.CODEC);
+        net.fabricmc.fabric.api.event.registry.DynamicRegistries.registerSynced(TRINKET_SET_REGISTRY_KEY, TrinketSet.CODEC);
     }
-
 }

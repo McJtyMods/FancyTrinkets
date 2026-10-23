@@ -15,7 +15,6 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 import javax.annotation.Nonnull;
 
@@ -37,8 +36,8 @@ public class GuiExperienceCrafter extends GenericGuiContainer<ExperienceCrafterB
         setWindowDimensions(CONTROLLER_WIDTH, CONTROLLER_HEIGHT);
     }
 
-    public static void register(RegisterMenuScreensEvent event) {
-        event.register(XpCrafterModule.CONTAINER_EXPERIENCE_CRAFTER.get(), GuiExperienceCrafter::new);
+    public static void register() {
+        net.minecraft.client.gui.screens.MenuScreens.register(XpCrafterModule.CONTAINER_EXPERIENCE_CRAFTER.get(), GuiExperienceCrafter::new);
     }
 
     @Override

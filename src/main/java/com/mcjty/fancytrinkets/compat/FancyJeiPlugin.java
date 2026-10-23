@@ -15,13 +15,15 @@ import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.registration.*;
 import net.minecraft.resources.Identifier;
 
-import net.neoforged.neoforge.registries.DeferredItem;
+import mcjty.lib.setup.DeferredItem;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @JeiPlugin
 @ParametersAreNonnullByDefault
 public class FancyJeiPlugin implements IModPlugin {
+
+    private static mezz.jei.api.runtime.IJeiRuntime runtime;
 
     private static final Identifier ID = Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "jeiplugin");
 
@@ -46,7 +48,7 @@ public class FancyJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addCraftingStation(XP_RECIPE_TYPE, XpCrafterModule.EXPERIENCE_CRAFTER.block());
+        registration.addCraftingStation(XP_RECIPE_TYPE, XpCrafterModule.EXPERIENCE_CRAFTER.block().get());
     }
 
     @Override
@@ -59,6 +61,24 @@ public class FancyJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addRecipes(XP_RECIPE_TYPE, com.mcjty.fancytrinkets.setup.ClientEventHandlers.getXpRecipes());
+    }
+
+    @Override
+    public void onRuntimeAvailable(mezz.jei.api.runtime.IJeiRuntime jeiRuntime) {
+        runtime = jeiRuntime;
+    }
+
+    @Override
+    public void onRuntimeUnavailable() {
+        runtime = null;
+    }
+
+    public static void updateRecipes(java.util.List<XpRecipe> previous, java.util.List<XpRecipe> recipes) {
+        // Custom recipe payloads can arrive after JEI has completed its initial registration.
+        if (runtime != null) {
+            runtime.getRecipeManager().hideRecipes(XP_RECIPE_TYPE, previous);
+            runtime.getRecipeManager().addRecipes(XP_RECIPE_TYPE, recipes);
+        }
     }
 
     @Override
