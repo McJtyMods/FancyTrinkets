@@ -15,6 +15,7 @@ import mcjty.lib.gui.widgets.Button;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.runtime.IJeiRuntime;
+import mcjty.lib.varia.InventoryTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,8 +29,9 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.List;
@@ -62,11 +64,12 @@ public final class ClientPortSmoke implements IModPlugin {
                 for (int x = -1; x <= 1; x++) for (int z = -1; z <= 1; z++) server.overworld().getChunk(x, z);
                 server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), "fill -3 3 -3 9 3 9 minecraft:stone");
                 server.overworld().setBlock(CRAFTER, XpCrafterModule.EXPERIENCE_CRAFTER.block().get().defaultBlockState(), 3);
-                var items = (IItemHandlerModifiable) server.overworld().getCapability(Capabilities.Item.BLOCK, CRAFTER, null);
+                var items = server.overworld().getCapability(Capabilities.Item.BLOCK, CRAFTER, null);
                 String[] pattern = {" ggg ", "g   g", "g   g", "g   g", " ggg "};
                 for (int y = 0; y < 5; y++) for (int x = 0; x < 5; x++) {
-                    items.setStackInSlot(ExperienceCrafterBE.SLOT_GRID + y * 5 + x,
-                            pattern[y].charAt(x) == 'g' ? new ItemStack(Items.GOLD_INGOT, 2) : ItemStack.EMPTY);
+                    var stack = pattern[y].charAt(x) == 'g' ? new ItemStack(Items.GOLD_INGOT, 2) : ItemStack.EMPTY;
+                    InventoryTools.modifier(items).set(ExperienceCrafterBE.SLOT_GRID + y * 5 + x,
+                            ItemResource.of(stack), stack.getCount());
                 }
                 for (var player : server.getPlayerList().getPlayers()) {
                     player.setGameMode(GameType.SURVIVAL);
@@ -109,8 +112,8 @@ public final class ClientPortSmoke implements IModPlugin {
         if (tick == 200) {
             screenshot(mc, "fancytrinkets-crafter-crafted.png");
             pending = CompletableFuture.runAsync(() -> {
-                var items = (IItemHandlerModifiable) server.overworld().getCapability(Capabilities.Item.BLOCK, CRAFTER, null);
-                var output = items.getStackInSlot(ExperienceCrafterBE.SLOT_OUTPUT);
+                var items = server.overworld().getCapability(Capabilities.Item.BLOCK, CRAFTER, null);
+                var output = ItemUtil.getStack(items, ExperienceCrafterBE.SLOT_OUTPUT);
                 if (output.isEmpty() || !Identifier.parse("fancytrinkets:base_gold_ring").equals(output.get(TrinketsModule.TRINKET_DATA).trinketId()))
                     throw new AssertionError("GUI craft did not reach server");
             }, server);
@@ -134,8 +137,8 @@ public final class ClientPortSmoke implements IModPlugin {
 
     private static void click(GuiExperienceCrafter gui, String name) {
         Button button = (Button) gui.getWindow().findChild(name);
-        button.mouseClick(0, 0, 0);
-        button.mouseRelease(0, 0, 0);
+        button.mouseClick(0, 0, com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_LEFT);
+        button.mouseRelease(0, 0, com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_LEFT);
     }
 
     private static void screenshot(Minecraft mc, String name) {

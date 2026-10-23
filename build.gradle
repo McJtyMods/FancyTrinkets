@@ -14,19 +14,20 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.1.38'
+    id 'net.neoforged.gradle.userdev' version '7.1.39'
 }
 
 apply plugin: 'com.hypherionmc.modutils.modpublisher'
 
+// Standalone builds use the published 26.3 script; integrated builds use the root script.
 def sharedTools = rootProject.file('gradletools.gradle')
-if (sharedTools.isFile()) {
+if (rootProject != project && sharedTools.isFile()) {
     apply from: sharedTools
-} else if (project.file('../gradletools.gradle').isFile()) {
-    apply from: '../gradletools.gradle'
 } else {
-    apply from: 'https://raw.githubusercontent.com/McJtyMods/MultiWorkspace/26.2_neo/gradletools.gradle'
+    apply from: 'https://raw.githubusercontent.com/McJtyMods/MultiWorkspace/26.3_neo/gradletools.gradle'
 }
+// Maven build suffix only; keep the mod dependency requirement at 26.3-11.0.0.
+ext.mcjtylib_version = '26.3-11.0.0.3'
 
 group = "com.github.mcjty"
 base { archivesName = 'fancytrinkets' }

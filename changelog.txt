@@ -1,3 +1,8 @@
+26.3-6.0.0:
+- Port to Minecraft 26.3 with NeoForge and McJtyLib 11.
+- Use the shared MultiWorkspace 26.3 build tools.
+- Update to Curios 17, migrate loot conditions, and generate recipe-specific advancements.
+
 26.2-5.0.0:
 - Port to Minecraft 26.2 with NeoForge
 

@@ -6,6 +6,9 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -23,6 +26,8 @@ import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.stream.Stream;
 
 public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
 
@@ -96,8 +101,15 @@ public class XpRecipeBuilder implements IRecipeBuilder<XpRecipeBuilder> {
                         advancementHolder, iConditions);
             }
             @Override
-            public void includeRootAdvancement() { }
-        }, ResourceKey.create(Registries.RECIPE, Tools.getId(result.item().value())));
+            public <S> HolderGetter<S> lookup(ResourceKey<? extends Registry<? extends S>> key) {
+                return consumer.lookup(key);
+            }
+
+            @Override
+            public <S> Stream<Holder.Reference<S>> listContextElements(ResourceKey<? extends Registry<? extends S>> key) {
+                return consumer.listContextElements(key);
+            }
+        }, ResourceKey.create(Registries.RECIPE, id));
 
     }
 }

@@ -5,13 +5,16 @@ import com.mojang.serialization.MapCodec;
 import mcjty.lib.datagen.DataGen;
 import mcjty.lib.datagen.Dob;
 import mcjty.lib.modules.IModule;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.predicates.AllOfCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.neoforged.bus.api.IEventBus;
@@ -22,10 +25,12 @@ import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import static com.mcjty.fancytrinkets.setup.Registration.ITEMS;
@@ -94,24 +99,24 @@ public class LootModule implements IModule {
             LootModule.EssenceGLM glm = entry.getValue();
             dataGen.add(
                     Dob.builder()
-                            .glm(entry.getKey(), () -> new EssenceLootModifier(new LootItemCondition[]{
+                            .glm(entry.getKey(), () -> new EssenceLootModifier(condition(
                                     LootTableIdCondition.builder(glm.lootTable()).build(),
                                     LootItemKilledByPlayerCondition.killedByPlayer().build()
-                            }, IGlobalLootModifier.DEFAULT_PRIORITY, glm.itemId(), glm.chance(), glm.min(), glm.max(), glm.looting()))
+                            ), IGlobalLootModifier.DEFAULT_PRIORITY, glm.itemId(), glm.chance(), glm.min(), glm.max(), glm.looting()))
             );
         }
 
         dataGen.add(
                 Dob.builder()
-                        .glm("wither_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
+                        .glm("wither_trinket", () -> new TrinketLootModifier(condition(
                                 LootTableIdCondition.builder(EntityTypes.WITHER.getDefaultLootTable().orElseThrow().identifier()).build()
-                        }, IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70))
-                        .glm("dragon_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
+                        ), IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "regeneration_ring")), 0.5f, 1, 1, 0, 60, 70))
+                        .glm("dragon_trinket", () -> new TrinketLootModifier(condition(
                                 LootTableIdCondition.builder(EntityTypes.ENDER_DRAGON.getDefaultLootTable().orElseThrow().identifier()).build()
-                        }, IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100))
-                        .glm("enderman_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
+                        ), IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "power_star")), 1.0f, 1, 1, 0, 90, 100))
+                        .glm("enderman_trinket", () -> new TrinketLootModifier(condition(
                                 LootTableIdCondition.builder(EntityTypes.ENDERMAN.getDefaultLootTable().orElseThrow().identifier()).build()
-                        }, IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100))
+                        ), IGlobalLootModifier.DEFAULT_PRIORITY, List.of(Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, "warp_pearl")), 0.02f, 1, 1, 0, 90, 100))
         );
 
         Identifier[] goodChests = new Identifier[]{
@@ -125,9 +130,9 @@ public class LootModule implements IModule {
         for (Identifier chest : goodChests) {
             dataGen.add(
                     Dob.builder()
-                            .glm(chest.getPath() + "_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
+                            .glm(chest.getPath() + "_trinket", () -> new TrinketLootModifier(condition(
                                     LootTableIdCondition.builder(chest).build()
-                            }, IGlobalLootModifier.DEFAULT_PRIORITY, Collections.emptyList(), 0.1f, 1, 1, 0, 20, 70))
+                            ), IGlobalLootModifier.DEFAULT_PRIORITY, Collections.emptyList(), 0.1f, 1, 1, 0, 20, 70))
             );
         }
 
@@ -159,11 +164,18 @@ public class LootModule implements IModule {
             dataGen.add(
                     Dob.builder()
 
-                            .glm(chest.getPath() + "_trinket", () -> new TrinketLootModifier(new LootItemCondition[]{
+                            .glm(chest.getPath() + "_trinket", () -> new TrinketLootModifier(condition(
                                     LootTableIdCondition.builder(chest).build()
-                            }, IGlobalLootModifier.DEFAULT_PRIORITY, Collections.emptyList(), 0.02f, 1, 1, 0, 5, 10))
+                            ), IGlobalLootModifier.DEFAULT_PRIORITY, Collections.emptyList(), 0.02f, 1, 1, 0, 5, 10))
             );
         }
+    }
+
+    private static Optional<Holder<LootItemCondition>> condition(LootItemCondition... conditions) {
+        if (conditions.length == 0) return Optional.empty();
+        if (conditions.length == 1) return Optional.of(Holder.direct(conditions[0]));
+        return Optional.of(Holder.direct(AllOfCondition.allOf(HolderSet.direct(
+                Arrays.stream(conditions).<Holder<LootItemCondition>>map(Holder::direct).toList()))));
     }
 
     public static record Essence(DeferredItem<Item> item, String texture, String description) {

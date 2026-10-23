@@ -2,7 +2,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fancytrinkets:heart"
+        "recipes": "fancytrinkets:grow_charm"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -25,7 +25,7 @@
   ],
   "rewards": {
     "recipes": [
-      "fancytrinkets:heart"
+      "fancytrinkets:grow_charm"
     ]
   },
   "sends_telemetry_event": true

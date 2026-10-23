@@ -2,7 +2,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fancytrinkets:heart_body"
+        "recipes": "fancytrinkets:nightvision_ring_reforge"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -25,7 +25,7 @@
   ],
   "rewards": {
     "recipes": [
-      "fancytrinkets:heart_body"
+      "fancytrinkets:nightvision_ring_reforge"
     ]
   },
   "sends_telemetry_event": true

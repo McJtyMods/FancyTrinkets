@@ -2,7 +2,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fancytrinkets:feather"
+        "recipes": "fancytrinkets:absorption_ring_reforge"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -25,7 +25,7 @@
   ],
   "rewards": {
     "recipes": [
-      "fancytrinkets:feather"
+      "fancytrinkets:absorption_ring_reforge"
     ]
   },
   "sends_telemetry_event": true

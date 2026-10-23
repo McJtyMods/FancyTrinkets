@@ -2,7 +2,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fancytrinkets:charm1"
+        "recipes": "fancytrinkets:fireresist_ring"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -25,7 +25,7 @@
   ],
   "rewards": {
     "recipes": [
-      "fancytrinkets:charm1"
+      "fancytrinkets:fireresist_ring"
     ]
   },
   "sends_telemetry_event": true

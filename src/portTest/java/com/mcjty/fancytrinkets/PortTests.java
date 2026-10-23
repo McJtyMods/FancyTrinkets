@@ -12,8 +12,10 @@ import com.mcjty.fancytrinkets.playerdata.PlayerEffectData;
 import com.mcjty.fancytrinkets.setup.Registration;
 import com.mojang.serialization.JsonOps;
 import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcjty.lib.container.GenericItemHandler;
 import mcjty.lib.typed.TypedMap;
+import mcjty.lib.varia.InventoryTools;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.*;
@@ -22,6 +24,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.context.ContextKeySet;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -30,17 +33,24 @@ import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import net.neoforged.neoforge.event.RegisterGameTestsEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.resource.NeoForgeReloadListeners;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /** Checks run inside a real server only when -PportTests is supplied. */
@@ -49,6 +59,7 @@ public final class PortTests {
     private static final Map<String, Consumer<GameTestHelper>> TESTS = Map.of(
             "legacy_data", PortTests::legacyData,
             "all_xp_recipes", PortTests::allXpRecipes,
+            "loot_conditions", PortTests::lootConditions,
             "curios_effects", PortTests::curiosEffects);
 
     private static Identifier id(String path) { return Identifier.fromNamespaceAndPath(FancyTrinkets.MODID, path); }
@@ -124,7 +135,7 @@ public final class PortTests {
             world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             world.setBlock(pos, XpCrafterModule.EXPERIENCE_CRAFTER.block().get().defaultBlockState(), 3);
             var crafter = (ExperienceCrafterBE) world.getBlockEntity(pos);
-            var items = (net.neoforged.neoforge.items.IItemHandlerModifiable) world.getCapability(Capabilities.Item.BLOCK, pos, null);
+            var items = world.getCapability(Capabilities.Item.BLOCK, pos, null);
             helper.assertTrue(items != null, "Crafter item capability");
             var input = new ArrayList<ItemStack>();
             var context = SlotDisplayContext.fromLevel(world);
@@ -134,7 +145,7 @@ public final class PortTests {
                             ? recipe.getIngredients().get(y * recipe.getWidth() + x) : java.util.Optional.<net.minecraft.world.item.crafting.Ingredient>empty();
                     var material = ingredient.map(i -> i.display().resolveForStacks(context).getFirst().copyWithCount(2)).orElse(ItemStack.EMPTY);
                     input.add(material.copy());
-                    items.setStackInSlot(ExperienceCrafterBE.SLOT_GRID + y * 5 + x, material);
+                    InventoryTools.modifier(items).set(ExperienceCrafterBE.SLOT_GRID + y * 5 + x, ItemResource.of(material), material.getCount());
                 }
             }
             helper.assertTrue(recipe.matches(CraftingInput.of(5, 5, input), world), "Recipe matches: " + recipe.getId());
@@ -142,16 +153,49 @@ public final class PortTests {
             var selected = world.recipeAccess().getRecipeFor(XpCrafterModule.XP_RECIPE_TYPE.get(),
                     CraftingInput.of(5, 5, input), world).orElseThrow().value();
             crafter.executeServerCommand("craft", null, TypedMap.EMPTY);
-            var output = items.getStackInSlot(ExperienceCrafterBE.SLOT_OUTPUT);
+            var output = ItemUtil.getStack(items, ExperienceCrafterBE.SLOT_OUTPUT);
             helper.assertTrue(!output.isEmpty(), "Crafted: " + recipe.getId());
             helper.assertValueEqual(output.get(TrinketsModule.TRINKET_DATA).trinketId(),
                     selected.getResultItem().get(TrinketsModule.TRINKET_DATA).trinketId(), "Crafted correct trinket");
             for (int i = 0; i < 25; i++) {
-                helper.assertValueEqual(items.getStackInSlot(ExperienceCrafterBE.SLOT_GRID + i).getCount(),
+                helper.assertValueEqual(ItemUtil.getStack(items, ExperienceCrafterBE.SLOT_GRID + i).getCount(),
                         input.get(i).isEmpty() ? 0 : 1, "Consumes one ingredient per occupied slot");
             }
             helper.assertTrue(!recipe.matches(CraftingInput.of(1, 1, List.of(new ItemStack(Items.DIRT))), world), "Wrong grid rejected");
         }
+        helper.succeed();
+    }
+
+    private static void lootConditions(GameTestHelper helper) {
+        var world = helper.getLevel();
+        var manager = world.getServer().getServerResources().managers()
+                .getListener(NeoForgeReloadListeners.LOOT_MODIFIERS_KEY);
+        var essence = manager.getModifier(id("wither_essence"));
+        var trinket = manager.getModifier(id("dragon_trinket"));
+        helper.assertTrue(essence != null && trinket != null, "Generated loot modifiers loaded");
+        var player = new net.neoforged.neoforge.common.util.FakePlayer(world,
+                new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(), "loot-test"));
+        var parameters = new ContextKeySet.Builder().optional(LootContextParams.LAST_DAMAGE_PLAYER).build();
+        var playerKill = new LootParams.Builder(world).withParameter(LootContextParams.LAST_DAMAGE_PLAYER, player).create(parameters);
+        var otherKill = new LootParams.Builder(world).create(parameters);
+        for (boolean correctTable : List.of(false, true)) {
+            for (boolean killedByPlayer : List.of(false, true)) {
+                var table = Identifier.withDefaultNamespace(correctTable ? "entities/wither" : "entities/zombie");
+                var context = new LootContext.Builder(killedByPlayer ? playerKill : otherKill)
+                        .withQueriedLootTableId(table).withOptionalRandomSeed(5).create(Optional.empty());
+                var loot = essence.apply(new ObjectArrayList<>(), context);
+                helper.assertValueEqual(!loot.isEmpty(), correctTable && killedByPlayer,
+                        "Essence requires both the correct entity and a player kill");
+            }
+        }
+        var dragon = new LootContext.Builder(otherKill).withQueriedLootTableId(Identifier.withDefaultNamespace("entities/ender_dragon"))
+                .withOptionalRandomSeed(5).create(Optional.empty());
+        var loot = trinket.apply(new ObjectArrayList<>(), dragon);
+        helper.assertValueEqual(loot.size(), 1, "Dragon trinket drop");
+        helper.assertValueEqual(loot.getFirst().get(TrinketsModule.TRINKET_DATA).trinketId(), id("power_star"), "Dragon trinket data");
+        var wrongTable = new LootContext.Builder(otherKill).withQueriedLootTableId(Identifier.withDefaultNamespace("entities/zombie"))
+                .withOptionalRandomSeed(5).create(Optional.empty());
+        helper.assertTrue(trinket.apply(new ObjectArrayList<>(), wrongTable).isEmpty(), "Trinket requires the correct loot table");
         helper.succeed();
     }
 

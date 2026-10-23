@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fancytrinkets:experience_crafter"
+        "recipes": "fancytrinkets:experience_crafter"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

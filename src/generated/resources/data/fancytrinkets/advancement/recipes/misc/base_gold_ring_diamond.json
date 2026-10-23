@@ -2,7 +2,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fancytrinkets:gold_ring"
+        "recipes": "fancytrinkets:base_gold_ring_diamond"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -25,7 +25,7 @@
   ],
   "rewards": {
     "recipes": [
-      "fancytrinkets:gold_ring"
+      "fancytrinkets:base_gold_ring_diamond"
     ]
   },
   "sends_telemetry_event": true

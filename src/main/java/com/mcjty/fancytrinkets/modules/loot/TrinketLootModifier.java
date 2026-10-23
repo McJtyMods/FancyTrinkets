@@ -8,6 +8,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcjty.lib.varia.Tools;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
@@ -19,6 +20,7 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TrinketLootModifier extends LootModifier {
 
@@ -31,7 +33,7 @@ public class TrinketLootModifier extends LootModifier {
     private final float maxQuality;
 
     public static final MapCodec<TrinketLootModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(l -> l.conditions),
+            LootItemCondition.CODEC.optionalFieldOf("condition").forGetter(l -> l.condition),
             Codec.INT.optionalFieldOf("priority", IGlobalLootModifier.DEFAULT_PRIORITY).forGetter(l -> l.priority),
             Codec.list(Identifier.CODEC).fieldOf("trinkets").forGetter(l -> l.trinketIds),
             Codec.FLOAT.fieldOf("chance").forGetter(l -> l.chance),
@@ -42,9 +44,9 @@ public class TrinketLootModifier extends LootModifier {
             Codec.FLOAT.fieldOf("maxquality").forGetter(l -> l.maxQuality)
     ).apply(instance, TrinketLootModifier::new));
 
-    public TrinketLootModifier(LootItemCondition[] conditionsIn, int priority, List<Identifier> trinketIds, float chance, int min, int max, float looting,
+    public TrinketLootModifier(Optional<Holder<LootItemCondition>> condition, int priority, List<Identifier> trinketIds, float chance, int min, int max, float looting,
                                float minQuality, float maxQuality) {
-        super(conditionsIn, priority);
+        super(condition, priority);
         this.trinketIds = trinketIds;
         this.chance = chance;
         this.min = min;

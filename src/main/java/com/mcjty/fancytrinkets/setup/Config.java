@@ -40,6 +40,6 @@ public class Config {
                 .defineInRange("qualityOffset", 150, 0, Integer.MAX_VALUE);
 
 
-        container.registerConfig(ModConfig.Type.SERVER, builder.build());
+        container.registerConfig(ModConfig.Type.SYNCED, builder.build(), "fancytrinkets-server.toml");
     }
 }

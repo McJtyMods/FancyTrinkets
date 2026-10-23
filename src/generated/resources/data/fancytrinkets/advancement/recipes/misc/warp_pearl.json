@@ -2,7 +2,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fancytrinkets:blue_pearl"
+        "recipes": "fancytrinkets:warp_pearl"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -25,7 +25,7 @@
   ],
   "rewards": {
     "recipes": [
-      "fancytrinkets:blue_pearl"
+      "fancytrinkets:warp_pearl"
     ]
   },
   "sends_telemetry_event": true
