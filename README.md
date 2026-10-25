@@ -7,9 +7,8 @@ Requires Fabric API, Forge Config API Port and McJtyLib for Fabric. The One Prob
 and JEI integrations use their Fabric releases.
 
 Use Java 25 and the Gradle 9.5.1 wrapper. The sibling `Multi_fabric` workspace
-includes this checkout automatically and supplies `gradletools.gradle`.
-A standalone checkout uses the shared script from the `26.2_fabric` branch;
-a local, ignored copy can be used while workspace changes are unpublished.
+includes this checkout automatically. Both standalone and workspace builds
+apply the shared `gradletools.gradle` directly from the remote `26.2_fabric` branch.
 
 When using the current sibling McJtyLib source, set `BUILD_NUMBER=3` so its
 development version satisfies the shared minimum dependency version.
